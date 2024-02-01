@@ -1,0 +1,176 @@
+---
+title: Internal-External Development and Cross-Validation
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.R")
+```
+
+```{r}
+library(BAS)
+library(rsample) # for group_vfold_cv()
+library(furrr) # for future_map()
+library(tidymodels)
+library(CalibrationCurves)
+
+data_patient_cross_prep <- data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID, site)
+
+cross_samples <- group_vfold_cv(data_patient_cross_prep, group = "site")
+
+run_bas_glm <- function(data, formula, family, ...) {
+  bas.glm(formula, data = data, family = family, ...)
+}
+
+extract_variable_names_cross <- function(sample) {
+  data <- analysis(sample) |> select(-site)
+  model <- data |>
+    run_bas_glm(
+      formula = flag_ADR_TP_ID ~ .,
+      family = binomial(),
+      MCMC.iterations = 100000,
+      method = "MCMC"
+    )
+  variable.names(predict(model, estimator = "HPM"))[-1] |>
+    str_extract(paste(predictor_list, collapse = "|"))
+}
+
+# Function to modify sample data and fit model
+fit_model_to_sample <- function(sample, variables) {
+  data <- analysis(sample) |>
+    mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+
+  formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID")
+
+  logistic_reg() |>
+    set_engine("glm") |>
+    set_mode("classification") |>
+    fit(formula, data = data)
+}
+
+calc_cross_performance <- function(sample, model) {
+  data <- assessment(sample)
+  pHat <- predict(model$fit, data, type = "response")
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+  tibble(
+    site = data$site[1],
+    n = nrow(data),
+    cross_C_index = calperf$Cindex[[1]],
+    cross_C_index_lower = calperf$Cindex[[2]],
+    cross_C_index_upper = calperf$Cindex[[3]],
+    cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+    cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+    cross_calibration_slope = calperf$Calibration$Slope[[1]],
+    cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+    cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+  )
+}
+
+# Set up future to use multiple cores
+plan(multisession, workers = parallel::detectCores() - 2)
+
+cross_predict_HPM <- cross_samples$splits |>
+  future_map(extract_variable_names, .options = furrr_options(seed = TRUE))
+
+# Fit model to each sample in parallel
+cross_full <- future_map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
+
+cross_estimates <- future_map2_dfr(cross_samples$splits, cross_full, calc_cross_performance)
+
+plan(sequential)
+```
+
+```{r}
+library(meta)
+
+cross_C_index_meta <- metagen(
+  data = cross_estimates,
+  studlab = site,
+  TE = cross_C_index,
+  lower = cross_C_index_lower,
+  upper = cross_C_index_upper,
+  sm = "C_statistic",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+)
+
+forest_plot_C_index <- forest(
+  cross_C_index_meta,
+  sortvar = TE,
+  ref = NA,
+  xlim = c(0.6, 0.9),
+  layout = "RevMan5"
+)
+
+cross_calibration_intercept_meta <- metagen(
+  data = cross_estimates,
+  studlab = site,
+  TE = cross_calibration_intercept,
+  lower = cross_calibration_intercept_lower,
+  upper = cross_calibration_intercept_upper,
+  sm = "C_intercept",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 0
+)
+
+forest_plot_calibration_intercept <- forest(
+  cross_calibration_intercept_meta,
+  sortvar = TE,
+  ref = 0,
+  xlim = c(-0.8, 0.8),
+  layout = "RevMan5"
+)
+
+cross_calibration_slope_meta <- metagen(
+  data = cross_estimates,
+  studlab = site,
+  TE = cross_calibration_slope,
+  lower = cross_calibration_slope_lower,
+  upper = cross_calibration_slope_upper,
+  sm = "C_slope",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 1
+)
+
+forest_plot_calibration_slope <- forest(
+  cross_calibration_slope_meta,
+  sortvar = TE,
+  ref = 1,
+  xlim = c(0.2, 1.7),
+  layout = "RevMan5"
+)
+
+cross_meta_performance <- tibble(
+  site = "Total",
+  n = sum(cross_estimates$n),
+  cross_C_index = cross_C_index_meta$TE.random,
+  cross_C_index_lower = cross_C_index_meta$lower.random,
+  cross_C_index_upper = cross_C_index_meta$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta$upper.random
+)
+
+cross_performance_metrics <- bind_rows(cross_estimates, cross_meta_performance)
+```
+
+```{r}
+save(cross_performance_metrics, file = "data/model-performance/cross-performance-metrics.RData")
+```

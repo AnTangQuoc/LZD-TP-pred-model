@@ -1,0 +1,19 @@
+project:
+  type: manuscript
+
+manuscript:
+  article: index.qmd
+
+date: last-modified
+date-format: full
+
+format:
+  html:
+    comments:
+      hypothesis: true
+  docx: default
+  jats: default
+  pdf: default
+
+execute:
+  freeze: true

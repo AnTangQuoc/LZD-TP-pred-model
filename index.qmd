@@ -1,0 +1,14 @@
+---
+title: Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia in Vietnamese patients
+
+# authors:
+#   - name: Norah Jones
+#     affiliation: The University
+#     roles: writing
+#     corresponding: true
+# bibliography: references.bib
+---
+
+## Objectives
+1. Investigating risk factors of linezolid-induced thrombocytopenia (LI-TP)
+2. Developing and validating a logistics regression model to predict LI-TP in Vietnamese patients
