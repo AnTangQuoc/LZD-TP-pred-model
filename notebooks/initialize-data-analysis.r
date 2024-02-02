@@ -14,5 +14,6 @@ predictor_list <- data_patient_complete |>
     comed_ethambutol, comed_pyrazinamid, comed_rifampin, comed_heparin,
     comed_clopidogrel, comed_enoxaparin, comed_dexamethason, comed_amiodaron,
     comed_furosemid, comed_haloperidol, comed_valproic
+    # select only comeds which univariate OR can be meaningfully calculated
   ) |>
   colnames()

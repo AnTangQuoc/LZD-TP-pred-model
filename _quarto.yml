@@ -1,5 +1,6 @@
 project:
   type: manuscript
+  execute-dir: project
 
 manuscript:
   article: index.qmd
@@ -16,4 +17,4 @@ format:
   pdf: default
 
 execute:
-  freeze: true
+  freeze: auto

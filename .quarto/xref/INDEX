@@ -1,5 +1,20 @@
 {
   "index.qmd": {
     "index.html": "2b52743f"
+  },
+  "report.qmd": {
+    "report.embed.ipynb": "a72363ac",
+    "report.out.ipynb": "df7355bd",
+    "report-preview.html": "db647bf2"
+  },
+  "notebooks/descriptive-statistics.qmd": {
+    "descriptive-statistics.embed.ipynb": "0ab72be3",
+    "descriptive-statistics.out.ipynb": "02fe724e",
+    "descriptive-statistics-preview.html": "c763d384"
+  },
+  "notebooks/apparent-performance.qmd": {
+    "apparent-performance.embed.ipynb": "eae582b6",
+    "apparent-performance.out.ipynb": "b1c41243",
+    "apparent-performance-preview.html": "fd742d59"
   }
 }

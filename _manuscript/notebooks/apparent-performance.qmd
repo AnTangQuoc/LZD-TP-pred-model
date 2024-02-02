@@ -1,0 +1,67 @@
+---
+title: Model Development and Apparent Validation
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r", local = TRUE)
+```
+
+```{r}
+library(BAS)
+run_bas_glm <- function(data, formula, family, ...) {
+  bas.glm(formula, data = data, family = family, ...)
+}
+
+multi_model <- data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    family = binomial(),
+    MCMC.iterations = 100000,
+    method = "MCMC"
+  )
+
+summary(multi_model)
+plot(multi_model)
+image(multi_model, rotate = FALSE)
+diagnostics(multi_model)
+
+multi_predict_HPM <- variable.names(predict(multi_model, estimator = "HPM"))[-1] |>
+  str_extract(paste(predictor_list, collapse = "|"))
+multi_predict_BPM <- variable.names(predict(multi_model, estimator = "BPM"))[-1] |>
+  str_extract(paste(predictor_list, collapse = "|")) # this model is weird
+```
+
+```{r}
+library(tidymodels)
+
+data_patient_complete_response_as_factor <- data_patient_complete |>
+  mutate(
+    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+  )
+
+model_full <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification") |>
+  fit(
+    reformulate(
+      termlabels = multi_predict_HPM,
+      response = "flag_ADR_TP_ID"
+    ),
+    data = data_patient_complete_response_as_factor
+  )
+```
+
+```{r}
+library(CalibrationCurves)
+pHat <- predict(model_full$fit, data_patient_complete, type = "response")
+yTest <- data_patient_complete$flag_ADR_TP_ID
+calperf <- valProbggplot(pHat, yTest)
+calperf$Cindex[[1]]
+calperf$Calibration$Intercept[[1]]
+calperf$Calibration$Slope[[1]]
+```
+
+```{r}
+save(model_full, file = "data/model-performance/model_full.rda")
+```
