@@ -1,20 +1,44 @@
 {
+  "notebooks/1-data-cleaning.qmd": {
+    "1-data-cleaning.embed.ipynb": "60f37dd9",
+    "1-data-cleaning.out.ipynb": "b9b6cc03",
+    "1-data-cleaning-preview.html": "2d4ee75e",
+    "1-data-cleaning.subarticle.xml": "187a4cbb"
+  },
+  "notebooks/2-descriptive-statistics.qmd": {
+    "2-descriptive-statistics.embed.ipynb": "e068a723",
+    "2-descriptive-statistics.out.ipynb": "5f6b9557",
+    "2-descriptive-statistics-preview.html": "365c126e",
+    "2-descriptive-statistics.subarticle.xml": "2289c683"
+  },
+  "notebooks/3-apparent-performance.qmd": {
+    "3-apparent-performance.embed.ipynb": "b5b9b2ff",
+    "3-apparent-performance.out.ipynb": "4253b85a",
+    "3-apparent-performance-preview.html": "04d01879",
+    "3-apparent-performance.subarticle.xml": "4d56637a"
+  },
+  "notebooks/4-bootstrap-performance.qmd": {
+    "4-bootstrap-performance.embed.ipynb": "0bd25a04",
+    "4-bootstrap-performance.out.ipynb": "2b19edaf",
+    "4-bootstrap-performance-preview.html": "38012179",
+    "4-bootstrap-performance.subarticle.xml": "b15e89d5"
+  },
+  "notebooks/4-internal-external-cross-performance.qmd": {
+    "4-internal-external-cross-performance.embed.ipynb": "a493502e",
+    "4-internal-external-cross-performance.out.ipynb": "b11c987c",
+    "4-internal-external-cross-performance-preview.html": "a445f2f1",
+    "4-internal-external-cross-performance.subarticle.xml": "d91d1aaf"
+  },
+  "notebooks/4-k-fold-cross-performance.qmd": {
+    "4-k-fold-cross-performance.embed.ipynb": "801f6a17",
+    "4-k-fold-cross-performance.out.ipynb": "ee2d9ea0",
+    "4-k-fold-cross-performance-preview.html": "49d56a54",
+    "4-k-fold-cross-performance.subarticle.xml": "6e986c49"
+  },
   "index.qmd": {
-    "index.html": "2b52743f"
-  },
-  "report.qmd": {
-    "report.embed.ipynb": "a72363ac",
-    "report.out.ipynb": "df7355bd",
-    "report-preview.html": "db647bf2"
-  },
-  "notebooks/descriptive-statistics.qmd": {
-    "descriptive-statistics.embed.ipynb": "0ab72be3",
-    "descriptive-statistics.out.ipynb": "02fe724e",
-    "descriptive-statistics-preview.html": "c763d384"
-  },
-  "notebooks/apparent-performance.qmd": {
-    "apparent-performance.embed.ipynb": "eae582b6",
-    "apparent-performance.out.ipynb": "b1c41243",
-    "apparent-performance-preview.html": "fd742d59"
+    "index.html": "aae0d1be",
+    "index.docx": "8cf84fd8",
+    "index.xml": "07fb9858",
+    "index.tex": "42538c8e"
   }
 }
