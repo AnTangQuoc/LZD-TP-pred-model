@@ -3,7 +3,7 @@ title: Descriptive Statistics
 ---
 
 ```{r}
-source("notebooks/initialize-data-analysis.r", local = TRUE)
+source("notebooks/initialize-data-analysis.r")
 ```
 
 ```{r}
@@ -18,10 +18,10 @@ table_stats <- data_patient_complete |>
     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
     missing = "no"
   ) |>
-  modify_table_body(
-    ~ .x |>
-      mutate(stat_1 = if_else(str_detect(stat_1, "NA"), NA, stat_1))
-  ) |>
+  # modify_table_body(
+  #   ~ .x |>
+  #     mutate(stat_1 = if_else(str_detect(stat_1, "NA"), NA, stat_1))
+  # ) |>
   add_overall() |>
   bold_labels()
 ```
@@ -66,7 +66,28 @@ table_uni <- tbl_stack(table_uni_list)
 ```
 
 ```{r}
-#| label: results
-table_descriptive <- tbl_merge(list(table_stats, table_uni))
-table_descriptive
+table_descriptive <- tbl_merge(
+  list(table_stats, table_uni),
+  tab_spanner = c(
+    "**Thrombocytopenia Status**",
+    "**Univariate Regression**"
+  )
+)
+save(table_descriptive, file = "data/results/table-descriptive.rda")
+```
+
+```{r}
+table_descriptive_site <- data_patient_complete |>
+  select(
+    all_of(predictor_list), starts_with("comed"), flag_ADR_TP_ID, site
+  ) |>
+  tbl_summary(
+    by = site,
+    statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+    missing = "no"
+  ) |>
+  add_overall() |>
+  bold_labels()
+
+save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
 ```

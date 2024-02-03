@@ -3,22 +3,15 @@ title: Model Development and Apparent Validation
 ---
 
 ```{r}
-source("notebooks/initialize-data-analysis.r", local = TRUE)
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
 ```
 
 ```{r}
-library(BAS)
-run_bas_glm <- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 multi_model <- data_patient_complete |>
   select(all_of(predictor_list), flag_ADR_TP_ID) |>
   run_bas_glm(
-    formula = flag_ADR_TP_ID ~ .,
-    family = binomial(),
-    MCMC.iterations = 100000, # 100000 for speed, this should either be 2 million iterations or NULL
-    method = "MCMC"
+    formula = flag_ADR_TP_ID ~ .
   )
 
 summary(multi_model)
@@ -57,11 +50,16 @@ library(CalibrationCurves)
 pHat <- predict(model_full$fit, data_patient_complete, type = "response")
 yTest <- data_patient_complete$flag_ADR_TP_ID
 calperf <- valProbggplot(pHat, yTest)
-calperf$Cindex[[1]]
-calperf$Calibration$Intercept[[1]]
-calperf$Calibration$Slope[[1]]
+
+apparent_performance_metrics <- tibble(
+  apparent_C_index = calperf$Cindex[[1]],
+  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+)
+
+save(apparent_performance_metrics, file = "data/model-performance/apparent-performance-metrics.rda")
 ```
 
 ```{r}
-save(model_full, file = "data/model-performance/model_full.rda")
+save(model_full, file = "data/model-performance/model-full.rda")
 ```

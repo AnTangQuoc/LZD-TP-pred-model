@@ -3,11 +3,11 @@ title: 10-fold Development and Cross-Validation
 ---
 
 ```{r}
-source("notebooks/initialize-data-analysis.r", local = TRUE)
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
 ```
 
 ```{r}
-library(BAS)
 library(rsample) # for vfold_cv()
 library(furrr) # for future_map()
 library(tidymodels)
@@ -18,18 +18,11 @@ data_patient_fold_prep <- data_patient_complete |>
 
 fold_samples <- vfold_cv(data_patient_fold_prep, v = 10, repeats = 3)
 
-run_bas_glm <- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 extract_variable_names <- function(sample) {
   data <- analysis(sample)
   model <- data |>
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
-      family = binomial(),
-      MCMC.iterations = 100000,
-      method = "MCMC"
+      formula = flag_ADR_TP_ID ~ .
     )
   variable.names(predict(model, estimator = "HPM"))[-1] |>
     str_extract(paste(predictor_list, collapse = "|"))

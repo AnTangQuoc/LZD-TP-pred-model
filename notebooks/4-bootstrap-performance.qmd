@@ -3,11 +3,11 @@ title: Bootstrap Development and Validation
 ---
 
 ```{r}
-source("notebooks/initialize-data-analysis.r", local = TRUE)
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
 ```
 
 ```{r}
-library(BAS)
 library(rsample) # for bootstraps()
 library(furrr) # for future_map()
 library(tidymodels)
@@ -19,18 +19,11 @@ data_patient_bootstrap_prep <- data_patient_complete |>
 # Create 500 bootstrap samples
 boot_samples <- bootstraps(data_patient_bootstrap_prep, times = 30)
 
-run_bas_glm <- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 extract_variable_names <- function(sample) {
   data <- analysis(sample)
   model <- data |>
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
-      family = binomial(),
-      MCMC.iterations = 100000,
-      method = "MCMC"
+      formula = flag_ADR_TP_ID ~ .
     )
   variable.names(predict(model, estimator = "HPM"))[-1] |>
     str_extract(paste(predictor_list, collapse = "|"))
@@ -111,17 +104,7 @@ optimism_estimates <- performance_metrics |>
 ```
 
 ```{r}
-load("data/model-performance/model_full.rda")
-
-pHat <- predict(model_full$fit, data_patient_complete, type = "response")
-yTest <- data_patient_complete$flag_ADR_TP_ID
-calperf <- valProbggplot(pHat, yTest)
-
-apparent_performance_metrics <- tibble(
-  apparent_C_index = calperf$Cindex[[1]],
-  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
-  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
-)
+load("data/model-performance/apparent-performance-metrics.rda")
 
 corrected_performance_metrics <- bind_cols(apparent_performance_metrics, optimism_estimates) |>
   mutate(
@@ -133,5 +116,5 @@ corrected_performance_metrics <- bind_cols(apparent_performance_metrics, optimis
 ```
 
 ```{r}
-save(corrected_performance_metrics, file = "data/model-performance/corrected_performance_metrics.rda")
+save(corrected_performance_metrics, file = "data/model-performance/corrected-performance-metrics.rda")
 ```

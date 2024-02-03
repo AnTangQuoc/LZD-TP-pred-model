@@ -157,6 +157,277 @@ linezolid-induced thrombocytopenia in Vietnamese patients}
   LI-TP in Vietnamese patients
 \end{enumerate}
 
+\subsection{Data cleaning}\label{data-cleaning}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\begin{verbatim}
+Rows: 780
+Columns: 58
+$ patient_age          <dbl> 90, 80, 79, 71, 72, 61, 60, 64, 92, 75, 86, 93, 6~
+$ patient_sex          <lgl> TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRU~
+$ LZD_dose_per_weight  <dbl> 25.00000, 30.00000, 30.00000, 13.33333, 17.14286,~
+$ baseline_CLCR        <dbl> 27.22860, 63.15805, 29.93031, 50.89929, 10.87932,~
+$ dept_ER              <lgl> TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, T~
+$ dept_ICU             <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,~
+$ baseline_HGB         <dbl> 96, 101, 86, 94, 86, 99, 98, 119, 60, 118, 99, 10~
+$ baseline_WBC         <dbl> 6.75, 11.91, 14.05, 14.61, 7.92, 21.79, 13.27, 6.~
+$ baseline_PLT         <dbl> 244, 180, 259, 179, 236, 113, 196, 154, 147, 101,~
+$ LZD_duration         <dbl> 6, 8, 15, 3, 7, 8, 22, 4, 3, 16, 14, 7, 13, 20, 6~
+$ invasive_ETI         <lgl> FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, FAL~
+$ invasive_CVC         <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FAL~
+$ invasive_IHD         <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F~
+$ invasive_CRRT        <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
+$ comorb_HTN           <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE,~
+$ comorb_DM            <lgl> TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FAL~
+$ comorb_HF            <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE~
+$ comorb_angina        <lgl> FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FA~
+$ comorb_cirr          <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
+$ comorb_COPD          <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
+$ comorb_CVA           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comorb_MI            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comorb_K             <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, F~
+$ comorb_hematological <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comorb_hema          <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
+$ infect_sepsis        <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TR~
+$ infect_CAP           <lgl> FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, F~
+$ infect_HAP           <lgl> TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRU~
+$ infect_SSTI          <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, T~
+$ infect_CNS           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
+$ infect_IAI           <lgl> FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FAL~
+$ infect_UTI           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ infect_BJI           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ infect_septicemia    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_aspirin        <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_diclofenac     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_ibuprofen      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_paracetamol    <lgl> TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE,~
+$ comed_penicillin     <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE~
+$ comed_cepha          <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
+$ comed_carbapenem     <lgl> TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, ~
+$ comed_cotrimoxazol   <lgl> FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, F~
+$ comed_vancomycin     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_levofloxacin   <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F~
+$ comed_teicoplanin    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_ethambutol     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_pyrazinamid    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_rifampin       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_heparin        <lgl> FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FA~
+$ comed_clopidogrel    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_enoxaparin     <lgl> FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALS~
+$ comed_dexamethason   <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
+$ comed_amiodaron      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_furosemid      <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,~
+$ comed_haloperidol    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ comed_valproic       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
+$ flag_ADR_TP_ID       <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FAL~
+$ site                 <chr> "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", ~
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\subsection{Descriptive statistics}\label{descriptive-statistics}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2083}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1833}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1667}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1667}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0667}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1000}}
+  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1083}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Characteristic}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{Overall}, N = 780
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{FALSE}, N = 520
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{TRUE}, N = 260
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{OR}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{95\% CI}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\textbf{p-value}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{patient\_age} & 62 (50 - 73) & 61 (48 - 72) & 64 (53 - 74) &
+1.02 & 1.01, 1.02 & \textbf{\textless0.001} \\
+\textbf{patient\_sex} & 292 (37\%) & 194 (37\%) & 98 (38\%) & 1.02 &
+0.75, 1.38 & \textgreater0.9 \\
+\textbf{LZD\_dose\_per\_weight} & 21.8 (20.0 - 24.0) & 21.8 (20.0 -
+24.0) & 21.8 (19.4 - 24.5) & 0.99 & 0.95, 1.03 & 0.5 \\
+\textbf{baseline\_CLCR} & 46 (21 - 83) & 55 (26 - 88) & 32 (15 - 64) &
+0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
+\textbf{dept\_ER} & 133 (17\%) & 89 (17\%) & 44 (17\%) & 0.99 & 0.66,
+1.46 & \textgreater0.9 \\
+\textbf{dept\_ICU} & 368 (47\%) & 221 (43\%) & 147 (57\%) & 1.76 & 1.30,
+2.38 & \textbf{\textless0.001} \\
+\textbf{baseline\_HGB} & 102 (89 - 119) & 105 (91 - 121) & 97 (85 - 117)
+& 0.99 & 0.98, 1.0 & \textbf{\textless0.001} \\
+\textbf{baseline\_WBC} & 12 (8 - 17) & 12 (8 - 17) & 12 (8 - 18) & 1.01
+& 0.99, 1.03 & 0.3 \\
+\textbf{baseline\_PLT} & 203 (141 - 286) & 233 (165 - 310) & 151 (102 -
+208) & 0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
+\textbf{LZD\_duration} & 9.0 (6.0 - 14.0) & 9.0 (6.0 - 13.0) & 10.0 (6.0
+- 14.0) & 1.03 & 1.01, 1.06 & \textbf{0.016} \\
+\textbf{invasive\_ETI} & 363 (47\%) & 210 (40\%) & 153 (59\%) & 2.11 &
+1.56, 2.86 & \textbf{\textless0.001} \\
+\textbf{invasive\_CVC} & 399 (51\%) & 226 (43\%) & 173 (67\%) & 2.59 &
+1.90, 3.54 & \textbf{\textless0.001} \\
+\textbf{invasive\_IHD} & 105 (13\%) & 60 (12\%) & 45 (17\%) & 1.60 &
+1.05, 2.44 & \textbf{0.027} \\
+\textbf{invasive\_CRRT} & 133 (17\%) & 53 (10\%) & 80 (31\%) & 3.92 &
+2.67, 5.79 & \textbf{\textless0.001} \\
+\textbf{comorb\_HTN} & 321 (41\%) & 208 (40\%) & 113 (43\%) & 1.15 &
+0.85, 1.56 & 0.4 \\
+\textbf{comorb\_DM} & 214 (27\%) & 142 (27\%) & 72 (28\%) & 1.02 & 0.73,
+1.42 & \textgreater0.9 \\
+\textbf{comorb\_HF} & 218 (28\%) & 126 (24\%) & 92 (35\%) & 1.71 & 1.24,
+2.37 & \textbf{0.001} \\
+\textbf{comorb\_angina} & 31 (4.0\%) & 19 (3.7\%) & 12 (4.6\%) & 1.28 &
+0.59, 2.64 & 0.5 \\
+\textbf{comorb\_cirr} & 48 (6.2\%) & 20 (3.8\%) & 28 (11\%) & 3.02 &
+1.67, 5.54 & \textbf{\textless0.001} \\
+\textbf{comorb\_COPD} & 38 (4.9\%) & 24 (4.6\%) & 14 (5.4\%) & 1.18 &
+0.58, 2.28 & 0.6 \\
+\textbf{comorb\_CVA} & 90 (12\%) & 64 (12\%) & 26 (10\%) & 0.79 & 0.48,
+1.27 & 0.3 \\
+\textbf{comorb\_MI} & 20 (2.6\%) & 15 (2.9\%) & 5 (1.9\%) & 0.66 & 0.21,
+1.73 & 0.4 \\
+\textbf{comorb\_K} & 64 (8.2\%) & 41 (7.9\%) & 23 (8.8\%) & 1.13 & 0.66,
+1.92 & 0.6 \\
+\textbf{comorb\_hematological} & 46 (5.9\%) & 27 (5.2\%) & 19 (7.3\%) &
+1.44 & 0.77, 2.63 & 0.2 \\
+\textbf{comorb\_hema} & 60 (7.7\%) & 36 (6.9\%) & 24 (9.2\%) & 1.37 &
+0.79, 2.33 & 0.3 \\
+\textbf{infect\_sepsis} & 130 (17\%) & 62 (12\%) & 68 (26\%) & 2.62 &
+1.78, 3.84 & \textbf{\textless0.001} \\
+\textbf{infect\_CAP} & 112 (14\%) & 66 (13\%) & 46 (18\%) & 1.48 & 0.98,
+2.22 & 0.062 \\
+\textbf{infect\_HAP} & 352 (45\%) & 236 (45\%) & 116 (45\%) & 0.97 &
+0.72, 1.31 & 0.8 \\
+\textbf{infect\_SSTI} & 128 (16\%) & 95 (18\%) & 33 (13\%) & 0.65 &
+0.42, 0.99 & \textbf{0.049} \\
+\textbf{infect\_CNS} & 68 (8.7\%) & 45 (8.7\%) & 23 (8.8\%) & 1.02 &
+0.60, 1.72 & \textgreater0.9 \\
+\textbf{infect\_IAI} & 49 (6.3\%) & 33 (6.3\%) & 16 (6.2\%) & 0.97 &
+0.51, 1.77 & \textgreater0.9 \\
+\textbf{infect\_UTI} & 53 (6.8\%) & 37 (7.1\%) & 16 (6.2\%) & 0.86 &
+0.46, 1.54 & 0.6 \\
+\textbf{infect\_BJI} & 10 (1.3\%) & 9 (1.7\%) & 1 (0.4\%) & 0.22 & 0.01,
+1.18 & 0.2 \\
+\textbf{infect\_septicemia} & 231 (30\%) & 143 (28\%) & 88 (34\%) & 1.35
+& 0.98, 1.86 & 0.068 \\
+\textbf{comed\_aspirin} & 46 (5.9\%) & 29 (5.6\%) & 17 (6.5\%) & 1.18 &
+0.63, 2.17 & 0.6 \\
+\textbf{comed\_diclofenac} & 27 (3.5\%) & 20 (3.8\%) & 7 (2.7\%) & 0.69
+& 0.27, 1.58 & 0.4 \\
+\textbf{comed\_ibuprofen} & 25 (3.2\%) & 14 (2.7\%) & 11 (4.2\%) & 1.60
+& 0.70, 3.56 & 0.3 \\
+\textbf{comed\_paracetamol} & 338 (43\%) & 230 (44\%) & 108 (42\%) &
+0.90 & 0.66, 1.21 & 0.5 \\
+\textbf{comed\_penicillin} & 114 (15\%) & 71 (14\%) & 43 (17\%) & 1.25 &
+0.83, 1.88 & 0.3 \\
+\textbf{comed\_cepha} & 197 (25\%) & 141 (27\%) & 56 (22\%) & 0.74 &
+0.52, 1.05 & 0.092 \\
+\textbf{comed\_carbapenem} & 554 (71\%) & 355 (68\%) & 199 (77\%) & 1.52
+& 1.08, 2.14 & \textbf{0.017} \\
+\textbf{comed\_cotrimoxazol} & 63 (8.1\%) & 36 (6.9\%) & 27 (10\%) &
+1.56 & 0.92, 2.62 & 0.10 \\
+\textbf{comed\_vancomycin} & 67 (8.6\%) & 40 (7.7\%) & 27 (10\%) & 1.39
+& 0.83, 2.31 & 0.2 \\
+\textbf{comed\_levofloxacin} & 230 (29\%) & 144 (28\%) & 86 (33\%) &
+1.29 & 0.93, 1.78 & 0.12 \\
+\textbf{comed\_teicoplanin} & 26 (3.3\%) & 13 (2.5\%) & 13 (5.0\%) &
+2.05 & 0.93, 4.54 & 0.072 \\
+\textbf{comed\_ethambutol} & 8 (1.0\%) & 5 (1.0\%) & 3 (1.2\%) & 1.20 &
+0.25, 4.94 & 0.8 \\
+\textbf{comed\_pyrazinamid} & 12 (1.5\%) & 6 (1.2\%) & 6 (2.3\%) & 2.02
+& 0.63, 6.53 & 0.2 \\
+\textbf{comed\_rifampin} & 17 (2.2\%) & 10 (1.9\%) & 7 (2.7\%) & 1.41 &
+0.51, 3.72 & 0.5 \\
+\textbf{comed\_heparin} & 189 (24\%) & 94 (18\%) & 95 (37\%) & 2.61 &
+1.86, 3.66 & \textbf{\textless0.001} \\
+\textbf{comed\_clopidogrel} & 38 (4.9\%) & 28 (5.4\%) & 10 (3.8\%) &
+0.70 & 0.32, 1.42 & 0.3 \\
+\textbf{comed\_enoxaparin} & 327 (42\%) & 213 (41\%) & 114 (44\%) & 1.13
+& 0.83, 1.52 & 0.4 \\
+\textbf{comed\_dexamethason} & 92 (12\%) & 60 (12\%) & 32 (12\%) & 1.08
+& 0.67, 1.69 & 0.8 \\
+\textbf{comed\_amiodaron} & 33 (4.2\%) & 15 (2.9\%) & 18 (6.9\%) & 2.50
+& 1.24, 5.12 & \textbf{0.010} \\
+\textbf{comed\_furosemid} & 417 (53\%) & 244 (47\%) & 173 (67\%) & 2.25
+& 1.65, 3.08 & \textbf{\textless0.001} \\
+\textbf{comed\_haloperidol} & 45 (5.8\%) & 28 (5.4\%) & 17 (6.5\%) &
+1.23 & 0.65, 2.27 & 0.5 \\
+\textbf{comed\_valproic} & 29 (3.7\%) & 21 (4.0\%) & 8 (3.1\%) & 0.75 &
+0.31, 1.66 & 0.5 \\
+\textbf{comed\_aceclofenac} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_naproxen} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_daptomycin} & 1 (0.1\%) & 0 (0\%) & 1 (0.4\%) & & & \\
+\textbf{comed\_cetirizin} & 6 (0.8\%) & 5 (1.0\%) & 1 (0.4\%) & & & \\
+\textbf{comed\_simvas} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_bisoprolol} & 6 (0.8\%) & 4 (0.8\%) & 2 (0.8\%) & & & \\
+\textbf{comed\_diltiazem} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_eptifibatid} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_quinidin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_carbamazepin} & 7 (0.9\%) & 7 (1.3\%) & 0 (0\%) & & & \\
+\textbf{comed\_phenytoin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_mirtazapin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_quetiapin} & 3 (0.4\%) & 3 (0.6\%) & 0 (0\%) & & & \\
+\textbf{comed\_ondansetron} & 6 (0.8\%) & 4 (0.8\%) & 2 (0.8\%) & & & \\
+\textbf{comed\_palonosetron} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_oseltamivir} & 3 (0.4\%) & 1 (0.2\%) & 2 (0.8\%) & & & \\
+\textbf{comed\_quinin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_pembrolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_trastuzumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_atezolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_durvalumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_IVIG} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_tacrolimus} & 1 (0.1\%) & 0 (0\%) & 1 (0.4\%) & & & \\
+\textbf{comed\_fluorouracil} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_irinotecan} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_leucovorin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\textbf{comed\_oxaliplatin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\subsection{Model Performance}\label{model-performance}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule\noalign{}
+performance\_type & C\_index & calibration\_intercept &
+calibration\_slope \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Apparent & 0.7779549 & 0.0000000 & 1.0000000 \\
+Bootstrap & 0.7456938 & -0.0001972 & 0.8176676 \\
+Fold & 0.7641578 & -0.0084625 & 0.9584548 \\
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
 
 
 \end{document}

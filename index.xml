@@ -50,11 +50,1913 @@ patients</article-title>
     </list-item>
   </list>
 </sec>
+<sec id="data-cleaning">
+  <title>Data cleaning</title>
+  <preformat>Rows: 780
+Columns: 58
+$ patient_age          &lt;dbl&gt; 90, 80, 79, 71, 72, 61, 60, 64, 92, 75, 86, 93, 6…
+$ patient_sex          &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRU…
+$ LZD_dose_per_weight  &lt;dbl&gt; 25.00000, 30.00000, 30.00000, 13.33333, 17.14286,…
+$ baseline_CLCR        &lt;dbl&gt; 27.22860, 63.15805, 29.93031, 50.89929, 10.87932,…
+$ dept_ER              &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, T…
+$ dept_ICU             &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,…
+$ baseline_HGB         &lt;dbl&gt; 96, 101, 86, 94, 86, 99, 98, 119, 60, 118, 99, 10…
+$ baseline_WBC         &lt;dbl&gt; 6.75, 11.91, 14.05, 14.61, 7.92, 21.79, 13.27, 6.…
+$ baseline_PLT         &lt;dbl&gt; 244, 180, 259, 179, 236, 113, 196, 154, 147, 101,…
+$ LZD_duration         &lt;dbl&gt; 6, 8, 15, 3, 7, 8, 22, 4, 3, 16, 14, 7, 13, 20, 6…
+$ invasive_ETI         &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, FAL…
+$ invasive_CVC         &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FAL…
+$ invasive_IHD         &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F…
+$ invasive_CRRT        &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ comorb_HTN           &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE,…
+$ comorb_DM            &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FAL…
+$ comorb_HF            &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE…
+$ comorb_angina        &lt;lgl&gt; FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FA…
+$ comorb_cirr          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comorb_COPD          &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ comorb_CVA           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_MI            &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_K             &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, F…
+$ comorb_hematological &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_hema          &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ infect_sepsis        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TR…
+$ infect_CAP           &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, F…
+$ infect_HAP           &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRU…
+$ infect_SSTI          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, T…
+$ infect_CNS           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ infect_IAI           &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FAL…
+$ infect_UTI           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ infect_BJI           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ infect_septicemia    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_aspirin        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_diclofenac     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_ibuprofen      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_paracetamol    &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE,…
+$ comed_penicillin     &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE…
+$ comed_cepha          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comed_carbapenem     &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, …
+$ comed_cotrimoxazol   &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
+$ comed_vancomycin     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_levofloxacin   &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F…
+$ comed_teicoplanin    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_ethambutol     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_pyrazinamid    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_rifampin       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_heparin        &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FA…
+$ comed_clopidogrel    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_enoxaparin     &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALS…
+$ comed_dexamethason   &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comed_amiodaron      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_furosemid      &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,…
+$ comed_haloperidol    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_valproic       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ flag_ADR_TP_ID       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FAL…
+$ site                 &lt;chr&gt; &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, …</preformat>
+</sec>
+<sec id="descriptive-statistics">
+  <title>Descriptive statistics</title>
+  <table-wrap>
+    <table>
+      <colgroup>
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th rowspan="2" id="U003CstrongU003ECharacteristicU003CU002FstrongU003E" scope="col"><bold>Characteristic</bold></th>
+          <th colspan="3" id="U003CstrongU003EThrombocytopeniaU0020StatusU003CU002FstrongU003E" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Thrombocytopenia
+          Status</bold></named-content></th>
+          <th colspan="3" id="U003CstrongU003EUnivariateU0020RegressionU003CU002FstrongU003E" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Univariate
+          Regression</bold></named-content></th>
+        </tr>
+        <tr>
+          <th id="U003CstrongU003EOverallU003CU002FstrongU003EU002CU0020NU0020U003DU0020780U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E" scope="col"><bold>Overall</bold>,
+          N =
+          780<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003EFALSEU003CU002FstrongU003EU002CU0020NU0020U003DU0020520U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E" scope="col"><bold>FALSE</bold>,
+          N =
+          520<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003ETRUEU003CU002FstrongU003EU002CU0020NU0020U003DU0020260U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E" scope="col"><bold>TRUE</bold>,
+          N =
+          260<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003EORU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E" scope="col"><bold>OR</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
+          <th id="U003CstrongU003E95U0025U0020CIU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E" scope="col"><bold>95%
+          CI</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
+          <th id="U003CstrongU003Ep-valueU003CU002FstrongU003E" scope="col"><bold>p-value</bold></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>1</sup></named-content>
+          Median (IQR); n (%)</td>
+        </tr>
+        <tr>
+          <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content>
+          OR = Odds Ratio, CI = Confidence Interval</td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td headers="label" style="font-weight: bold">patient_age</td>
+          <td headers="stat_0_1">62 (50 - 73)</td>
+          <td headers="stat_1_1">61 (48 - 72)</td>
+          <td headers="stat_2_1">64 (53 - 74)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">1.01, 1.02</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">patient_sex</td>
+          <td headers="stat_0_1">292 (37%)</td>
+          <td headers="stat_1_1">194 (37%)</td>
+          <td headers="stat_2_1">98 (38%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.75, 1.38</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">LZD_dose_per_weight</td>
+          <td headers="stat_0_1">21.8 (20.0 - 24.0)</td>
+          <td headers="stat_1_1">21.8 (20.0 - 24.0)</td>
+          <td headers="stat_2_1">21.8 (19.4 - 24.5)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.95, 1.03</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_CLCR</td>
+          <td headers="stat_0_1">46 (21 - 83)</td>
+          <td headers="stat_1_1">55 (26 - 88)</td>
+          <td headers="stat_2_1">32 (15 - 64)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.99, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">dept_ER</td>
+          <td headers="stat_0_1">133 (17%)</td>
+          <td headers="stat_1_1">89 (17%)</td>
+          <td headers="stat_2_1">44 (17%)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.66, 1.46</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">dept_ICU</td>
+          <td headers="stat_0_1">368 (47%)</td>
+          <td headers="stat_1_1">221 (43%)</td>
+          <td headers="stat_2_1">147 (57%)</td>
+          <td headers="estimate_2">1.76</td>
+          <td headers="ci_2">1.30, 2.38</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_HGB</td>
+          <td headers="stat_0_1">102 (89 - 119)</td>
+          <td headers="stat_1_1">105 (91 - 121)</td>
+          <td headers="stat_2_1">97 (85 - 117)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.98, 1.0</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_WBC</td>
+          <td headers="stat_0_1">12 (8 - 17)</td>
+          <td headers="stat_1_1">12 (8 - 17)</td>
+          <td headers="stat_2_1">12 (8 - 18)</td>
+          <td headers="estimate_2">1.01</td>
+          <td headers="ci_2">0.99, 1.03</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_PLT</td>
+          <td headers="stat_0_1">203 (141 - 286)</td>
+          <td headers="stat_1_1">233 (165 - 310)</td>
+          <td headers="stat_2_1">151 (102 - 208)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.99, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">LZD_duration</td>
+          <td headers="stat_0_1">9.0 (6.0 - 14.0)</td>
+          <td headers="stat_1_1">9.0 (6.0 - 13.0)</td>
+          <td headers="stat_2_1">10.0 (6.0 - 14.0)</td>
+          <td headers="estimate_2">1.03</td>
+          <td headers="ci_2">1.01, 1.06</td>
+          <td headers="p.value_2" style="font-weight: bold">0.016</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_ETI</td>
+          <td headers="stat_0_1">363 (47%)</td>
+          <td headers="stat_1_1">210 (40%)</td>
+          <td headers="stat_2_1">153 (59%)</td>
+          <td headers="estimate_2">2.11</td>
+          <td headers="ci_2">1.56, 2.86</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_CVC</td>
+          <td headers="stat_0_1">399 (51%)</td>
+          <td headers="stat_1_1">226 (43%)</td>
+          <td headers="stat_2_1">173 (67%)</td>
+          <td headers="estimate_2">2.59</td>
+          <td headers="ci_2">1.90, 3.54</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_IHD</td>
+          <td headers="stat_0_1">105 (13%)</td>
+          <td headers="stat_1_1">60 (12%)</td>
+          <td headers="stat_2_1">45 (17%)</td>
+          <td headers="estimate_2">1.60</td>
+          <td headers="ci_2">1.05, 2.44</td>
+          <td headers="p.value_2" style="font-weight: bold">0.027</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_CRRT</td>
+          <td headers="stat_0_1">133 (17%)</td>
+          <td headers="stat_1_1">53 (10%)</td>
+          <td headers="stat_2_1">80 (31%)</td>
+          <td headers="estimate_2">3.92</td>
+          <td headers="ci_2">2.67, 5.79</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_HTN</td>
+          <td headers="stat_0_1">321 (41%)</td>
+          <td headers="stat_1_1">208 (40%)</td>
+          <td headers="stat_2_1">113 (43%)</td>
+          <td headers="estimate_2">1.15</td>
+          <td headers="ci_2">0.85, 1.56</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_DM</td>
+          <td headers="stat_0_1">214 (27%)</td>
+          <td headers="stat_1_1">142 (27%)</td>
+          <td headers="stat_2_1">72 (28%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.73, 1.42</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_HF</td>
+          <td headers="stat_0_1">218 (28%)</td>
+          <td headers="stat_1_1">126 (24%)</td>
+          <td headers="stat_2_1">92 (35%)</td>
+          <td headers="estimate_2">1.71</td>
+          <td headers="ci_2">1.24, 2.37</td>
+          <td headers="p.value_2" style="font-weight: bold">0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_angina</td>
+          <td headers="stat_0_1">31 (4.0%)</td>
+          <td headers="stat_1_1">19 (3.7%)</td>
+          <td headers="stat_2_1">12 (4.6%)</td>
+          <td headers="estimate_2">1.28</td>
+          <td headers="ci_2">0.59, 2.64</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_cirr</td>
+          <td headers="stat_0_1">48 (6.2%)</td>
+          <td headers="stat_1_1">20 (3.8%)</td>
+          <td headers="stat_2_1">28 (11%)</td>
+          <td headers="estimate_2">3.02</td>
+          <td headers="ci_2">1.67, 5.54</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_COPD</td>
+          <td headers="stat_0_1">38 (4.9%)</td>
+          <td headers="stat_1_1">24 (4.6%)</td>
+          <td headers="stat_2_1">14 (5.4%)</td>
+          <td headers="estimate_2">1.18</td>
+          <td headers="ci_2">0.58, 2.28</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_CVA</td>
+          <td headers="stat_0_1">90 (12%)</td>
+          <td headers="stat_1_1">64 (12%)</td>
+          <td headers="stat_2_1">26 (10%)</td>
+          <td headers="estimate_2">0.79</td>
+          <td headers="ci_2">0.48, 1.27</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_MI</td>
+          <td headers="stat_0_1">20 (2.6%)</td>
+          <td headers="stat_1_1">15 (2.9%)</td>
+          <td headers="stat_2_1">5 (1.9%)</td>
+          <td headers="estimate_2">0.66</td>
+          <td headers="ci_2">0.21, 1.73</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_K</td>
+          <td headers="stat_0_1">64 (8.2%)</td>
+          <td headers="stat_1_1">41 (7.9%)</td>
+          <td headers="stat_2_1">23 (8.8%)</td>
+          <td headers="estimate_2">1.13</td>
+          <td headers="ci_2">0.66, 1.92</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_hematological</td>
+          <td headers="stat_0_1">46 (5.9%)</td>
+          <td headers="stat_1_1">27 (5.2%)</td>
+          <td headers="stat_2_1">19 (7.3%)</td>
+          <td headers="estimate_2">1.44</td>
+          <td headers="ci_2">0.77, 2.63</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_hema</td>
+          <td headers="stat_0_1">60 (7.7%)</td>
+          <td headers="stat_1_1">36 (6.9%)</td>
+          <td headers="stat_2_1">24 (9.2%)</td>
+          <td headers="estimate_2">1.37</td>
+          <td headers="ci_2">0.79, 2.33</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_sepsis</td>
+          <td headers="stat_0_1">130 (17%)</td>
+          <td headers="stat_1_1">62 (12%)</td>
+          <td headers="stat_2_1">68 (26%)</td>
+          <td headers="estimate_2">2.62</td>
+          <td headers="ci_2">1.78, 3.84</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_CAP</td>
+          <td headers="stat_0_1">112 (14%)</td>
+          <td headers="stat_1_1">66 (13%)</td>
+          <td headers="stat_2_1">46 (18%)</td>
+          <td headers="estimate_2">1.48</td>
+          <td headers="ci_2">0.98, 2.22</td>
+          <td headers="p.value_2">0.062</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_HAP</td>
+          <td headers="stat_0_1">352 (45%)</td>
+          <td headers="stat_1_1">236 (45%)</td>
+          <td headers="stat_2_1">116 (45%)</td>
+          <td headers="estimate_2">0.97</td>
+          <td headers="ci_2">0.72, 1.31</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_SSTI</td>
+          <td headers="stat_0_1">128 (16%)</td>
+          <td headers="stat_1_1">95 (18%)</td>
+          <td headers="stat_2_1">33 (13%)</td>
+          <td headers="estimate_2">0.65</td>
+          <td headers="ci_2">0.42, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">0.049</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_CNS</td>
+          <td headers="stat_0_1">68 (8.7%)</td>
+          <td headers="stat_1_1">45 (8.7%)</td>
+          <td headers="stat_2_1">23 (8.8%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.60, 1.72</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_IAI</td>
+          <td headers="stat_0_1">49 (6.3%)</td>
+          <td headers="stat_1_1">33 (6.3%)</td>
+          <td headers="stat_2_1">16 (6.2%)</td>
+          <td headers="estimate_2">0.97</td>
+          <td headers="ci_2">0.51, 1.77</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_UTI</td>
+          <td headers="stat_0_1">53 (6.8%)</td>
+          <td headers="stat_1_1">37 (7.1%)</td>
+          <td headers="stat_2_1">16 (6.2%)</td>
+          <td headers="estimate_2">0.86</td>
+          <td headers="ci_2">0.46, 1.54</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_BJI</td>
+          <td headers="stat_0_1">10 (1.3%)</td>
+          <td headers="stat_1_1">9 (1.7%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2">0.22</td>
+          <td headers="ci_2">0.01, 1.18</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_septicemia</td>
+          <td headers="stat_0_1">231 (30%)</td>
+          <td headers="stat_1_1">143 (28%)</td>
+          <td headers="stat_2_1">88 (34%)</td>
+          <td headers="estimate_2">1.35</td>
+          <td headers="ci_2">0.98, 1.86</td>
+          <td headers="p.value_2">0.068</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_aspirin</td>
+          <td headers="stat_0_1">46 (5.9%)</td>
+          <td headers="stat_1_1">29 (5.6%)</td>
+          <td headers="stat_2_1">17 (6.5%)</td>
+          <td headers="estimate_2">1.18</td>
+          <td headers="ci_2">0.63, 2.17</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_diclofenac</td>
+          <td headers="stat_0_1">27 (3.5%)</td>
+          <td headers="stat_1_1">20 (3.8%)</td>
+          <td headers="stat_2_1">7 (2.7%)</td>
+          <td headers="estimate_2">0.69</td>
+          <td headers="ci_2">0.27, 1.58</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ibuprofen</td>
+          <td headers="stat_0_1">25 (3.2%)</td>
+          <td headers="stat_1_1">14 (2.7%)</td>
+          <td headers="stat_2_1">11 (4.2%)</td>
+          <td headers="estimate_2">1.60</td>
+          <td headers="ci_2">0.70, 3.56</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_paracetamol</td>
+          <td headers="stat_0_1">338 (43%)</td>
+          <td headers="stat_1_1">230 (44%)</td>
+          <td headers="stat_2_1">108 (42%)</td>
+          <td headers="estimate_2">0.90</td>
+          <td headers="ci_2">0.66, 1.21</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_penicillin</td>
+          <td headers="stat_0_1">114 (15%)</td>
+          <td headers="stat_1_1">71 (14%)</td>
+          <td headers="stat_2_1">43 (17%)</td>
+          <td headers="estimate_2">1.25</td>
+          <td headers="ci_2">0.83, 1.88</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cepha</td>
+          <td headers="stat_0_1">197 (25%)</td>
+          <td headers="stat_1_1">141 (27%)</td>
+          <td headers="stat_2_1">56 (22%)</td>
+          <td headers="estimate_2">0.74</td>
+          <td headers="ci_2">0.52, 1.05</td>
+          <td headers="p.value_2">0.092</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_carbapenem</td>
+          <td headers="stat_0_1">554 (71%)</td>
+          <td headers="stat_1_1">355 (68%)</td>
+          <td headers="stat_2_1">199 (77%)</td>
+          <td headers="estimate_2">1.52</td>
+          <td headers="ci_2">1.08, 2.14</td>
+          <td headers="p.value_2" style="font-weight: bold">0.017</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cotrimoxazol</td>
+          <td headers="stat_0_1">63 (8.1%)</td>
+          <td headers="stat_1_1">36 (6.9%)</td>
+          <td headers="stat_2_1">27 (10%)</td>
+          <td headers="estimate_2">1.56</td>
+          <td headers="ci_2">0.92, 2.62</td>
+          <td headers="p.value_2">0.10</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_vancomycin</td>
+          <td headers="stat_0_1">67 (8.6%)</td>
+          <td headers="stat_1_1">40 (7.7%)</td>
+          <td headers="stat_2_1">27 (10%)</td>
+          <td headers="estimate_2">1.39</td>
+          <td headers="ci_2">0.83, 2.31</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_levofloxacin</td>
+          <td headers="stat_0_1">230 (29%)</td>
+          <td headers="stat_1_1">144 (28%)</td>
+          <td headers="stat_2_1">86 (33%)</td>
+          <td headers="estimate_2">1.29</td>
+          <td headers="ci_2">0.93, 1.78</td>
+          <td headers="p.value_2">0.12</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_teicoplanin</td>
+          <td headers="stat_0_1">26 (3.3%)</td>
+          <td headers="stat_1_1">13 (2.5%)</td>
+          <td headers="stat_2_1">13 (5.0%)</td>
+          <td headers="estimate_2">2.05</td>
+          <td headers="ci_2">0.93, 4.54</td>
+          <td headers="p.value_2">0.072</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ethambutol</td>
+          <td headers="stat_0_1">8 (1.0%)</td>
+          <td headers="stat_1_1">5 (1.0%)</td>
+          <td headers="stat_2_1">3 (1.2%)</td>
+          <td headers="estimate_2">1.20</td>
+          <td headers="ci_2">0.25, 4.94</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
+          <td headers="stat_0_1">12 (1.5%)</td>
+          <td headers="stat_1_1">6 (1.2%)</td>
+          <td headers="stat_2_1">6 (2.3%)</td>
+          <td headers="estimate_2">2.02</td>
+          <td headers="ci_2">0.63, 6.53</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_rifampin</td>
+          <td headers="stat_0_1">17 (2.2%)</td>
+          <td headers="stat_1_1">10 (1.9%)</td>
+          <td headers="stat_2_1">7 (2.7%)</td>
+          <td headers="estimate_2">1.41</td>
+          <td headers="ci_2">0.51, 3.72</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_heparin</td>
+          <td headers="stat_0_1">189 (24%)</td>
+          <td headers="stat_1_1">94 (18%)</td>
+          <td headers="stat_2_1">95 (37%)</td>
+          <td headers="estimate_2">2.61</td>
+          <td headers="ci_2">1.86, 3.66</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_clopidogrel</td>
+          <td headers="stat_0_1">38 (4.9%)</td>
+          <td headers="stat_1_1">28 (5.4%)</td>
+          <td headers="stat_2_1">10 (3.8%)</td>
+          <td headers="estimate_2">0.70</td>
+          <td headers="ci_2">0.32, 1.42</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_enoxaparin</td>
+          <td headers="stat_0_1">327 (42%)</td>
+          <td headers="stat_1_1">213 (41%)</td>
+          <td headers="stat_2_1">114 (44%)</td>
+          <td headers="estimate_2">1.13</td>
+          <td headers="ci_2">0.83, 1.52</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_dexamethason</td>
+          <td headers="stat_0_1">92 (12%)</td>
+          <td headers="stat_1_1">60 (12%)</td>
+          <td headers="stat_2_1">32 (12%)</td>
+          <td headers="estimate_2">1.08</td>
+          <td headers="ci_2">0.67, 1.69</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_amiodaron</td>
+          <td headers="stat_0_1">33 (4.2%)</td>
+          <td headers="stat_1_1">15 (2.9%)</td>
+          <td headers="stat_2_1">18 (6.9%)</td>
+          <td headers="estimate_2">2.50</td>
+          <td headers="ci_2">1.24, 5.12</td>
+          <td headers="p.value_2" style="font-weight: bold">0.010</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_furosemid</td>
+          <td headers="stat_0_1">417 (53%)</td>
+          <td headers="stat_1_1">244 (47%)</td>
+          <td headers="stat_2_1">173 (67%)</td>
+          <td headers="estimate_2">2.25</td>
+          <td headers="ci_2">1.65, 3.08</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_haloperidol</td>
+          <td headers="stat_0_1">45 (5.8%)</td>
+          <td headers="stat_1_1">28 (5.4%)</td>
+          <td headers="stat_2_1">17 (6.5%)</td>
+          <td headers="estimate_2">1.23</td>
+          <td headers="ci_2">0.65, 2.27</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_valproic</td>
+          <td headers="stat_0_1">29 (3.7%)</td>
+          <td headers="stat_1_1">21 (4.0%)</td>
+          <td headers="stat_2_1">8 (3.1%)</td>
+          <td headers="estimate_2">0.75</td>
+          <td headers="ci_2">0.31, 1.66</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_naproxen</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_daptomycin</td>
+          <td headers="stat_0_1">1 (0.1%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cetirizin</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">5 (1.0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_simvas</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_bisoprolol</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">4 (0.8%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_diltiazem</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_eptifibatid</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quinidin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_carbamazepin</td>
+          <td headers="stat_0_1">7 (0.9%)</td>
+          <td headers="stat_1_1">7 (1.3%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_phenytoin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_mirtazapin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quetiapin</td>
+          <td headers="stat_0_1">3 (0.4%)</td>
+          <td headers="stat_1_1">3 (0.6%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ondansetron</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">4 (0.8%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_palonosetron</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_oseltamivir</td>
+          <td headers="stat_0_1">3 (0.4%)</td>
+          <td headers="stat_1_1">1 (0.2%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quinin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_pembrolizumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_trastuzumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_atezolizumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_durvalumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_IVIG</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_tacrolimus</td>
+          <td headers="stat_0_1">1 (0.1%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_fluorouracil</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_irinotecan</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_leucovorin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_oxaliplatin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+</sec>
+<sec id="model-performance">
+  <title>Model Performance</title>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="left">performance_type</th>
+          <th align="right">C_index</th>
+          <th align="right">calibration_intercept</th>
+          <th align="right">calibration_slope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="left">Apparent</td>
+          <td align="right">0.7779549</td>
+          <td align="right">0.0000000</td>
+          <td align="right">1.0000000</td>
+        </tr>
+        <tr>
+          <td align="left">Bootstrap</td>
+          <td align="right">0.7456938</td>
+          <td align="right">-0.0001972</td>
+          <td align="right">0.8176676</td>
+        </tr>
+        <tr>
+          <td align="left">Fold</td>
+          <td align="right">0.7641578</td>
+          <td align="right">-0.0084625</td>
+          <td align="right">0.9584548</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+</sec>
 </body>
 
 <back>
 </back>
 
+<sub-article article-type="notebook" id="nb-28-nb-article">
+<front-stub>
+<title-group>
+<article-title>Development and Validation of a Risk Prediction Model of
+linezolid-induced thrombocytopenia in Vietnamese
+patients</article-title>
+</title-group>
+</front-stub>
+
+<body>
+<sec id="objectives-nb-article">
+  <title>Objectives</title>
+  <list list-type="order">
+    <list-item>
+      <p>Investigating risk factors of linezolid-induced
+      thrombocytopenia (LI-TP)</p>
+    </list-item>
+    <list-item>
+      <p>Developing and validating a logistics regression model to
+      predict LI-TP in Vietnamese patients</p>
+    </list-item>
+  </list>
+</sec>
+<sec id="data-cleaning-nb-article">
+  <title>Data cleaning</title>
+  <sec id="nb-code-cell-1-nb-article" specific-use="notebook-code">
+  <code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)</code>
+  <sec id="nb-code-cell-1-output-0-nb-article" specific-use="notebook-output">
+  <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+Rows: 5669 Columns: 113
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr   (4): patient_ID, site, dept, LZD_route
+dbl  (20): patient_age, patient_weight, charlson, baseline_CLCR, baseline_WB...
+lgl  (85): patient_sex, dept_ICU, dept_ER, dept_other, invasive_ETI, invasiv...
+date  (4): baseline_date, LZD_start, LZD_end, test_date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 780 Columns: 105
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr   (4): patient_ID, site, dept, LZD_route
+dbl  (13): patient_age, patient_weight, charlson, baseline_CLCR, baseline_WB...
+lgl  (85): patient_sex, dept_ICU, dept_ER, dept_other, invasive_ETI, invasiv...
+date  (3): baseline_date, LZD_start, LZD_end
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</preformat>
+  </sec>
+  </sec>
+  <sec id="nb-code-cell-2-nb-article" specific-use="notebook-code">
+  <code language="r script">data_patient_complete |&gt; select(all_of(predictor_list), flag_ADR_TP_ID, site) |&gt; glimpse()</code>
+  <sec id="nb-code-cell-2-output-0-nb-article" specific-use="notebook-output">
+  <preformat>Rows: 780
+Columns: 58
+$ patient_age          &lt;dbl&gt; 90, 80, 79, 71, 72, 61, 60, 64, 92, 75, 86, 93, 6…
+$ patient_sex          &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRU…
+$ LZD_dose_per_weight  &lt;dbl&gt; 25.00000, 30.00000, 30.00000, 13.33333, 17.14286,…
+$ baseline_CLCR        &lt;dbl&gt; 27.22860, 63.15805, 29.93031, 50.89929, 10.87932,…
+$ dept_ER              &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, T…
+$ dept_ICU             &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,…
+$ baseline_HGB         &lt;dbl&gt; 96, 101, 86, 94, 86, 99, 98, 119, 60, 118, 99, 10…
+$ baseline_WBC         &lt;dbl&gt; 6.75, 11.91, 14.05, 14.61, 7.92, 21.79, 13.27, 6.…
+$ baseline_PLT         &lt;dbl&gt; 244, 180, 259, 179, 236, 113, 196, 154, 147, 101,…
+$ LZD_duration         &lt;dbl&gt; 6, 8, 15, 3, 7, 8, 22, 4, 3, 16, 14, 7, 13, 20, 6…
+$ invasive_ETI         &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, FAL…
+$ invasive_CVC         &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FAL…
+$ invasive_IHD         &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F…
+$ invasive_CRRT        &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ comorb_HTN           &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE,…
+$ comorb_DM            &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FAL…
+$ comorb_HF            &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE…
+$ comorb_angina        &lt;lgl&gt; FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FA…
+$ comorb_cirr          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comorb_COPD          &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ comorb_CVA           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_MI            &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_K             &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, F…
+$ comorb_hematological &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comorb_hema          &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F…
+$ infect_sepsis        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TR…
+$ infect_CAP           &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, F…
+$ infect_HAP           &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRU…
+$ infect_SSTI          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, T…
+$ infect_CNS           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ infect_IAI           &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FAL…
+$ infect_UTI           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ infect_BJI           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ infect_septicemia    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_aspirin        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_diclofenac     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_ibuprofen      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_paracetamol    &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE,…
+$ comed_penicillin     &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE…
+$ comed_cepha          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comed_carbapenem     &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, …
+$ comed_cotrimoxazol   &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
+$ comed_vancomycin     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_levofloxacin   &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F…
+$ comed_teicoplanin    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_ethambutol     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_pyrazinamid    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_rifampin       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_heparin        &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FA…
+$ comed_clopidogrel    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_enoxaparin     &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALS…
+$ comed_dexamethason   &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F…
+$ comed_amiodaron      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_furosemid      &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,…
+$ comed_haloperidol    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ comed_valproic       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ flag_ADR_TP_ID       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FAL…
+$ site                 &lt;chr&gt; &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, &quot;TN1&quot;, …</preformat>
+  </sec>
+  </sec>
+</sec>
+<sec id="descriptive-statistics-nb-article">
+  <title>Descriptive statistics</title>
+  <sec id="nb-code-cell-3-nb-article" specific-use="notebook-code">
+  <code language="r script">load(&quot;data/results/table-descriptive.rda&quot;)</code>
+  </sec>
+  <sec id="nb-code-cell-4-nb-article" specific-use="notebook-code">
+  <code language="r script">table_descriptive</code>
+  <table-wrap>
+    <table>
+      <colgroup>
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th rowspan="2" id="U003CstrongU003ECharacteristicU003CU002FstrongU003E-nb-article" scope="col"><bold>Characteristic</bold></th>
+          <th colspan="3" id="U003CstrongU003EThrombocytopeniaU0020StatusU003CU002FstrongU003E-nb-article" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Thrombocytopenia
+          Status</bold></named-content></th>
+          <th colspan="3" id="U003CstrongU003EUnivariateU0020RegressionU003CU002FstrongU003E-nb-article" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Univariate
+          Regression</bold></named-content></th>
+        </tr>
+        <tr>
+          <th id="U003CstrongU003EOverallU003CU002FstrongU003EU002CU0020NU0020U003DU0020780U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-article" scope="col"><bold>Overall</bold>,
+          N =
+          780<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003EFALSEU003CU002FstrongU003EU002CU0020NU0020U003DU0020520U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-article" scope="col"><bold>FALSE</bold>,
+          N =
+          520<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003ETRUEU003CU002FstrongU003EU002CU0020NU0020U003DU0020260U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-article" scope="col"><bold>TRUE</bold>,
+          N =
+          260<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
+          <th id="U003CstrongU003EORU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E-nb-article" scope="col"><bold>OR</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
+          <th id="U003CstrongU003E95U0025U0020CIU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E-nb-article" scope="col"><bold>95%
+          CI</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
+          <th id="U003CstrongU003Ep-valueU003CU002FstrongU003E-nb-article" scope="col"><bold>p-value</bold></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>1</sup></named-content>
+          Median (IQR); n (%)</td>
+        </tr>
+        <tr>
+          <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content>
+          OR = Odds Ratio, CI = Confidence Interval</td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td headers="label" style="font-weight: bold">patient_age</td>
+          <td headers="stat_0_1">62 (50 - 73)</td>
+          <td headers="stat_1_1">61 (48 - 72)</td>
+          <td headers="stat_2_1">64 (53 - 74)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">1.01, 1.02</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">patient_sex</td>
+          <td headers="stat_0_1">292 (37%)</td>
+          <td headers="stat_1_1">194 (37%)</td>
+          <td headers="stat_2_1">98 (38%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.75, 1.38</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">LZD_dose_per_weight</td>
+          <td headers="stat_0_1">21.8 (20.0 - 24.0)</td>
+          <td headers="stat_1_1">21.8 (20.0 - 24.0)</td>
+          <td headers="stat_2_1">21.8 (19.4 - 24.5)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.95, 1.03</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_CLCR</td>
+          <td headers="stat_0_1">46 (21 - 83)</td>
+          <td headers="stat_1_1">55 (26 - 88)</td>
+          <td headers="stat_2_1">32 (15 - 64)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.99, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">dept_ER</td>
+          <td headers="stat_0_1">133 (17%)</td>
+          <td headers="stat_1_1">89 (17%)</td>
+          <td headers="stat_2_1">44 (17%)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.66, 1.46</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">dept_ICU</td>
+          <td headers="stat_0_1">368 (47%)</td>
+          <td headers="stat_1_1">221 (43%)</td>
+          <td headers="stat_2_1">147 (57%)</td>
+          <td headers="estimate_2">1.76</td>
+          <td headers="ci_2">1.30, 2.38</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_HGB</td>
+          <td headers="stat_0_1">102 (89 - 119)</td>
+          <td headers="stat_1_1">105 (91 - 121)</td>
+          <td headers="stat_2_1">97 (85 - 117)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.98, 1.0</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_WBC</td>
+          <td headers="stat_0_1">12 (8 - 17)</td>
+          <td headers="stat_1_1">12 (8 - 17)</td>
+          <td headers="stat_2_1">12 (8 - 18)</td>
+          <td headers="estimate_2">1.01</td>
+          <td headers="ci_2">0.99, 1.03</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">baseline_PLT</td>
+          <td headers="stat_0_1">203 (141 - 286)</td>
+          <td headers="stat_1_1">233 (165 - 310)</td>
+          <td headers="stat_2_1">151 (102 - 208)</td>
+          <td headers="estimate_2">0.99</td>
+          <td headers="ci_2">0.99, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">LZD_duration</td>
+          <td headers="stat_0_1">9.0 (6.0 - 14.0)</td>
+          <td headers="stat_1_1">9.0 (6.0 - 13.0)</td>
+          <td headers="stat_2_1">10.0 (6.0 - 14.0)</td>
+          <td headers="estimate_2">1.03</td>
+          <td headers="ci_2">1.01, 1.06</td>
+          <td headers="p.value_2" style="font-weight: bold">0.016</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_ETI</td>
+          <td headers="stat_0_1">363 (47%)</td>
+          <td headers="stat_1_1">210 (40%)</td>
+          <td headers="stat_2_1">153 (59%)</td>
+          <td headers="estimate_2">2.11</td>
+          <td headers="ci_2">1.56, 2.86</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_CVC</td>
+          <td headers="stat_0_1">399 (51%)</td>
+          <td headers="stat_1_1">226 (43%)</td>
+          <td headers="stat_2_1">173 (67%)</td>
+          <td headers="estimate_2">2.59</td>
+          <td headers="ci_2">1.90, 3.54</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_IHD</td>
+          <td headers="stat_0_1">105 (13%)</td>
+          <td headers="stat_1_1">60 (12%)</td>
+          <td headers="stat_2_1">45 (17%)</td>
+          <td headers="estimate_2">1.60</td>
+          <td headers="ci_2">1.05, 2.44</td>
+          <td headers="p.value_2" style="font-weight: bold">0.027</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">invasive_CRRT</td>
+          <td headers="stat_0_1">133 (17%)</td>
+          <td headers="stat_1_1">53 (10%)</td>
+          <td headers="stat_2_1">80 (31%)</td>
+          <td headers="estimate_2">3.92</td>
+          <td headers="ci_2">2.67, 5.79</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_HTN</td>
+          <td headers="stat_0_1">321 (41%)</td>
+          <td headers="stat_1_1">208 (40%)</td>
+          <td headers="stat_2_1">113 (43%)</td>
+          <td headers="estimate_2">1.15</td>
+          <td headers="ci_2">0.85, 1.56</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_DM</td>
+          <td headers="stat_0_1">214 (27%)</td>
+          <td headers="stat_1_1">142 (27%)</td>
+          <td headers="stat_2_1">72 (28%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.73, 1.42</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_HF</td>
+          <td headers="stat_0_1">218 (28%)</td>
+          <td headers="stat_1_1">126 (24%)</td>
+          <td headers="stat_2_1">92 (35%)</td>
+          <td headers="estimate_2">1.71</td>
+          <td headers="ci_2">1.24, 2.37</td>
+          <td headers="p.value_2" style="font-weight: bold">0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_angina</td>
+          <td headers="stat_0_1">31 (4.0%)</td>
+          <td headers="stat_1_1">19 (3.7%)</td>
+          <td headers="stat_2_1">12 (4.6%)</td>
+          <td headers="estimate_2">1.28</td>
+          <td headers="ci_2">0.59, 2.64</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_cirr</td>
+          <td headers="stat_0_1">48 (6.2%)</td>
+          <td headers="stat_1_1">20 (3.8%)</td>
+          <td headers="stat_2_1">28 (11%)</td>
+          <td headers="estimate_2">3.02</td>
+          <td headers="ci_2">1.67, 5.54</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_COPD</td>
+          <td headers="stat_0_1">38 (4.9%)</td>
+          <td headers="stat_1_1">24 (4.6%)</td>
+          <td headers="stat_2_1">14 (5.4%)</td>
+          <td headers="estimate_2">1.18</td>
+          <td headers="ci_2">0.58, 2.28</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_CVA</td>
+          <td headers="stat_0_1">90 (12%)</td>
+          <td headers="stat_1_1">64 (12%)</td>
+          <td headers="stat_2_1">26 (10%)</td>
+          <td headers="estimate_2">0.79</td>
+          <td headers="ci_2">0.48, 1.27</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_MI</td>
+          <td headers="stat_0_1">20 (2.6%)</td>
+          <td headers="stat_1_1">15 (2.9%)</td>
+          <td headers="stat_2_1">5 (1.9%)</td>
+          <td headers="estimate_2">0.66</td>
+          <td headers="ci_2">0.21, 1.73</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_K</td>
+          <td headers="stat_0_1">64 (8.2%)</td>
+          <td headers="stat_1_1">41 (7.9%)</td>
+          <td headers="stat_2_1">23 (8.8%)</td>
+          <td headers="estimate_2">1.13</td>
+          <td headers="ci_2">0.66, 1.92</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_hematological</td>
+          <td headers="stat_0_1">46 (5.9%)</td>
+          <td headers="stat_1_1">27 (5.2%)</td>
+          <td headers="stat_2_1">19 (7.3%)</td>
+          <td headers="estimate_2">1.44</td>
+          <td headers="ci_2">0.77, 2.63</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comorb_hema</td>
+          <td headers="stat_0_1">60 (7.7%)</td>
+          <td headers="stat_1_1">36 (6.9%)</td>
+          <td headers="stat_2_1">24 (9.2%)</td>
+          <td headers="estimate_2">1.37</td>
+          <td headers="ci_2">0.79, 2.33</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_sepsis</td>
+          <td headers="stat_0_1">130 (17%)</td>
+          <td headers="stat_1_1">62 (12%)</td>
+          <td headers="stat_2_1">68 (26%)</td>
+          <td headers="estimate_2">2.62</td>
+          <td headers="ci_2">1.78, 3.84</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_CAP</td>
+          <td headers="stat_0_1">112 (14%)</td>
+          <td headers="stat_1_1">66 (13%)</td>
+          <td headers="stat_2_1">46 (18%)</td>
+          <td headers="estimate_2">1.48</td>
+          <td headers="ci_2">0.98, 2.22</td>
+          <td headers="p.value_2">0.062</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_HAP</td>
+          <td headers="stat_0_1">352 (45%)</td>
+          <td headers="stat_1_1">236 (45%)</td>
+          <td headers="stat_2_1">116 (45%)</td>
+          <td headers="estimate_2">0.97</td>
+          <td headers="ci_2">0.72, 1.31</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_SSTI</td>
+          <td headers="stat_0_1">128 (16%)</td>
+          <td headers="stat_1_1">95 (18%)</td>
+          <td headers="stat_2_1">33 (13%)</td>
+          <td headers="estimate_2">0.65</td>
+          <td headers="ci_2">0.42, 0.99</td>
+          <td headers="p.value_2" style="font-weight: bold">0.049</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_CNS</td>
+          <td headers="stat_0_1">68 (8.7%)</td>
+          <td headers="stat_1_1">45 (8.7%)</td>
+          <td headers="stat_2_1">23 (8.8%)</td>
+          <td headers="estimate_2">1.02</td>
+          <td headers="ci_2">0.60, 1.72</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_IAI</td>
+          <td headers="stat_0_1">49 (6.3%)</td>
+          <td headers="stat_1_1">33 (6.3%)</td>
+          <td headers="stat_2_1">16 (6.2%)</td>
+          <td headers="estimate_2">0.97</td>
+          <td headers="ci_2">0.51, 1.77</td>
+          <td headers="p.value_2">&gt;0.9</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_UTI</td>
+          <td headers="stat_0_1">53 (6.8%)</td>
+          <td headers="stat_1_1">37 (7.1%)</td>
+          <td headers="stat_2_1">16 (6.2%)</td>
+          <td headers="estimate_2">0.86</td>
+          <td headers="ci_2">0.46, 1.54</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_BJI</td>
+          <td headers="stat_0_1">10 (1.3%)</td>
+          <td headers="stat_1_1">9 (1.7%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2">0.22</td>
+          <td headers="ci_2">0.01, 1.18</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">infect_septicemia</td>
+          <td headers="stat_0_1">231 (30%)</td>
+          <td headers="stat_1_1">143 (28%)</td>
+          <td headers="stat_2_1">88 (34%)</td>
+          <td headers="estimate_2">1.35</td>
+          <td headers="ci_2">0.98, 1.86</td>
+          <td headers="p.value_2">0.068</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_aspirin</td>
+          <td headers="stat_0_1">46 (5.9%)</td>
+          <td headers="stat_1_1">29 (5.6%)</td>
+          <td headers="stat_2_1">17 (6.5%)</td>
+          <td headers="estimate_2">1.18</td>
+          <td headers="ci_2">0.63, 2.17</td>
+          <td headers="p.value_2">0.6</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_diclofenac</td>
+          <td headers="stat_0_1">27 (3.5%)</td>
+          <td headers="stat_1_1">20 (3.8%)</td>
+          <td headers="stat_2_1">7 (2.7%)</td>
+          <td headers="estimate_2">0.69</td>
+          <td headers="ci_2">0.27, 1.58</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ibuprofen</td>
+          <td headers="stat_0_1">25 (3.2%)</td>
+          <td headers="stat_1_1">14 (2.7%)</td>
+          <td headers="stat_2_1">11 (4.2%)</td>
+          <td headers="estimate_2">1.60</td>
+          <td headers="ci_2">0.70, 3.56</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_paracetamol</td>
+          <td headers="stat_0_1">338 (43%)</td>
+          <td headers="stat_1_1">230 (44%)</td>
+          <td headers="stat_2_1">108 (42%)</td>
+          <td headers="estimate_2">0.90</td>
+          <td headers="ci_2">0.66, 1.21</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_penicillin</td>
+          <td headers="stat_0_1">114 (15%)</td>
+          <td headers="stat_1_1">71 (14%)</td>
+          <td headers="stat_2_1">43 (17%)</td>
+          <td headers="estimate_2">1.25</td>
+          <td headers="ci_2">0.83, 1.88</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cepha</td>
+          <td headers="stat_0_1">197 (25%)</td>
+          <td headers="stat_1_1">141 (27%)</td>
+          <td headers="stat_2_1">56 (22%)</td>
+          <td headers="estimate_2">0.74</td>
+          <td headers="ci_2">0.52, 1.05</td>
+          <td headers="p.value_2">0.092</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_carbapenem</td>
+          <td headers="stat_0_1">554 (71%)</td>
+          <td headers="stat_1_1">355 (68%)</td>
+          <td headers="stat_2_1">199 (77%)</td>
+          <td headers="estimate_2">1.52</td>
+          <td headers="ci_2">1.08, 2.14</td>
+          <td headers="p.value_2" style="font-weight: bold">0.017</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cotrimoxazol</td>
+          <td headers="stat_0_1">63 (8.1%)</td>
+          <td headers="stat_1_1">36 (6.9%)</td>
+          <td headers="stat_2_1">27 (10%)</td>
+          <td headers="estimate_2">1.56</td>
+          <td headers="ci_2">0.92, 2.62</td>
+          <td headers="p.value_2">0.10</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_vancomycin</td>
+          <td headers="stat_0_1">67 (8.6%)</td>
+          <td headers="stat_1_1">40 (7.7%)</td>
+          <td headers="stat_2_1">27 (10%)</td>
+          <td headers="estimate_2">1.39</td>
+          <td headers="ci_2">0.83, 2.31</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_levofloxacin</td>
+          <td headers="stat_0_1">230 (29%)</td>
+          <td headers="stat_1_1">144 (28%)</td>
+          <td headers="stat_2_1">86 (33%)</td>
+          <td headers="estimate_2">1.29</td>
+          <td headers="ci_2">0.93, 1.78</td>
+          <td headers="p.value_2">0.12</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_teicoplanin</td>
+          <td headers="stat_0_1">26 (3.3%)</td>
+          <td headers="stat_1_1">13 (2.5%)</td>
+          <td headers="stat_2_1">13 (5.0%)</td>
+          <td headers="estimate_2">2.05</td>
+          <td headers="ci_2">0.93, 4.54</td>
+          <td headers="p.value_2">0.072</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ethambutol</td>
+          <td headers="stat_0_1">8 (1.0%)</td>
+          <td headers="stat_1_1">5 (1.0%)</td>
+          <td headers="stat_2_1">3 (1.2%)</td>
+          <td headers="estimate_2">1.20</td>
+          <td headers="ci_2">0.25, 4.94</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
+          <td headers="stat_0_1">12 (1.5%)</td>
+          <td headers="stat_1_1">6 (1.2%)</td>
+          <td headers="stat_2_1">6 (2.3%)</td>
+          <td headers="estimate_2">2.02</td>
+          <td headers="ci_2">0.63, 6.53</td>
+          <td headers="p.value_2">0.2</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_rifampin</td>
+          <td headers="stat_0_1">17 (2.2%)</td>
+          <td headers="stat_1_1">10 (1.9%)</td>
+          <td headers="stat_2_1">7 (2.7%)</td>
+          <td headers="estimate_2">1.41</td>
+          <td headers="ci_2">0.51, 3.72</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_heparin</td>
+          <td headers="stat_0_1">189 (24%)</td>
+          <td headers="stat_1_1">94 (18%)</td>
+          <td headers="stat_2_1">95 (37%)</td>
+          <td headers="estimate_2">2.61</td>
+          <td headers="ci_2">1.86, 3.66</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_clopidogrel</td>
+          <td headers="stat_0_1">38 (4.9%)</td>
+          <td headers="stat_1_1">28 (5.4%)</td>
+          <td headers="stat_2_1">10 (3.8%)</td>
+          <td headers="estimate_2">0.70</td>
+          <td headers="ci_2">0.32, 1.42</td>
+          <td headers="p.value_2">0.3</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_enoxaparin</td>
+          <td headers="stat_0_1">327 (42%)</td>
+          <td headers="stat_1_1">213 (41%)</td>
+          <td headers="stat_2_1">114 (44%)</td>
+          <td headers="estimate_2">1.13</td>
+          <td headers="ci_2">0.83, 1.52</td>
+          <td headers="p.value_2">0.4</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_dexamethason</td>
+          <td headers="stat_0_1">92 (12%)</td>
+          <td headers="stat_1_1">60 (12%)</td>
+          <td headers="stat_2_1">32 (12%)</td>
+          <td headers="estimate_2">1.08</td>
+          <td headers="ci_2">0.67, 1.69</td>
+          <td headers="p.value_2">0.8</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_amiodaron</td>
+          <td headers="stat_0_1">33 (4.2%)</td>
+          <td headers="stat_1_1">15 (2.9%)</td>
+          <td headers="stat_2_1">18 (6.9%)</td>
+          <td headers="estimate_2">2.50</td>
+          <td headers="ci_2">1.24, 5.12</td>
+          <td headers="p.value_2" style="font-weight: bold">0.010</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_furosemid</td>
+          <td headers="stat_0_1">417 (53%)</td>
+          <td headers="stat_1_1">244 (47%)</td>
+          <td headers="stat_2_1">173 (67%)</td>
+          <td headers="estimate_2">2.25</td>
+          <td headers="ci_2">1.65, 3.08</td>
+          <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_haloperidol</td>
+          <td headers="stat_0_1">45 (5.8%)</td>
+          <td headers="stat_1_1">28 (5.4%)</td>
+          <td headers="stat_2_1">17 (6.5%)</td>
+          <td headers="estimate_2">1.23</td>
+          <td headers="ci_2">0.65, 2.27</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_valproic</td>
+          <td headers="stat_0_1">29 (3.7%)</td>
+          <td headers="stat_1_1">21 (4.0%)</td>
+          <td headers="stat_2_1">8 (3.1%)</td>
+          <td headers="estimate_2">0.75</td>
+          <td headers="ci_2">0.31, 1.66</td>
+          <td headers="p.value_2">0.5</td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_naproxen</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_daptomycin</td>
+          <td headers="stat_0_1">1 (0.1%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_cetirizin</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">5 (1.0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_simvas</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_bisoprolol</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">4 (0.8%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_diltiazem</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_eptifibatid</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quinidin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_carbamazepin</td>
+          <td headers="stat_0_1">7 (0.9%)</td>
+          <td headers="stat_1_1">7 (1.3%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_phenytoin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_mirtazapin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quetiapin</td>
+          <td headers="stat_0_1">3 (0.4%)</td>
+          <td headers="stat_1_1">3 (0.6%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_ondansetron</td>
+          <td headers="stat_0_1">6 (0.8%)</td>
+          <td headers="stat_1_1">4 (0.8%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_palonosetron</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_oseltamivir</td>
+          <td headers="stat_0_1">3 (0.4%)</td>
+          <td headers="stat_1_1">1 (0.2%)</td>
+          <td headers="stat_2_1">2 (0.8%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_quinin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_pembrolizumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_trastuzumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_atezolizumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_durvalumab</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_IVIG</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_tacrolimus</td>
+          <td headers="stat_0_1">1 (0.1%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">1 (0.4%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_fluorouracil</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_irinotecan</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_leucovorin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+        <tr>
+          <td headers="label" style="font-weight: bold">comed_oxaliplatin</td>
+          <td headers="stat_0_1">0 (0%)</td>
+          <td headers="stat_1_1">0 (0%)</td>
+          <td headers="stat_2_1">0 (0%)</td>
+          <td headers="estimate_2"><break/></td>
+          <td headers="ci_2"><break/></td>
+          <td headers="p.value_2"><break/></td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  </sec>
+</sec>
+<sec id="model-performance-nb-article">
+  <title>Model Performance</title>
+  <sec id="nb-code-cell-5-nb-article" specific-use="notebook-code">
+  <code language="r script">load(&quot;data/model-performance/apparent-performance-metrics.rda&quot;)
+load(&quot;data/model-performance/corrected-performance-metrics.rda&quot;)
+load(&quot;data/model-performance/fold-performance-metrics.rda&quot;)
+load(&quot;data/model-performance/cross-performance-metrics.rda&quot;)
+
+data_list &lt;- list(
+  apparent_performance_metrics,
+  corrected_performance_metrics,
+  fold_performance_metrics
+)
+performance_type_list &lt;- c(&quot;Apparent&quot;, &quot;Bootstrap&quot;, &quot;Fold&quot;)
+initial_string_list &lt;- c(&quot;apparent_&quot;, &quot;corrected_&quot;, &quot;mean_fold_&quot;)
+
+reformat_performance_metrics &lt;- function(data, type, string) {
+  data |&gt; 
+    mutate(
+    performance_type = type
+  ) |&gt;
+  rename_with(~ str_replace(., string, &quot;&quot;)) |&gt;
+  select(performance_type, everything())
+}
+
+performance_metrics &lt;- pmap(
+  list(data_list, performance_type_list, initial_string_list), 
+  reformat_performance_metrics
+) |&gt; bind_rows()
+
+performance_metrics |&gt; knitr::kable()</code>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="left">performance_type</th>
+          <th align="right">C_index</th>
+          <th align="right">calibration_intercept</th>
+          <th align="right">calibration_slope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="left">Apparent</td>
+          <td align="right">0.7779549</td>
+          <td align="right">0.0000000</td>
+          <td align="right">1.0000000</td>
+        </tr>
+        <tr>
+          <td align="left">Bootstrap</td>
+          <td align="right">0.7456938</td>
+          <td align="right">-0.0001972</td>
+          <td align="right">0.8176676</td>
+        </tr>
+        <tr>
+          <td align="left">Fold</td>
+          <td align="right">0.7641578</td>
+          <td align="right">-0.0084625</td>
+          <td align="right">0.9584548</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  </sec>
+</sec>
+</body>
+
+
+
+<back>
+</back>
+
+
+</sub-article>
 <sub-article article-type="notebook" id="nb-4-nb-1">
 <front-stub>
 <title-group>
@@ -65,7 +1967,9 @@ Cross-Validation</article-title>
 
 <body>
 <sec id="nb-code-cell-1-nb-1" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;, local = TRUE)
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
 <sec id="nb-code-cell-1-output-0-nb-1" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -101,8 +2005,7 @@ date  (3): baseline_date, LZD_start, LZD_end
 </sec>
 </sec>
 <sec id="nb-code-cell-2-nb-1" specific-use="notebook-code">
-<code language="r script">library(BAS)
-library(rsample) # for group_vfold_cv()
+<code language="r script">library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 </code>
 <code language="r script">library(tidymodels)
@@ -114,18 +2017,11 @@ library(furrr) # for future_map()
 
 cross_samples &lt;- group_vfold_cv(data_patient_cross_prep, group = &quot;site&quot;)
 
-run_bas_glm &lt;- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 extract_variable_names_cross &lt;- function(sample) {
   data &lt;- analysis(sample) |&gt; select(-site)
   model &lt;- data |&gt;
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
-      family = binomial(),
-      MCMC.iterations = 100000,
-      method = &quot;MCMC&quot;
+      formula = flag_ADR_TP_ID ~ .
     )
   variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
     str_extract(paste(predictor_list, collapse = &quot;|&quot;))
@@ -349,7 +2245,9 @@ older version of 'meta' package: https://tinyurl.com/dt4y5drs</preformat>
 
 <body>
 <sec id="nb-code-cell-1-nb-2" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;, local = TRUE)
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
 <sec id="nb-code-cell-1-output-0-nb-2" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -385,8 +2283,7 @@ date  (3): baseline_date, LZD_start, LZD_end
 </sec>
 </sec>
 <sec id="nb-code-cell-2-nb-2" specific-use="notebook-code">
-<code language="r script">library(BAS)
-library(rsample) # for bootstraps()
+<code language="r script">library(rsample) # for bootstraps()
 library(furrr) # for future_map()
 </code>
 <code language="r script">library(tidymodels)
@@ -399,18 +2296,11 @@ library(furrr) # for future_map()
 # Create 500 bootstrap samples
 boot_samples &lt;- bootstraps(data_patient_bootstrap_prep, times = 30)
 
-run_bas_glm &lt;- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 extract_variable_names &lt;- function(sample) {
   data &lt;- analysis(sample)
   model &lt;- data |&gt;
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
-      family = binomial(),
-      MCMC.iterations = 100000,
-      method = &quot;MCMC&quot;
+      formula = flag_ADR_TP_ID ~ .
     )
   variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
     str_extract(paste(predictor_list, collapse = &quot;|&quot;))
@@ -539,17 +2429,7 @@ Attaching package: 'Hmisc'</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-3-nb-2" specific-use="notebook-code">
-<code language="r script">load(&quot;data/model-performance/model_full.rda&quot;)
-
-pHat &lt;- predict(model_full$fit, data_patient_complete, type = &quot;response&quot;)
-yTest &lt;- data_patient_complete$flag_ADR_TP_ID
-calperf &lt;- valProbggplot(pHat, yTest)
-
-apparent_performance_metrics &lt;- tibble(
-  apparent_C_index = calperf$Cindex[[1]],
-  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
-  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
-)
+<code language="r script">load(&quot;data/model-performance/apparent-performance-metrics.rda&quot;)
 
 corrected_performance_metrics &lt;- bind_cols(apparent_performance_metrics, optimism_estimates) |&gt;
   mutate(
@@ -561,7 +2441,7 @@ corrected_performance_metrics &lt;- bind_cols(apparent_performance_metrics, opti
 </code>
 </sec>
 <sec id="nb-code-cell-4-nb-2" specific-use="notebook-code">
-<code language="r script">save(corrected_performance_metrics, file = &quot;data/model-performance/corrected_performance_metrics.rda&quot;)
+<code language="r script">save(corrected_performance_metrics, file = &quot;data/model-performance/corrected-performance-metrics.rda&quot;)
 </code>
 </sec>
 </body>
@@ -582,7 +2462,7 @@ corrected_performance_metrics &lt;- bind_cols(apparent_performance_metrics, opti
 
 <body>
 <sec id="nb-code-cell-1-nb-3" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;, local = TRUE)
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
 </code>
 <sec id="nb-code-cell-1-output-0-nb-3" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -629,10 +2509,10 @@ date  (3): baseline_date, LZD_start, LZD_end
     statistic = list(all_continuous() ~ &quot;{median} ({p25} - {p75})&quot;),
     missing = &quot;no&quot;
   ) |&gt;
-  modify_table_body(
-    ~ .x |&gt;
-      mutate(stat_1 = if_else(str_detect(stat_1, &quot;NA&quot;), NA, stat_1))
-  ) |&gt;
+  # modify_table_body(
+  #   ~ .x |&gt;
+  #     mutate(stat_1 = if_else(str_detect(stat_1, &quot;NA&quot;), NA, stat_1))
+  # ) |&gt;
   add_overall() |&gt;
   bold_labels()
 </code>
@@ -704,7 +2584,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-3" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -771,805 +2651,31 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-4-nb-3" specific-use="notebook-code">
-<code language="r script">table_descriptive &lt;- tbl_merge(list(table_stats, table_uni))
-table_descriptive
+<code language="r script">table_descriptive &lt;- tbl_merge(
+  list(table_stats, table_uni),
+  tab_spanner = c(
+    &quot;**Thrombocytopenia Status**&quot;,
+    &quot;**Univariate Regression**&quot;
+  )
+)
+save(table_descriptive, file = &quot;data/results/table-descriptive.rda&quot;)
 </code>
-<table-wrap>
-  <table>
-    <colgroup>
-      <col width="14%" />
-      <col width="14%" />
-      <col width="14%" />
-      <col width="14%" />
-      <col width="14%" />
-      <col width="14%" />
-      <col width="14%" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th rowspan="2" id="U003CstrongU003ECharacteristicU003CU002FstrongU003E-nb-3" scope="col"><bold>Characteristic</bold></th>
-        <th colspan="3" id="U003CstrongU003ETableU00201U003CU002FstrongU003E-nb-3" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Table
-        1</bold></named-content></th>
-        <th colspan="3" id="U003CstrongU003ETableU00202U003CU002FstrongU003E-nb-3" scope="colgroup"><named-content content-type="gt_column_spanner"><bold>Table
-        2</bold></named-content></th>
-      </tr>
-      <tr>
-        <th id="U003CstrongU003EOverallU003CU002FstrongU003EU002CU0020NU0020U003DU0020780U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-3" scope="col"><bold>Overall</bold>,
-        N =
-        780<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
-        <th id="U003CstrongU003EFALSEU003CU002FstrongU003EU002CU0020NU0020U003DU0020520U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-3" scope="col"><bold>FALSE</bold>,
-        N =
-        520<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
-        <th id="U003CstrongU003ETRUEU003CU002FstrongU003EU002CU0020NU0020U003DU0020260U003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-3" scope="col"><bold>TRUE</bold>,
-        N =
-        260<named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
-        <th id="U003CstrongU003EORU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E-nb-3" scope="col"><bold>OR</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
-        <th id="U003CstrongU003E95U0025U0020CIU003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E2U003CU002FsupU003EU003CU002FspanU003E-nb-3" scope="col"><bold>95%
-        CI</bold><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content></th>
-        <th id="U003CstrongU003Ep-valueU003CU002FstrongU003E-nb-3" scope="col"><bold>p-value</bold></th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>1</sup></named-content>
-        Median (IQR); n (%)</td>
-      </tr>
-      <tr>
-        <td colspan="7"><named-content content-type="gt_footnote_marks"><sup>2</sup></named-content>
-        OR = Odds Ratio, CI = Confidence Interval</td>
-      </tr>
-    </tfoot>
-    <tbody>
-      <tr>
-        <td headers="label" style="font-weight: bold">patient_age</td>
-        <td headers="stat_0_1">62 (50 - 73)</td>
-        <td headers="stat_1_1">61 (48 - 72)</td>
-        <td headers="stat_2_1">64 (53 - 74)</td>
-        <td headers="estimate_2">1.02</td>
-        <td headers="ci_2">1.01, 1.02</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">patient_sex</td>
-        <td headers="stat_0_1">292 (37%)</td>
-        <td headers="stat_1_1">194 (37%)</td>
-        <td headers="stat_2_1">98 (38%)</td>
-        <td headers="estimate_2">1.02</td>
-        <td headers="ci_2">0.75, 1.38</td>
-        <td headers="p.value_2">&gt;0.9</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">LZD_dose_per_weight</td>
-        <td headers="stat_0_1">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_1_1">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_2_1">21.8 (19.4 - 24.5)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.95, 1.03</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">baseline_CLCR</td>
-        <td headers="stat_0_1">46 (21 - 83)</td>
-        <td headers="stat_1_1">55 (26 - 88)</td>
-        <td headers="stat_2_1">32 (15 - 64)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.99, 0.99</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">dept_ER</td>
-        <td headers="stat_0_1">133 (17%)</td>
-        <td headers="stat_1_1">89 (17%)</td>
-        <td headers="stat_2_1">44 (17%)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.66, 1.46</td>
-        <td headers="p.value_2">&gt;0.9</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">dept_ICU</td>
-        <td headers="stat_0_1">368 (47%)</td>
-        <td headers="stat_1_1">221 (43%)</td>
-        <td headers="stat_2_1">147 (57%)</td>
-        <td headers="estimate_2">1.76</td>
-        <td headers="ci_2">1.30, 2.38</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">baseline_HGB</td>
-        <td headers="stat_0_1">102 (89 - 119)</td>
-        <td headers="stat_1_1">105 (91 - 121)</td>
-        <td headers="stat_2_1">97 (85 - 117)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.98, 1.0</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">baseline_WBC</td>
-        <td headers="stat_0_1">12 (8 - 17)</td>
-        <td headers="stat_1_1">12 (8 - 17)</td>
-        <td headers="stat_2_1">12 (8 - 18)</td>
-        <td headers="estimate_2">1.01</td>
-        <td headers="ci_2">0.99, 1.03</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">baseline_PLT</td>
-        <td headers="stat_0_1">203 (141 - 286)</td>
-        <td headers="stat_1_1">233 (165 - 310)</td>
-        <td headers="stat_2_1">151 (102 - 208)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.99, 0.99</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">LZD_duration</td>
-        <td headers="stat_0_1">9.0 (6.0 - 14.0)</td>
-        <td headers="stat_1_1">9.0 (6.0 - 13.0)</td>
-        <td headers="stat_2_1">10.0 (6.0 - 14.0)</td>
-        <td headers="estimate_2">1.03</td>
-        <td headers="ci_2">1.01, 1.06</td>
-        <td headers="p.value_2" style="font-weight: bold">0.016</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">invasive_ETI</td>
-        <td headers="stat_0_1">363 (47%)</td>
-        <td headers="stat_1_1">210 (40%)</td>
-        <td headers="stat_2_1">153 (59%)</td>
-        <td headers="estimate_2">2.11</td>
-        <td headers="ci_2">1.56, 2.86</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">invasive_CVC</td>
-        <td headers="stat_0_1">399 (51%)</td>
-        <td headers="stat_1_1">226 (43%)</td>
-        <td headers="stat_2_1">173 (67%)</td>
-        <td headers="estimate_2">2.59</td>
-        <td headers="ci_2">1.90, 3.54</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">invasive_IHD</td>
-        <td headers="stat_0_1">105 (13%)</td>
-        <td headers="stat_1_1">60 (12%)</td>
-        <td headers="stat_2_1">45 (17%)</td>
-        <td headers="estimate_2">1.60</td>
-        <td headers="ci_2">1.05, 2.44</td>
-        <td headers="p.value_2" style="font-weight: bold">0.027</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">invasive_CRRT</td>
-        <td headers="stat_0_1">133 (17%)</td>
-        <td headers="stat_1_1">53 (10%)</td>
-        <td headers="stat_2_1">80 (31%)</td>
-        <td headers="estimate_2">3.92</td>
-        <td headers="ci_2">2.67, 5.79</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_HTN</td>
-        <td headers="stat_0_1">321 (41%)</td>
-        <td headers="stat_1_1">208 (40%)</td>
-        <td headers="stat_2_1">113 (43%)</td>
-        <td headers="estimate_2">1.15</td>
-        <td headers="ci_2">0.85, 1.56</td>
-        <td headers="p.value_2">0.4</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_DM</td>
-        <td headers="stat_0_1">214 (27%)</td>
-        <td headers="stat_1_1">142 (27%)</td>
-        <td headers="stat_2_1">72 (28%)</td>
-        <td headers="estimate_2">1.02</td>
-        <td headers="ci_2">0.73, 1.42</td>
-        <td headers="p.value_2">&gt;0.9</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_HF</td>
-        <td headers="stat_0_1">218 (28%)</td>
-        <td headers="stat_1_1">126 (24%)</td>
-        <td headers="stat_2_1">92 (35%)</td>
-        <td headers="estimate_2">1.71</td>
-        <td headers="ci_2">1.24, 2.37</td>
-        <td headers="p.value_2" style="font-weight: bold">0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_angina</td>
-        <td headers="stat_0_1">31 (4.0%)</td>
-        <td headers="stat_1_1">19 (3.7%)</td>
-        <td headers="stat_2_1">12 (4.6%)</td>
-        <td headers="estimate_2">1.28</td>
-        <td headers="ci_2">0.59, 2.64</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_cirr</td>
-        <td headers="stat_0_1">48 (6.2%)</td>
-        <td headers="stat_1_1">20 (3.8%)</td>
-        <td headers="stat_2_1">28 (11%)</td>
-        <td headers="estimate_2">3.02</td>
-        <td headers="ci_2">1.67, 5.54</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_COPD</td>
-        <td headers="stat_0_1">38 (4.9%)</td>
-        <td headers="stat_1_1">24 (4.6%)</td>
-        <td headers="stat_2_1">14 (5.4%)</td>
-        <td headers="estimate_2">1.18</td>
-        <td headers="ci_2">0.58, 2.28</td>
-        <td headers="p.value_2">0.6</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_CVA</td>
-        <td headers="stat_0_1">90 (12%)</td>
-        <td headers="stat_1_1">64 (12%)</td>
-        <td headers="stat_2_1">26 (10%)</td>
-        <td headers="estimate_2">0.79</td>
-        <td headers="ci_2">0.48, 1.27</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_MI</td>
-        <td headers="stat_0_1">20 (2.6%)</td>
-        <td headers="stat_1_1">15 (2.9%)</td>
-        <td headers="stat_2_1">5 (1.9%)</td>
-        <td headers="estimate_2">0.66</td>
-        <td headers="ci_2">0.21, 1.73</td>
-        <td headers="p.value_2">0.4</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_K</td>
-        <td headers="stat_0_1">64 (8.2%)</td>
-        <td headers="stat_1_1">41 (7.9%)</td>
-        <td headers="stat_2_1">23 (8.8%)</td>
-        <td headers="estimate_2">1.13</td>
-        <td headers="ci_2">0.66, 1.92</td>
-        <td headers="p.value_2">0.6</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_hematological</td>
-        <td headers="stat_0_1">46 (5.9%)</td>
-        <td headers="stat_1_1">27 (5.2%)</td>
-        <td headers="stat_2_1">19 (7.3%)</td>
-        <td headers="estimate_2">1.44</td>
-        <td headers="ci_2">0.77, 2.63</td>
-        <td headers="p.value_2">0.2</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_hema</td>
-        <td headers="stat_0_1">60 (7.7%)</td>
-        <td headers="stat_1_1">36 (6.9%)</td>
-        <td headers="stat_2_1">24 (9.2%)</td>
-        <td headers="estimate_2">1.37</td>
-        <td headers="ci_2">0.79, 2.33</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_sepsis</td>
-        <td headers="stat_0_1">130 (17%)</td>
-        <td headers="stat_1_1">62 (12%)</td>
-        <td headers="stat_2_1">68 (26%)</td>
-        <td headers="estimate_2">2.62</td>
-        <td headers="ci_2">1.78, 3.84</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_CAP</td>
-        <td headers="stat_0_1">112 (14%)</td>
-        <td headers="stat_1_1">66 (13%)</td>
-        <td headers="stat_2_1">46 (18%)</td>
-        <td headers="estimate_2">1.48</td>
-        <td headers="ci_2">0.98, 2.22</td>
-        <td headers="p.value_2">0.062</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_HAP</td>
-        <td headers="stat_0_1">352 (45%)</td>
-        <td headers="stat_1_1">236 (45%)</td>
-        <td headers="stat_2_1">116 (45%)</td>
-        <td headers="estimate_2">0.97</td>
-        <td headers="ci_2">0.72, 1.31</td>
-        <td headers="p.value_2">0.8</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_SSTI</td>
-        <td headers="stat_0_1">128 (16%)</td>
-        <td headers="stat_1_1">95 (18%)</td>
-        <td headers="stat_2_1">33 (13%)</td>
-        <td headers="estimate_2">0.65</td>
-        <td headers="ci_2">0.42, 0.99</td>
-        <td headers="p.value_2" style="font-weight: bold">0.049</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_CNS</td>
-        <td headers="stat_0_1">68 (8.7%)</td>
-        <td headers="stat_1_1">45 (8.7%)</td>
-        <td headers="stat_2_1">23 (8.8%)</td>
-        <td headers="estimate_2">1.02</td>
-        <td headers="ci_2">0.60, 1.72</td>
-        <td headers="p.value_2">&gt;0.9</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_IAI</td>
-        <td headers="stat_0_1">49 (6.3%)</td>
-        <td headers="stat_1_1">33 (6.3%)</td>
-        <td headers="stat_2_1">16 (6.2%)</td>
-        <td headers="estimate_2">0.97</td>
-        <td headers="ci_2">0.51, 1.77</td>
-        <td headers="p.value_2">&gt;0.9</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_UTI</td>
-        <td headers="stat_0_1">53 (6.8%)</td>
-        <td headers="stat_1_1">37 (7.1%)</td>
-        <td headers="stat_2_1">16 (6.2%)</td>
-        <td headers="estimate_2">0.86</td>
-        <td headers="ci_2">0.46, 1.54</td>
-        <td headers="p.value_2">0.6</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_BJI</td>
-        <td headers="stat_0_1">10 (1.3%)</td>
-        <td headers="stat_1_1">9 (1.7%)</td>
-        <td headers="stat_2_1">1 (0.4%)</td>
-        <td headers="estimate_2">0.22</td>
-        <td headers="ci_2">0.01, 1.18</td>
-        <td headers="p.value_2">0.2</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">infect_septicemia</td>
-        <td headers="stat_0_1">231 (30%)</td>
-        <td headers="stat_1_1">143 (28%)</td>
-        <td headers="stat_2_1">88 (34%)</td>
-        <td headers="estimate_2">1.35</td>
-        <td headers="ci_2">0.98, 1.86</td>
-        <td headers="p.value_2">0.068</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_aspirin</td>
-        <td headers="stat_0_1">46 (5.9%)</td>
-        <td headers="stat_1_1">29 (5.6%)</td>
-        <td headers="stat_2_1">17 (6.5%)</td>
-        <td headers="estimate_2">1.18</td>
-        <td headers="ci_2">0.63, 2.17</td>
-        <td headers="p.value_2">0.6</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_diclofenac</td>
-        <td headers="stat_0_1">27 (3.5%)</td>
-        <td headers="stat_1_1">20 (3.8%)</td>
-        <td headers="stat_2_1">7 (2.7%)</td>
-        <td headers="estimate_2">0.69</td>
-        <td headers="ci_2">0.27, 1.58</td>
-        <td headers="p.value_2">0.4</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_ibuprofen</td>
-        <td headers="stat_0_1">25 (3.2%)</td>
-        <td headers="stat_1_1">14 (2.7%)</td>
-        <td headers="stat_2_1">11 (4.2%)</td>
-        <td headers="estimate_2">1.60</td>
-        <td headers="ci_2">0.70, 3.56</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_paracetamol</td>
-        <td headers="stat_0_1">338 (43%)</td>
-        <td headers="stat_1_1">230 (44%)</td>
-        <td headers="stat_2_1">108 (42%)</td>
-        <td headers="estimate_2">0.90</td>
-        <td headers="ci_2">0.66, 1.21</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_penicillin</td>
-        <td headers="stat_0_1">114 (15%)</td>
-        <td headers="stat_1_1">71 (14%)</td>
-        <td headers="stat_2_1">43 (17%)</td>
-        <td headers="estimate_2">1.25</td>
-        <td headers="ci_2">0.83, 1.88</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_cepha</td>
-        <td headers="stat_0_1">197 (25%)</td>
-        <td headers="stat_1_1">141 (27%)</td>
-        <td headers="stat_2_1">56 (22%)</td>
-        <td headers="estimate_2">0.74</td>
-        <td headers="ci_2">0.52, 1.05</td>
-        <td headers="p.value_2">0.092</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_carbapenem</td>
-        <td headers="stat_0_1">554 (71%)</td>
-        <td headers="stat_1_1">355 (68%)</td>
-        <td headers="stat_2_1">199 (77%)</td>
-        <td headers="estimate_2">1.52</td>
-        <td headers="ci_2">1.08, 2.14</td>
-        <td headers="p.value_2" style="font-weight: bold">0.017</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_cotrimoxazol</td>
-        <td headers="stat_0_1">63 (8.1%)</td>
-        <td headers="stat_1_1">36 (6.9%)</td>
-        <td headers="stat_2_1">27 (10%)</td>
-        <td headers="estimate_2">1.56</td>
-        <td headers="ci_2">0.92, 2.62</td>
-        <td headers="p.value_2">0.10</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_vancomycin</td>
-        <td headers="stat_0_1">67 (8.6%)</td>
-        <td headers="stat_1_1">40 (7.7%)</td>
-        <td headers="stat_2_1">27 (10%)</td>
-        <td headers="estimate_2">1.39</td>
-        <td headers="ci_2">0.83, 2.31</td>
-        <td headers="p.value_2">0.2</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_levofloxacin</td>
-        <td headers="stat_0_1">230 (29%)</td>
-        <td headers="stat_1_1">144 (28%)</td>
-        <td headers="stat_2_1">86 (33%)</td>
-        <td headers="estimate_2">1.29</td>
-        <td headers="ci_2">0.93, 1.78</td>
-        <td headers="p.value_2">0.12</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_teicoplanin</td>
-        <td headers="stat_0_1">26 (3.3%)</td>
-        <td headers="stat_1_1">13 (2.5%)</td>
-        <td headers="stat_2_1">13 (5.0%)</td>
-        <td headers="estimate_2">2.05</td>
-        <td headers="ci_2">0.93, 4.54</td>
-        <td headers="p.value_2">0.072</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_ethambutol</td>
-        <td headers="stat_0_1">8 (1.0%)</td>
-        <td headers="stat_1_1">5 (1.0%)</td>
-        <td headers="stat_2_1">3 (1.2%)</td>
-        <td headers="estimate_2">1.20</td>
-        <td headers="ci_2">0.25, 4.94</td>
-        <td headers="p.value_2">0.8</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
-        <td headers="stat_0_1">12 (1.5%)</td>
-        <td headers="stat_1_1">6 (1.2%)</td>
-        <td headers="stat_2_1">6 (2.3%)</td>
-        <td headers="estimate_2">2.02</td>
-        <td headers="ci_2">0.63, 6.53</td>
-        <td headers="p.value_2">0.2</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_rifampin</td>
-        <td headers="stat_0_1">17 (2.2%)</td>
-        <td headers="stat_1_1">10 (1.9%)</td>
-        <td headers="stat_2_1">7 (2.7%)</td>
-        <td headers="estimate_2">1.41</td>
-        <td headers="ci_2">0.51, 3.72</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_heparin</td>
-        <td headers="stat_0_1">189 (24%)</td>
-        <td headers="stat_1_1">94 (18%)</td>
-        <td headers="stat_2_1">95 (37%)</td>
-        <td headers="estimate_2">2.61</td>
-        <td headers="ci_2">1.86, 3.66</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_clopidogrel</td>
-        <td headers="stat_0_1">38 (4.9%)</td>
-        <td headers="stat_1_1">28 (5.4%)</td>
-        <td headers="stat_2_1">10 (3.8%)</td>
-        <td headers="estimate_2">0.70</td>
-        <td headers="ci_2">0.32, 1.42</td>
-        <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_enoxaparin</td>
-        <td headers="stat_0_1">327 (42%)</td>
-        <td headers="stat_1_1">213 (41%)</td>
-        <td headers="stat_2_1">114 (44%)</td>
-        <td headers="estimate_2">1.13</td>
-        <td headers="ci_2">0.83, 1.52</td>
-        <td headers="p.value_2">0.4</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_dexamethason</td>
-        <td headers="stat_0_1">92 (12%)</td>
-        <td headers="stat_1_1">60 (12%)</td>
-        <td headers="stat_2_1">32 (12%)</td>
-        <td headers="estimate_2">1.08</td>
-        <td headers="ci_2">0.67, 1.69</td>
-        <td headers="p.value_2">0.8</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_amiodaron</td>
-        <td headers="stat_0_1">33 (4.2%)</td>
-        <td headers="stat_1_1">15 (2.9%)</td>
-        <td headers="stat_2_1">18 (6.9%)</td>
-        <td headers="estimate_2">2.50</td>
-        <td headers="ci_2">1.24, 5.12</td>
-        <td headers="p.value_2" style="font-weight: bold">0.010</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_furosemid</td>
-        <td headers="stat_0_1">417 (53%)</td>
-        <td headers="stat_1_1">244 (47%)</td>
-        <td headers="stat_2_1">173 (67%)</td>
-        <td headers="estimate_2">2.25</td>
-        <td headers="ci_2">1.65, 3.08</td>
-        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_haloperidol</td>
-        <td headers="stat_0_1">45 (5.8%)</td>
-        <td headers="stat_1_1">28 (5.4%)</td>
-        <td headers="stat_2_1">17 (6.5%)</td>
-        <td headers="estimate_2">1.23</td>
-        <td headers="ci_2">0.65, 2.27</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_valproic</td>
-        <td headers="stat_0_1">29 (3.7%)</td>
-        <td headers="stat_1_1">21 (4.0%)</td>
-        <td headers="stat_2_1">8 (3.1%)</td>
-        <td headers="estimate_2">0.75</td>
-        <td headers="ci_2">0.31, 1.66</td>
-        <td headers="p.value_2">0.5</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_naproxen</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_daptomycin</td>
-        <td headers="stat_0_1">1 (0.1%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">1 (0.4%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_cetirizin</td>
-        <td headers="stat_0_1">6 (0.8%)</td>
-        <td headers="stat_1_1">5 (1.0%)</td>
-        <td headers="stat_2_1">1 (0.4%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_simvas</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_bisoprolol</td>
-        <td headers="stat_0_1">6 (0.8%)</td>
-        <td headers="stat_1_1">4 (0.8%)</td>
-        <td headers="stat_2_1">2 (0.8%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_diltiazem</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_eptifibatid</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_quinidin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_carbamazepin</td>
-        <td headers="stat_0_1">7 (0.9%)</td>
-        <td headers="stat_1_1">7 (1.3%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_phenytoin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_mirtazapin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_quetiapin</td>
-        <td headers="stat_0_1">3 (0.4%)</td>
-        <td headers="stat_1_1">3 (0.6%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_ondansetron</td>
-        <td headers="stat_0_1">6 (0.8%)</td>
-        <td headers="stat_1_1">4 (0.8%)</td>
-        <td headers="stat_2_1">2 (0.8%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_palonosetron</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_oseltamivir</td>
-        <td headers="stat_0_1">3 (0.4%)</td>
-        <td headers="stat_1_1">1 (0.2%)</td>
-        <td headers="stat_2_1">2 (0.8%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_quinin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_pembrolizumab</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_trastuzumab</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_atezolizumab</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_durvalumab</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_IVIG</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_tacrolimus</td>
-        <td headers="stat_0_1">1 (0.1%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">1 (0.4%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_fluorouracil</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_irinotecan</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_leucovorin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comed_oxaliplatin</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
-      </tr>
-    </tbody>
-  </table>
-</table-wrap>
+</sec>
+<sec id="nb-code-cell-5-nb-3" specific-use="notebook-code">
+<code language="r script">table_descriptive_site &lt;- data_patient_complete |&gt;
+  select(
+    all_of(predictor_list), starts_with(&quot;comed&quot;), flag_ADR_TP_ID, site
+  ) |&gt;
+  tbl_summary(
+    by = site,
+    statistic = list(all_continuous() ~ &quot;{median} ({p25} - {p75})&quot;),
+    missing = &quot;no&quot;
+  ) |&gt;
+  add_overall() |&gt;
+  bold_labels()
+
+save(table_descriptive_site, file = &quot;data/results/table-descriptive-site.rda&quot;)
+</code>
 </sec>
 </body>
 
@@ -1589,7 +2695,9 @@ table_descriptive
 
 <body>
 <sec id="nb-code-cell-1-nb-4" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;, local = TRUE)
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
 <sec id="nb-code-cell-1-output-0-nb-4" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -1625,8 +2733,7 @@ date  (3): baseline_date, LZD_start, LZD_end
 </sec>
 </sec>
 <sec id="nb-code-cell-2-nb-4" specific-use="notebook-code">
-<code language="r script">library(BAS)
-library(rsample) # for vfold_cv()
+<code language="r script">library(rsample) # for vfold_cv()
 library(furrr) # for future_map()
 </code>
 <code language="r script">library(tidymodels)
@@ -1638,18 +2745,11 @@ library(furrr) # for future_map()
 
 fold_samples &lt;- vfold_cv(data_patient_fold_prep, v = 10, repeats = 3)
 
-run_bas_glm &lt;- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
 extract_variable_names &lt;- function(sample) {
   data &lt;- analysis(sample)
   model &lt;- data |&gt;
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
-      family = binomial(),
-      MCMC.iterations = 100000,
-      method = &quot;MCMC&quot;
+      formula = flag_ADR_TP_ID ~ .
     )
   variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
     str_extract(paste(predictor_list, collapse = &quot;|&quot;))
@@ -1715,7 +2815,7 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-4-nb-4" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>
@@ -2067,7 +3167,9 @@ write_csv(data_patient_complete, &quot;data/data-cleaned/data-patient-complete.c
 
 <body>
 <sec id="nb-code-cell-1-nb-6" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;, local = TRUE)
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
 <sec id="nb-code-cell-1-output-0-nb-6" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -2103,18 +3205,10 @@ date  (3): baseline_date, LZD_start, LZD_end
 </sec>
 </sec>
 <sec id="nb-code-cell-2-nb-6" specific-use="notebook-code">
-<code language="r script">library(BAS)
-run_bas_glm &lt;- function(data, formula, family, ...) {
-  bas.glm(formula, data = data, family = family, ...)
-}
-
-multi_model &lt;- data_patient_complete |&gt;
+<code language="r script">multi_model &lt;- data_patient_complete |&gt;
   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
   run_bas_glm(
-    formula = flag_ADR_TP_ID ~ .,
-    family = binomial(),
-    MCMC.iterations = 100000, # 100000 for speed, this should either be 2 million iterations or NULL
-    method = &quot;MCMC&quot;
+    formula = flag_ADR_TP_ID ~ .
   )
 
 summary(multi_model)
@@ -2138,132 +3232,132 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model, estimator = &quot;BP
   str_extract(paste(predictor_list, collapse = &quot;|&quot;)) # best predictive model, this model is weird
 </code>
 <sec id="nb-code-cell-2-output-0-nb-6" specific-use="notebook-output">
-<preformat>                         P(B != 0 | Y)      model 1       model 2       model 3
-Intercept                      1.00000    1.0000000    1.00000000    1.00000000
-patient_age                    0.76737    1.0000000    1.00000000    0.00000000
-patient_sexTRUE                0.01627    0.0000000    0.00000000    0.00000000
-LZD_dose_per_weight            0.01612    0.0000000    0.00000000    0.00000000
-baseline_CLCR                  0.28726    0.0000000    0.00000000    1.00000000
-dept_ERTRUE                    0.01932    0.0000000    0.00000000    0.00000000
-dept_ICUTRUE                   0.03424    0.0000000    0.00000000    0.00000000
-baseline_HGB                   0.16907    0.0000000    0.00000000    0.00000000
-baseline_WBC                   0.01678    0.0000000    0.00000000    0.00000000
-baseline_PLT                   0.99982    1.0000000    1.00000000    1.00000000
-LZD_duration                   0.99695    1.0000000    1.00000000    1.00000000
-invasive_ETITRUE               0.17414    0.0000000    0.00000000    0.00000000
-invasive_CVCTRUE               0.47029    1.0000000    0.00000000    0.00000000
-invasive_IHDTRUE               0.01618    0.0000000    0.00000000    0.00000000
-invasive_CRRTTRUE              0.96791    1.0000000    1.00000000    1.00000000
-comorb_HTNTRUE                 0.01669    0.0000000    0.00000000    0.00000000
-comorb_DMTRUE                  0.01687    0.0000000    0.00000000    0.00000000
-comorb_HFTRUE                  0.06648    0.0000000    0.00000000    0.00000000
-comorb_anginaTRUE              0.01555    0.0000000    0.00000000    0.00000000
-comorb_cirrTRUE                0.08470    0.0000000    0.00000000    0.00000000
-comorb_COPDTRUE                0.02449    0.0000000    0.00000000    0.00000000
-comorb_CVATRUE                 0.06293    0.0000000    0.00000000    0.00000000
-comorb_MITRUE                  0.02416    0.0000000    0.00000000    0.00000000
-comorb_KTRUE                   0.01273    0.0000000    0.00000000    0.00000000
-comorb_hematologicalTRUE       0.02941    0.0000000    0.00000000    0.00000000
-comorb_hemaTRUE                0.01366    0.0000000    0.00000000    0.00000000
-infect_sepsisTRUE              0.08770    0.0000000    0.00000000    0.00000000
-infect_CAPTRUE                 0.01655    0.0000000    0.00000000    0.00000000
-infect_HAPTRUE                 0.02602    0.0000000    0.00000000    0.00000000
-infect_SSTITRUE                0.03959    0.0000000    0.00000000    0.00000000
-infect_CNSTRUE                 0.01329    0.0000000    0.00000000    0.00000000
-infect_IAITRUE                 0.01258    0.0000000    0.00000000    0.00000000
-infect_UTITRUE                 0.01705    0.0000000    0.00000000    0.00000000
-infect_BJITRUE                 0.01781    0.0000000    0.00000000    0.00000000
-infect_septicemiaTRUE          0.17011    0.0000000    0.00000000    0.00000000
-comed_aspirinTRUE              0.01490    0.0000000    0.00000000    0.00000000
-comed_diclofenacTRUE           0.01696    0.0000000    0.00000000    0.00000000
-comed_ibuprofenTRUE            0.01406    0.0000000    0.00000000    0.00000000
-comed_paracetamolTRUE          0.01511    0.0000000    0.00000000    0.00000000
-comed_penicillinTRUE           0.02610    0.0000000    0.00000000    0.00000000
-comed_cephaTRUE                0.02390    0.0000000    0.00000000    0.00000000
-comed_carbapenemTRUE           0.01539    0.0000000    0.00000000    0.00000000
-comed_cotrimoxazolTRUE         0.08205    0.0000000    0.00000000    0.00000000
-comed_vancomycinTRUE           0.04294    0.0000000    0.00000000    0.00000000
-comed_levofloxacinTRUE         0.01165    0.0000000    0.00000000    0.00000000
-comed_teicoplaninTRUE          0.17957    0.0000000    0.00000000    0.00000000
-comed_ethambutolTRUE           0.01861    0.0000000    0.00000000    0.00000000
-comed_pyrazinamidTRUE          0.02486    0.0000000    0.00000000    0.00000000
-comed_rifampinTRUE             0.02112    0.0000000    0.00000000    0.00000000
-comed_heparinTRUE              0.15265    0.0000000    0.00000000    0.00000000
-comed_clopidogrelTRUE          0.03123    0.0000000    0.00000000    0.00000000
-comed_enoxaparinTRUE           0.01762    0.0000000    0.00000000    0.00000000
-comed_dexamethasonTRUE         0.01930    0.0000000    0.00000000    0.00000000
-comed_amiodaronTRUE            0.06140    0.0000000    0.00000000    0.00000000
-comed_furosemidTRUE            0.15021    0.0000000    0.00000000    0.00000000
-comed_haloperidolTRUE          0.01150    0.0000000    0.00000000    0.00000000
-comed_valproicTRUE             0.01223    0.0000000    0.00000000    0.00000000
-BF                                  NA    0.4913641    0.04907486    0.01648943
-PostProbs                           NA    0.0498000    0.04620000    0.01830000
-R2                                  NA    0.1804000    0.17030000    0.16810000
-dim                                 NA    6.0000000    5.00000000    5.00000000
-logmarg                             NA -424.5802826 -426.88412099 -427.97474816
-                           model 4     model 5
-Intercept                   1.0000    1.000000
-patient_age                 1.0000    1.000000
-patient_sexTRUE             0.0000    0.000000
-LZD_dose_per_weight         0.0000    0.000000
-baseline_CLCR               0.0000    0.000000
-dept_ERTRUE                 0.0000    0.000000
-dept_ICUTRUE                0.0000    0.000000
-baseline_HGB                1.0000    0.000000
-baseline_WBC                0.0000    0.000000
-baseline_PLT                1.0000    1.000000
-LZD_duration                1.0000    1.000000
-invasive_ETITRUE            0.0000    0.000000
-invasive_CVCTRUE            1.0000    1.000000
-invasive_IHDTRUE            0.0000    0.000000
-invasive_CRRTTRUE           1.0000    1.000000
-comorb_HTNTRUE              0.0000    0.000000
-comorb_DMTRUE               0.0000    0.000000
-comorb_HFTRUE               0.0000    0.000000
-comorb_anginaTRUE           0.0000    0.000000
-comorb_cirrTRUE             0.0000    0.000000
-comorb_COPDTRUE             0.0000    0.000000
-comorb_CVATRUE              0.0000    0.000000
-comorb_MITRUE               0.0000    0.000000
-comorb_KTRUE                0.0000    0.000000
-comorb_hematologicalTRUE    0.0000    0.000000
-comorb_hemaTRUE             0.0000    0.000000
-infect_sepsisTRUE           0.0000    0.000000
-infect_CAPTRUE              0.0000    0.000000
-infect_HAPTRUE              0.0000    0.000000
-infect_SSTITRUE             0.0000    0.000000
-infect_CNSTRUE              0.0000    0.000000
-infect_IAITRUE              0.0000    0.000000
-infect_UTITRUE              0.0000    0.000000
-infect_BJITRUE              0.0000    0.000000
-infect_septicemiaTRUE       0.0000    1.000000
-comed_aspirinTRUE           0.0000    0.000000
-comed_diclofenacTRUE        0.0000    0.000000
-comed_ibuprofenTRUE         0.0000    0.000000
-comed_paracetamolTRUE       0.0000    0.000000
-comed_penicillinTRUE        0.0000    0.000000
-comed_cephaTRUE             0.0000    0.000000
-comed_carbapenemTRUE        0.0000    0.000000
-comed_cotrimoxazolTRUE      0.0000    0.000000
-comed_vancomycinTRUE        0.0000    0.000000
-comed_levofloxacinTRUE      0.0000    0.000000
-comed_teicoplaninTRUE       0.0000    0.000000
-comed_ethambutolTRUE        0.0000    0.000000
-comed_pyrazinamidTRUE       0.0000    0.000000
-comed_rifampinTRUE          0.0000    0.000000
-comed_heparinTRUE           0.0000    0.000000
-comed_clopidogrelTRUE       0.0000    0.000000
-comed_enoxaparinTRUE        0.0000    0.000000
-comed_dexamethasonTRUE      0.0000    0.000000
-comed_amiodaronTRUE         0.0000    0.000000
-comed_furosemidTRUE         0.0000    0.000000
-comed_haloperidolTRUE       0.0000    0.000000
-comed_valproicTRUE          0.0000    0.000000
-BF                          1.0000    0.894036
-PostProbs                   0.0159    0.015100
-R2                          0.1871    0.186900
-dim                         7.0000    7.000000
-logmarg                  -423.8697 -423.981722</preformat>
+<preformat>                         P(B != 0 | Y)       model 1   model 2       model 3
+Intercept                  1.000000000    1.00000000    1.0000    1.00000000
+patient_age                0.759393872    1.00000000    1.0000    0.00000000
+patient_sexTRUE            0.005652581    0.00000000    0.0000    0.00000000
+LZD_dose_per_weight        0.004999632    0.00000000    0.0000    0.00000000
+baseline_CLCR              0.287481592    0.00000000    0.0000    1.00000000
+dept_ERTRUE                0.004493713    0.00000000    0.0000    0.00000000
+dept_ICUTRUE               0.016232169    0.00000000    0.0000    0.00000000
+baseline_HGB               0.132047750    0.00000000    0.0000    0.00000000
+baseline_WBC               0.006218310    0.00000000    0.0000    0.00000000
+baseline_PLT               1.000000000    1.00000000    1.0000    1.00000000
+LZD_duration               0.999626987    1.00000000    1.0000    1.00000000
+invasive_ETITRUE           0.157734554    0.00000000    0.0000    0.00000000
+invasive_CVCTRUE           0.439631620    0.00000000    1.0000    0.00000000
+invasive_IHDTRUE           0.005784526    0.00000000    0.0000    0.00000000
+invasive_CRRTTRUE          0.976864280    1.00000000    1.0000    1.00000000
+comorb_HTNTRUE             0.004801923    0.00000000    0.0000    0.00000000
+comorb_DMTRUE              0.006336908    0.00000000    0.0000    0.00000000
+comorb_HFTRUE              0.039175401    0.00000000    0.0000    0.00000000
+comorb_anginaTRUE          0.004752555    0.00000000    0.0000    0.00000000
+comorb_cirrTRUE            0.058536888    0.00000000    0.0000    0.00000000
+comorb_COPDTRUE            0.011159283    0.00000000    0.0000    0.00000000
+comorb_CVATRUE             0.036906062    0.00000000    0.0000    0.00000000
+comorb_MITRUE              0.009564723    0.00000000    0.0000    0.00000000
+comorb_KTRUE               0.005225686    0.00000000    0.0000    0.00000000
+comorb_hematologicalTRUE   0.012935635    0.00000000    0.0000    0.00000000
+comorb_hemaTRUE            0.005144421    0.00000000    0.0000    0.00000000
+infect_sepsisTRUE          0.043450583    0.00000000    0.0000    0.00000000
+infect_CAPTRUE             0.004437958    0.00000000    0.0000    0.00000000
+infect_HAPTRUE             0.009978859    0.00000000    0.0000    0.00000000
+infect_SSTITRUE            0.020806426    0.00000000    0.0000    0.00000000
+infect_CNSTRUE             0.004705433    0.00000000    0.0000    0.00000000
+infect_IAITRUE             0.004589667    0.00000000    0.0000    0.00000000
+infect_UTITRUE             0.004688301    0.00000000    0.0000    0.00000000
+infect_BJITRUE             0.005779193    0.00000000    0.0000    0.00000000
+infect_septicemiaTRUE      0.118220691    0.00000000    0.0000    0.00000000
+comed_aspirinTRUE          0.004420379    0.00000000    0.0000    0.00000000
+comed_diclofenacTRUE       0.005269283    0.00000000    0.0000    0.00000000
+comed_ibuprofenTRUE        0.004798624    0.00000000    0.0000    0.00000000
+comed_paracetamolTRUE      0.005058241    0.00000000    0.0000    0.00000000
+comed_penicillinTRUE       0.011162334    0.00000000    0.0000    0.00000000
+comed_cephaTRUE            0.010110445    0.00000000    0.0000    0.00000000
+comed_carbapenemTRUE       0.006818668    0.00000000    0.0000    0.00000000
+comed_cotrimoxazolTRUE     0.059773915    0.00000000    0.0000    0.00000000
+comed_vancomycinTRUE       0.020600773    0.00000000    0.0000    0.00000000
+comed_levofloxacinTRUE     0.004626881    0.00000000    0.0000    0.00000000
+comed_teicoplaninTRUE      0.130514699    0.00000000    0.0000    0.00000000
+comed_ethambutolTRUE       0.004802909    0.00000000    0.0000    0.00000000
+comed_pyrazinamidTRUE      0.008755640    0.00000000    0.0000    0.00000000
+comed_rifampinTRUE         0.006879549    0.00000000    0.0000    0.00000000
+comed_heparinTRUE          0.128732420    0.00000000    0.0000    0.00000000
+comed_clopidogrelTRUE      0.013313028    0.00000000    0.0000    0.00000000
+comed_enoxaparinTRUE       0.005006366    0.00000000    0.0000    0.00000000
+comed_dexamethasonTRUE     0.005320060    0.00000000    0.0000    0.00000000
+comed_amiodaronTRUE        0.033113959    0.00000000    0.0000    0.00000000
+comed_furosemidTRUE        0.121906317    0.00000000    0.0000    0.00000000
+comed_haloperidolTRUE      0.004167497    0.00000000    0.0000    0.00000000
+comed_valproicTRUE         0.004752387    0.00000000    0.0000    0.00000000
+BF                                  NA    0.09912163    1.0000    0.03330452
+PostProbs                           NA    0.07370000    0.0714    0.02470000
+R2                                  NA    0.17030000    0.1804    0.16810000
+dim                                 NA    5.00000000    6.0000    5.00000000
+logmarg                             NA -426.91916654 -424.6078 -428.00982113
+                              model 4      model 5
+Intercept                   1.0000000    1.0000000
+patient_age                 1.0000000    0.0000000
+patient_sexTRUE             0.0000000    0.0000000
+LZD_dose_per_weight         0.0000000    0.0000000
+baseline_CLCR               0.0000000    1.0000000
+dept_ERTRUE                 0.0000000    0.0000000
+dept_ICUTRUE                0.0000000    0.0000000
+baseline_HGB                0.0000000    0.0000000
+baseline_WBC                0.0000000    0.0000000
+baseline_PLT                1.0000000    1.0000000
+LZD_duration                1.0000000    1.0000000
+invasive_ETITRUE            0.0000000    1.0000000
+invasive_CVCTRUE            0.0000000    0.0000000
+invasive_IHDTRUE            0.0000000    0.0000000
+invasive_CRRTTRUE           1.0000000    1.0000000
+comorb_HTNTRUE              0.0000000    0.0000000
+comorb_DMTRUE               0.0000000    0.0000000
+comorb_HFTRUE               0.0000000    0.0000000
+comorb_anginaTRUE           0.0000000    0.0000000
+comorb_cirrTRUE             0.0000000    0.0000000
+comorb_COPDTRUE             0.0000000    0.0000000
+comorb_CVATRUE              0.0000000    0.0000000
+comorb_MITRUE               0.0000000    0.0000000
+comorb_KTRUE                0.0000000    0.0000000
+comorb_hematologicalTRUE    0.0000000    0.0000000
+comorb_hemaTRUE             0.0000000    0.0000000
+infect_sepsisTRUE           0.0000000    0.0000000
+infect_CAPTRUE              0.0000000    0.0000000
+infect_HAPTRUE              0.0000000    0.0000000
+infect_SSTITRUE             0.0000000    0.0000000
+infect_CNSTRUE              0.0000000    0.0000000
+infect_IAITRUE              0.0000000    0.0000000
+infect_UTITRUE              0.0000000    0.0000000
+infect_BJITRUE              0.0000000    0.0000000
+infect_septicemiaTRUE       0.0000000    0.0000000
+comed_aspirinTRUE           0.0000000    0.0000000
+comed_diclofenacTRUE        0.0000000    0.0000000
+comed_ibuprofenTRUE         0.0000000    0.0000000
+comed_paracetamolTRUE       0.0000000    0.0000000
+comed_penicillinTRUE        0.0000000    0.0000000
+comed_cephaTRUE             0.0000000    0.0000000
+comed_carbapenemTRUE        0.0000000    0.0000000
+comed_cotrimoxazolTRUE      0.0000000    0.0000000
+comed_vancomycinTRUE        0.0000000    0.0000000
+comed_levofloxacinTRUE      0.0000000    0.0000000
+comed_teicoplaninTRUE       0.0000000    0.0000000
+comed_ethambutolTRUE        0.0000000    0.0000000
+comed_pyrazinamidTRUE       0.0000000    0.0000000
+comed_rifampinTRUE          0.0000000    0.0000000
+comed_heparinTRUE           0.0000000    0.0000000
+comed_clopidogrelTRUE       0.0000000    0.0000000
+comed_enoxaparinTRUE        0.0000000    0.0000000
+comed_dexamethasonTRUE      0.0000000    0.0000000
+comed_amiodaronTRUE         0.0000000    0.0000000
+comed_furosemidTRUE         1.0000000    0.0000000
+comed_haloperidolTRUE       0.0000000    0.0000000
+comed_valproicTRUE          0.0000000    0.0000000
+BF                          0.2923214    0.2919177
+PostProbs                   0.0209000    0.0209000
+R2                          0.1780000    0.1780000
+dim                         6.0000000    6.0000000
+logmarg                  -425.8376602 -425.8390422</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-3-nb-6" specific-use="notebook-code">
@@ -2304,7 +3398,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-4-nb-6" specific-use="notebook-code">
@@ -2313,11 +3407,14 @@ model_full &lt;- logistic_reg() |&gt;
 <code language="r script">pHat &lt;- predict(model_full$fit, data_patient_complete, type = &quot;response&quot;)
 yTest &lt;- data_patient_complete$flag_ADR_TP_ID
 calperf &lt;- valProbggplot(pHat, yTest)
-calperf$Cindex[[1]]
-</code>
-<code language="r script">calperf$Calibration$Intercept[[1]]
-</code>
-<code language="r script">calperf$Calibration$Slope[[1]]
+
+apparent_performance_metrics &lt;- tibble(
+  apparent_C_index = calperf$Cindex[[1]],
+  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+)
+
+save(apparent_performance_metrics, file = &quot;data/model-performance/apparent-performance-metrics.rda&quot;)
 </code>
 <sec id="nb-code-cell-4-output-0-nb-6" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>
@@ -2344,18 +3441,9 @@ Attaching package: 'Hmisc'</preformat>
 
     format.pval, units</preformat>
 </sec>
-<sec id="nb-code-cell-4-output-6-nb-6" specific-use="notebook-output">
-<preformat>[1] 0.7851257</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-7-nb-6" specific-use="notebook-output">
-<preformat>[1] -3.362173e-09</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-8-nb-6" specific-use="notebook-output">
-<preformat>[1] 1</preformat>
-</sec>
 </sec>
 <sec id="nb-code-cell-5-nb-6" specific-use="notebook-code">
-<code language="r script">save(model_full, file = &quot;data/model-performance/model_full.rda&quot;)
+<code language="r script">save(model_full, file = &quot;data/model-performance/model-full.rda&quot;)
 </code>
 </sec>
 </body>
