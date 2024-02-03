@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.533">
+<meta name="generator" content="quarto-1.5.7">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -90,9 +90,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks\1-data-cleaning-preview.html"><i class="bi bi-journal-code"></i>Data Cleaning</a></li><li><a href="notebooks\2-descriptive-statistics-preview.html"><i class="bi bi-journal-code"></i>Descriptive Statistics</a></li><li><a href="notebooks\3-apparent-performance-preview.html"><i class="bi bi-journal-code"></i>Model Development and Apparent Validation</a></li><li><a href="notebooks\4-bootstrap-performance-preview.html"><i class="bi bi-journal-code"></i>Bootstrap Development and Validation</a></li><li><a href="notebooks\4-internal-external-cross-performance-preview.html"><i class="bi bi-journal-code"></i>Internal-External Development and Cross-Validation</a></li><li><a href="notebooks\4-k-fold-cross-performance-preview.html"><i class="bi bi-journal-code"></i>10-fold Development and Cross-Validation</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/4-k-fold-cross-performance-preview.html"><i class="bi bi-journal-code"></i>10-fold Development and Cross-Validation</a></li><li><a href="notebooks/4-bootstrap-performance-preview.html"><i class="bi bi-journal-code"></i>Bootstrap Development and Validation</a></li><li><a href="notebooks/1-data-cleaning-preview.html"><i class="bi bi-journal-code"></i>Data Cleaning</a></li><li><a href="notebooks/2-descriptive-statistics-preview.html"><i class="bi bi-journal-code"></i>Descriptive Statistics</a></li><li><a href="notebooks/4-internal-external-cross-performance-preview.html"><i class="bi bi-journal-code"></i>Internal-External Development and Cross-Validation</a></li><li><a href="notebooks/3-apparent-performance-preview.html"><i class="bi bi-journal-code"></i>Model Development and Apparent Validation</a></li></ul></div></nav>
 </div>
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -272,7 +272,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
