@@ -2,10 +2,12 @@
 title: Descriptive Statistics
 ---
 
+Initialize data to analyze.
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 ```
 
+Summary statistics, by thrombocytopenia status.
 ```{r}
 library(gtsummary)
 
@@ -18,14 +20,11 @@ table_stats <- data_patient_complete |>
     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
     missing = "no"
   ) |>
-  # modify_table_body(
-  #   ~ .x |>
-  #     mutate(stat_1 = if_else(str_detect(stat_1, "NA"), NA, stat_1))
-  # ) |>
   add_overall() |>
   bold_labels()
 ```
 
+Univariate logistic regression, by thrombocytopenia status.
 ```{r}
 library(tidymodels)
 library(furrr)
@@ -65,6 +64,7 @@ plan(sequential)
 table_uni <- tbl_stack(table_uni_list)
 ```
 
+Print and save results.
 ```{r}
 table_descriptive <- tbl_merge(
   list(table_stats, table_uni),
@@ -73,9 +73,13 @@ table_descriptive <- tbl_merge(
     "**Univariate Regression**"
   )
 )
+
+table_descriptive
+
 save(table_descriptive, file = "data/results/table-descriptive.rda")
 ```
 
+Summary statistics, by site.
 ```{r}
 table_descriptive_site <- data_patient_complete |>
   select(
@@ -88,6 +92,8 @@ table_descriptive_site <- data_patient_complete |>
   ) |>
   add_overall() |>
   bold_labels()
+
+table_descriptive_site
 
 save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
 ```

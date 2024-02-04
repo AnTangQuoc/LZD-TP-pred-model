@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.5.7">
+    <meta name="generator" content="quarto-1.5.8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -192,7 +192,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Saturday, February 3, 2024</p>
+              <p class="date">Sunday, February 4, 2024</p>
             </div>
           </div>
           
@@ -209,13 +209,30 @@
     </div>  </div>
 </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
-  
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#penalized-likelihood-methods" id="toc-penalized-likelihood-methods" class="nav-link active" data-scroll-target="#penalized-likelihood-methods">Penalized Likelihood Methods</a>
+  <ul class="collapse">
+  <li><a href="#backwards-stepwise-logistic-regression" id="toc-backwards-stepwise-logistic-regression" class="nav-link" data-scroll-target="#backwards-stepwise-logistic-regression">Backwards Stepwise Logistic Regression</a></li>
+  <li><a href="#lasso-variable-selection" id="toc-lasso-variable-selection" class="nav-link" data-scroll-target="#lasso-variable-selection">LASSO Variable Selection</a></li>
+  </ul></li>
+  <li><a href="#bayesian-model-selection" id="toc-bayesian-model-selection" class="nav-link" data-scroll-target="#bayesian-model-selection">Bayesian Model Selection</a></li>
+  <li><a href="#check-model-assumptions" id="toc-check-model-assumptions" class="nav-link" data-scroll-target="#check-model-assumptions">Check Model Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#linearity" id="toc-linearity" class="nav-link" data-scroll-target="#linearity">Linearity</a></li>
+  <li><a href="#no-multicollinearity" id="toc-no-multicollinearity" class="nav-link" data-scroll-target="#no-multicollinearity">No Multicollinearity</a></li>
+  <li><a href="#no-outlier-effects" id="toc-no-outlier-effects" class="nav-link" data-scroll-target="#no-outlier-effects">No Outlier Effects</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
-     <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
+       <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"notebooks/initialize-data-analysis.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -251,75 +268,175 @@ date  (3): baseline_date, LZD_start, LZD_end
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"notebooks/BMA-model-no-initial-var.r"</span>) <span class="co"># run_bas_glm() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<section id="penalized-likelihood-methods" class="level1">
+<h1>Penalized Likelihood Methods</h1>
+<section id="backwards-stepwise-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="backwards-stepwise-logistic-regression">Backwards Stepwise Logistic Regression</h2>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>multi_model <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_list), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run_bas_glm</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> flag_ADR_TP_ID <span class="sc">~</span> .</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(StepReg)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># run_stepwise_logit &lt;- function(data, formula) {</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   stepwiseLogit(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     formula,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     data = data,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     include = NULL,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     selection = "backward",</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     select = "AIC"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># stepwise_model &lt;- data_patient_complete |&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   run_stepwise_logit(</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     formula = flag_ADR_TP_ID ~ .</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># stepwise_model |&gt; summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>run_step_AIC <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  MASS<span class="sc">::</span><span class="fu">stepAIC</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glm</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> formula,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"backward"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">trace =</span> <span class="cn">FALSE</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>stepwise_model <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_list), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run_step_AIC</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> flag_ADR_TP_ID <span class="sc">~</span> .</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>stepwise_model<span class="sc">$</span>coefficients <span class="sc">|&gt;</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div></div>
+<p>Results: Stepwise algorithm selected 18 predictors.</p>
+</section>
+<section id="lasso-variable-selection" class="level2">
+<h2 class="anchored" data-anchor-id="lasso-variable-selection">LASSO Variable Selection</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Matrix'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded glmnet 4.1-8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>predictor_matrix <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_list)) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>response_matrix <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>lasso_fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> predictor_matrix,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> response_matrix,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="dv">1</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>cv_lasso_fit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> predictor_matrix,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> response_matrix,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfolds =</span> <span class="dv">5</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_fit, <span class="at">s =</span> cv_lasso_fit<span class="sc">$</span>lambda.min)<span class="sc">@</span>i <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div></div>
+<p>Results: LASSO algorithm selected 23-25 predictors. Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.</p>
+</section>
+</section>
+<section id="bayesian-model-selection" class="level1">
+<h1>Bayesian Model Selection</h1>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>multi_model <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_list), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run_bas_glm</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> flag_ADR_TP_ID <span class="sc">~</span> .</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)       model 1   model 2       model 3
 Intercept                  1.000000000    1.00000000    1.0000    1.00000000
-patient_age                0.754491015    1.00000000    1.0000    0.00000000
-patient_sexTRUE            0.005036519    0.00000000    0.0000    0.00000000
-LZD_dose_per_weight        0.004954494    0.00000000    0.0000    0.00000000
-baseline_CLCR              0.292859796    0.00000000    0.0000    1.00000000
-dept_ERTRUE                0.004521867    0.00000000    0.0000    0.00000000
-dept_ICUTRUE               0.016463157    0.00000000    0.0000    0.00000000
-baseline_HGB               0.129647625    0.00000000    0.0000    0.00000000
-baseline_WBC               0.006231078    0.00000000    0.0000    0.00000000
+patient_age                0.755044266    1.00000000    1.0000    0.00000000
+patient_sexTRUE            0.005010745    0.00000000    0.0000    0.00000000
+LZD_dose_per_weight        0.004866145    0.00000000    0.0000    0.00000000
+baseline_CLCR              0.292274912    0.00000000    0.0000    1.00000000
+dept_ERTRUE                0.004663487    0.00000000    0.0000    0.00000000
+dept_ICUTRUE               0.016263174    0.00000000    0.0000    0.00000000
+baseline_HGB               0.130682869    0.00000000    0.0000    0.00000000
+baseline_WBC               0.006076483    0.00000000    0.0000    0.00000000
 baseline_PLT               1.000000000    1.00000000    1.0000    1.00000000
-LZD_duration               0.999935031    1.00000000    1.0000    1.00000000
-invasive_ETITRUE           0.156507712    0.00000000    0.0000    0.00000000
-invasive_CVCTRUE           0.438656147    0.00000000    1.0000    0.00000000
-invasive_IHDTRUE           0.006298887    0.00000000    0.0000    0.00000000
-invasive_CRRTTRUE          0.978275125    1.00000000    1.0000    1.00000000
-comorb_HTNTRUE             0.004866971    0.00000000    0.0000    0.00000000
-comorb_DMTRUE              0.006292816    0.00000000    0.0000    0.00000000
-comorb_HFTRUE              0.036491200    0.00000000    0.0000    0.00000000
-comorb_anginaTRUE          0.004794885    0.00000000    0.0000    0.00000000
-comorb_cirrTRUE            0.057749521    0.00000000    0.0000    0.00000000
-comorb_COPDTRUE            0.010453365    0.00000000    0.0000    0.00000000
-comorb_CVATRUE             0.038248825    0.00000000    0.0000    0.00000000
-comorb_MITRUE              0.009945403    0.00000000    0.0000    0.00000000
-comorb_KTRUE               0.004681836    0.00000000    0.0000    0.00000000
-comorb_hematologicalTRUE   0.013207320    0.00000000    0.0000    0.00000000
-comorb_hemaTRUE            0.005013150    0.00000000    0.0000    0.00000000
-infect_sepsisTRUE          0.045345052    0.00000000    0.0000    0.00000000
-infect_CAPTRUE             0.005264076    0.00000000    0.0000    0.00000000
-infect_HAPTRUE             0.009763180    0.00000000    0.0000    0.00000000
-infect_SSTITRUE            0.020082979    0.00000000    0.0000    0.00000000
-infect_CNSTRUE             0.004608431    0.00000000    0.0000    0.00000000
-infect_IAITRUE             0.004487560    0.00000000    0.0000    0.00000000
-infect_UTITRUE             0.004582697    0.00000000    0.0000    0.00000000
-infect_BJITRUE             0.005958217    0.00000000    0.0000    0.00000000
-infect_septicemiaTRUE      0.119600150    0.00000000    0.0000    0.00000000
-comed_aspirinTRUE          0.004529633    0.00000000    0.0000    0.00000000
-comed_diclofenacTRUE       0.005245870    0.00000000    0.0000    0.00000000
-comed_ibuprofenTRUE        0.005168361    0.00000000    0.0000    0.00000000
-comed_paracetamolTRUE      0.005278635    0.00000000    0.0000    0.00000000
-comed_penicillinTRUE       0.010757944    0.00000000    0.0000    0.00000000
-comed_cephaTRUE            0.010614781    0.00000000    0.0000    0.00000000
-comed_carbapenemTRUE       0.007402051    0.00000000    0.0000    0.00000000
-comed_cotrimoxazolTRUE     0.057989794    0.00000000    0.0000    0.00000000
-comed_vancomycinTRUE       0.020794860    0.00000000    0.0000    0.00000000
-comed_levofloxacinTRUE     0.004983243    0.00000000    0.0000    0.00000000
-comed_teicoplaninTRUE      0.129053401    0.00000000    0.0000    0.00000000
-comed_ethambutolTRUE       0.005038065    0.00000000    0.0000    0.00000000
-comed_pyrazinamidTRUE      0.009416236    0.00000000    0.0000    0.00000000
-comed_rifampinTRUE         0.006370002    0.00000000    0.0000    0.00000000
-comed_heparinTRUE          0.131012937    0.00000000    0.0000    0.00000000
-comed_clopidogrelTRUE      0.013206727    0.00000000    0.0000    0.00000000
-comed_enoxaparinTRUE       0.005210062    0.00000000    0.0000    0.00000000
-comed_dexamethasonTRUE     0.005261192    0.00000000    0.0000    0.00000000
-comed_amiodaronTRUE        0.032276675    0.00000000    0.0000    0.00000000
-comed_furosemidTRUE        0.123128254    0.00000000    0.0000    0.00000000
-comed_haloperidolTRUE      0.004054705    0.00000000    0.0000    0.00000000
-comed_valproicTRUE         0.004573257    0.00000000    0.0000    0.00000000
+LZD_duration               0.999834570    1.00000000    1.0000    1.00000000
+invasive_ETITRUE           0.162451919    0.00000000    0.0000    0.00000000
+invasive_CVCTRUE           0.436331184    0.00000000    1.0000    0.00000000
+invasive_IHDTRUE           0.006620310    0.00000000    0.0000    0.00000000
+invasive_CRRTTRUE          0.978325799    1.00000000    1.0000    1.00000000
+comorb_HTNTRUE             0.004367404    0.00000000    0.0000    0.00000000
+comorb_DMTRUE              0.006077594    0.00000000    0.0000    0.00000000
+comorb_HFTRUE              0.038729831    0.00000000    0.0000    0.00000000
+comorb_anginaTRUE          0.004251483    0.00000000    0.0000    0.00000000
+comorb_cirrTRUE            0.061081956    0.00000000    0.0000    0.00000000
+comorb_COPDTRUE            0.010643820    0.00000000    0.0000    0.00000000
+comorb_CVATRUE             0.037354198    0.00000000    0.0000    0.00000000
+comorb_MITRUE              0.010132520    0.00000000    0.0000    0.00000000
+comorb_KTRUE               0.005184489    0.00000000    0.0000    0.00000000
+comorb_hematologicalTRUE   0.012701672    0.00000000    0.0000    0.00000000
+comorb_hemaTRUE            0.004659252    0.00000000    0.0000    0.00000000
+infect_sepsisTRUE          0.044688618    0.00000000    0.0000    0.00000000
+infect_CAPTRUE             0.005181910    0.00000000    0.0000    0.00000000
+infect_HAPTRUE             0.010022462    0.00000000    0.0000    0.00000000
+infect_SSTITRUE            0.019819893    0.00000000    0.0000    0.00000000
+infect_CNSTRUE             0.005030053    0.00000000    0.0000    0.00000000
+infect_IAITRUE             0.004569369    0.00000000    0.0000    0.00000000
+infect_UTITRUE             0.004464406    0.00000000    0.0000    0.00000000
+infect_BJITRUE             0.005749028    0.00000000    0.0000    0.00000000
+infect_septicemiaTRUE      0.120528364    0.00000000    0.0000    0.00000000
+comed_aspirinTRUE          0.003948551    0.00000000    0.0000    0.00000000
+comed_diclofenacTRUE       0.005620602    0.00000000    0.0000    0.00000000
+comed_ibuprofenTRUE        0.004525756    0.00000000    0.0000    0.00000000
+comed_paracetamolTRUE      0.005046359    0.00000000    0.0000    0.00000000
+comed_penicillinTRUE       0.010318042    0.00000000    0.0000    0.00000000
+comed_cephaTRUE            0.009863978    0.00000000    0.0000    0.00000000
+comed_carbapenemTRUE       0.007542380    0.00000000    0.0000    0.00000000
+comed_cotrimoxazolTRUE     0.059184880    0.00000000    0.0000    0.00000000
+comed_vancomycinTRUE       0.021310810    0.00000000    0.0000    0.00000000
+comed_levofloxacinTRUE     0.004709826    0.00000000    0.0000    0.00000000
+comed_teicoplaninTRUE      0.131975008    0.00000000    0.0000    0.00000000
+comed_ethambutolTRUE       0.005042462    0.00000000    0.0000    0.00000000
+comed_pyrazinamidTRUE      0.009191717    0.00000000    0.0000    0.00000000
+comed_rifampinTRUE         0.006493147    0.00000000    0.0000    0.00000000
+comed_heparinTRUE          0.129418560    0.00000000    0.0000    0.00000000
+comed_clopidogrelTRUE      0.013631915    0.00000000    0.0000    0.00000000
+comed_enoxaparinTRUE       0.004796972    0.00000000    0.0000    0.00000000
+comed_dexamethasonTRUE     0.004713717    0.00000000    0.0000    0.00000000
+comed_amiodaronTRUE        0.032008844    0.00000000    0.0000    0.00000000
+comed_furosemidTRUE        0.121689446    0.00000000    0.0000    0.00000000
+comed_haloperidolTRUE      0.004378571    0.00000000    0.0000    0.00000000
+comed_valproicTRUE         0.004810756    0.00000000    0.0000    0.00000000
 BF                                  NA    0.09912163    1.0000    0.03330452
-PostProbs                           NA    0.07360000    0.0713    0.02470000
+PostProbs                           NA    0.07350000    0.0713    0.02470000
 R2                                  NA    0.17030000    0.1804    0.16810000
 dim                                 NA    5.00000000    6.0000    5.00000000
 logmarg                             NA -426.91916654 -424.6078 -428.00982113
@@ -382,70 +499,70 @@ comed_furosemidTRUE         1.0000000    0.0000000
 comed_haloperidolTRUE       0.0000000    0.0000000
 comed_valproicTRUE          0.0000000    0.0000000
 BF                          0.2923214    0.2919177
-PostProbs                   0.0209000    0.0208000
+PostProbs                   0.0208000    0.0208000
 R2                          0.1780000    0.1780000
 dim                         6.0000000    6.0000000
 logmarg                  -425.8376602 -425.8390422</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(multi_model, <span class="at">rotate =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(multi_model, <span class="at">rotate =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostics</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostics</span>(multi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-6.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-2-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-2-7.png" class="img-fluid figure-img" width="672"></a></p>
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-5-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-5-7.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>multi_predict_HPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model, <span class="at">estimator =</span> <span class="st">"HPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_list, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># highest probability model</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>multi_predict_BPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model, <span class="at">estimator =</span> <span class="st">"BPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_list, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># best predictive model, this model is weird</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>multi_predict_HPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model, <span class="at">estimator =</span> <span class="st">"HPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_list, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># highest probability model</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>multi_predict_BPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model, <span class="at">estimator =</span> <span class="st">"BPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_list, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># best predictive model, this model is weird</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</code></pre>
 </div>
@@ -460,31 +577,105 @@ logmarg                  -425.8376602 -425.8390422</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 ✖ scales::discard() masks purrr::discard()
+✖ Matrix::expand()  masks tidyr::expand()
 ✖ dplyr::filter()   masks stats::filter()
 ✖ recipes::fixed()  masks stringr::fixed()
 ✖ dplyr::lag()      masks stats::lag()
+✖ Matrix::pack()    masks tidyr::pack()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+✖ Matrix::unpack()  masks tidyr::unpack()
+✖ recipes::update() masks Matrix::update(), stats::update()
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">as.factor</span>(flag_ADR_TP_ID)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>model_full <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reformulate</span>(</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">termlabels =</span> multi_predict_HPM,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">response =</span> <span class="st">"flag_ADR_TP_ID"</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_patient_complete_response_as_factor</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">as.factor</span>(flag_ADR_TP_ID)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>model_full <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reformulate</span>(</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">termlabels =</span> multi_predict_HPM,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">response =</span> <span class="st">"flag_ADR_TP_ID"</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_patient_complete_response_as_factor</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="check-model-assumptions" class="level1">
+<h1>Check Model Assumptions</h1>
+<section id="linearity" class="level2">
+<h2 class="anchored" data-anchor-id="linearity">Linearity</h2>
+<p>Visual check of linearity assumption using partial-residual plots (component+residual plots). Blue dashed line: linear fit of the partial residuals. Red line: smoothed conditional mean The lines should be close together and the red line should be linear.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">crPlot</span>(model_full<span class="sc">$</span>fit, <span class="at">variable =</span> <span class="st">"patient_age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">crPlot</span>(model_full<span class="sc">$</span>fit, <span class="at">variable =</span> <span class="st">"baseline_PLT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">crPlot</span>(model_full<span class="sc">$</span>fit, <span class="at">variable =</span> <span class="st">"LZD_duration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="3-apparent-performance_files/figure-html/unnamed-chunk-8-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<p>Result: No obvious non-linearity in the partial-residual plots.</p>
+</section>
+<section id="no-multicollinearity" class="level2">
+<h2 class="anchored" data-anchor-id="no-multicollinearity">No Multicollinearity</h2>
+<p>VIFs from the coefficient estimates should be less than 5 and as close to 1 as possible.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  patient_age  baseline_PLT  LZD_duration invasive_CRRT 
+     1.028328      1.089070      1.087972      1.002530 </code></pre>
+</div>
+</div></div>
+<p>Result: VIFs are all less than 5 and close to 1.</p>
+</section>
+<section id="no-outlier-effects" class="level2">
+<h2 class="anchored" data-anchor-id="no-outlier-effects">No Outlier Effects</h2>
+<p>Visual check from influence plot. Individual observations should not have too much influence on the model.</p>
+<p>Influence plot: - x-axis: Extreme values (Hat-values) - y-axis: Leverage (Studentized residuals) - Size of points: Cook’s distance</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="3-apparent-performance_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="3-apparent-performance_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       StudRes         Hat       CookD
+292  0.8611717 0.058037287 0.005623179
+301 -2.1323174 0.008957174 0.015234647
+335 -1.0748001 0.039483700 0.006456634
+364  2.5264097 0.003270231 0.014774994
+504  2.4184715 0.003775986 0.012961219
+634  1.9030701 0.016178072 0.016297578</code></pre>
+</div>
+</div></div>
+<p>Result: Influential observations identified. TODO: Investigate observations 292, 301, 335, 364, 504, 634.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: rms</code></pre>
 </div>
@@ -510,21 +701,23 @@ Attaching package: 'Hmisc'</code></pre>
 
     format.pval, units</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+</section>
+</section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -912,7 +1105,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

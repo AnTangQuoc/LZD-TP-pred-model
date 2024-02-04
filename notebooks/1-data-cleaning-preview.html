@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.5.7">
+    <meta name="generator" content="quarto-1.5.8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -189,7 +189,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Saturday, February 3, 2024</p>
+              <p class="date">Sunday, February 4, 2024</p>
             </div>
           </div>
           
@@ -210,10 +210,10 @@
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#inputs" id="toc-inputs" class="nav-link active" data-scroll-target="#inputs">Inputs</a>
-  <ul class="collapse">
+  <li><a href="#inputs" id="toc-inputs" class="nav-link active" data-scroll-target="#inputs">Inputs</a></li>
+  <li><a href="#cleaning" id="toc-cleaning" class="nav-link" data-scroll-target="#cleaning">Cleaning</a></li>
   <li><a href="#mutating" id="toc-mutating" class="nav-link" data-scroll-target="#mutating">Mutating</a></li>
-  </ul></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
   </ul>
 </nav>
 </div>
@@ -223,6 +223,7 @@
 
        <section id="inputs" class="level2">
 <h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
+<p>Import processed original data from the <code>data-original-processed</code> directory, which is available on Github. The import code is in the ‘process-data.R’ file in the ‘data-original-processed’ directory. The unprocessed data in Excel format is not available on GitHub as it contains non-anonymized patient data. Some cleaning steps were performed in Excel before importing the data into R.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -263,52 +264,47 @@ date (3): LZD_start, LZD_end, test_date
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div></div>
+</section>
+<section id="cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning">Cleaning</h2>
+<p>This code cleans and filters the ‘inputs_general’ data. 1. Replaces ‘TrTM’ with ‘IV’ in the ‘LZD_route’ column. 2. Replaces any occurrence of ‘IV’ followed by ‘PO’ or ‘PO’ followed by ‘IV’ in the ‘LZD_route’ column with ‘IV&amp;PO’. 3. Removes rows where ‘LZD_route’ is ‘0’. 4. Removes rows where ‘patient_age’ is less than 18. 5. Removes rows where ‘LZD_duration’ is less than 3. 6. Removes rows where ‘LZD_start’ or ‘LZD_end’ is not within the study period. 7. Removes rows where any variable that starts with “comed” is NA.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code block cleans and filters the 'inputs_general' data.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Replaces 'TrTM' with 'IV' in the 'LZD_route' column.</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Replaces any occurrence of 'IV' followed by 'PO'</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    or 'PO' followed by 'IV' in the 'LZD_route' column with 'IV&amp;PO'.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Removes rows where 'LZD_route' is '0'.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Removes rows where 'patient_age' is less than 18.</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Removes rows where 'LZD_duration' is less than 3.</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Removes rows where 'LZD_start' or 'LZD_end' is not within the study period.</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Removes rows where any variable that starts with "comed" is NA.</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>inputs_cleaned <span class="ot">&lt;-</span> inputs_general <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_route =</span> <span class="fu">str_replace</span>(LZD_route, <span class="st">"TrTM"</span>, <span class="st">"IV"</span>),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_route =</span> <span class="fu">str_replace</span>(LZD_route, <span class="st">"IV.*PO|PO.*IV"</span>, <span class="st">"IV&amp;PO"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>LZD_route <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(patient_age <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LZD_duration <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"comed"</span>)))) <span class="sc">|&gt;</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    site <span class="sc">==</span> <span class="st">"ND1"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2021-07-01"</span>), <span class="fu">as_date</span>(<span class="st">"2021-12-31"</span>)) <span class="sc">|</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2021-07-01"</span>), <span class="fu">as_date</span>(<span class="st">"2021-12-31"</span>))) <span class="sc">|</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"ND2"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-04-01"</span>), <span class="fu">as_date</span>(<span class="st">"2022-09-30"</span>)) <span class="sc">|</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-04-01"</span>), <span class="fu">as_date</span>(<span class="st">"2022-09-30"</span>))) <span class="sc">|</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"BM1"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2019-11-01"</span>), <span class="fu">as_date</span>(<span class="st">"2019-12-31"</span>)) <span class="sc">|</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2019-11-01"</span>), <span class="fu">as_date</span>(<span class="st">"2019-12-31"</span>))) <span class="sc">|</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"BM2"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-12-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-03-31"</span>)) <span class="sc">|</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-12-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-03-31"</span>))) <span class="sc">|</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"TN1"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>), <span class="fu">as_date</span>(<span class="st">"2020-06-30"</span>)) <span class="sc">|</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>), <span class="fu">as_date</span>(<span class="st">"2020-06-30"</span>))) <span class="sc">|</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"TN2"</span> <span class="sc">&amp;</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)) <span class="sc">|</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)))</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs_cleaned <span class="ot">&lt;-</span> inputs_general <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_route =</span> <span class="fu">str_replace</span>(LZD_route, <span class="st">"TrTM"</span>, <span class="st">"IV"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_route =</span> <span class="fu">str_replace</span>(LZD_route, <span class="st">"IV.*PO|PO.*IV"</span>, <span class="st">"IV&amp;PO"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>LZD_route <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(patient_age <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LZD_duration <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"comed"</span>)))) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    site <span class="sc">==</span> <span class="st">"ND1"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2021-07-01"</span>), <span class="fu">as_date</span>(<span class="st">"2021-12-31"</span>)) <span class="sc">|</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2021-07-01"</span>), <span class="fu">as_date</span>(<span class="st">"2021-12-31"</span>))) <span class="sc">|</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"ND2"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-04-01"</span>), <span class="fu">as_date</span>(<span class="st">"2022-09-30"</span>)) <span class="sc">|</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-04-01"</span>), <span class="fu">as_date</span>(<span class="st">"2022-09-30"</span>))) <span class="sc">|</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"BM1"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2019-11-01"</span>), <span class="fu">as_date</span>(<span class="st">"2019-12-31"</span>)) <span class="sc">|</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2019-11-01"</span>), <span class="fu">as_date</span>(<span class="st">"2019-12-31"</span>))) <span class="sc">|</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"BM2"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-12-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-03-31"</span>)) <span class="sc">|</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-12-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-03-31"</span>))) <span class="sc">|</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"TN1"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>), <span class="fu">as_date</span>(<span class="st">"2020-06-30"</span>)) <span class="sc">|</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>), <span class="fu">as_date</span>(<span class="st">"2020-06-30"</span>))) <span class="sc">|</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      site <span class="sc">==</span> <span class="st">"TN2"</span> <span class="sc">&amp;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)) <span class="sc">|</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)))</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<p>This code filters the ‘inputs_labs_general’ data frame. 1. Remove rows with LZD use duration less than 3 days.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code filters the 'inputs_labs_general' data frame.</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Remove rows with LZD use duration less than 3 days.</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>inputs_labs_pipe_1 <span class="ot">&lt;-</span> inputs_labs_general <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LZD_end <span class="sc">-</span> LZD_start <span class="sc">&gt;=</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>inputs_labs_pipe_1 <span class="ot">&lt;-</span> inputs_labs_general <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LZD_end <span class="sc">-</span> LZD_start <span class="sc">&gt;=</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<p>This code remove ‘patient_ID’ that has no valid ‘test_PLT’ either in 7 days prior to ‘LZD_start’ or during LZD use. 1. Two rows are added to each ‘patient_ID’ to ensure there is at least one row in both time periods of each patient that can be used for flagging. 2. ‘flag_post_start’ is used to separate two time periods for each ‘patient_ID’. The first period is 7 days prior to ‘LZD_start’ and the second period is during LZD use. 3. ‘flag_too_early’ and ‘flag_post_end’ are used to flag observations that are before 7 days prior to ‘LZD_start’ or after ‘LZD_end’, so ‘test_PLT’ in these periods will not be valid. 4. ‘flag_remove_check’ is used to check if all ‘test_PLT’ values are NAs in each time periods of each ‘patient_ID’. If any time period initially had no rows, the new row added in step 1 will be used. That group will have only one ‘test_PLT’ with the value NA and so the flag will be TRUE. The ‘test_PLT’ in ‘flag_too_early’ and ‘flag_post_end’ periods are not included in the check as they are not valid. 5. For each ‘patient_ID’, if any ‘flag_remove_check’ is TRUE, all rows of that ‘patient_ID’ will be removed. 6. Finally, rows with ‘flag_temp’ as TRUE are removed. These rows were added in step 1 and are no longer needed. The column itself is also removed.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to add new rows to each group in a data frame.</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reframe() generate new rows where its arguments are variables in the data frame.</span></span>
@@ -320,102 +316,68 @@ date (3): LZD_start, LZD_end, test_date
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># This code remove 'patient_ID' that has no valid 'test_PLT'</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># either in 7 days prior to 'LZD_start' or during LZD use.</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Two rows are added to each 'patient_ID' to ensure there is at least one row</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    in both time periods of each patient that can be used for flagging.</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 'flag_post_start' is used to separate two time periods for each 'patient_ID'.</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    The first period is 7 days prior to 'LZD_start' and the second period is during LZD use.</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 'flag_remove_check' is used to check if all 'test_PLT' values are NAs</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#    in each time periods of each 'patient_ID'.</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    If any time period initially had no rows, the new row added in step 1 will be used.</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#    That group will have only one 'test_PLT' with the value NA and so the flag will be TRUE.</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. For each 'patient_ID', if any 'flag_remove_check' is TRUE,</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#    all rows of that 'patient_ID' will be removed.</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Finally, rows with 'flag_temp' as TRUE are removed.</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#    These rows were added in step 1 and are no longer needed.</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>inputs_labs_cleaned <span class="ot">&lt;-</span> inputs_labs_pipe_1 <span class="sc">|&gt;</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(test_date, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_reframe_rows</span>(<span class="at">test_date =</span> <span class="fu">min</span>(test_date) <span class="sc">-</span> <span class="dv">100</span>, <span class="at">LZD_start =</span> <span class="fu">min</span>(LZD_start), <span class="at">flag_temp =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_reframe_rows</span>(<span class="at">test_date =</span> <span class="fu">max</span>(test_date) <span class="sc">+</span> <span class="dv">100</span>, <span class="at">LZD_start =</span> <span class="fu">max</span>(LZD_start), <span class="at">flag_temp =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_too_early =</span> test_date <span class="sc">&lt;=</span> LZD_start <span class="sc">-</span> <span class="dv">8</span>,</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_start =</span> test_date <span class="sc">&gt;=</span> LZD_start <span class="sc">+</span> <span class="dv">1</span>,</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_end =</span> test_date <span class="sc">&gt;=</span> LZD_end <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID, flag_post_start) <span class="sc">|&gt;</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flag_remove_check =</span> <span class="fu">all</span>(<span class="fu">is.na</span>(test_PLT[<span class="fu">which</span>((<span class="sc">!</span>flag_too_early <span class="sc">&amp;</span> <span class="sc">!</span>flag_post_end) <span class="sc">|</span> flag_temp)]))) <span class="sc">|&gt;</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">any</span>(flag_remove_check)) <span class="sc">|&gt;</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(flag_temp)) <span class="sc">|&gt;</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>flag_temp)</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co"># inner_join() keeps only patients present in both data frames, essentially removing patients</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="co"># without lab tests or other comorbidity/medication data.</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>inputs_cleaned_joined <span class="ot">&lt;-</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(inputs_cleaned, inputs_labs_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>inputs_labs_cleaned <span class="ot">&lt;-</span> inputs_labs_pipe_1 <span class="sc">|&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(test_date, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_reframe_rows</span>(<span class="at">test_date =</span> <span class="fu">min</span>(test_date) <span class="sc">-</span> <span class="dv">100</span>, <span class="at">LZD_start =</span> <span class="fu">min</span>(LZD_start), <span class="at">flag_temp =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_reframe_rows</span>(<span class="at">test_date =</span> <span class="fu">max</span>(test_date) <span class="sc">+</span> <span class="dv">100</span>, <span class="at">LZD_start =</span> <span class="fu">max</span>(LZD_start), <span class="at">flag_temp =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_too_early =</span> test_date <span class="sc">&lt;=</span> LZD_start <span class="sc">-</span> <span class="dv">8</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_start =</span> test_date <span class="sc">&gt;=</span> LZD_start <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_end =</span> test_date <span class="sc">&gt;=</span> LZD_end <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID, flag_post_start) <span class="sc">|&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flag_remove_check =</span> <span class="fu">all</span>(<span class="fu">is.na</span>(test_PLT[<span class="fu">which</span>((<span class="sc">!</span>flag_too_early <span class="sc">&amp;</span> <span class="sc">!</span>flag_post_end) <span class="sc">|</span> flag_temp)]))) <span class="sc">|&gt;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">any</span>(flag_remove_check)) <span class="sc">|&gt;</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(flag_temp)) <span class="sc">|&gt;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>flag_temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>inner_join() keeps only patients present in both data frames, essentially removing patients without lab tests or other comorbidity/medication data.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>inputs_cleaned_joined <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(inputs_cleaned, inputs_labs_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(patient_ID, LZD_start, LZD_end)`</code></pre>
 </div>
 </div></div>
-<section id="mutating" class="level3">
-<h3 class="anchored" data-anchor-id="mutating">Mutating</h3>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This code flags 'patient_ID' that had at least one thrombocytopenia event during LZD use.</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Thrombocytopenia is defined as follows:</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># a. If baseline PLT is normal (150-450), then thrombocytopenia is defined as PLT &lt; 112.5.</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># b. If baseline PLT is low (&lt; 150), then thrombocytopenia is defined as PLT &lt;= 75% of baseline.</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline date is defined as the latest 'test_date' before 'LZD_start' that has a non-NA 'test_PLT.'</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This 'test_date' must be within 7 days before 'LZD_start', which is already ensured by the cleaning code.</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The code performs the following operations:</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Groups the data by 'patient_ID'.</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Flags all 'test_date' after the baseline date. Baseline is defined above.</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Flags all 'test_date' that meet the thrombocytopenia definition. This is an ADR event.</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Flags all 'patient_ID' that have at least one thrombocytopenia ADR event during LZD use.</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Notes: max(which()) finds the index of the last TRUE value in a logical vector.</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># while  which.max() finds the index of the first TRUE value in a logical vector.</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>inputs_analyze_1 <span class="ot">&lt;-</span> inputs_cleaned_joined <span class="sc">|&gt;</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_too_late =</span> test_date <span class="sc">&gt;=</span> LZD_end <span class="sc">+</span> <span class="dv">6</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_baseline =</span> test_date <span class="sc">&gt;=</span> test_date[<span class="fu">max</span>(<span class="fu">which</span>(test_date <span class="sc">&lt;=</span> LZD_start <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(test_PLT)))],</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">test_ADR_TP =</span> flag_post_baseline <span class="sc">&amp;</span> <span class="sc">!</span>flag_too_late <span class="sc">&amp;</span> (</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      (test_PLT[<span class="fu">which.max</span>(flag_post_baseline)] <span class="sc">&gt;=</span> <span class="dv">150</span> <span class="sc">&amp;</span> test_PLT <span class="sc">&lt;=</span> <span class="fl">112.5</span>) <span class="sc">|</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        (test_PLT[<span class="fu">which.max</span>(flag_post_baseline)] <span class="sc">&lt;</span> <span class="dv">150</span> <span class="sc">&amp;</span> test_PLT <span class="sc">&lt;=</span> <span class="fl">0.75</span> <span class="sc">*</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)])</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">any</span>(test_ADR_TP, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
+</section>
+<section id="mutating" class="level2">
+<h2 class="anchored" data-anchor-id="mutating">Mutating</h2>
+<p>This code flags ‘patient_ID’ that had at least one thrombocytopenia event during LZD use. Thrombocytopenia is defined as follows: a. If baseline PLT is normal (150-450), then thrombocytopenia is defined as PLT &lt; 112.5. b. If baseline PLT is low (&lt; 150), then thrombocytopenia is defined as PLT &lt;= 75% of baseline. Baseline date is defined as the latest ‘test_date’ before ‘LZD_start’ that has a non-NA ‘test_PLT.’ This ‘test_date’ must be within 7 days before ‘LZD_start’, which means ‘flag_too_early’ must be FALSE.</p>
+<p>The code performs the following operations: 1. Groups the data by ‘patient_ID’. 2. Flags all ‘test_date’ after the baseline date. Baseline is defined above. 3. Flags all ‘test_date’ that meet the thrombocytopenia definition. This is an ADR event. 4. Flags all ‘patient_ID’ that have at least one thrombocytopenia ADR event during LZD use.</p>
+<p>Notes: max(which()) finds the index of the last TRUE value in a logical vector. while which.max() finds the index of the first TRUE value in a logical vector.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code adds a new column 'test_CTCAE' based on</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the Common Terminology Criteria for Adverse Events (CTCAE) for decreased platelet count.</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'test_ADR_TP' is TRUE, it assigns a value to 'test_CTCAE' based on the 'test_PLT' column.</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># a. If 'test_PLT' is less than 25, 'test_CTCAE' is assigned a value of 4.</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># b. If 'test_PLT' is between 25 and 50, 'test_CTCAE' is assigned a value of 3.</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># c. If 'test_PLT' is between 50 and 75, 'test_CTCAE' is assigned a value of 2.</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># d. If 'test_PLT' is between 75 and 150, 'test_CTCAE' is assigned a value of 1.</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'test_ADR_TP' is FALSE, 'test_CTCAE' is assigned NA.</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, 'test_CTCAE_max' is assigned the maximum value of 'test_CTCAE' for each 'patient_ID'.</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>inputs_analyze_2 <span class="ot">&lt;-</span> inputs_analyze_1 <span class="sc">|&gt;</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">test_CTCAE =</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        test_ADR_TP,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">case_when</span>(</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">75</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">150</span> <span class="sc">~</span> <span class="dv">1</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_CTCAE_max =</span> <span class="fu">max</span>(test_CTCAE, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_CTCAE_max =</span> <span class="fu">na_if</span>(ADR_CTCAE_max, <span class="sc">-</span><span class="cn">Inf</span>)</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_1 <span class="ot">&lt;-</span> inputs_cleaned_joined <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_too_late =</span> test_date <span class="sc">&gt;=</span> LZD_end <span class="sc">+</span> <span class="dv">6</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_post_baseline =</span> test_date <span class="sc">&gt;=</span> test_date[<span class="fu">max</span>(<span class="fu">which</span>(test_date <span class="sc">&lt;=</span> LZD_start <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(test_PLT) <span class="sc">&amp;</span> <span class="sc">!</span>flag_too_early))],</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">test_ADR_TP =</span> flag_post_baseline <span class="sc">&amp;</span> <span class="sc">!</span>flag_too_late <span class="sc">&amp;</span> (</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      (test_PLT[<span class="fu">which.max</span>(flag_post_baseline)] <span class="sc">&gt;=</span> <span class="dv">150</span> <span class="sc">&amp;</span> test_PLT <span class="sc">&lt;=</span> <span class="fl">112.5</span>) <span class="sc">|</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        (test_PLT[<span class="fu">which.max</span>(flag_post_baseline)] <span class="sc">&lt;</span> <span class="dv">150</span> <span class="sc">&amp;</span> test_PLT <span class="sc">&lt;=</span> <span class="fl">0.75</span> <span class="sc">*</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">any</span>(test_ADR_TP, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>This code adds a new column ‘test_CTCAE’ based on the Common Terminology Criteria for Adverse Events (CTCAE) for decreased platelet count. If ‘test_ADR_TP’ is TRUE, it assigns a value to ‘test_CTCAE’ based on the ‘test_PLT’ column. a. If ‘test_PLT’ is less than 25, ‘test_CTCAE’ is assigned a value of 4. b. If ‘test_PLT’ is between 25 and 50, ‘test_CTCAE’ is assigned a value of 3. c.&nbsp;If ‘test_PLT’ is between 50 and 75, ‘test_CTCAE’ is assigned a value of 2. d.&nbsp;If ‘test_PLT’ is between 75 and 150, ‘test_CTCAE’ is assigned a value of 1. If ‘test_ADR_TP’ is FALSE, ‘test_CTCAE’ is assigned NA. Finally, ‘test_CTCAE_max’ is assigned the maximum value of ‘test_CTCAE’ for each ‘patient_ID’.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_2 <span class="ot">&lt;-</span> inputs_analyze_1 <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">test_CTCAE =</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        test_ADR_TP,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">case_when</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">75</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>          test_PLT <span class="sc">&lt;</span> <span class="dv">150</span> <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_CTCAE_max =</span> <span class="fu">max</span>(test_CTCAE, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_CTCAE_max =</span> <span class="fu">na_if</span>(ADR_CTCAE_max, <span class="sc">-</span><span class="cn">Inf</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There were 615 warnings in `mutate()`.
 The first warning was:
@@ -426,64 +388,60 @@ Caused by warning in `max()`:
 ℹ Run `dplyr::last_dplyr_warnings()` to see the 614 remaining warnings.</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code adds a new column 'test_onset',</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># which is the number of days from 'LZD_start' to the thrombocytopenia event.</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'test_ADR_TP' is TRUE, 'test_onset' is assigned the value of 'test_date' minus 'LZD_start'.</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'test_ADR_TP' is FALSE, 'test_onset' is assigned NA.</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, 'test_onset_first' is assigned the first non-NA value of 'test_onset' for each 'patient_ID'.</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>inputs_analyze_3 <span class="ot">&lt;-</span> inputs_analyze_2 <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_onset =</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        test_ADR_TP,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.double</span>(test_date <span class="sc">-</span> LZD_start),</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_onset_first =</span> <span class="fu">first</span>(<span class="fu">na.omit</span>(ADR_onset))</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
+<p>This code adds a new column ‘test_onset’, which is the number of days from ‘LZD_start’ to the thrombocytopenia event. If ‘test_ADR_TP’ is TRUE, ‘test_onset’ is assigned the value of ‘test_date’ minus ‘LZD_start’. If ‘test_ADR_TP’ is FALSE, ‘test_onset’ is assigned NA. Finally, ‘test_onset_first’ is assigned the first non-NA value of ‘test_onset’ for each ‘patient_ID’.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code adds a new column 'test_PLT_ratio',</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># which is the ratio of the minimum 'test_PLT' to the baseline 'test_PLT'.</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'flag_ADR_TP_ID' is TRUE, 'test_PLT_ratio' is assigned the value of the ratio.</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If 'flag_ADR_TP_ID' is FALSE, 'test_PLT_ratio' is assigned NA.</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>inputs_analyze_4 <span class="ot">&lt;-</span> inputs_analyze_3 <span class="sc">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_PLT_ratio =</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        flag_ADR_TP_ID,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        test_PLT[<span class="fu">which.min</span>(test_PLT)] <span class="sc">/</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)],</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_3 <span class="ot">&lt;-</span> inputs_analyze_2 <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_onset =</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        test_ADR_TP,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.double</span>(test_date <span class="sc">-</span> LZD_start),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_onset_first =</span> <span class="fu">first</span>(<span class="fu">na.omit</span>(ADR_onset))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<p>This code adds a new column ‘test_PLT_ratio’, which is the ratio of the minimum ‘test_PLT’ to the baseline ‘test_PLT’. If ‘flag_ADR_TP_ID’ is TRUE, ‘test_PLT_ratio’ is assigned the value of the ratio. If ‘flag_ADR_TP_ID’ is FALSE, ‘test_PLT_ratio’ is assigned NA.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code changes existing data to get values from data_lab_test instead of relying on data_patient</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>inputs_analyze_5 <span class="ot">&lt;-</span> inputs_analyze_4 <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_duration =</span> <span class="fu">as.numeric</span>(LZD_end <span class="sc">-</span> LZD_start) <span class="sc">+</span> <span class="dv">1</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_date =</span> test_date[<span class="fu">which.max</span>(flag_post_baseline)],</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_PLT =</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)],</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_HGB =</span> test_HGB[<span class="fu">which.max</span>(flag_post_baseline)],</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_WBC =</span> test_WBC[<span class="fu">which.max</span>(flag_post_baseline)],</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_PLT_min =</span> <span class="fu">min</span>(test_PLT[<span class="fu">which.max</span>(flag_post_baseline) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(flag_post_baseline))], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_4 <span class="ot">&lt;-</span> inputs_analyze_3 <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_PLT_ratio =</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        flag_ADR_TP_ID,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        test_PLT[<span class="fu">which.min</span>(test_PLT)] <span class="sc">/</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)],</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="cn">NA_real_</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
+<p>Changes existing data to get values from data_lab_test instead of relying on data_patient</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete <span class="ot">&lt;-</span> inputs_analyze_5 <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"test"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(<span class="fu">across</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"ADR"</span>)))) <span class="sc">|&gt;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(baseline_PLT <span class="sc">&lt;=</span> <span class="dv">450</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>data_complete <span class="ot">&lt;-</span> inputs_analyze_5 <span class="sc">|&gt;</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(patient_ID <span class="sc">%in%</span> data_patient_complete<span class="sc">$</span>patient_ID)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data_complete, <span class="st">"data/data-cleaned/data-complete.csv"</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data_patient_complete, <span class="st">"data/data-cleaned/data-patient-complete.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_5 <span class="ot">&lt;-</span> inputs_analyze_4 <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">LZD_duration =</span> <span class="fu">as.numeric</span>(LZD_end <span class="sc">-</span> LZD_start) <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_date =</span> test_date[<span class="fu">which.max</span>(flag_post_baseline)],</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_PLT =</span> test_PLT[<span class="fu">which.max</span>(flag_post_baseline)],</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_HGB =</span> test_HGB[<span class="fu">which.max</span>(flag_post_baseline)],</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_WBC =</span> test_WBC[<span class="fu">which.max</span>(flag_post_baseline)],</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_PLT_min =</span> <span class="fu">min</span>(test_PLT[<span class="fu">which.max</span>(flag_post_baseline) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(flag_post_baseline))], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>This code prepares the final data for analysis and exports it to the ‘data-cleaned’ directory. 1. The ‘data_patient_complete’ data frame contains only the first complete row of each ‘patient_ID’ in ‘data_complete’. - Patients with any missing initial data are removed. - Patients with baseline PLT &gt; 450 are removed. - The ‘data_patient_complete’ data frame is used for patient-level analysis. 2. The ‘data_complete’ data frame contains all the cleaned and filtered data. - The ‘data_complete’ data frame is used for event-level analysis.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete <span class="ot">&lt;-</span> inputs_analyze_5 <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"test"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(<span class="fu">across</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"ADR"</span>)))) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(baseline_PLT <span class="sc">&lt;=</span> <span class="dv">450</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>data_complete <span class="ot">&lt;-</span> inputs_analyze_5 <span class="sc">|&gt;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(patient_ID <span class="sc">%in%</span> data_patient_complete<span class="sc">$</span>patient_ID)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data_complete, <span class="st">"data/data-cleaned/data-complete.csv"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data_patient_complete, <span class="st">"data/data-cleaned/data-patient-complete.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
 </section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
