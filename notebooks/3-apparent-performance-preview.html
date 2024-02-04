@@ -225,6 +225,7 @@
   <li><a href="#no-multicollinearity" id="toc-no-multicollinearity" class="nav-link" data-scroll-target="#no-multicollinearity">No Multicollinearity</a></li>
   <li><a href="#no-outlier-effects" id="toc-no-outlier-effects" class="nav-link" data-scroll-target="#no-outlier-effects">No Outlier Effects</a></li>
   </ul></li>
+  <li><a href="#model-performance" id="toc-model-performance" class="nav-link" data-scroll-target="#model-performance">Model Performance</a></li>
   </ul>
 </nav>
 </div>
@@ -360,10 +361,11 @@ Attaching package: 'Matrix'</code></pre>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_fit, <span class="at">s =</span> cv_lasso_fit<span class="sc">$</span>lambda.min)<span class="sc">@</span>i <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 24</code></pre>
+<pre><code>[1] 23</code></pre>
 </div>
 </div></div>
-<p>Results: LASSO algorithm selected 23-25 predictors. Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.</p>
+<p>Results: LASSO algorithm selected 23-25 predictors.</p>
+<p>Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.</p>
 </section>
 </section>
 <section id="bayesian-model-selection" class="level1">
@@ -379,64 +381,64 @@ Attaching package: 'Matrix'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)       model 1   model 2       model 3
 Intercept                  1.000000000    1.00000000    1.0000    1.00000000
-patient_age                0.755044266    1.00000000    1.0000    0.00000000
-patient_sexTRUE            0.005010745    0.00000000    0.0000    0.00000000
-LZD_dose_per_weight        0.004866145    0.00000000    0.0000    0.00000000
-baseline_CLCR              0.292274912    0.00000000    0.0000    1.00000000
-dept_ERTRUE                0.004663487    0.00000000    0.0000    0.00000000
-dept_ICUTRUE               0.016263174    0.00000000    0.0000    0.00000000
-baseline_HGB               0.130682869    0.00000000    0.0000    0.00000000
-baseline_WBC               0.006076483    0.00000000    0.0000    0.00000000
+patient_age                0.754842833    1.00000000    1.0000    0.00000000
+patient_sexTRUE            0.005360375    0.00000000    0.0000    0.00000000
+LZD_dose_per_weight        0.004869232    0.00000000    0.0000    0.00000000
+baseline_CLCR              0.291442393    0.00000000    0.0000    1.00000000
+dept_ERTRUE                0.004772468    0.00000000    0.0000    0.00000000
+dept_ICUTRUE               0.015930154    0.00000000    0.0000    0.00000000
+baseline_HGB               0.131154958    0.00000000    0.0000    0.00000000
+baseline_WBC               0.006448755    0.00000000    0.0000    0.00000000
 baseline_PLT               1.000000000    1.00000000    1.0000    1.00000000
-LZD_duration               0.999834570    1.00000000    1.0000    1.00000000
-invasive_ETITRUE           0.162451919    0.00000000    0.0000    0.00000000
-invasive_CVCTRUE           0.436331184    0.00000000    1.0000    0.00000000
-invasive_IHDTRUE           0.006620310    0.00000000    0.0000    0.00000000
-invasive_CRRTTRUE          0.978325799    1.00000000    1.0000    1.00000000
-comorb_HTNTRUE             0.004367404    0.00000000    0.0000    0.00000000
-comorb_DMTRUE              0.006077594    0.00000000    0.0000    0.00000000
-comorb_HFTRUE              0.038729831    0.00000000    0.0000    0.00000000
-comorb_anginaTRUE          0.004251483    0.00000000    0.0000    0.00000000
-comorb_cirrTRUE            0.061081956    0.00000000    0.0000    0.00000000
-comorb_COPDTRUE            0.010643820    0.00000000    0.0000    0.00000000
-comorb_CVATRUE             0.037354198    0.00000000    0.0000    0.00000000
-comorb_MITRUE              0.010132520    0.00000000    0.0000    0.00000000
-comorb_KTRUE               0.005184489    0.00000000    0.0000    0.00000000
-comorb_hematologicalTRUE   0.012701672    0.00000000    0.0000    0.00000000
-comorb_hemaTRUE            0.004659252    0.00000000    0.0000    0.00000000
-infect_sepsisTRUE          0.044688618    0.00000000    0.0000    0.00000000
-infect_CAPTRUE             0.005181910    0.00000000    0.0000    0.00000000
-infect_HAPTRUE             0.010022462    0.00000000    0.0000    0.00000000
-infect_SSTITRUE            0.019819893    0.00000000    0.0000    0.00000000
-infect_CNSTRUE             0.005030053    0.00000000    0.0000    0.00000000
-infect_IAITRUE             0.004569369    0.00000000    0.0000    0.00000000
-infect_UTITRUE             0.004464406    0.00000000    0.0000    0.00000000
-infect_BJITRUE             0.005749028    0.00000000    0.0000    0.00000000
-infect_septicemiaTRUE      0.120528364    0.00000000    0.0000    0.00000000
-comed_aspirinTRUE          0.003948551    0.00000000    0.0000    0.00000000
-comed_diclofenacTRUE       0.005620602    0.00000000    0.0000    0.00000000
-comed_ibuprofenTRUE        0.004525756    0.00000000    0.0000    0.00000000
-comed_paracetamolTRUE      0.005046359    0.00000000    0.0000    0.00000000
-comed_penicillinTRUE       0.010318042    0.00000000    0.0000    0.00000000
-comed_cephaTRUE            0.009863978    0.00000000    0.0000    0.00000000
-comed_carbapenemTRUE       0.007542380    0.00000000    0.0000    0.00000000
-comed_cotrimoxazolTRUE     0.059184880    0.00000000    0.0000    0.00000000
-comed_vancomycinTRUE       0.021310810    0.00000000    0.0000    0.00000000
-comed_levofloxacinTRUE     0.004709826    0.00000000    0.0000    0.00000000
-comed_teicoplaninTRUE      0.131975008    0.00000000    0.0000    0.00000000
-comed_ethambutolTRUE       0.005042462    0.00000000    0.0000    0.00000000
-comed_pyrazinamidTRUE      0.009191717    0.00000000    0.0000    0.00000000
-comed_rifampinTRUE         0.006493147    0.00000000    0.0000    0.00000000
-comed_heparinTRUE          0.129418560    0.00000000    0.0000    0.00000000
-comed_clopidogrelTRUE      0.013631915    0.00000000    0.0000    0.00000000
-comed_enoxaparinTRUE       0.004796972    0.00000000    0.0000    0.00000000
-comed_dexamethasonTRUE     0.004713717    0.00000000    0.0000    0.00000000
-comed_amiodaronTRUE        0.032008844    0.00000000    0.0000    0.00000000
-comed_furosemidTRUE        0.121689446    0.00000000    0.0000    0.00000000
-comed_haloperidolTRUE      0.004378571    0.00000000    0.0000    0.00000000
-comed_valproicTRUE         0.004810756    0.00000000    0.0000    0.00000000
+LZD_duration               0.999602987    1.00000000    1.0000    1.00000000
+invasive_ETITRUE           0.160311618    0.00000000    0.0000    0.00000000
+invasive_CVCTRUE           0.437774923    0.00000000    1.0000    0.00000000
+invasive_IHDTRUE           0.006849944    0.00000000    0.0000    0.00000000
+invasive_CRRTTRUE          0.977817656    1.00000000    1.0000    1.00000000
+comorb_HTNTRUE             0.005161126    0.00000000    0.0000    0.00000000
+comorb_DMTRUE              0.006278268    0.00000000    0.0000    0.00000000
+comorb_HFTRUE              0.039703371    0.00000000    0.0000    0.00000000
+comorb_anginaTRUE          0.004442950    0.00000000    0.0000    0.00000000
+comorb_cirrTRUE            0.058540421    0.00000000    0.0000    0.00000000
+comorb_COPDTRUE            0.011413830    0.00000000    0.0000    0.00000000
+comorb_CVATRUE             0.037019893    0.00000000    0.0000    0.00000000
+comorb_MITRUE              0.010027734    0.00000000    0.0000    0.00000000
+comorb_KTRUE               0.005151482    0.00000000    0.0000    0.00000000
+comorb_hematologicalTRUE   0.013419909    0.00000000    0.0000    0.00000000
+comorb_hemaTRUE            0.004638055    0.00000000    0.0000    0.00000000
+infect_sepsisTRUE          0.044225267    0.00000000    0.0000    0.00000000
+infect_CAPTRUE             0.005011581    0.00000000    0.0000    0.00000000
+infect_HAPTRUE             0.010160701    0.00000000    0.0000    0.00000000
+infect_SSTITRUE            0.020086172    0.00000000    0.0000    0.00000000
+infect_CNSTRUE             0.004639262    0.00000000    0.0000    0.00000000
+infect_IAITRUE             0.004465278    0.00000000    0.0000    0.00000000
+infect_UTITRUE             0.004226586    0.00000000    0.0000    0.00000000
+infect_BJITRUE             0.005676933    0.00000000    0.0000    0.00000000
+infect_septicemiaTRUE      0.118186061    0.00000000    0.0000    0.00000000
+comed_aspirinTRUE          0.004430373    0.00000000    0.0000    0.00000000
+comed_diclofenacTRUE       0.005423465    0.00000000    0.0000    0.00000000
+comed_ibuprofenTRUE        0.004640321    0.00000000    0.0000    0.00000000
+comed_paracetamolTRUE      0.005253257    0.00000000    0.0000    0.00000000
+comed_penicillinTRUE       0.010107476    0.00000000    0.0000    0.00000000
+comed_cephaTRUE            0.009678742    0.00000000    0.0000    0.00000000
+comed_carbapenemTRUE       0.007621331    0.00000000    0.0000    0.00000000
+comed_cotrimoxazolTRUE     0.059758604    0.00000000    0.0000    0.00000000
+comed_vancomycinTRUE       0.020340992    0.00000000    0.0000    0.00000000
+comed_levofloxacinTRUE     0.005046041    0.00000000    0.0000    0.00000000
+comed_teicoplaninTRUE      0.133330714    0.00000000    0.0000    0.00000000
+comed_ethambutolTRUE       0.004544524    0.00000000    0.0000    0.00000000
+comed_pyrazinamidTRUE      0.009563577    0.00000000    0.0000    0.00000000
+comed_rifampinTRUE         0.006463122    0.00000000    0.0000    0.00000000
+comed_heparinTRUE          0.130656152    0.00000000    0.0000    0.00000000
+comed_clopidogrelTRUE      0.013355309    0.00000000    0.0000    0.00000000
+comed_enoxaparinTRUE       0.004764323    0.00000000    0.0000    0.00000000
+comed_dexamethasonTRUE     0.005293741    0.00000000    0.0000    0.00000000
+comed_amiodaronTRUE        0.032668802    0.00000000    0.0000    0.00000000
+comed_furosemidTRUE        0.122490569    0.00000000    0.0000    0.00000000
+comed_haloperidolTRUE      0.004276700    0.00000000    0.0000    0.00000000
+comed_valproicTRUE         0.004804217    0.00000000    0.0000    0.00000000
 BF                                  NA    0.09912163    1.0000    0.03330452
-PostProbs                           NA    0.07350000    0.0713    0.02470000
+PostProbs                           NA    0.07340000    0.0712    0.02470000
 R2                                  NA    0.17030000    0.1804    0.16810000
 dim                                 NA    5.00000000    6.0000    5.00000000
 logmarg                             NA -426.91916654 -424.6078 -428.00982113
@@ -586,7 +588,7 @@ logmarg                  -425.8376602 -425.8390422</code></pre>
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -609,7 +611,10 @@ logmarg                  -425.8376602 -425.8390422</code></pre>
 <h1>Check Model Assumptions</h1>
 <section id="linearity" class="level2">
 <h2 class="anchored" data-anchor-id="linearity">Linearity</h2>
-<p>Visual check of linearity assumption using partial-residual plots (component+residual plots). Blue dashed line: linear fit of the partial residuals. Red line: smoothed conditional mean The lines should be close together and the red line should be linear.</p>
+<p>Visual check of linearity assumption using partial-residual plots (component+residual plots).</p>
+<p>Blue dashed line: linear fit of the partial residuals.</p>
+<p>Red line: smoothed conditional mean</p>
+<p>The lines should be close together and the red line should be linear.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">crPlot</span>(model_full<span class="sc">$</span>fit, <span class="at">variable =</span> <span class="st">"patient_age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -652,8 +657,14 @@ logmarg                  -425.8376602 -425.8390422</code></pre>
 </section>
 <section id="no-outlier-effects" class="level2">
 <h2 class="anchored" data-anchor-id="no-outlier-effects">No Outlier Effects</h2>
-<p>Visual check from influence plot. Individual observations should not have too much influence on the model.</p>
-<p>Influence plot: - x-axis: Extreme values (Hat-values) - y-axis: Leverage (Studentized residuals) - Size of points: Cook’s distance</p>
+<p>Visual check from influence plot.</p>
+<p>Individual observations should not have too much influence on the model.</p>
+<p>Influence plot:</p>
+<ul>
+<li>x-axis: Extreme values (Hat-values)</li>
+<li>y-axis: Leverage (Studentized residuals)</li>
+<li>Size of points: Cook’s distance</li>
+</ul>
 <div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -672,10 +683,27 @@ logmarg                  -425.8376602 -425.8390422</code></pre>
 504  2.4184715 0.003775986 0.012961219
 634  1.9030701 0.016178072 0.016297578</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<p>Result: Influential observations identified. TODO: Investigate observations 292, 301, 335, 364, 504, 634.</p>
+<p>Result: Influential observations identified.</p>
+<p>DONE: Investigate observations 292, 301, 335, 364, 504, 634.</p>
+<p>Investigation result:</p>
+<ul>
+<li>invasive_CVC: 5/6</li>
+<li>comed_furosemid: 3/6</li>
+<li>infect_septicemia: 3/6</li>
+</ul>
+<p>invasive_CVC might be a predictor.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data_patient_complete |&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(c(292, 301, 335, 364, 504, 634)) |&gt; summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+</section>
+</section>
+<section id="model-performance" class="level1">
+<h1>Model Performance</h1>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: rms</code></pre>
 </div>
@@ -701,22 +729,21 @@ Attaching package: 'Hmisc'</code></pre>
 
     format.pval, units</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-</section>
 </section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
@@ -1105,7 +1132,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

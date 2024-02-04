@@ -223,7 +223,10 @@
 
        <section id="inputs" class="level2">
 <h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
-<p>Import processed original data from the <code>data-original-processed</code> directory, which is available on Github. The import code is in the ‘process-data.R’ file in the ‘data-original-processed’ directory. The unprocessed data in Excel format is not available on GitHub as it contains non-anonymized patient data. Some cleaning steps were performed in Excel before importing the data into R.</p>
+<p>Import processed original data from the <code>data-original-processed</code> directory, which is available on Github.</p>
+<p>The import code is in the ‘process-data.R’ file in the ‘data-original-processed’ directory.</p>
+<p>The unprocessed data in Excel format is not available on GitHub as it contains non-anonymized patient data.</p>
+<p>Some cleaning steps were performed in Excel before importing the data into R.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -267,7 +270,16 @@ date (3): LZD_start, LZD_end, test_date
 </section>
 <section id="cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="cleaning">Cleaning</h2>
-<p>This code cleans and filters the ‘inputs_general’ data. 1. Replaces ‘TrTM’ with ‘IV’ in the ‘LZD_route’ column. 2. Replaces any occurrence of ‘IV’ followed by ‘PO’ or ‘PO’ followed by ‘IV’ in the ‘LZD_route’ column with ‘IV&amp;PO’. 3. Removes rows where ‘LZD_route’ is ‘0’. 4. Removes rows where ‘patient_age’ is less than 18. 5. Removes rows where ‘LZD_duration’ is less than 3. 6. Removes rows where ‘LZD_start’ or ‘LZD_end’ is not within the study period. 7. Removes rows where any variable that starts with “comed” is NA.</p>
+<p>This code cleans and filters the ‘inputs_general’ data.</p>
+<ol type="1">
+<li>Replaces ‘TrTM’ with ‘IV’ in the ‘LZD_route’ column.</li>
+<li>Replaces any occurrence of ‘IV’ followed by ‘PO’ or ‘PO’ followed by ‘IV’ in the ‘LZD_route’ column with ‘IV&amp;PO’.</li>
+<li>Removes rows where ‘LZD_route’ is ‘0’.</li>
+<li>Removes rows where ‘patient_age’ is less than 18.</li>
+<li>Removes rows where ‘LZD_duration’ is less than 3.</li>
+<li>Removes rows where ‘LZD_start’ or ‘LZD_end’ is not within the study period.</li>
+<li>Removes rows where any variable that starts with “comed” is NA.</li>
+</ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs_cleaned <span class="ot">&lt;-</span> inputs_general <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -299,12 +311,23 @@ date (3): LZD_start, LZD_end, test_date
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)))</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<p>This code filters the ‘inputs_labs_general’ data frame. 1. Remove rows with LZD use duration less than 3 days.</p>
+<p>This code filters the ‘inputs_labs_general’ data frame.</p>
+<ol type="1">
+<li>Remove rows with LZD use duration less than 3 days.</li>
+</ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>inputs_labs_pipe_1 <span class="ot">&lt;-</span> inputs_labs_general <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(LZD_end <span class="sc">-</span> LZD_start <span class="sc">&gt;=</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<p>This code remove ‘patient_ID’ that has no valid ‘test_PLT’ either in 7 days prior to ‘LZD_start’ or during LZD use. 1. Two rows are added to each ‘patient_ID’ to ensure there is at least one row in both time periods of each patient that can be used for flagging. 2. ‘flag_post_start’ is used to separate two time periods for each ‘patient_ID’. The first period is 7 days prior to ‘LZD_start’ and the second period is during LZD use. 3. ‘flag_too_early’ and ‘flag_post_end’ are used to flag observations that are before 7 days prior to ‘LZD_start’ or after ‘LZD_end’, so ‘test_PLT’ in these periods will not be valid. 4. ‘flag_remove_check’ is used to check if all ‘test_PLT’ values are NAs in each time periods of each ‘patient_ID’. If any time period initially had no rows, the new row added in step 1 will be used. That group will have only one ‘test_PLT’ with the value NA and so the flag will be TRUE. The ‘test_PLT’ in ‘flag_too_early’ and ‘flag_post_end’ periods are not included in the check as they are not valid. 5. For each ‘patient_ID’, if any ‘flag_remove_check’ is TRUE, all rows of that ‘patient_ID’ will be removed. 6. Finally, rows with ‘flag_temp’ as TRUE are removed. These rows were added in step 1 and are no longer needed. The column itself is also removed.</p>
+<p>This code remove ‘patient_ID’ that has no valid ‘test_PLT’ either in 7 days prior to ‘LZD_start’ or during LZD use.</p>
+<ol type="1">
+<li>Two rows are added to each ‘patient_ID’ to ensure there is at least one row in both time periods of each patient that can be used for flagging.</li>
+<li>‘flag_post_start’ is used to separate two time periods for each ‘patient_ID’. The first period is 7 days prior to ‘LZD_start’ and the second period is during LZD use.</li>
+<li>‘flag_too_early’ and ‘flag_post_end’ are used to flag observations that are before 7 days prior to ‘LZD_start’ or after ‘LZD_end’, so ‘test_PLT’ in these periods will not be valid.</li>
+<li>‘flag_remove_check’ is used to check if all ‘test_PLT’ values are NAs in each time periods of each ‘patient_ID’. If any time period initially had no rows, the new row added in step 1 will be used. That group will have only one ‘test_PLT’ with the value NA and so the flag will be TRUE. The ‘test_PLT’ in ‘flag_too_early’ and ‘flag_post_end’ periods are not included in the check as they are not valid.</li>
+<li>For each ‘patient_ID’, if any ‘flag_remove_check’ is TRUE, all rows of that ‘patient_ID’ will be removed.</li>
+<li>Finally, rows with ‘flag_temp’ as TRUE are removed. These rows were added in step 1 and are no longer needed. The column itself is also removed.</li>
+</ol>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to add new rows to each group in a data frame.</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reframe() generate new rows where its arguments are variables in the data frame.</span></span>
@@ -344,9 +367,17 @@ date (3): LZD_start, LZD_end, test_date
 </section>
 <section id="mutating" class="level2">
 <h2 class="anchored" data-anchor-id="mutating">Mutating</h2>
-<p>This code flags ‘patient_ID’ that had at least one thrombocytopenia event during LZD use. Thrombocytopenia is defined as follows: a. If baseline PLT is normal (150-450), then thrombocytopenia is defined as PLT &lt; 112.5. b. If baseline PLT is low (&lt; 150), then thrombocytopenia is defined as PLT &lt;= 75% of baseline. Baseline date is defined as the latest ‘test_date’ before ‘LZD_start’ that has a non-NA ‘test_PLT.’ This ‘test_date’ must be within 7 days before ‘LZD_start’, which means ‘flag_too_early’ must be FALSE.</p>
+<p>This code flags ‘patient_ID’ that had at least one thrombocytopenia event during LZD use.</p>
+<p>Thrombocytopenia is defined as follows:</p>
+<ol type="a">
+<li>If baseline PLT is normal (150-450), then thrombocytopenia is defined as PLT &lt; 112.5.</li>
+<li>If baseline PLT is low (&lt; 150), then thrombocytopenia is defined as PLT &lt;= 75% of baseline.</li>
+</ol>
+<p>Baseline date is defined as the latest ‘test_date’ before ‘LZD_start’ that has a non-NA ‘test_PLT.’</p>
+<p>This ‘test_date’ must be within 7 days before ‘LZD_start’, which means ‘flag_too_early’ must be FALSE.</p>
 <p>The code performs the following operations: 1. Groups the data by ‘patient_ID’. 2. Flags all ‘test_date’ after the baseline date. Baseline is defined above. 3. Flags all ‘test_date’ that meet the thrombocytopenia definition. This is an ADR event. 4. Flags all ‘patient_ID’ that have at least one thrombocytopenia ADR event during LZD use.</p>
-<p>Notes: max(which()) finds the index of the last TRUE value in a logical vector. while which.max() finds the index of the first TRUE value in a logical vector.</p>
+<p>Notes: max(which()) finds the index of the last TRUE value in a logical vector.</p>
+<p>while which.max() finds the index of the first TRUE value in a logical vector.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_1 <span class="ot">&lt;-</span> inputs_cleaned_joined <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient_ID) <span class="sc">|&gt;</span></span>
@@ -360,7 +391,16 @@ date (3): LZD_start, LZD_end, test_date
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">any</span>(test_ADR_TP, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<p>This code adds a new column ‘test_CTCAE’ based on the Common Terminology Criteria for Adverse Events (CTCAE) for decreased platelet count. If ‘test_ADR_TP’ is TRUE, it assigns a value to ‘test_CTCAE’ based on the ‘test_PLT’ column. a. If ‘test_PLT’ is less than 25, ‘test_CTCAE’ is assigned a value of 4. b. If ‘test_PLT’ is between 25 and 50, ‘test_CTCAE’ is assigned a value of 3. c.&nbsp;If ‘test_PLT’ is between 50 and 75, ‘test_CTCAE’ is assigned a value of 2. d.&nbsp;If ‘test_PLT’ is between 75 and 150, ‘test_CTCAE’ is assigned a value of 1. If ‘test_ADR_TP’ is FALSE, ‘test_CTCAE’ is assigned NA. Finally, ‘test_CTCAE_max’ is assigned the maximum value of ‘test_CTCAE’ for each ‘patient_ID’.</p>
+<p>This code adds a new column ‘test_CTCAE’ based on the Common Terminology Criteria for Adverse Events (CTCAE) for decreased platelet count.</p>
+<p>If ‘test_ADR_TP’ is TRUE, it assigns a value to ‘test_CTCAE’ based on the ‘test_PLT’ column.</p>
+<ol type="a">
+<li>If ‘test_PLT’ is less than 25, ‘test_CTCAE’ is assigned a value of 4.</li>
+<li>If ‘test_PLT’ is between 25 and 50, ‘test_CTCAE’ is assigned a value of 3.</li>
+<li>If ‘test_PLT’ is between 50 and 75, ‘test_CTCAE’ is assigned a value of 2.</li>
+<li>If ‘test_PLT’ is between 75 and 150, ‘test_CTCAE’ is assigned a value of 1.</li>
+</ol>
+<p>If ‘test_ADR_TP’ is FALSE, ‘test_CTCAE’ is assigned NA.</p>
+<p>Finally, ‘test_CTCAE_max’ is assigned the maximum value of ‘test_CTCAE’ for each ‘patient_ID’.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_2 <span class="ot">&lt;-</span> inputs_analyze_1 <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -388,7 +428,10 @@ Caused by warning in `max()`:
 ℹ Run `dplyr::last_dplyr_warnings()` to see the 614 remaining warnings.</code></pre>
 </div>
 </div></div>
-<p>This code adds a new column ‘test_onset’, which is the number of days from ‘LZD_start’ to the thrombocytopenia event. If ‘test_ADR_TP’ is TRUE, ‘test_onset’ is assigned the value of ‘test_date’ minus ‘LZD_start’. If ‘test_ADR_TP’ is FALSE, ‘test_onset’ is assigned NA. Finally, ‘test_onset_first’ is assigned the first non-NA value of ‘test_onset’ for each ‘patient_ID’.</p>
+<p>This code adds a new column ‘test_onset’, which is the number of days from ‘LZD_start’ to the thrombocytopenia event.</p>
+<p>If ‘test_ADR_TP’ is TRUE, ‘test_onset’ is assigned the value of ‘test_date’ minus ‘LZD_start’.</p>
+<p>If ‘test_ADR_TP’ is FALSE, ‘test_onset’ is assigned NA.</p>
+<p>Finally, ‘test_onset_first’ is assigned the first non-NA value of ‘test_onset’ for each ‘patient_ID’.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_3 <span class="ot">&lt;-</span> inputs_analyze_2 <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -401,7 +444,9 @@ Caused by warning in `max()`:
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_onset_first =</span> <span class="fu">first</span>(<span class="fu">na.omit</span>(ADR_onset))</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<p>This code adds a new column ‘test_PLT_ratio’, which is the ratio of the minimum ‘test_PLT’ to the baseline ‘test_PLT’. If ‘flag_ADR_TP_ID’ is TRUE, ‘test_PLT_ratio’ is assigned the value of the ratio. If ‘flag_ADR_TP_ID’ is FALSE, ‘test_PLT_ratio’ is assigned NA.</p>
+<p>This code adds a new column ‘test_PLT_ratio’, which is the ratio of the minimum ‘test_PLT’ to the baseline ‘test_PLT’.</p>
+<p>If ‘flag_ADR_TP_ID’ is TRUE, ‘test_PLT_ratio’ is assigned the value of the ratio.</p>
+<p>If ‘flag_ADR_TP_ID’ is FALSE, ‘test_PLT_ratio’ is assigned NA.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>inputs_analyze_4 <span class="ot">&lt;-</span> inputs_analyze_3 <span class="sc">|&gt;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -428,7 +473,21 @@ Caused by warning in `max()`:
 </section>
 <section id="outputs" class="level2">
 <h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
-<p>This code prepares the final data for analysis and exports it to the ‘data-cleaned’ directory. 1. The ‘data_patient_complete’ data frame contains only the first complete row of each ‘patient_ID’ in ‘data_complete’. - Patients with any missing initial data are removed. - Patients with baseline PLT &gt; 450 are removed. - The ‘data_patient_complete’ data frame is used for patient-level analysis. 2. The ‘data_complete’ data frame contains all the cleaned and filtered data. - The ‘data_complete’ data frame is used for event-level analysis.</p>
+<p>This code prepares the final data for analysis and exports it to the ‘data-cleaned’ directory.</p>
+<ol type="1">
+<li>The ‘data_patient_complete’ data frame contains only the first complete row of each ‘patient_ID’ in ‘data_complete’.</li>
+</ol>
+<ul>
+<li>Patients with any missing initial data are removed.</li>
+<li>Patients with baseline PLT &gt; 450 are removed.</li>
+<li>The ‘data_patient_complete’ data frame is used for patient-level analysis.</li>
+</ul>
+<ol start="2" type="1">
+<li>The ‘data_complete’ data frame contains all the cleaned and filtered data.</li>
+</ol>
+<ul>
+<li>The ‘data_complete’ data frame is used for event-level analysis.</li>
+</ul>
 <div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete <span class="ot">&lt;-</span> inputs_analyze_5 <span class="sc">|&gt;</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
