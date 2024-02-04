@@ -83,6 +83,7 @@ coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
 ```
 
 Results: LASSO algorithm selected 23-25 predictors.
+
 Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.
 
 # Bayesian Model Selection
@@ -132,8 +133,11 @@ model_full <- logistic_reg() |>
 ## Linearity
 
 Visual check of linearity assumption using partial-residual plots (component+residual plots).
+
 Blue dashed line: linear fit of the partial residuals.
+
 Red line: smoothed conditional mean
+
 The lines should be close together and the red line should be linear. 
 
 ```{r}
@@ -157,20 +161,38 @@ Result: VIFs are all less than 5 and close to 1.
 ## No Outlier Effects
 
 Visual check from influence plot.
+
 Individual observations should not have too much influence on the model.
 
 Influence plot: 
+
 - x-axis: Extreme values (Hat-values)
 - y-axis: Leverage (Studentized residuals)
 - Size of points: Cook's distance
 
 ```{r}
 car::influencePlot(model_full$fit)
+# influential_obs <- influence.measures(model_full$fit)$is.inf |> apply(1, any) |> which() |> unname()
 ```
 
 Result: Influential observations identified. 
-TODO: Investigate observations 292, 301, 335, 364, 504, 634. 
 
+DONE: Investigate observations 292, 301, 335, 364, 504, 634. 
+
+Investigation result:
+
+- invasive_CVC: 5/6
+- comed_furosemid: 3/6
+- infect_septicemia: 3/6
+
+invasive_CVC might be a predictor.
+
+```{r}
+# data_patient_complete |>
+#   slice(c(292, 301, 335, 364, 504, 634)) |> summary()
+```
+
+# Model Performance
 ```{r}
 library(CalibrationCurves)
 pHat <- predict(model_full$fit, data_patient_complete, type = "response")
