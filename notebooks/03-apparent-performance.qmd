@@ -51,7 +51,7 @@ stepwise_model <- data_patient_complete |>
 stepwise_model$coefficients |> length()
 ```
 
-Results: Stepwise algorithm selected 18 predictors.
+Results: Stepwise algorithm selected 17 predictors.
 
 ## LASSO Variable Selection
 
@@ -82,7 +82,7 @@ cv_lasso_fit <- cv.glmnet(
 coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
 ```
 
-Results: LASSO algorithm selected 23-25 predictors.
+Results: LASSO algorithm selected 22-25 predictors.
 
 Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.
 
@@ -123,9 +123,6 @@ model_full <- logistic_reg() |>
     ),
     data = data_patient_complete_response_as_factor
   )
-```
-
-```{r}
 ```
 
 # Check Model Assumptions

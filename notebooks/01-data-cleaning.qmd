@@ -13,7 +13,7 @@ The unprocessed data in Excel format is not available on GitHub as it contains n
 Some cleaning steps were performed in Excel before importing the data into R.
 ```{r}
 library(tidyverse)
-load("data/data-original-processed/data-processed.RData")
+load("data/data-original-processed/data-processed.rda")
 ```
 
 ## Cleaning
@@ -39,8 +39,8 @@ inputs_cleaned <- inputs_general |>
   filter(complete.cases(across(starts_with("comed")))) |>
   filter(
     site == "ND1" &
-      (between(LZD_start, as_date("2021-07-01"), as_date("2021-12-31")) |
-        between(LZD_end, as_date("2021-07-01"), as_date("2021-12-31"))) |
+      (between(LZD_start, as_date("2021-05-01"), as_date("2021-12-31")) |
+        between(LZD_end, as_date("2021-05-01"), as_date("2021-12-31"))) |
       site == "ND2" &
         (between(LZD_start, as_date("2022-04-01"), as_date("2022-09-30")) |
           between(LZD_end, as_date("2022-04-01"), as_date("2022-09-30"))) |
@@ -228,14 +228,7 @@ inputs_analyze_5 <- inputs_analyze_4 |>
     baseline_HGB = test_HGB[which.max(flag_post_baseline)],
     baseline_WBC = test_WBC[which.max(flag_post_baseline)],
     ADR_PLT_min = min(test_PLT[which.max(flag_post_baseline) + 1:max(which(flag_post_baseline))], na.rm = TRUE),
-  ) |>
-  group_by(patient_ID) |> # begin remove duplicates
-  arrange(LZD_start, .by_group = TRUE) |>
-  mutate(
-    patient_ID = str_remove(patient_ID, "_.*|-.*")
-  ) |>
-  distinct(patient_ID, .keep_all = TRUE) |>
-  arrange(site, patient_ID)
+  ) 
 ```
 
 ## Outputs
@@ -249,16 +242,25 @@ This code prepares the final data for analysis and exports it to the 'data-clean
   - The 'data_complete' data frame is used for event-level analysis.
 ```{r}
 data_patient_complete <- inputs_analyze_5 |>
+  group_by(patient_ID) |> # begin remove duplicates
+  arrange(LZD_start, .by_group = TRUE) |>
+  mutate(
+    patient_ID = str_remove(patient_ID, "_.*|-.*")
+  ) |>
+  distinct(patient_ID, .keep_all = TRUE) |>
+  arrange(site, patient_ID) |> # end remove duplicates
   slice_head(n = 1) |>
   select(-starts_with("test")) |>
   filter(complete.cases(across(-starts_with("ADR")))) |>
-  filter(baseline_PLT <= 450)
+  filter(baseline_PLT <= 450) |>
+  ungroup()
 
 data_complete <- inputs_analyze_5 |>
-  filter(patient_ID %in% data_patient_complete$patient_ID)
+  filter(patient_ID %in% data_patient_complete$patient_ID) |>
+  ungroup()
 
 write_csv(data_complete, "data/data-cleaned/data-complete.csv")
 write_csv(data_patient_complete, "data/data-cleaned/data-patient-complete.csv")
 
-save(data_complete, data_patient_complete, file = "data/data-cleaned/data-cleaned.RData")
+save(data_complete, data_patient_complete, file = "data/data-cleaned/data-cleaned.rda")
 ```

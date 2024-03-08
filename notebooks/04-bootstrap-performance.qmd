@@ -68,7 +68,7 @@ calc_test_performance <- function(model) {
 }
 
 # Set up future to use multiple cores
-plan(multisession, workers = min(parallel::detectCores() - 2, 10))
+plan(multisession, workers = min(parallel::detectCores() - 2, 12))
 
 boot_predict_HPM <- boot_samples$splits |>
   future_map(extract_variable_names, .options = furrr_options(seed = TRUE))

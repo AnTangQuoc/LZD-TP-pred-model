@@ -51,7 +51,6 @@ load("data/results/table-descriptive-site.rda")
 
 ```{r}
 table_descriptive_site
-rio::convert("D:/R Working Directory/FAERS/XML/1_ADR23Q1.xml", "D:/R Working Directory/FAERS/XML/1_ADR23Q1.csv")
 ```
 
 :::
@@ -87,8 +86,4 @@ performance_metrics <- pmap(
 ) |> bind_rows()
 
 performance_metrics |> knitr::kable()
-```
-
-```{r}
-
 ```

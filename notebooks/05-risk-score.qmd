@@ -81,7 +81,18 @@ risk_profile_4 <- tibble(
     flag_base_risk = replace(flag_base_risk, 1, TRUE)
   )
 
-risk_profile <- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4)
+risk_profile_5 <- tibble(
+  risk_factor = "invasive_CVC",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile <- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5)
 ```
 
 ```{r}
@@ -125,7 +136,7 @@ risk_function <- function(points) {
       beta_base = sum(beta * reference)
     ) |>
     pull(beta_base)
-  
+
   1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
 }
 

@@ -91,7 +91,11 @@ table_descriptive_site <- data_patient_complete |>
     missing = "no"
   ) |>
   add_overall() |>
-  bold_labels()
+  bold_labels() |>
+  add_p(
+    test.args = all_tests("fisher.test") ~ list(simulate.p.value = TRUE)
+  ) |>
+  bold_p()
 
 table_descriptive_site
 

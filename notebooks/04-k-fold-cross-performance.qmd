@@ -55,7 +55,7 @@ calc_fold_performance <- function(sample, model) {
 }
 
 # Set up future to use multiple cores
-plan(multisession, workers = min(parallel::detectCores() - 2, 10))
+plan(multisession, workers = min(parallel::detectCores() - 2, 12))
 
 fold_predict_HPM <- fold_samples$splits |>
   future_map(extract_variable_names, .options = furrr_options(seed = TRUE))

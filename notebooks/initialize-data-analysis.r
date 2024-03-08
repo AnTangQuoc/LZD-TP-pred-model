@@ -1,6 +1,6 @@
 library(tidyverse)
 
-load("data/data-cleaned/data-cleaned.RData")
+load("data/data-cleaned/data-cleaned.rda")
 
 predictor_list <- data_patient_complete |>
   select(
