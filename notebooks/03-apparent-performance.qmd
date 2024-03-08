@@ -1,0 +1,210 @@
+---
+title: Model Development and Apparent Validation
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+```
+
+# Penalized Likelihood Methods
+## Backwards Stepwise Logistic Regression
+```{r}
+# library(StepReg)
+# run_stepwise_logit <- function(data, formula) {
+#   stepwiseLogit(
+#     formula,
+#     data = data,
+#     include = NULL,
+#     selection = "backward",
+#     select = "AIC"
+#   )
+# }
+
+# stepwise_model <- data_patient_complete |>
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |>
+#   run_stepwise_logit(
+#     formula = flag_ADR_TP_ID ~ .
+#   )
+
+# stepwise_model |> summary()
+```
+
+```{r}
+run_step_AIC <- function(data, formula) {
+  MASS::stepAIC(
+    glm(
+      formula = formula,
+      data = data
+    ),
+    direction = "backward",
+    trace = FALSE
+  )
+}
+
+stepwise_model <- data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID) |>
+  run_step_AIC(
+    formula = flag_ADR_TP_ID ~ .
+  )
+
+stepwise_model$coefficients |> length()
+```
+
+Results: Stepwise algorithm selected 17 predictors.
+
+## LASSO Variable Selection
+
+```{r}
+library(glmnet)
+predictor_matrix <- data_patient_complete |>
+  select(all_of(predictor_list)) |>
+  as.matrix()
+response_matrix <- data_patient_complete |>
+  select(flag_ADR_TP_ID) |>
+  pull()
+
+lasso_fit <- glmnet(
+  x = predictor_matrix,
+  y = response_matrix,
+  family = "binomial",
+  alpha = 1
+)
+
+cv_lasso_fit <- cv.glmnet(
+  x = predictor_matrix,
+  y = response_matrix,
+  family = "binomial",
+  alpha = 1,
+  nfolds = 5
+)
+
+coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
+```
+
+Results: LASSO algorithm selected 22-25 predictors.
+
+Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.
+
+# Bayesian Model Selection
+```{r}
+multi_model <- data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .
+  )
+
+summary(multi_model)
+plot(multi_model)
+image(multi_model, rotate = FALSE)
+diagnostics(multi_model)
+
+multi_predict_HPM <- variable.names(predict(multi_model, estimator = "HPM"))[-1] |>
+  str_extract(paste(predictor_list, collapse = "|")) # highest probability model
+multi_predict_BPM <- variable.names(predict(multi_model, estimator = "BPM"))[-1] |>
+  str_extract(paste(predictor_list, collapse = "|")) # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+
+data_patient_complete_response_as_factor <- data_patient_complete |>
+  mutate(
+    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+  )
+
+model_full <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification") |>
+  fit(
+    reformulate(
+      termlabels = multi_predict_HPM,
+      response = "flag_ADR_TP_ID"
+    ),
+    data = data_patient_complete_response_as_factor
+  )
+```
+
+# Check Model Assumptions
+
+## Linearity
+
+Visual check of linearity assumption using partial-residual plots (component+residual plots).
+
+Blue dashed line: linear fit of the partial residuals.
+
+Red line: smoothed conditional mean
+
+The lines should be close together and the red line should be linear. 
+
+```{r}
+car::crPlot(model_full$fit, variable = "patient_age")
+car::crPlot(model_full$fit, variable = "baseline_PLT")
+car::crPlot(model_full$fit, variable = "LZD_duration")
+```
+
+Result: No obvious non-linearity in the partial-residual plots.
+
+## No Multicollinearity
+
+VIFs from the coefficient estimates should be less than 5 and as close to 1 as possible.
+
+```{r}
+car::vif(model_full$fit)
+```
+
+Result: VIFs are all less than 5 and close to 1.
+
+## No Outlier Effects
+
+Visual check from influence plot.
+
+Individual observations should not have too much influence on the model.
+
+Influence plot: 
+
+- x-axis: Extreme values (Hat-values)
+- y-axis: Leverage (Studentized residuals)
+- Size of points: Cook's distance
+
+```{r}
+car::influencePlot(model_full$fit)
+# influential_obs <- influence.measures(model_full$fit)$is.inf |> apply(1, any) |> which() |> unname()
+```
+
+Result: Influential observations identified. 
+
+DONE: Investigate observations 292, 301, 335, 364, 504, 634. 
+
+Investigation result:
+
+- invasive_CVC: 5/6
+- comed_furosemid: 3/6
+- infect_septicemia: 3/6
+
+invasive_CVC might be a predictor.
+
+```{r}
+# data_patient_complete |>
+#   slice(c(292, 301, 335, 364, 504, 634)) |> summary()
+```
+
+# Model Performance
+```{r}
+library(CalibrationCurves)
+pHat <- predict(model_full$fit, data_patient_complete, type = "response")
+yTest <- data_patient_complete$flag_ADR_TP_ID
+calperf <- valProbggplot(pHat, yTest)
+
+apparent_performance_metrics <- tibble(
+  apparent_C_index = calperf$Cindex[[1]],
+  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+)
+
+save(apparent_performance_metrics, file = "data/model-performance/apparent-performance-metrics.rda")
+```
+
+```{r}
+save(model_full, file = "data/model-performance/model-full.rda")
+```

@@ -43,6 +43,18 @@ table_descriptive
 
 :::
 
+```{r}
+load("data/results/table-descriptive-site.rda")
+```
+
+:::{.scrolling}
+
+```{r}
+table_descriptive_site
+```
+
+:::
+
 ## Model Performance
 
 ```{r}
@@ -56,7 +68,7 @@ data_list <- list(
   corrected_performance_metrics,
   fold_performance_metrics
 )
-performance_type_list <- c("Apparent", "Bootstrap", "Fold")
+performance_type_list <- c("Apparent", "Bootstrap", "K-fold")
 initial_string_list <- c("apparent_", "corrected_", "mean_fold_")
 
 reformat_performance_metrics <- function(data, type, string) {

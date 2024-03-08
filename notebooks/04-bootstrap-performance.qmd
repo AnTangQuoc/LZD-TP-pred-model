@@ -1,0 +1,120 @@
+---
+title: Bootstrap Development and Validation
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+```
+
+```{r}
+library(rsample) # for bootstraps()
+library(furrr) # for future_map()
+library(tidymodels)
+library(CalibrationCurves)
+
+data_patient_bootstrap_prep <- data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID)
+
+# Create 500 bootstrap samples
+boot_samples <- bootstraps(data_patient_bootstrap_prep, times = 30)
+
+extract_variable_names <- function(sample) {
+  data <- analysis(sample)
+  model <- data |>
+    run_bas_glm(
+      formula = flag_ADR_TP_ID ~ .
+    )
+  variable.names(predict(model, estimator = "HPM"))[-1] |>
+    str_extract(paste(predictor_list, collapse = "|"))
+}
+
+# Function to modify sample data and fit model
+fit_model_to_sample <- function(sample, variables) {
+  data <- analysis(sample) |>
+    mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+
+  formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID")
+
+  logistic_reg() |>
+    set_engine("glm") |>
+    set_mode("classification") |>
+    fit(formula, data = data)
+}
+
+calc_boot_performance <- function(sample, model) {
+  data <- analysis(sample)
+  pHat <- predict(model$fit, data, type = "response")
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+  tibble(
+    boot_C_index = calperf$Cindex[[1]],
+    boot_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    boot_calibration_slope = calperf$Calibration$Slope[[1]]
+  )
+}
+
+calc_test_performance <- function(model) {
+  pHat <- predict(model$fit, data_patient_complete, type = "response")
+  yTest <- data_patient_complete$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+  tibble(
+    test_C_index = calperf$Cindex[[1]],
+    test_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    test_calibration_slope = calperf$Calibration$Slope[[1]]
+  )
+}
+
+# Set up future to use multiple cores
+plan(multisession, workers = min(parallel::detectCores() - 2, 12))
+
+boot_predict_HPM <- boot_samples$splits |>
+  future_map(extract_variable_names, .options = furrr_options(seed = TRUE))
+
+# Fit model to each sample in parallel
+boot_full <- future_map2(boot_samples$splits, boot_predict_HPM, fit_model_to_sample)
+
+boot_performance_metrics <- future_map2_dfr(boot_samples$splits, boot_full, calc_boot_performance)
+
+# Calculate performance metrics for each model in parallel
+test_performance_metrics <- boot_full |>
+  future_map_dfr(calc_test_performance)
+
+plan(sequential)
+
+# Combine performance metrics
+performance_metrics <- bind_cols(boot_performance_metrics, test_performance_metrics)
+
+# Calculate optimism
+performance_metrics <- performance_metrics |>
+  mutate(
+    optimism_C_index = boot_C_index - test_C_index,
+    optimism_calibration_intercept = boot_calibration_intercept - test_calibration_intercept,
+    optimism_calibration_slope = boot_calibration_slope - test_calibration_slope
+  )
+
+optimism_estimates <- performance_metrics |>
+  summarise(
+    mean_optimism_C_index = mean(optimism_C_index),
+    mean_optimism_calibration_intercept = mean(optimism_calibration_intercept),
+    mean_optimism_calibration_slope = mean(optimism_calibration_slope)
+  )
+```
+
+```{r}
+load("data/model-performance/apparent-performance-metrics.rda")
+
+corrected_performance_metrics <- bind_cols(apparent_performance_metrics, optimism_estimates) |>
+  mutate(
+    corrected_C_index = apparent_C_index - mean_optimism_C_index,
+    corrected_calibration_intercept = apparent_calibration_intercept - mean_optimism_calibration_intercept,
+    corrected_calibration_slope = apparent_calibration_slope - mean_optimism_calibration_slope
+  ) |>
+  select(starts_with("corrected"))
+```
+
+```{r}
+save(corrected_performance_metrics, file = "data/model-performance/corrected-performance-metrics.rda")
+```
