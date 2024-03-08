@@ -1,0 +1,264 @@
+---
+title: Data Cleaning
+---
+
+## Inputs
+
+Import processed original data from the `data-original-processed` directory, which is available on Github.
+
+The import code is in the `process-data.R` file in the `data-original-processed` directory.
+
+The unprocessed data in Excel format is not available on GitHub as it contains non-anonymized patient data.
+
+Some cleaning steps were performed in Excel before importing the data into R.
+```{r}
+library(tidyverse)
+load("data/data-original-processed/data-processed.RData")
+```
+
+## Cleaning
+
+This code cleans and filters the 'inputs_general' data.
+
+1. Replaces 'TrTM' with 'IV' in the 'LZD_route' column.
+2. Replaces any occurrence of 'IV' followed by 'PO' or 'PO' followed by 'IV' in the 'LZD_route' column with 'IV&PO'.
+3. Removes rows where 'LZD_route' is '0'.
+4. Removes rows where 'patient_age' is less than 18.
+5. Removes rows where 'LZD_duration' is less than 3.
+6. Removes rows where 'LZD_start' or 'LZD_end' is not within the study period.
+7. Removes rows where any variable that starts with "comed" is NA.
+```{r}
+inputs_cleaned <- inputs_general |>
+  mutate(
+    LZD_route = str_replace(LZD_route, "TrTM", "IV"),
+    LZD_route = str_replace(LZD_route, "IV.*PO|PO.*IV", "IV&PO")
+  ) |>
+  filter(!LZD_route == "0") |>
+  filter(patient_age >= 18) |>
+  filter(LZD_duration >= 3) |>
+  filter(complete.cases(across(starts_with("comed")))) |>
+  filter(
+    site == "ND1" &
+      (between(LZD_start, as_date("2021-07-01"), as_date("2021-12-31")) |
+        between(LZD_end, as_date("2021-07-01"), as_date("2021-12-31"))) |
+      site == "ND2" &
+        (between(LZD_start, as_date("2022-04-01"), as_date("2022-09-30")) |
+          between(LZD_end, as_date("2022-04-01"), as_date("2022-09-30"))) |
+      site == "BM1" &
+        (between(LZD_start, as_date("2019-11-01"), as_date("2019-12-31")) |
+          between(LZD_end, as_date("2019-11-01"), as_date("2019-12-31"))) |
+      site == "BM2" &
+        (between(LZD_start, as_date("2022-12-01"), as_date("2023-03-31")) |
+          between(LZD_end, as_date("2022-12-01"), as_date("2023-03-31"))) |
+      site == "TN1" &
+        (between(LZD_start, as_date("2020-01-01"), as_date("2020-06-30")) |
+          between(LZD_end, as_date("2020-01-01"), as_date("2020-06-30"))) |
+      site == "TN2" &
+        (between(LZD_start, as_date("2022-09-01"), as_date("2023-02-28")) |
+          between(LZD_end, as_date("2022-09-01"), as_date("2023-02-28")))
+  )
+```
+
+This code filters the 'inputs_labs_general' data frame.
+
+1. Remove rows with LZD use duration less than 3 days.
+```{r}
+inputs_labs_pipe_1 <- inputs_labs_general |>
+  filter(LZD_end - LZD_start >= 2)
+```
+
+This code remove 'patient_ID' that has no valid 'test_PLT' either in 7 days prior to 'LZD_start' or during LZD use.
+
+1. Two rows are added to each 'patient_ID' to ensure there is at least one row in both time periods of each patient that can be used for flagging.
+2. 'flag_post_start' is used to separate two time periods for each 'patient_ID'. The first period is 7 days prior to 'LZD_start' and the second period is during LZD use.
+3. 'flag_too_early' and 'flag_post_end' are used to flag observations that are before 7 days prior to 'LZD_start' or after 'LZD_end', so 'test_PLT' in these periods will not be valid. 
+4. 'flag_remove_check' is used to check if all 'test_PLT' values are NAs in each time periods of each 'patient_ID'. If any time period initially had no rows, the new row added in step 1 will be used. That group will have only one 'test_PLT' with the value NA and so the flag will be TRUE. The 'test_PLT' in 'flag_too_early' and 'flag_post_end' periods are not included in the check as they are not valid. 
+5. For each 'patient_ID', if any 'flag_remove_check' is TRUE, all rows of that 'patient_ID' will be removed.
+6. Finally, rows with 'flag_temp' as TRUE are removed. These rows were added in step 1 and are no longer needed. The column itself is also removed.
+```{r}
+# Helper function to add new rows to each group in a data frame.
+# reframe() generate new rows where its arguments are variables in the data frame.
+# bind_rows() bind the new rows to the original data frame.
+# group_modify() apply the previous functions to each group in a data frame.
+add_reframe_rows <- function(.data, ...) {
+  group_modify(.data, function(x, y) {
+    bind_rows(x, reframe(x, ...))
+  })
+}
+
+inputs_labs_cleaned <- inputs_labs_pipe_1 |>
+  group_by(patient_ID) |>
+  arrange(test_date, .by_group = TRUE) |>
+  add_reframe_rows(test_date = min(test_date) - 100, LZD_start = min(LZD_start), flag_temp = TRUE) |>
+  add_reframe_rows(test_date = max(test_date) + 100, LZD_start = max(LZD_start), flag_temp = TRUE) |>
+  mutate(
+    flag_too_early = test_date <= LZD_start - 8,
+    flag_post_start = test_date >= LZD_start + 1,
+    flag_post_end = test_date >= LZD_end + 1
+  ) |>
+  group_by(patient_ID, flag_post_start) |>
+  mutate(flag_remove_check = all(is.na(test_PLT[which((!flag_too_early & !flag_post_end) | flag_temp)]))) |>
+  group_by(patient_ID) |>
+  filter(!any(flag_remove_check)) |>
+  filter(is.na(flag_temp)) |>
+  select(-flag_temp)
+```
+
+inner_join() keeps only patients present in both data frames, essentially removing patients without lab tests or other comorbidity/medication data.
+
+```{r}
+inputs_cleaned_joined <-
+  inner_join(inputs_cleaned, inputs_labs_cleaned)
+```
+
+## Mutating
+
+This code flags 'patient_ID' that had at least one thrombocytopenia event during LZD use.
+
+Thrombocytopenia is defined as follows:
+
+a. If baseline PLT is normal (150-450), then thrombocytopenia is defined as PLT < 112.5.
+b. If baseline PLT is low (< 150), then thrombocytopenia is defined as PLT <= 75% of baseline.
+
+Baseline date is defined as the latest 'test_date' before 'LZD_start' that has a non-NA 'test_PLT.'
+
+This 'test_date' must be within 7 days before 'LZD_start', which means 'flag_too_early' must be FALSE.
+
+The code performs the following operations:
+1. Groups the data by 'patient_ID'.
+2. Flags all 'test_date' after the baseline date. Baseline is defined above.
+3. Flags all 'test_date' that meet the thrombocytopenia definition. This is an ADR event.
+4. Flags all 'patient_ID' that have at least one thrombocytopenia ADR event during LZD use.
+
+Notes: max(which()) finds the index of the last TRUE value in a logical vector.
+
+while  which.max() finds the index of the first TRUE value in a logical vector.
+```{r}
+#| warning: FALSE
+inputs_analyze_1 <- inputs_cleaned_joined |>
+  group_by(patient_ID) |>
+  mutate(
+    flag_too_late = test_date >= LZD_end + 6,
+    flag_post_baseline = test_date >= test_date[max(which(test_date <= LZD_start & !is.na(test_PLT) & !flag_too_early))],
+    test_ADR_TP = flag_post_baseline & !flag_too_late & (
+      (test_PLT[which.max(flag_post_baseline)] >= 150 & test_PLT <= 112.5) |
+        (test_PLT[which.max(flag_post_baseline)] < 150 & test_PLT <= 0.75 * test_PLT[which.max(flag_post_baseline)])
+    ),
+    flag_ADR_TP_ID = any(test_ADR_TP, na.rm = TRUE)
+  )
+```
+
+This code adds a new column 'test_CTCAE' based on the Common Terminology Criteria for Adverse Events (CTCAE) for decreased platelet count.
+
+If 'test_ADR_TP' is TRUE, it assigns a value to 'test_CTCAE' based on the 'test_PLT' column.
+
+a. If 'test_PLT' is less than 25, 'test_CTCAE' is assigned a value of 4.
+b. If 'test_PLT' is between 25 and 50, 'test_CTCAE' is assigned a value of 3.
+c. If 'test_PLT' is between 50 and 75, 'test_CTCAE' is assigned a value of 2.
+d. If 'test_PLT' is between 75 and 150, 'test_CTCAE' is assigned a value of 1.
+
+If 'test_ADR_TP' is FALSE, 'test_CTCAE' is assigned NA.
+
+Finally, 'test_CTCAE_max' is assigned the maximum value of 'test_CTCAE' for each 'patient_ID'.
+```{r}
+inputs_analyze_2 <- inputs_analyze_1 |>
+  mutate(
+    test_CTCAE =
+      if_else(
+        test_ADR_TP,
+        case_when(
+          test_PLT < 25 ~ 4,
+          test_PLT < 50 ~ 3,
+          test_PLT < 75 ~ 2,
+          test_PLT < 150 ~ 1
+        ),
+        NA_real_
+      ),
+    ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE),
+    ADR_CTCAE_max = na_if(ADR_CTCAE_max, -Inf)
+  )
+```
+
+This code adds a new column 'test_onset', which is the number of days from 'LZD_start' to the thrombocytopenia event.
+
+If 'test_ADR_TP' is TRUE, 'test_onset' is assigned the value of 'test_date' minus 'LZD_start'.
+
+If 'test_ADR_TP' is FALSE, 'test_onset' is assigned NA.
+
+Finally, 'test_onset_first' is assigned the first non-NA value of 'test_onset' for each 'patient_ID'.
+```{r}
+inputs_analyze_3 <- inputs_analyze_2 |>
+  mutate(
+    ADR_onset =
+      if_else(
+        test_ADR_TP,
+        as.double(test_date - LZD_start),
+        NA_real_
+      ),
+    ADR_onset_first = first(na.omit(ADR_onset))
+  )
+```
+
+This code adds a new column 'test_PLT_ratio', which is the ratio of the minimum 'test_PLT' to the baseline 'test_PLT'.
+
+If 'flag_ADR_TP_ID' is TRUE, 'test_PLT_ratio' is assigned the value of the ratio.
+
+If 'flag_ADR_TP_ID' is FALSE, 'test_PLT_ratio' is assigned NA.
+```{r}
+inputs_analyze_4 <- inputs_analyze_3 |>
+  mutate(
+    ADR_PLT_ratio =
+      if_else(
+        flag_ADR_TP_ID,
+        test_PLT[which.min(test_PLT)] / test_PLT[which.max(flag_post_baseline)],
+        NA_real_
+      )
+  )
+```
+
+Changes existing data to get values from data_lab_test instead of relying on data_patient
+The code also removes duplicates and sorts the data by 'site' and 'patient_ID'.
+
+```{r}
+inputs_analyze_5 <- inputs_analyze_4 |>
+  mutate(
+    LZD_duration = as.numeric(LZD_end - LZD_start) + 1,
+    baseline_date = test_date[which.max(flag_post_baseline)],
+    baseline_PLT = test_PLT[which.max(flag_post_baseline)],
+    baseline_HGB = test_HGB[which.max(flag_post_baseline)],
+    baseline_WBC = test_WBC[which.max(flag_post_baseline)],
+    ADR_PLT_min = min(test_PLT[which.max(flag_post_baseline) + 1:max(which(flag_post_baseline))], na.rm = TRUE),
+  ) |>
+  group_by(patient_ID) |> # begin remove duplicates
+  arrange(LZD_start, .by_group = TRUE) |>
+  mutate(
+    patient_ID = str_remove(patient_ID, "_.*|-.*")
+  ) |>
+  distinct(patient_ID, .keep_all = TRUE) |>
+  arrange(site, patient_ID)
+```
+
+## Outputs
+This code prepares the final data for analysis and exports it to the 'data-cleaned' directory.
+
+1. The 'data_patient_complete' data frame contains only the first complete row of each 'patient_ID' in 'data_complete'.
+  - Patients with any missing initial data are removed. 
+  - Patients with baseline PLT > 450 are removed.
+  - The 'data_patient_complete' data frame is used for patient-level analysis.
+2. The 'data_complete' data frame contains all the cleaned and filtered data.
+  - The 'data_complete' data frame is used for event-level analysis.
+```{r}
+data_patient_complete <- inputs_analyze_5 |>
+  slice_head(n = 1) |>
+  select(-starts_with("test")) |>
+  filter(complete.cases(across(-starts_with("ADR")))) |>
+  filter(baseline_PLT <= 450)
+
+data_complete <- inputs_analyze_5 |>
+  filter(patient_ID %in% data_patient_complete$patient_ID)
+
+write_csv(data_complete, "data/data-cleaned/data-complete.csv")
+write_csv(data_patient_complete, "data/data-cleaned/data-patient-complete.csv")
+
+save(data_complete, data_patient_complete, file = "data/data-cleaned/data-cleaned.RData")
+```

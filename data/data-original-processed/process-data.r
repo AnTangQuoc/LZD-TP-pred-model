@@ -69,4 +69,7 @@ process_data_lab_test <- function(path) {
 inputs_labs_general <- map(inputs, process_data_lab_test) |> bind_rows()
 write_csv(inputs_labs_general, "data/data-original-processed/data-labs.csv")
 
+# Save to a .RData file for better loading
+save(inputs_general, inputs_labs_general, file = "data/data-original-processed/data-processed.RData")
+
 # nolint end

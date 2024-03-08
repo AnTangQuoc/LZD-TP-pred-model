@@ -1,7 +1,6 @@
 library(tidyverse)
 
-data_complete <- read_csv("data/data-cleaned/data-complete.csv")
-data_patient_complete <- read_csv("data/data-cleaned/data-patient-complete.csv")
+load("data/data-cleaned/data-cleaned.RData")
 
 predictor_list <- data_patient_complete |>
   select(

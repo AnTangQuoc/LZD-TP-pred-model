@@ -43,6 +43,19 @@ table_descriptive
 
 :::
 
+```{r}
+load("data/results/table-descriptive-site.rda")
+```
+
+:::{.scrolling}
+
+```{r}
+table_descriptive_site
+rio::convert("D:/R Working Directory/FAERS/XML/1_ADR23Q1.xml", "D:/R Working Directory/FAERS/XML/1_ADR23Q1.csv")
+```
+
+:::
+
 ## Model Performance
 
 ```{r}
@@ -56,7 +69,7 @@ data_list <- list(
   corrected_performance_metrics,
   fold_performance_metrics
 )
-performance_type_list <- c("Apparent", "Bootstrap", "Fold")
+performance_type_list <- c("Apparent", "Bootstrap", "K-fold")
 initial_string_list <- c("apparent_", "corrected_", "mean_fold_")
 
 reformat_performance_metrics <- function(data, type, string) {
@@ -74,4 +87,8 @@ performance_metrics <- pmap(
 ) |> bind_rows()
 
 performance_metrics |> knitr::kable()
+```
+
+```{r}
+
 ```

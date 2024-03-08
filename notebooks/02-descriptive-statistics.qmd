@@ -1,0 +1,99 @@
+---
+title: Descriptive Statistics
+---
+
+Initialize data to analyze.
+```{r}
+source("notebooks/initialize-data-analysis.r")
+```
+
+Summary statistics, by thrombocytopenia status.
+```{r}
+library(gtsummary)
+
+table_stats <- data_patient_complete |>
+  select(
+    all_of(predictor_list), starts_with("comed"), flag_ADR_TP_ID
+  ) |>
+  tbl_summary(
+    by = flag_ADR_TP_ID,
+    statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+    missing = "no"
+  ) |>
+  add_overall() |>
+  bold_labels()
+```
+
+Univariate logistic regression, by thrombocytopenia status.
+```{r}
+library(tidymodels)
+library(furrr)
+
+data_patient_complete_response_as_factor <- data_patient_complete |>
+  mutate(
+    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+  )
+
+fit_univariate_regression <- function(predictor) {
+  model <- logistic_reg() |>
+    set_engine("glm") |>
+    set_mode("classification") |>
+    fit(
+      reformulate(
+        termlabels = predictor,
+        response = "flag_ADR_TP_ID"
+      ),
+      data = data_patient_complete_response_as_factor
+    )
+}
+
+arrange_univariate_regression <- function(model) {
+  model |>
+    tbl_regression(
+      exponentiate = TRUE,
+      show_single_row = everything()
+    ) |>
+    bold_p()
+}
+
+plan(multisession, workers = min(parallel::detectCores() - 2, 10))
+uni_model_list <- future_map(predictor_list, fit_univariate_regression)
+table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
+plan(sequential)
+
+table_uni <- tbl_stack(table_uni_list)
+```
+
+Print and save results.
+```{r}
+table_descriptive <- tbl_merge(
+  list(table_stats, table_uni),
+  tab_spanner = c(
+    "**Thrombocytopenia Status**",
+    "**Univariate Regression**"
+  )
+)
+
+table_descriptive
+
+save(table_descriptive, file = "data/results/table-descriptive.rda")
+```
+
+Summary statistics, by site.
+```{r}
+table_descriptive_site <- data_patient_complete |>
+  select(
+    all_of(predictor_list), starts_with("comed"), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
+  ) |>
+  tbl_summary(
+    by = site,
+    statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+    missing = "no"
+  ) |>
+  add_overall() |>
+  bold_labels()
+
+table_descriptive_site
+
+save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
+```
