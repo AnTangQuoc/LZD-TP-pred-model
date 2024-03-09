@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -46,10 +46,10 @@ ul.task-list li input[type="checkbox"] {
 <meta name="citation_abstract" content="Write abstract here,
 note the indentation
 ">
-<meta name="citation_publication_date" content="2024-03-10">
-<meta name="citation_cover_date" content="2024-03-10">
+<meta name="citation_publication_date" content="2024-03-09">
+<meta name="citation_cover_date" content="2024-03-09">
 <meta name="citation_year" content="2024">
-<meta name="citation_online_date" content="2024-03-10">
+<meta name="citation_online_date" content="2024-03-09">
 <meta name="citation_language" content="en">
 </head>
 
@@ -71,7 +71,7 @@ note the indentation
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Sunday, March 10, 2024</p>
+              <p class="date">Saturday, March 9, 2024</p>
             </div>
           </div>
           
@@ -136,9 +136,9 @@ note the indentation
   <li><a href="#model-performance-1" id="toc-model-performance-1" class="nav-link" data-scroll-target="#model-performance-1">Model Performance</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="index-preview.html"><i class="bi bi-journal-code"></i>Article Notebook</a></li><li><a href="notebooks\01-data-cleaning-preview.html"><i class="bi bi-journal-code"></i>Data Cleaning</a></li><li><a href="notebooks\02-descriptive-statistics-preview.html"><i class="bi bi-journal-code"></i>Descriptive Statistics</a></li><li><a href="notebooks\03-apparent-performance-preview.html"><i class="bi bi-journal-code"></i>Model Development and Apparent Validation</a></li><li><a href="notebooks\04-bootstrap-performance-preview.html"><i class="bi bi-journal-code"></i>Bootstrap Development and Validation</a></li><li><a href="notebooks\04-internal-external-cross-performance-preview.html"><i class="bi bi-journal-code"></i>Internal-External Development and Cross-Validation</a></li><li><a href="notebooks\04-k-fold-cross-performance-preview.html"><i class="bi bi-journal-code"></i>10-fold Development and Cross-Validation</a></li><li><a href="notebooks\05-risk-score-preview.html"><i class="bi bi-journal-code"></i>Risk Score System and Algorithm</a></li><li><a href="notebooks\bma-ref-preview.html"><i class="bi bi-journal-code"></i>bma-ref.qmd</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/04-k-fold-cross-performance-preview.html"><i class="bi bi-journal-code"></i>10-fold Development and Cross-Validation</a></li><li><a href="index-preview.html"><i class="bi bi-journal-code"></i>Article Notebook</a></li><li><a href="notebooks/bma-ref-preview.html"><i class="bi bi-journal-code"></i>bma-ref.qmd</a></li><li><a href="notebooks/04-bootstrap-performance-preview.html"><i class="bi bi-journal-code"></i>Bootstrap Development and Validation</a></li><li><a href="notebooks/01-data-cleaning-preview.html"><i class="bi bi-journal-code"></i>Data Cleaning</a></li><li><a href="notebooks/02-descriptive-statistics-preview.html"><i class="bi bi-journal-code"></i>Descriptive Statistics</a></li><li><a href="notebooks/04-internal-external-cross-performance-preview.html"><i class="bi bi-journal-code"></i>Internal-External Development and Cross-Validation</a></li><li><a href="notebooks/03-apparent-performance-preview.html"><i class="bi bi-journal-code"></i>Model Development and Apparent Validation</a></li><li><a href="notebooks/05-risk-score-preview.html"><i class="bi bi-journal-code"></i>Risk Score System and Algorithm</a></li></ul></div></nav>
 </div>
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -1883,7 +1883,7 @@ $ site                 &lt;chr&gt; "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", "TN
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-2" href="index-preview.html">Source: Article Notebook</a></div>
+</div>
 </div>
 <div class="scrolling">
 <div class="cell">
@@ -3401,7 +3401,7 @@ $ site                 &lt;chr&gt; "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", "TN
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-3" href="index-preview.html">Source: Article Notebook</a></div>
+</div>
 </div>
 </section>
 <section id="model-performance-1" class="level2">
@@ -3439,7 +3439,7 @@ $ site                 &lt;chr&gt; "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", "TN
 </tbody>
 </table>
 </div>
-<a class="quarto-notebook-link" id="nblink-4" href="index-preview.html">Source: Article Notebook</a></div>
+</div>
 </section>
 </section>
 
@@ -3524,6 +3524,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -3558,7 +3576,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
