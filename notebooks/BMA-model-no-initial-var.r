@@ -1,5 +1,5 @@
 library(BAS)
-run_bas_glm <- function(data, formula) {
+run_bas_glm <- function(data, formula, ...) {
   bas.glm(
     formula,
     data = data,
@@ -7,8 +7,8 @@ run_bas_glm <- function(data, formula) {
     MCMC.iterations = 200000,
     # 100000 takes 1.5 mins, should be NULL (run until convergence, ~2.5 hrs)
     method = "MCMC",
-    include.always = ~1,
     laplace = TRUE,
-    renormalize = TRUE
+    renormalize = TRUE,
+    ...
   )
 }

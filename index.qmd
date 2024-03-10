@@ -70,6 +70,9 @@ abstract: |
 # Methods
 ## Participants and data
 ## Sample size
+
+There are [number] candidate predictors selected by clinical experts, and the BMS algorithm identified [number] additional predictors, for a total of [number] predictors. 
+
 ## Outcomes and predictors
 ## Data preparation
 ## Data analysis
