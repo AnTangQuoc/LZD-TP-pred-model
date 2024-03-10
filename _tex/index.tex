@@ -139,7 +139,7 @@
 \title{Development and Validation of a Risk Prediction Model of
 linezolid-induced thrombocytopenia in Vietnamese patients}
 \author{}
-\date{Saturday, March 9, 2024}
+\date{Sunday, March 10, 2024}
 
 \begin{document}
 \maketitle
@@ -296,6 +296,10 @@ for the present study & \\
 
 \subsection{Sample size}\label{sample-size}
 
+There are {[}number{]} candidate predictors selected by clinical
+experts, and the BMS algorithm identified {[}number{]} additional
+predictors, for a total of {[}number{]} predictors.
+
 \subsection{Outcomes and predictors}\label{outcomes-and-predictors}
 
 \subsection{Data preparation}\label{data-preparation}
@@ -351,7 +355,7 @@ specification}\label{model-development-and-specification}
 Notebook}}
 
 \begin{verbatim}
-Rows: 817
+Rows: 816
 Columns: 58
 $ patient_age          <dbl> 90, 80, 79, 71, 72, 61, 60, 64, 92, 75, 86, 93, 6~
 $ patient_sex          <lgl> TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRU~
@@ -435,9 +439,9 @@ Notebook}}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Characteristic}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Overall}, N = 817
+\textbf{Overall}, N = 816
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{FALSE}, N = 553
+\textbf{FALSE}, N = 552
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
 \textbf{TRUE}, N = 264
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -453,116 +457,116 @@ Notebook}}
 \endlastfoot
 \textbf{patient\_age} & 62 (50 - 73) & 61 (47 - 72) & 64 (54 - 74) &
 1.02 & 1.01, 1.03 & \textbf{\textless0.001} \\
-\textbf{patient\_sex} & 307 (38\%) & 207 (37\%) & 100 (38\%) & 1.02 &
-0.75, 1.38 & \textgreater0.9 \\
+\textbf{patient\_sex} & 306 (38\%) & 206 (37\%) & 100 (38\%) & 1.02 &
+0.76, 1.38 & 0.9 \\
 \textbf{LZD\_dose\_per\_weight} & 21.8 (20.0 - 24.0) & 21.8 (20.0 -
 24.0) & 21.8 (19.4 - 24.6) & 0.99 & 0.96, 1.03 & 0.8 \\
-\textbf{baseline\_CLCR} & 48 (21 - 83) & 55 (26 - 88) & 32 (15 - 64) &
+\textbf{baseline\_CLCR} & 48 (21 - 84) & 55 (26 - 88) & 32 (15 - 64) &
 0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
 \textbf{dept\_ER} & 140 (17\%) & 95 (17\%) & 45 (17\%) & 0.99 & 0.67,
 1.45 & \textgreater0.9 \\
-\textbf{dept\_ICU} & 391 (48\%) & 241 (44\%) & 150 (57\%) & 1.70 & 1.27,
-2.29 & \textbf{\textless0.001} \\
+\textbf{dept\_ICU} & 390 (48\%) & 240 (43\%) & 150 (57\%) & 1.71 & 1.27,
+2.30 & \textbf{\textless0.001} \\
 \textbf{baseline\_HGB} & 102 (89 - 120) & 105 (91 - 121) & 98 (85 - 117)
 & 0.99 & 0.98, 0.99 & \textbf{\textless0.001} \\
 \textbf{baseline\_WBC} & 12 (8 - 17) & 12 (8 - 17) & 12 (8 - 18) & 1.01
-& 0.99, 1.03 & 0.4 \\
-\textbf{baseline\_PLT} & 206 (142 - 288) & 234 (167 - 309) & 154 (103 -
+& 0.99, 1.03 & 0.2 \\
+\textbf{baseline\_PLT} & 206 (143 - 288) & 234 (167 - 309) & 154 (103 -
 211) & 0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
 \textbf{LZD\_duration} & 9.0 (6.0 - 14.0) & 9.0 (6.0 - 13.0) & 10.0 (6.0
-- 14.0) & 1.03 & 1.01, 1.06 & \textbf{0.018} \\
-\textbf{invasive\_ETI} & 387 (47\%) & 231 (42\%) & 156 (59\%) & 2.01 &
-1.50, 2.72 & \textbf{\textless0.001} \\
-\textbf{invasive\_CVC} & 424 (52\%) & 247 (45\%) & 177 (67\%) & 2.52 &
-1.86, 3.43 & \textbf{\textless0.001} \\
+- 14.0) & 1.03 & 1.01, 1.06 & \textbf{0.017} \\
+\textbf{invasive\_ETI} & 386 (47\%) & 230 (42\%) & 156 (59\%) & 2.02 &
+1.50, 2.73 & \textbf{\textless0.001} \\
+\textbf{invasive\_CVC} & 423 (52\%) & 246 (45\%) & 177 (67\%) & 2.53 &
+1.87, 3.45 & \textbf{\textless0.001} \\
 \textbf{invasive\_IHD} & 111 (14\%) & 64 (12\%) & 47 (18\%) & 1.65 &
-1.10, 2.49 & \textbf{0.016} \\
-\textbf{invasive\_CRRT} & 148 (18\%) & 65 (12\%) & 83 (31\%) & 3.44 &
-2.39, 4.98 & \textbf{\textless0.001} \\
-\textbf{comorb\_HTN} & 333 (41\%) & 218 (39\%) & 115 (44\%) & 1.19 &
-0.88, 1.60 & 0.3 \\
+1.09, 2.48 & \textbf{0.016} \\
+\textbf{invasive\_CRRT} & 147 (18\%) & 64 (12\%) & 83 (31\%) & 3.50 &
+2.42, 5.07 & \textbf{\textless0.001} \\
+\textbf{comorb\_HTN} & 333 (41\%) & 218 (39\%) & 115 (44\%) & 1.18 &
+0.88, 1.59 & 0.3 \\
 \textbf{comorb\_DM} & 222 (27\%) & 150 (27\%) & 72 (27\%) & 1.01 & 0.72,
-1.40 & \textgreater0.9 \\
-\textbf{comorb\_HF} & 226 (28\%) & 132 (24\%) & 94 (36\%) & 1.76 & 1.28,
-2.42 & \textbf{\textless0.001} \\
-\textbf{comorb\_angina} & 32 (3.9\%) & 19 (3.4\%) & 13 (4.9\%) & 1.46 &
-0.69, 2.97 & 0.3 \\
+1.39 & \textgreater0.9 \\
+\textbf{comorb\_HF} & 225 (28\%) & 131 (24\%) & 94 (36\%) & 1.78 & 1.29,
+2.44 & \textbf{\textless0.001} \\
+\textbf{comorb\_angina} & 32 (3.9\%) & 19 (3.4\%) & 13 (4.9\%) & 1.45 &
+0.69, 2.96 & 0.3 \\
 \textbf{comorb\_cirr} & 48 (5.9\%) & 20 (3.6\%) & 28 (11\%) & 3.16 &
-1.75, 5.80 & \textbf{\textless0.001} \\
+1.75, 5.79 & \textbf{\textless0.001} \\
 \textbf{comorb\_COPD} & 39 (4.8\%) & 25 (4.5\%) & 14 (5.3\%) & 1.18 &
 0.59, 2.28 & 0.6 \\
 \textbf{comorb\_CVA} & 93 (11\%) & 64 (12\%) & 29 (11\%) & 0.94 & 0.58,
 1.49 & 0.8 \\
-\textbf{comorb\_MI} & 20 (2.4\%) & 15 (2.7\%) & 5 (1.9\%) & 0.69 & 0.22,
+\textbf{comorb\_MI} & 20 (2.5\%) & 15 (2.7\%) & 5 (1.9\%) & 0.69 & 0.22,
 1.81 & 0.5 \\
 \textbf{comorb\_K} & 67 (8.2\%) & 44 (8.0\%) & 23 (8.7\%) & 1.10 & 0.64,
 1.85 & 0.7 \\
 \textbf{comorb\_hematological} & 46 (5.6\%) & 27 (4.9\%) & 19 (7.2\%) &
 1.51 & 0.81, 2.75 & 0.2 \\
 \textbf{comorb\_hema} & 61 (7.5\%) & 37 (6.7\%) & 24 (9.1\%) & 1.39 &
-0.81, 2.37 & 0.2 \\
-\textbf{infect\_sepsis} & 134 (16\%) & 66 (12\%) & 68 (26\%) & 2.56 &
-1.76, 3.74 & \textbf{\textless0.001} \\
+0.81, 2.36 & 0.2 \\
+\textbf{infect\_sepsis} & 134 (16\%) & 66 (12\%) & 68 (26\%) & 2.55 &
+1.75, 3.73 & \textbf{\textless0.001} \\
 \textbf{infect\_CAP} & 118 (14\%) & 70 (13\%) & 48 (18\%) & 1.53 & 1.02,
-2.28 & \textbf{0.037} \\
+2.28 & \textbf{0.038} \\
 \textbf{infect\_HAP} & 375 (46\%) & 255 (46\%) & 120 (45\%) & 0.97 &
-0.73, 1.31 & 0.9 \\
+0.72, 1.30 & 0.8 \\
 \textbf{infect\_SSTI} & 133 (16\%) & 100 (18\%) & 33 (13\%) & 0.65 &
-0.42, 0.98 & \textbf{0.044} \\
+0.42, 0.98 & \textbf{0.043} \\
 \textbf{infect\_CNS} & 68 (8.3\%) & 46 (8.3\%) & 22 (8.3\%) & 1.00 &
 0.58, 1.68 & \textgreater0.9 \\
-\textbf{infect\_IAI} & 50 (6.1\%) & 34 (6.1\%) & 16 (6.1\%) & 0.98 &
+\textbf{infect\_IAI} & 50 (6.1\%) & 34 (6.2\%) & 16 (6.1\%) & 0.98 &
 0.52, 1.79 & \textgreater0.9 \\
 \textbf{infect\_UTI} & 53 (6.5\%) & 37 (6.7\%) & 16 (6.1\%) & 0.90 &
 0.48, 1.62 & 0.7 \\
 \textbf{infect\_BJI} & 11 (1.3\%) & 10 (1.8\%) & 1 (0.4\%) & 0.21 &
-0.01, 1.09 & 0.13 \\
+0.01, 1.08 & 0.13 \\
 \textbf{infect\_septicemia} & 237 (29\%) & 148 (27\%) & 89 (34\%) & 1.39
-& 1.01, 1.91 & \textbf{0.041} \\
+& 1.01, 1.90 & \textbf{0.043} \\
 \textbf{comed\_aspirin} & 47 (5.8\%) & 30 (5.4\%) & 17 (6.4\%) & 1.20 &
 0.64, 2.19 & 0.6 \\
-\textbf{comed\_diclofenac} & 27 (3.3\%) & 20 (3.6\%) & 7 (2.7\%) & 0.73
+\textbf{comed\_diclofenac} & 27 (3.3\%) & 20 (3.6\%) & 7 (2.7\%) & 0.72
 & 0.28, 1.66 & 0.5 \\
 \textbf{comed\_ibuprofen} & 26 (3.2\%) & 15 (2.7\%) & 11 (4.2\%) & 1.56
 & 0.69, 3.42 & 0.3 \\
-\textbf{comed\_paracetamol} & 355 (43\%) & 244 (44\%) & 111 (42\%) &
-0.92 & 0.68, 1.23 & 0.6 \\
+\textbf{comed\_paracetamol} & 357 (44\%) & 246 (45\%) & 111 (42\%) &
+0.90 & 0.67, 1.21 & 0.5 \\
 \textbf{comed\_penicillin} & 123 (15\%) & 78 (14\%) & 45 (17\%) & 1.25 &
 0.83, 1.86 & 0.3 \\
-\textbf{comed\_cepha} & 207 (25\%) & 149 (27\%) & 58 (22\%) & 0.76 &
-0.54, 1.08 & 0.13 \\
-\textbf{comed\_carbapenem} & 584 (71\%) & 382 (69\%) & 202 (77\%) & 1.46
-& 1.05, 2.05 & \textbf{0.028} \\
-\textbf{comed\_cotrimoxazol} & 65 (8.0\%) & 37 (6.7\%) & 28 (11\%) &
-1.65 & 0.98, 2.76 & 0.055 \\
-\textbf{comed\_vancomycin} & 68 (8.3\%) & 42 (7.6\%) & 26 (9.8\%) & 1.33
-& 0.79, 2.21 & 0.3 \\
-\textbf{comed\_levofloxacin} & 250 (31\%) & 161 (29\%) & 89 (34\%) &
-1.24 & 0.90, 1.69 & 0.2 \\
+\textbf{comed\_cepha} & 208 (25\%) & 150 (27\%) & 58 (22\%) & 0.75 &
+0.53, 1.06 & 0.11 \\
+\textbf{comed\_carbapenem} & 588 (72\%) & 385 (70\%) & 203 (77\%) & 1.44
+& 1.03, 2.04 & \textbf{0.034} \\
+\textbf{comed\_cotrimoxazol} & 67 (8.2\%) & 39 (7.1\%) & 28 (11\%) &
+1.56 & 0.93, 2.59 & 0.087 \\
+\textbf{comed\_vancomycin} & 67 (8.2\%) & 41 (7.4\%) & 26 (9.8\%) & 1.36
+& 0.81, 2.27 & 0.2 \\
+\textbf{comed\_levofloxacin} & 250 (31\%) & 162 (29\%) & 88 (33\%) &
+1.20 & 0.88, 1.65 & 0.2 \\
 \textbf{comed\_teicoplanin} & 37 (4.5\%) & 23 (4.2\%) & 14 (5.3\%) &
 1.29 & 0.64, 2.52 & 0.5 \\
 \textbf{comed\_ethambutol} & 8 (1.0\%) & 5 (0.9\%) & 3 (1.1\%) & 1.26 &
-0.26, 5.17 & 0.8 \\
+0.26, 5.16 & 0.8 \\
 \textbf{comed\_pyrazinamid} & 12 (1.5\%) & 6 (1.1\%) & 6 (2.3\%) & 2.12
-& 0.66, 6.84 & 0.2 \\
-\textbf{comed\_rifampin} & 17 (2.1\%) & 10 (1.8\%) & 7 (2.7\%) & 1.48 &
-0.53, 3.89 & 0.4 \\
-\textbf{comed\_heparin} & 207 (25\%) & 108 (20\%) & 99 (38\%) & 2.47 &
-1.78, 3.43 & \textbf{\textless0.001} \\
+& 0.66, 6.83 & 0.2 \\
+\textbf{comed\_rifampin} & 15 (1.8\%) & 8 (1.4\%) & 7 (2.7\%) & 1.85 &
+0.64, 5.21 & 0.2 \\
+\textbf{comed\_heparin} & 207 (25\%) & 109 (20\%) & 98 (37\%) & 2.40 &
+1.73, 3.33 & \textbf{\textless0.001} \\
 \textbf{comed\_clopidogrel} & 40 (4.9\%) & 30 (5.4\%) & 10 (3.8\%) &
 0.69 & 0.31, 1.38 & 0.3 \\
-\textbf{comed\_enoxaparin} & 350 (43\%) & 233 (42\%) & 117 (44\%) & 1.09
-& 0.81, 1.47 & 0.6 \\
-\textbf{comed\_dexamethason} & 105 (13\%) & 71 (13\%) & 34 (13\%) & 1.00
-& 0.64, 1.54 & \textgreater0.9 \\
-\textbf{comed\_amiodaron} & 36 (4.4\%) & 17 (3.1\%) & 19 (7.2\%) & 2.45
-& 1.25, 4.83 & \textbf{0.009} \\
+\textbf{comed\_enoxaparin} & 352 (43\%) & 235 (43\%) & 117 (44\%) & 1.07
+& 0.80, 1.44 & 0.6 \\
+\textbf{comed\_dexamethason} & 106 (13\%) & 72 (13\%) & 34 (13\%) & 0.99
+& 0.63, 1.51 & \textgreater0.9 \\
+\textbf{comed\_amiodaron} & 36 (4.4\%) & 17 (3.1\%) & 19 (7.2\%) & 2.44
+& 1.24, 4.82 & \textbf{0.009} \\
 \textbf{comed\_furosemid} & 436 (53\%) & 260 (47\%) & 176 (67\%) & 2.25
-& 1.66, 3.07 & \textbf{\textless0.001} \\
-\textbf{comed\_haloperidol} & 52 (6.4\%) & 35 (6.3\%) & 17 (6.4\%) &
-1.02 & 0.55, 1.83 & \textgreater0.9 \\
+& 1.66, 3.06 & \textbf{\textless0.001} \\
+\textbf{comed\_haloperidol} & 53 (6.5\%) & 36 (6.5\%) & 17 (6.4\%) &
+0.99 & 0.53, 1.76 & \textgreater0.9 \\
 \textbf{comed\_valproic} & 32 (3.9\%) & 23 (4.2\%) & 9 (3.4\%) & 0.81 &
-0.35, 1.73 & 0.6 \\
+0.35, 1.72 & 0.6 \\
 \textbf{comed\_aceclofenac} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
 \textbf{comed\_naproxen} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
 \textbf{comed\_daptomycin} & 1 (0.1\%) & 0 (0\%) & 1 (0.4\%) & & & \\
@@ -578,7 +582,7 @@ Notebook}}
 \textbf{comed\_quetiapin} & 4 (0.5\%) & 4 (0.7\%) & 0 (0\%) & & & \\
 \textbf{comed\_ondansetron} & 6 (0.7\%) & 4 (0.7\%) & 2 (0.8\%) & & & \\
 \textbf{comed\_palonosetron} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_oseltamivir} & 3 (0.4\%) & 1 (0.2\%) & 2 (0.8\%) & & & \\
+\textbf{comed\_oseltamivir} & 2 (0.2\%) & 1 (0.2\%) & 1 (0.4\%) & & & \\
 \textbf{comed\_quinin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
 \textbf{comed\_pembrolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
 \textbf{comed\_trastuzumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
@@ -614,13 +618,13 @@ Notebook}}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Characteristic}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Overall}, N = 817
+\textbf{Overall}, N = 816
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
 \textbf{BM1}, N = 125
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
 \textbf{BM2}, N = 77
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{ND1}, N = 180
+\textbf{ND1}, N = 179
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
 \textbf{ND2}, N = 116
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -637,54 +641,54 @@ Notebook}}
 \textbf{patient\_age} & 62 (50 - 73) & 58 (43 - 69) & 60 (45 - 72) & 60
 (45 - 68) & 59 (46 - 68) & 69 (60 - 78) & 66 (58 - 78) &
 \textbf{\textless0.001} \\
-\textbf{patient\_sex} & 307 (38\%) & 54 (43\%) & 27 (35\%) & 74 (41\%) &
+\textbf{patient\_sex} & 306 (38\%) & 54 (43\%) & 27 (35\%) & 73 (41\%) &
 28 (24\%) & 48 (48\%) & 76 (35\%) & \textbf{0.004} \\
 \textbf{LZD\_dose\_per\_weight} & 21.8 (20.0 - 24.0) & 22.6 (20.0 -
 25.5) & 21.4 (19.0 - 24.0) & 21.4 (19.4 - 24.0) & 21.8 (20.0 - 24.0) &
-24.0 (20.0 - 24.6) & 21.8 (19.7 - 24.0) & \textbf{0.027} \\
-\textbf{baseline\_CLCR} & 48 (21 - 83) & 50 (24 - 80) & 40 (17 - 86) &
+24.0 (20.0 - 24.6) & 21.8 (19.7 - 24.0) & \textbf{0.028} \\
+\textbf{baseline\_CLCR} & 48 (21 - 84) & 50 (24 - 80) & 40 (17 - 86) &
 70 (41 - 104) & 60 (27 - 95) & 29 (14 - 54) & 35 (17 - 67) &
 \textbf{\textless0.001} \\
 \textbf{dept\_ER} & 140 (17\%) & 7 (5.6\%) & 9 (12\%) & 67 (37\%) & 15
 (13\%) & 16 (16\%) & 26 (12\%) & \textbf{\textless0.001} \\
-\textbf{dept\_ICU} & 391 (48\%) & 10 (8.0\%) & 23 (30\%) & 74 (41\%) &
+\textbf{dept\_ICU} & 390 (48\%) & 10 (8.0\%) & 23 (30\%) & 73 (41\%) &
 42 (36\%) & 77 (77\%) & 165 (75\%) & \textbf{\textless0.001} \\
 \textbf{baseline\_HGB} & 102 (89 - 120) & 105 (91 - 124) & 99 (83 - 118)
-& 105 (89 - 122) & 100 (88 - 118) & 99 (89 - 116) & 104 (91 - 120) &
+& 105 (89 - 123) & 100 (88 - 118) & 99 (89 - 116) & 104 (91 - 120) &
 0.2 \\
 \textbf{baseline\_WBC} & 12 (8 - 17) & 11 (7 - 16) & 11 (7 - 17) & 12 (8
-- 18) & 11 (7 - 15) & 12 (8 - 18) & 13 (9 - 18) & \textbf{0.024} \\
-\textbf{baseline\_PLT} & 206 (142 - 288) & 195 (139 - 247) & 234 (160 -
-318) & 207 (129 - 292) & 225 (127 - 310) & 172 (122 - 245) & 225 (161 -
+- 18) & 11 (7 - 15) & 12 (8 - 18) & 13 (9 - 18) & \textbf{0.023} \\
+\textbf{baseline\_PLT} & 206 (143 - 288) & 195 (139 - 247) & 234 (160 -
+318) & 207 (129 - 293) & 225 (127 - 310) & 172 (122 - 245) & 225 (161 -
 299) & \textbf{\textless0.001} \\
 \textbf{LZD\_duration} & 9.0 (6.0 - 14.0) & 8.0 (6.0 - 13.0) & 10.0 (6.0
 - 14.0) & 10.0 (6.0 - 14.0) & 9.0 (6.0 - 12.0) & 11.0 (6.0 - 15.0) & 9.0
 (6.0 - 12.0) & 0.3 \\
-\textbf{invasive\_ETI} & 387 (47\%) & 63 (50\%) & 30 (39\%) & 112 (62\%)
+\textbf{invasive\_ETI} & 386 (47\%) & 63 (50\%) & 30 (39\%) & 111 (62\%)
 & 49 (42\%) & 48 (48\%) & 85 (39\%) & \textbf{\textless0.001} \\
-\textbf{invasive\_CVC} & 424 (52\%) & 75 (60\%) & 30 (39\%) & 100 (56\%)
+\textbf{invasive\_CVC} & 423 (52\%) & 75 (60\%) & 30 (39\%) & 99 (55\%)
 & 48 (41\%) & 50 (50\%) & 121 (55\%) & \textbf{0.008} \\
 \textbf{invasive\_IHD} & 111 (14\%) & 17 (14\%) & 16 (21\%) & 9 (5.0\%)
 & 0 (0\%) & 27 (27\%) & 42 (19\%) & \textbf{\textless0.001} \\
-\textbf{invasive\_CRRT} & 148 (18\%) & 17 (14\%) & 9 (12\%) & 53 (29\%)
+\textbf{invasive\_CRRT} & 147 (18\%) & 17 (14\%) & 9 (12\%) & 52 (29\%)
 & 5 (4.3\%) & 20 (20\%) & 44 (20\%) & \textbf{\textless0.001} \\
 \textbf{comorb\_HTN} & 333 (41\%) & 42 (34\%) & 31 (40\%) & 49 (27\%) &
 28 (24\%) & 59 (59\%) & 124 (57\%) & \textbf{\textless0.001} \\
 \textbf{comorb\_DM} & 222 (27\%) & 28 (22\%) & 24 (31\%) & 28 (16\%) &
 27 (23\%) & 31 (31\%) & 84 (38\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_HF} & 226 (28\%) & 55 (44\%) & 11 (14\%) & 15 (8.3\%) &
+\textbf{comorb\_HF} & 225 (28\%) & 55 (44\%) & 11 (14\%) & 14 (7.8\%) &
 7 (6.0\%) & 70 (70\%) & 68 (31\%) & \textbf{\textless0.001} \\
 \textbf{comorb\_angina} & 32 (3.9\%) & 0 (0\%) & 0 (0\%) & 1 (0.6\%) & 0
 (0\%) & 13 (13\%) & 18 (8.2\%) & \textbf{\textless0.001} \\
 \textbf{comorb\_cirr} & 48 (5.9\%) & 6 (4.8\%) & 1 (1.3\%) & 10 (5.6\%)
-& 5 (4.3\%) & 12 (12\%) & 14 (6.4\%) & 0.080 \\
+& 5 (4.3\%) & 12 (12\%) & 14 (6.4\%) & 0.078 \\
 \textbf{comorb\_COPD} & 39 (4.8\%) & 3 (2.4\%) & 0 (0\%) & 2 (1.1\%) & 2
 (1.7\%) & 9 (9.0\%) & 23 (11\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_CVA} & 93 (11\%) & 19 (15\%) & 11 (14\%) & 6 (3.3\%) & 4
+\textbf{comorb\_CVA} & 93 (11\%) & 19 (15\%) & 11 (14\%) & 6 (3.4\%) & 4
 (3.4\%) & 16 (16\%) & 37 (17\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_MI} & 20 (2.4\%) & 10 (8.0\%) & 3 (3.9\%) & 2 (1.1\%) &
-0 (0\%) & 1 (1.0\%) & 4 (1.8\%) & \textbf{0.002} \\
-\textbf{comorb\_K} & 67 (8.2\%) & 5 (4.0\%) & 5 (6.5\%) & 8 (4.4\%) & 6
+\textbf{comorb\_MI} & 20 (2.5\%) & 10 (8.0\%) & 3 (3.9\%) & 2 (1.1\%) &
+0 (0\%) & 1 (1.0\%) & 4 (1.8\%) & \textbf{\textless0.001} \\
+\textbf{comorb\_K} & 67 (8.2\%) & 5 (4.0\%) & 5 (6.5\%) & 8 (4.5\%) & 6
 (5.2\%) & 11 (11\%) & 32 (15\%) & \textbf{\textless0.001} \\
 \textbf{comorb\_hematological} & 46 (5.6\%) & 9 (7.2\%) & 12 (16\%) & 10
 (5.6\%) & 5 (4.3\%) & 8 (8.0\%) & 2 (0.9\%) & \textbf{\textless0.001} \\
@@ -695,7 +699,7 @@ Notebook}}
 \textbf{infect\_CAP} & 118 (14\%) & 7 (5.6\%) & 6 (7.8\%) & 11 (6.1\%) &
 1 (0.9\%) & 26 (26\%) & 67 (31\%) & \textbf{\textless0.001} \\
 \textbf{infect\_HAP} & 375 (46\%) & 38 (30\%) & 33 (43\%) & 93 (52\%) &
-59 (51\%) & 52 (52\%) & 100 (46\%) & \textbf{0.004} \\
+59 (51\%) & 52 (52\%) & 100 (46\%) & \textbf{0.003} \\
 \textbf{infect\_SSTI} & 133 (16\%) & 33 (26\%) & 34 (44\%) & 1 (0.6\%) &
 4 (3.4\%) & 23 (23\%) & 38 (17\%) & \textbf{\textless0.001} \\
 \textbf{infect\_CNS} & 68 (8.3\%) & 0 (0\%) & 5 (6.5\%) & 24 (13\%) & 20
@@ -703,7 +707,7 @@ Notebook}}
 \textbf{infect\_IAI} & 50 (6.1\%) & 8 (6.4\%) & 8 (10\%) & 1 (0.6\%) & 2
 (1.7\%) & 12 (12\%) & 19 (8.7\%) & \textbf{\textless0.001} \\
 \textbf{infect\_UTI} & 53 (6.5\%) & 6 (4.8\%) & 8 (10\%) & 10 (5.6\%) &
-5 (4.3\%) & 4 (4.0\%) & 20 (9.1\%) & 0.3 \\
+5 (4.3\%) & 4 (4.0\%) & 20 (9.1\%) & 0.2 \\
 \textbf{infect\_BJI} & 11 (1.3\%) & 3 (2.4\%) & 0 (0\%) & 0 (0\%) & 2
 (1.7\%) & 1 (1.0\%) & 5 (2.3\%) & 0.2 \\
 \textbf{infect\_septicemia} & 237 (29\%) & 35 (28\%) & 24 (31\%) & 57
@@ -714,18 +718,18 @@ Notebook}}
 & 1 (0.9\%) & 0 (0\%) & 2 (0.9\%) & \textbf{\textless0.001} \\
 \textbf{comed\_ibuprofen} & 26 (3.2\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 2
 (1.7\%) & 0 (0\%) & 24 (11\%) & \textbf{\textless0.001} \\
-\textbf{comed\_paracetamol} & 355 (43\%) & 66 (53\%) & 0 (0\%) & 90
-(50\%) & 69 (59\%) & 47 (47\%) & 83 (38\%) & \textbf{\textless0.001} \\
+\textbf{comed\_paracetamol} & 357 (44\%) & 66 (53\%) & 0 (0\%) & 92
+(51\%) & 69 (59\%) & 47 (47\%) & 83 (38\%) & \textbf{\textless0.001} \\
 \textbf{comed\_penicillin} & 123 (15\%) & 0 (0\%) & 5 (6.5\%) & 34
 (19\%) & 19 (16\%) & 17 (17\%) & 48 (22\%) & \textbf{\textless0.001} \\
-\textbf{comed\_cepha} & 207 (25\%) & 12 (9.6\%) & 10 (13\%) & 35 (19\%)
+\textbf{comed\_cepha} & 208 (25\%) & 12 (9.6\%) & 10 (13\%) & 36 (20\%)
 & 33 (28\%) & 11 (11\%) & 106 (48\%) & \textbf{\textless0.001} \\
-\textbf{comed\_carbapenem} & 584 (71\%) & 52 (42\%) & 46 (60\%) & 154
-(86\%) & 78 (67\%) & 80 (80\%) & 174 (79\%) & \textbf{\textless0.001} \\
-\textbf{comed\_cotrimoxazol} & 65 (8.0\%) & 0 (0\%) & 5 (6.5\%) & 18
-(10\%) & 14 (12\%) & 9 (9.0\%) & 19 (8.7\%) & \textbf{0.010} \\
-\textbf{comed\_vancomycin} & 68 (8.3\%) & 8 (6.4\%) & 3 (3.9\%) & 11
-(6.1\%) & 22 (19\%) & 3 (3.0\%) & 21 (9.6\%) &
+\textbf{comed\_carbapenem} & 588 (72\%) & 52 (42\%) & 46 (60\%) & 158
+(88\%) & 78 (67\%) & 80 (80\%) & 174 (79\%) & \textbf{\textless0.001} \\
+\textbf{comed\_cotrimoxazol} & 67 (8.2\%) & 0 (0\%) & 5 (6.5\%) & 20
+(11\%) & 14 (12\%) & 9 (9.0\%) & 19 (8.7\%) & \textbf{0.007} \\
+\textbf{comed\_vancomycin} & 67 (8.2\%) & 8 (6.4\%) & 3 (3.9\%) & 10
+(5.6\%) & 22 (19\%) & 3 (3.0\%) & 21 (9.6\%) &
 \textbf{\textless0.001} \\
 \textbf{comed\_levofloxacin} & 250 (31\%) & 27 (22\%) & 6 (7.8\%) & 24
 (13\%) & 20 (17\%) & 34 (34\%) & 139 (63\%) & \textbf{\textless0.001} \\
@@ -735,24 +739,24 @@ Notebook}}
 6 (5.2\%) & 0 (0\%) & 0 (0\%) & \textbf{\textless0.001} \\
 \textbf{comed\_pyrazinamid} & 12 (1.5\%) & 0 (0\%) & 0 (0\%) & 5 (2.8\%)
 & 7 (6.0\%) & 0 (0\%) & 0 (0\%) & \textbf{\textless0.001} \\
-\textbf{comed\_rifampin} & 17 (2.1\%) & 0 (0\%) & 0 (0\%) & 7 (3.9\%) &
+\textbf{comed\_rifampin} & 15 (1.8\%) & 0 (0\%) & 0 (0\%) & 5 (2.8\%) &
 9 (7.8\%) & 1 (1.0\%) & 0 (0\%) & \textbf{\textless0.001} \\
 \textbf{comed\_heparin} & 207 (25\%) & 12 (9.6\%) & 2 (2.6\%) & 74
 (41\%) & 24 (21\%) & 33 (33\%) & 62 (28\%) & \textbf{\textless0.001} \\
 \textbf{comed\_clopidogrel} & 40 (4.9\%) & 7 (5.6\%) & 4 (5.2\%) & 1
 (0.6\%) & 0 (0\%) & 8 (8.0\%) & 20 (9.1\%) & \textbf{\textless0.001} \\
-\textbf{comed\_enoxaparin} & 350 (43\%) & 33 (26\%) & 13 (17\%) & 117
-(65\%) & 44 (38\%) & 40 (40\%) & 103 (47\%) & \textbf{\textless0.001} \\
-\textbf{comed\_dexamethason} & 105 (13\%) & 0 (0\%) & 0 (0\%) & 74
-(41\%) & 20 (17\%) & 2 (2.0\%) & 9 (4.1\%) & \textbf{\textless0.001} \\
+\textbf{comed\_enoxaparin} & 352 (43\%) & 33 (26\%) & 13 (17\%) & 119
+(66\%) & 44 (38\%) & 40 (40\%) & 103 (47\%) & \textbf{\textless0.001} \\
+\textbf{comed\_dexamethason} & 106 (13\%) & 0 (0\%) & 0 (0\%) & 75
+(42\%) & 20 (17\%) & 2 (2.0\%) & 9 (4.1\%) & \textbf{\textless0.001} \\
 \textbf{comed\_amiodaron} & 36 (4.4\%) & 8 (6.4\%) & 0 (0\%) & 14
 (7.8\%) & 5 (4.3\%) & 4 (4.0\%) & 5 (2.3\%) & \textbf{0.026} \\
 \textbf{comed\_furosemid} & 436 (53\%) & 72 (58\%) & 15 (19\%) & 81
 (45\%) & 49 (42\%) & 71 (71\%) & 148 (68\%) & \textbf{\textless0.001} \\
-\textbf{comed\_haloperidol} & 52 (6.4\%) & 3 (2.4\%) & 4 (5.2\%) & 20
-(11\%) & 4 (3.4\%) & 5 (5.0\%) & 16 (7.3\%) & \textbf{0.034} \\
+\textbf{comed\_haloperidol} & 53 (6.5\%) & 3 (2.4\%) & 4 (5.2\%) & 21
+(12\%) & 4 (3.4\%) & 5 (5.0\%) & 16 (7.3\%) & \textbf{0.015} \\
 \textbf{comed\_valproic} & 32 (3.9\%) & 0 (0\%) & 1 (1.3\%) & 10 (5.6\%)
-& 5 (4.3\%) & 3 (3.0\%) & 13 (5.9\%) & \textbf{0.024} \\
+& 5 (4.3\%) & 3 (3.0\%) & 13 (5.9\%) & \textbf{0.029} \\
 \textbf{comed\_aceclofenac} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
 (0\%) & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_naproxen} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
@@ -760,11 +764,11 @@ Notebook}}
 \textbf{comed\_daptomycin} & 1 (0.1\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 1
 (0.9\%) & 0 (0\%) & 0 (0\%) & 0.4 \\
 \textbf{comed\_cetirizin} & 6 (0.7\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 6 (2.7\%) & \textbf{0.016} \\
+(0\%) & 0 (0\%) & 6 (2.7\%) & \textbf{0.015} \\
 \textbf{comed\_simvas} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%)
 & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_bisoprolol} & 6 (0.7\%) & 4 (3.2\%) & 0 (0\%) & 1 (0.6\%)
-& 1 (0.9\%) & 0 (0\%) & 0 (0\%) & \textbf{0.031} \\
+& 1 (0.9\%) & 0 (0\%) & 0 (0\%) & \textbf{0.029} \\
 \textbf{comed\_diltiazem} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
 (0\%) & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_eptifibatid} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
@@ -772,7 +776,7 @@ Notebook}}
 \textbf{comed\_quinidin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
 (0\%) & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_carbamazepin} & 8 (1.0\%) & 0 (0\%) & 0 (0\%) & 7 (3.9\%)
-& 0 (0\%) & 0 (0\%) & 1 (0.5\%) & \textbf{0.005} \\
+& 0 (0\%) & 0 (0\%) & 1 (0.5\%) & \textbf{0.003} \\
 \textbf{comed\_phenytoin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
 (0\%) & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_mirtazapin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
@@ -780,11 +784,11 @@ Notebook}}
 \textbf{comed\_quetiapin} & 4 (0.5\%) & 1 (0.8\%) & 1 (1.3\%) & 0 (0\%)
 & 0 (0\%) & 0 (0\%) & 2 (0.9\%) & 0.5 \\
 \textbf{comed\_ondansetron} & 6 (0.7\%) & 2 (1.6\%) & 1 (1.3\%) & 0
-(0\%) & 3 (2.6\%) & 0 (0\%) & 0 (0\%) & \textbf{0.020} \\
+(0\%) & 3 (2.6\%) & 0 (0\%) & 0 (0\%) & \textbf{0.016} \\
 \textbf{comed\_palonosetron} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
 (0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_oseltamivir} & 3 (0.4\%) & 1 (0.8\%) & 1 (1.3\%) & 1
-(0.6\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0.4 \\
+\textbf{comed\_oseltamivir} & 2 (0.2\%) & 1 (0.8\%) & 1 (1.3\%) & 0
+(0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0.14 \\
 \textbf{comed\_quinin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%)
 & 0 (0\%) & 0 (0\%) & \\
 \textbf{comed\_pembrolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) &
@@ -840,9 +844,9 @@ calibration\_slope \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Apparent & 0.7805907 & 0.0000000 & 1.0000000 \\
-Bootstrap & 0.7460291 & -0.0133039 & 0.8155761 \\
-K-fold & 0.7508108 & -0.0206981 & 0.9113817 \\
+Apparent & 0.7860397 & 0.0000000 & 1.0000000 \\
+Bootstrap & 0.7534568 & -0.0188899 & 0.8139667 \\
+K-fold & 0.7519437 & -0.0261553 & 0.8719934 \\
 \end{longtable}
 
 \textsubscript{Source:

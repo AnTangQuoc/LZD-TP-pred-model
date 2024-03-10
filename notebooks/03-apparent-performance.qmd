@@ -91,7 +91,8 @@ Comment: Penalized likelihood methods have comparable predictive performance to 
 multi_model <- data_patient_complete |>
   select(all_of(predictor_list), flag_ADR_TP_ID) |>
   run_bas_glm(
-    formula = flag_ADR_TP_ID ~ .
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = ~1
   )
 
 summary(multi_model)
