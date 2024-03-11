@@ -146,6 +146,25 @@ car::crPlot(model_full$fit, variable = "LZD_duration")
 
 Result: No obvious non-linearity in the partial-residual plots.
 
+Visual check of linearity assumption using logit of predicted probabilities vs. continuous predictors values.
+```{r}
+data_patient_linear_check <- data_patient_complete |>
+  select(all_of(multi_predict_HPM)) |>
+  mutate(
+    probabilites = predict(model_full$fit, data_patient_complete, type = "response"),
+    log_odds = log(probabilites / (1 - probabilites))
+  ) |>
+  select_if(is.numeric) |>
+  gather(key = "predictors", value = "predictor_value", -log_odds, -probabilites)
+
+ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess", color = "red") +
+  geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
+  theme_bw() +
+  facet_wrap(~predictors, scales = "free_x")
+```
+
 ## No Multicollinearity
 
 VIFs from the coefficient estimates should be less than 5 and as close to 1 as possible.

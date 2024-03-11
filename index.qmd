@@ -138,32 +138,32 @@ table_descriptive_site
 ## Model Performance
 
 ```{r}
-load("data/model-performance/apparent-performance-metrics.rda")
-load("data/model-performance/corrected-performance-metrics.rda")
-load("data/model-performance/fold-performance-metrics.rda")
-load("data/model-performance/cross-performance-metrics.rda")
+# load("data/model-performance/apparent-performance-metrics.rda")
+# load("data/model-performance/corrected-performance-metrics.rda")
+# load("data/model-performance/fold-performance-metrics.rda")
+# load("data/model-performance/cross-performance-metrics.rda")
 
-data_list <- list(
-  apparent_performance_metrics,
-  corrected_performance_metrics,
-  fold_performance_metrics
-)
-performance_type_list <- c("Apparent", "Bootstrap", "K-fold")
-initial_string_list <- c("apparent_", "corrected_", "mean_fold_")
+# data_list <- list(
+#   apparent_performance_metrics,
+#   corrected_performance_metrics,
+#   fold_performance_metrics
+# )
+# performance_type_list <- c("Apparent", "Bootstrap", "K-fold")
+# initial_string_list <- c("apparent_", "corrected_", "mean_fold_")
 
-reformat_performance_metrics <- function(data, type, string) {
-  data |> 
-    mutate(
-    performance_type = type
-  ) |>
-  rename_with(~ str_replace(., string, "")) |>
-  select(performance_type, everything())
-}
+# reformat_performance_metrics <- function(data, type, string) {
+#   data |> 
+#     mutate(
+#     performance_type = type
+#   ) |>
+#   rename_with(~ str_replace(., string, "")) |>
+#   select(performance_type, everything())
+# }
 
-performance_metrics <- pmap(
-  list(data_list, performance_type_list, initial_string_list), 
-  reformat_performance_metrics
-) |> bind_rows()
+# performance_metrics <- pmap(
+#   list(data_list, performance_type_list, initial_string_list), 
+#   reformat_performance_metrics
+# ) |> bind_rows()
 
-performance_metrics |> knitr::kable()
+# performance_metrics |> knitr::kable()
 ```

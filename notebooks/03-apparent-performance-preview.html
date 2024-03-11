@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.5.24">
+    <meta name="generator" content="quarto-1.4.551">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -128,7 +128,7 @@
             // if location was not changed in 100 ms, then there is no history back
             if(currentUrl === window.location.href){              
                 // redirect to site root
-                window.location.href = "../index.html";
+                window.location.href = "...html";
             }
         }, 100);
       }
@@ -229,7 +229,7 @@
   </ul>
 </nav>
 </div>
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
@@ -341,7 +341,7 @@ Attaching package: 'Matrix'</code></pre>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_fit, <span class="at">s =</span> cv_lasso_fit<span class="sc">$</span>lambda.min)<span class="sc">@</span>i <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 21</code></pre>
+<pre><code>[1] 18</code></pre>
 </div>
 </div></div>
 <p>Results: LASSO algorithm selected 22-25 predictors.</p>
@@ -362,64 +362,64 @@ Attaching package: 'Matrix'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.780527512    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004805476    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.004245939    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.322702952    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004835895    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.010678870    0.0000    0.0000000    0.00000000
-baseline_HGB               0.338564686    1.0000    0.0000000    0.00000000
-baseline_WBC               0.015782417    0.0000    0.0000000    0.00000000
+patient_age                0.779030635    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.004614579    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.003964769    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.320510793    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.005007583    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.010700129    0.0000    0.0000000    0.00000000
+baseline_HGB               0.337280104    1.0000    0.0000000    0.00000000
+baseline_WBC               0.016639918    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999998745    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.126856097    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.494002516    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.007193505    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980553899    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004787683    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.006806460    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.085443919    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004722231    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.088811529    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013201720    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012058284    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.009579604    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.004767958    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.013538553    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.005192487    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.046257512    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.006793473    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.017719842    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.020731554    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004319673    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004472154    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005554082    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.007320071    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.205106012    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.005109603    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.005057551    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004671512    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.006015693    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.008325682    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.008898048    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.004908307    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.069010882    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.028903393    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004890719    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.012857591    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.005300568    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.011050383    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010422083    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.060586923    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.017731104    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005412559    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007531764    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.027942270    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.161721129    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007784620    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.005011707    0.0000    0.0000000    0.00000000
+LZD_duration               0.999404062    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.126981116    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.494177349    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.007022229    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.980174215    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.004407398    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007255127    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.086241028    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004727603    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.088933649    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.013758749    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.011879542    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.010954931    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.004558489    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.014035147    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.004758380    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.046919221    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.007503973    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.016776620    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.020035921    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004763800    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.005061878    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005066031    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.007218511    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.203864994    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004560509    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.004938813    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.004285310    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.006080531    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.007705612    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.009351066    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005721677    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.066718529    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.029736046    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.004644412    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.012225496    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.005462446    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.010578267    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.010135366    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.058280255    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.016189370    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005511379    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.007082884    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.028307836    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.162094326    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.007629073    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.005009155    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0480    0.0470000    0.04330000
+PostProbs                           NA    0.0482    0.0472000    0.04350000
 R2                                  NA    0.1838    0.1745000    0.16450000
 dim                                 NA    7.0000    6.0000000    5.00000000
 logmarg                             NA -439.7101 -441.8714407 -444.29445157
@@ -482,7 +482,7 @@ comed_furosemidTRUE       0.000000e+00    0.00000000
 comed_haloperidolTRUE     0.000000e+00    0.00000000
 comed_valproicTRUE        0.000000e+00    0.00000000
 BF                        5.935666e-03    0.05614118
-PostProbs                 2.520000e-02    0.02290000
+PostProbs                 2.530000e-02    0.02300000
 R2                        1.634000e-01    0.17310000
 dim                       5.000000e+00    6.00000000
 logmarg                  -4.448369e+02 -442.59000543</code></pre>
@@ -623,12 +623,41 @@ logmarg                  -4.448369e+02 -442.59000543</code></pre>
 </div>
 </div></div>
 <p>Result: No obvious non-linearity in the partial-residual plots.</p>
+<p>Visual check of linearity assumption using logit of predicted probabilities vs.&nbsp;continuous predictors values.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_patient_linear_check <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(multi_predict_HPM)) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">probabilites =</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_odds =</span> <span class="fu">log</span>(probabilites <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> probabilites))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">|&gt;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">"predictors"</span>, <span class="at">value =</span> <span class="st">"predictor_value"</span>, <span class="sc">-</span>log_odds, <span class="sc">-</span>probabilites)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_patient_linear_check, <span class="fu">aes</span>(<span class="at">y =</span> log_odds, <span class="at">x =</span> predictor_value)) <span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>predictors, <span class="at">scales =</span> <span class="st">"free_x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="03-apparent-performance_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="03-apparent-performance_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
 </section>
 <section id="no-multicollinearity" class="level2">
 <h2 class="anchored" data-anchor-id="no-multicollinearity">No Multicollinearity</h2>
 <p>VIFs from the coefficient estimates should be less than 5 and as close to 1 as possible.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  patient_age  baseline_HGB  baseline_PLT  LZD_duration  invasive_CVC 
      1.047767      1.015409      1.094139      1.102152      1.136600 
@@ -648,12 +677,12 @@ invasive_CRRT
 <li>y-axis: Leverage (Studentized residuals)</li>
 <li>Size of points: Cook’s distance</li>
 </ul>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="">
 <figure class="figure">
-<p class=""><a href="03-apparent-performance_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="03-apparent-performance_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
+<p class=""><a href="03-apparent-performance_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="03-apparent-performance_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -665,7 +694,7 @@ invasive_CRRT
 443  2.494706 0.002698824 0.008077000
 756  2.484277 0.003456496 0.010011110</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Result: Influential observations identified.</p>
 <p>DONE: Investigate observations 292, 301, 335, 364, 504, 634.</p>
@@ -676,16 +705,16 @@ invasive_CRRT
 <li>infect_septicemia: 3/6</li>
 </ul>
 <p>invasive_CVC might be a predictor.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data_patient_complete |&gt;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(c(292, 301, 335, 364, 504, 634)) |&gt; summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data_patient_complete |&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(c(292, 301, 335, 364, 504, 634)) |&gt; summary()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
 </section>
 <section id="model-performance" class="level1">
 <h1>Model Performance</h1>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: rms</code></pre>
 </div>
@@ -711,20 +740,20 @@ Attaching package: 'Hmisc'</code></pre>
 
     format.pval, units</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pHat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>yTest <span class="ot">&lt;-</span> data_patient_complete<span class="sc">$</span>flag_ADR_TP_ID</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>calperf <span class="ot">&lt;-</span> <span class="fu">valProbggplot</span>(pHat, yTest)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>apparent_performance_metrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_C_index =</span> calperf<span class="sc">$</span>Cindex[[<span class="dv">1</span>]],</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_intercept =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Intercept[[<span class="dv">1</span>]],</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_calibration_slope =</span> calperf<span class="sc">$</span>Calibration<span class="sc">$</span>Slope[[<span class="dv">1</span>]]</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(apparent_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/apparent-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(model_full, <span class="at">file =</span> <span class="st">"data/model-performance/model-full.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
      </main>
@@ -814,7 +843,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1136,7 +1165,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
