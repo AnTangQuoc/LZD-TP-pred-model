@@ -17,83 +17,109 @@ abstract: |
 
 # Checklist
 
-| **Section/topic**                   | **Item No** | **Description**                                                                                                                                                                                                                       | **Page No** |
-|-------------------------------------|:-----------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------:|
-| **Title and abstract**              |             |                                                                                                                                                                                                                                       |             |
-| Title                               |      1      | Identify the study as developing and/or validating a multivariable prediction model, the target population, and the outcome to be predicted                                                                                           |             |
-| Abstract                            |      2      | Provide a summary of research objectives, setting, participants, data source, sample size, predictors, outcome, statistical analysis, results, and conclusions*                                                                       |             |
-| **Introduction**                    |             |                                                                                                                                                                                                                                       |             |
-| Background and objectives           |      3a     | Explain the medical context (including whether diagnostic or prognostic) and rationale for developing or validating the prediction model, including references to existing models, and the advantages of the study design*            |             |
-|                                     |      3b     | Specify the objectives, including whether the study describes the development or validation of the model*                                                                                                                             |             |
-| **Methods**                         |             |                                                                                                                                                                                                                                       |             |
-| Participants and data               |      4a     | Describe eligibility criteria for participants and datasets*                                                                                                                                                                          |             |
-|                                     |      4b     | Describe the origin of the data, and how the data were identified, requested, and collected                                                                                                                                           |             |
-| Sample size                         |      5      | Explain how the sample size was arrived at*                                                                                                                                                                                           |             |
-| Outcomes and predictors             |      6a     | Define the outcome that is predicted by the model, including how and when assessed*                                                                                                                                                   |             |
-|                                     |      6b     | Define all predictors used in developing or validating the model, including how and when measured*                                                                                                                                    |             |
-| Data preparation                    |      7a     | Describe how the data were prepared for analysis, including any cleaning, harmonisation, linkage, and quality checks                                                                                                                  |             |
-|                                     |      7b     | Describe the method for assessing risk of bias and applicability in the individual clusters (eg, using PROBAST)                                                                                                                       |             |
-|                                     |      7c     | For validation, identify any differences in definition and measurement from the development data (eg, setting, eligibility criteria, outcome, predictors)*                                                                            |             |
-|                                     |      7d     | Describe how missing data were handled*                                                                                                                                                                                               |             |
-| Data analysis                       |      8a     | Describe how predictors were handled in the analyses                                                                                                                                                                                  |             |
-|                                     |      8b     | Specify the type of model, all model building procedures (eg, any predictor selection and penalisation), and method for validation*                                                                                                   |             |
-|                                     |      8c     | Describe how any heterogeneity across clusters (eg, studies or settings) in model parameter values was handled                                                                                                                        |             |
-|                                     |      8d     | For validation, describe how the predictions were calculated                                                                                                                                                                          |             |
-|                                     |      8e     | Specify all measures used to assess model performance (eg, calibration, discrimination, and decision curve analysis) and, if relevant, to compare multiple models                                                                     |             |
-|                                     |      8f     | Describe how any heterogeneity across clusters (eg, studies or settings) in model performance was handled and quantified                                                                                                              |             |
-|                                     |      8g     | Describe any model updating (eg, recalibration) arising from the validation, either overall or for particular populations or settings*                                                                                                |             |
-| Sensitivity analysis                |      9      | Describe any planned subgroup or sensitivity analysis—eg, assessing performance according to sources of bias, participant characteristics, setting                                                                                    |             |
-| **Results**                         |             |                                                                                                                                                                                                                                       |             |
-| Participants and datasets           |     10a     | Describe the number of clusters and participants from data identified through to data analysed; a flowchart might be helpful*                                                                                                         |             |
-|                                     |     10b     | Report the characteristics overall and where applicable for each data source or setting, including the key dates, predictors, treatments received, sample size, number of outcome events, follow-up time, and amount of missing data* |             |
-|                                     |     10c     | For validation, show a comparison with the development data of the distribution of important variables (demographics, predictors, and outcome)                                                                                        |             |
-| Risk of bias                        |      11     | Report the results of the risk-of-bias assessment in the individual clusters                                                                                                                                                          |             |
-| Model development and specification |     12a     | Report the results of any assessments of heterogeneity across clusters that led to subsequent actions during the model’s development (eg, inclusion or exclusion of particular predictors or clusters)                                |             |
-|                                     |     12b     | Present the final prediction model (ie, all regression coefficients, and model intercept or baseline estimate of the outcome at a given time point) and explain how to use it for predictions in new individuals*                     |             |
-| Model performance                   |     13a     | Report performance measures (with uncertainty intervals) for the prediction model, overall and for each cluster                                                                                                                       |             |
-|                                     |     13b     | Report results of any heterogeneity across clusters in model performance                                                                                                                                                              |             |
-| Model updating                      |      14     | Report the results from any model updating (including the updated model equation and subsequent performance), overall and for each cluster*                                                                                           |             |
-| Sensitivity analysis                |      15     | Report results from any subgroup or sensitivity analysis                                                                                                                                                                              |             |
-| **Discussion**                      |             |                                                                                                                                                                                                                                       |             |
-| Interpretation                      |     16a     | Give an overall interpretation of the main results, including heterogeneity across clusters in model performance, in the context of the objectives and previous studies*                                                              |             |
-|                                     |     16b     | For validation, discuss the results with reference to the model performance in the development data, and in any previous validations                                                                                                  |             |
-|                                     |     16c     | Discuss the strengths of the study and any limitations (eg, missing or incomplete data, non-representativeness, data harmonisation problems)                                                                                          |             |
-| Implications                        |      17     | Discuss the potential use of the model and implications for future research, with specific view to generalisability and applicability of the model across different settings or (sub)populations                                      |             |
-| **Other information**               |             |                                                                                                                                                                                                                                       |             |
-| Supplementary information           |      18     | Provide information about the availability of supplementary resources (eg, study protocol, analysis code, datasets)*                                                                                                                  |             |
-| Funding                             |      19     | Give the source of funding and the role of the funders for the present study                                                                                                                                                          |             |
+| **Section/topic**                   | **Item No** | **Description**                                                                                                                                                                                                                        | **Page No** |
+|---------|:-------:|---------------------------------------------|:-------:|
+| **Title and abstract**              |             |                                                                                                                                                                                                                                        |             |
+| Title                               |      1      | Identify the study as developing and/or validating a multivariable prediction model, the target population, and the outcome to be predicted                                                                                            |             |
+| Abstract                            |      2      | Provide a summary of research objectives, setting, participants, data source, sample size, predictors, outcome, statistical analysis, results, and conclusions\*                                                                       |             |
+| **Introduction**                    |             |                                                                                                                                                                                                                                        |             |
+| Background and objectives           |     3a      | Explain the medical context (including whether diagnostic or prognostic) and rationale for developing or validating the prediction model, including references to existing models, and the advantages of the study design\*            |             |
+|                                     |     3b      | Specify the objectives, including whether the study describes the development or validation of the model\*                                                                                                                             |             |
+| **Methods**                         |             |                                                                                                                                                                                                                                        |             |
+| Participants and data               |     4a      | Describe eligibility criteria for participants and datasets\*                                                                                                                                                                          |             |
+|                                     |     4b      | Describe the origin of the data, and how the data were identified, requested, and collected                                                                                                                                            |             |
+| Sample size                         |      5      | Explain how the sample size was arrived at\*                                                                                                                                                                                           |             |
+| Outcomes and predictors             |     6a      | Define the outcome that is predicted by the model, including how and when assessed\*                                                                                                                                                   |             |
+|                                     |     6b      | Define all predictors used in developing or validating the model, including how and when measured\*                                                                                                                                    |             |
+| Data preparation                    |     7a      | Describe how the data were prepared for analysis, including any cleaning, harmonisation, linkage, and quality checks                                                                                                                   |             |
+|                                     |     7b      | Describe the method for assessing risk of bias and applicability in the individual clusters (eg, using PROBAST)                                                                                                                        |             |
+|                                     |     7c      | For validation, identify any differences in definition and measurement from the development data (eg, setting, eligibility criteria, outcome, predictors)\*                                                                            |             |
+|                                     |     7d      | Describe how missing data were handled\*                                                                                                                                                                                               |             |
+| Data analysis                       |     8a      | Describe how predictors were handled in the analyses                                                                                                                                                                                   |             |
+|                                     |     8b      | Specify the type of model, all model building procedures (eg, any predictor selection and penalisation), and method for validation\*                                                                                                   |             |
+|                                     |     8c      | Describe how any heterogeneity across clusters (eg, studies or settings) in model parameter values was handled                                                                                                                         |             |
+|                                     |     8d      | For validation, describe how the predictions were calculated                                                                                                                                                                           |             |
+|                                     |     8e      | Specify all measures used to assess model performance (eg, calibration, discrimination, and decision curve analysis) and, if relevant, to compare multiple models                                                                      |             |
+|                                     |     8f      | Describe how any heterogeneity across clusters (eg, studies or settings) in model performance was handled and quantified                                                                                                               |             |
+|                                     |     8g      | Describe any model updating (eg, recalibration) arising from the validation, either overall or for particular populations or settings\*                                                                                                |             |
+| Sensitivity analysis                |      9      | Describe any planned subgroup or sensitivity analysis—eg, assessing performance according to sources of bias, participant characteristics, setting                                                                                     |             |
+| **Results**                         |             |                                                                                                                                                                                                                                        |             |
+| Participants and datasets           |     10a     | Describe the number of clusters and participants from data identified through to data analysed; a flowchart might be helpful\*                                                                                                         |             |
+|                                     |     10b     | Report the characteristics overall and where applicable for each data source or setting, including the key dates, predictors, treatments received, sample size, number of outcome events, follow-up time, and amount of missing data\* |             |
+|                                     |     10c     | For validation, show a comparison with the development data of the distribution of important variables (demographics, predictors, and outcome)                                                                                         |             |
+| Risk of bias                        |     11      | Report the results of the risk-of-bias assessment in the individual clusters                                                                                                                                                           |             |
+| Model development and specification |     12a     | Report the results of any assessments of heterogeneity across clusters that led to subsequent actions during the model’s development (eg, inclusion or exclusion of particular predictors or clusters)                                 |             |
+|                                     |     12b     | Present the final prediction model (ie, all regression coefficients, and model intercept or baseline estimate of the outcome at a given time point) and explain how to use it for predictions in new individuals\*                     |             |
+| Model performance                   |     13a     | Report performance measures (with uncertainty intervals) for the prediction model, overall and for each cluster                                                                                                                        |             |
+|                                     |     13b     | Report results of any heterogeneity across clusters in model performance                                                                                                                                                               |             |
+| Model updating                      |     14      | Report the results from any model updating (including the updated model equation and subsequent performance), overall and for each cluster\*                                                                                           |             |
+| Sensitivity analysis                |     15      | Report results from any subgroup or sensitivity analysis                                                                                                                                                                               |             |
+| **Discussion**                      |             |                                                                                                                                                                                                                                        |             |
+| Interpretation                      |     16a     | Give an overall interpretation of the main results, including heterogeneity across clusters in model performance, in the context of the objectives and previous studies\*                                                              |             |
+|                                     |     16b     | For validation, discuss the results with reference to the model performance in the development data, and in any previous validations                                                                                                   |             |
+|                                     |     16c     | Discuss the strengths of the study and any limitations (eg, missing or incomplete data, non-representativeness, data harmonisation problems)                                                                                           |             |
+| Implications                        |     17      | Discuss the potential use of the model and implications for future research, with specific view to generalisability and applicability of the model across different settings or (sub)populations                                       |             |
+| **Other information**               |             |                                                                                                                                                                                                                                        |             |
+| Supplementary information           |     18      | Provide information about the availability of supplementary resources (eg, study protocol, analysis code, datasets)\*                                                                                                                  |             |
+| Funding                             |     19      | Give the source of funding and the role of the funders for the present study                                                                                                                                                           |             |
 
-: TRIPOD-Cluster checklist of items to include when reporting a study developing or validating a multivariable prediction model using clustered data {tbl-colwidths = "[20, 10, 60, 10]"}
+: TRIPOD-Cluster checklist of items to include when reporting a study developing or validating a multivariable prediction model using clustered data {tbl-colwidths = "\[20, 10, 60, 10\]"}
 
 # Introduction
+
 ## Background and objectives
+Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020. 
+
 # Methods
+
 ## Participants and data
+
 ## Sample size
 
-There are [number] candidate predictors selected by clinical experts, and the BMS algorithm identified [number] additional predictors, for a total of [number] predictors. 
+There are \[number\] candidate predictors selected by clinical experts, and the BMS algorithm identified \[number\] additional predictors, for a total of \[number\] predictors.
 
 ## Outcomes and predictors
+
 ## Data preparation
+
 ## Data analysis
+
 ## Sensitivity analysis
+
 # Results
+
 ## Participants and datasets
+
 ## Risk of bias
+
 ## Model development and specification
+
 ## Model performance
+
 ## Model updating
+
 ## Sensitivity analysis
+
 # Discussion
+
 ## Interpretation
+
 ## Implications
+
 # Other information
+
 ## Supplementary information
+
 ## Funding
 
+## References
+::: {#refs}
+:::
+
 ## Objectives
-1. Investigating risk factors of linezolid-induced thrombocytopenia (LI-TP)
-2. Developing and validating a logistics regression model to predict LI-TP in Vietnamese patients
+
+1.  Investigating risk factors of linezolid-induced thrombocytopenia (LI-TP)
+2.  Developing and validating a logistics regression model to predict LI-TP in Vietnamese patients
 
 ## Data cleaning
 
@@ -101,12 +127,12 @@ There are [number] candidate predictors selected by clinical experts, and the BM
 source("notebooks/initialize-data-analysis.r")
 ```
 
-:::{.scrolling}
-
+::: scrolling
 ```{r}
-data_patient_complete |> select(all_of(predictor_list), flag_ADR_TP_ID, site) |> glimpse()
+data_patient_complete |>
+  select(all_of(predictor_list), flag_ADR_TP_ID, site) |>
+  glimpse()
 ```
-
 :::
 
 ## Descriptive statistics
@@ -115,24 +141,20 @@ data_patient_complete |> select(all_of(predictor_list), flag_ADR_TP_ID, site) |>
 load("data/results/table-descriptive.rda")
 ```
 
-:::{.scrolling}
-
+::: scrolling
 ```{r}
 table_descriptive
 ```
-
 :::
 
 ```{r}
 load("data/results/table-descriptive-site.rda")
 ```
 
-:::{.scrolling}
-
+::: scrolling
 ```{r}
 table_descriptive_site
 ```
-
 :::
 
 ## Model Performance
@@ -152,16 +174,16 @@ performance_type_list <- c("Apparent", "Bootstrap", "K-fold")
 initial_string_list <- c("apparent_", "corrected_", "mean_fold_")
 
 reformat_performance_metrics <- function(data, type, string) {
-  data |> 
+  data |>
     mutate(
-    performance_type = type
-  ) |>
-  rename_with(~ str_replace(., string, "")) |>
-  select(performance_type, everything())
+      performance_type = type
+    ) |>
+    rename_with(~ str_replace(., string, "")) |>
+    select(performance_type, everything())
 }
 
 performance_metrics <- pmap(
-  list(data_list, performance_type_list, initial_string_list), 
+  list(data_list, performance_type_list, initial_string_list),
   reformat_performance_metrics
 ) |> bind_rows()
 
