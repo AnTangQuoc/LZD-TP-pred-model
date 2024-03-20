@@ -76,9 +76,125 @@ Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020.
 
 ## Sample size
 
-There are \[number\] candidate predictors selected by clinical experts, and the BMS algorithm identified \[number\] additional predictors, for a total of \[number\] predictors.
+Previous studies developing logistic regression models for LI-TP risk predictions have included 4-6 predictors in their final models @liu_analysis_2021; @duan_regression_2022; @qin_development_2021; @xu_establishment_2023. We expect to include about as many candidate predictors, based on results from the expert opinion survey and the Bayesian Model Selection algorithm [see @sec-outcomes-and-predictors]. Some of the candidate predictors might be continuous, which may potentially require non-linear modelling and therefore slightly increase the number of variables. 
 
-## Outcomes and predictors
+A general rule of thumb is for at least 10 events be available for each candidate predictor considered in a prediction model. We have a total of 816 eligible patients and 264 of those have experienced the outcome. If the number of candidate predictors is 7, we would have 37 events per candidate predictor, which is considerably greater than the minimum number required. Even if the number of candidate predictors screened is 20, we would still have 13 events per candidate predictor. 
+
+However, the aforementioned rule of thumb have generated some debate in the literature, with recent results suggesting that event per variable criterion is too simplistic and has no strong relation to the predictive performance of a model. Riley et al proposed a different set of criteria to estimate minimum sample size for models developed using logistic regression, which are the following:
+
+1. Small optimism in predictor effect estimates, defined as a global shrinkage factor of >= 0.9.
+2. Small absolute difference of <= 0.05 in the model's apparent and adjusted Nagelkerke's R-squared.
+3. Precise estimation of the overall risk in the population. 
+
+Criteria 1 and 2 aims to reduce the potential of overfitting. Criteria 3 aims to ensure the overall risk is estimated precisely. 
+
+### Step 1: Choose the number of candidate predictors of interest for inclusion in the model, and calculate the corresponding number of predictor parameters (p)
+
+Note that one predictor may require two or more parameters. For example, a k-category predictor requires k-1 parameters and a continuous predictor model with a non-linear trend requires more than one parameter to be estimated. Also include any potential interaction terms towards the total p.
+
+When using a predictor selection method, p should be defined as the total number of parameters screened, and not just the subset that are included in the final model. 
+
+Assuming maximum total p to be 20.
+
+::: {.callout-note}
+The value of p is assumed to be no larger than 20 because univariate regression shows there are 20 variables that are significantly correlated with the outcome.
+:::
+
+```{r}
+parameter_number <- 20
+```
+
+### Step 2: Choose sensible values for R^2^~CS_adj~ and max(R^2^~CS_app~) based on previous studies where R^2^~CS~ is the Cox-Snell R^2^ statistic. 
+
+The value of max(R^2^~CS_app~) is based on the overall prevalence or overall rate of the outcome in the population of interest. The incidence of LI-TP in patients treated with linezolid was estimated to be 37% in a meta-analysis by Zhao et al @zhao_prediction_2024. 
+
+The value of R^2^~CS_adj~ could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R^2^, the value R^2^~CS_adj~ will be assumed to correspond to a R^2^~Nagelkerke~ of 0.15. 
+
+```{r}
+calculate_R2_CS_adj <- function(n = 100, E, R2_N = 0.15) {
+  ln_L_null <- E * log(E / n) + (n - E) * log(1 - E / n)
+  max_R2_CS_app <- 1 - exp(2 * ln_L_null / n)
+  R2_CS_adj <- R2_N / max_R2_CS_app
+  return(list(R2_CS_adj = R2_CS_adj, max_R2_CS_app = max_R2_CS_app))
+}
+
+(cox_snell_r2 <- calculate_R2_CS_adj(E = 37)$R2_CS_adj)
+max_apparent_cox_snell_r2 <- calculate_R2_CS_adj(E = 37)$max_R2_CS_app
+```
+
+### Step 3: Criterion 1
+
+Calculate the sample size required to ensure Van Houwelingen's global shrinkage factor (S~VH~) is close to 1. A value of S~VH~ >= 0.90 is generally recommended, which reflects a small amount of overfitting during model development.
+
+```{r}
+calculate_sample_size_1 <- function(p, R2_CS_adj, S_VH = 0.90) {
+  n <- p / ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(n)
+}
+
+(
+sample_size_criterion_1 <- 
+  calculate_sample_size_1(
+    p = parameter_number, 
+    R2_CS_adj = cox_snell_r2
+  ) |> ceiling()
+)
+```
+
+We see that `r sample_size_criterion_1` participants are required to meet criterion 1. 
+
+### Step 4: Criterion 2
+Calculate the shrinkage factor (S~VH~) required to ensure a small absolute difference of <= 0.05 in the developed model's apparent and adjusted Nagelkerke's R^2^. Then derive the required sample size conditional on this value of S~VH~. 
+
+```{r}
+calculate_sample_size_2 <- function(p, R2_CS_adj, max_R2_CS_app, delta = 0.05) {
+  S_VH <- R2_CS_adj / (R2_CS_adj + delta * max_R2_CS_app)
+  n <- p / ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(n)
+}
+
+(
+sample_size_criterion_2 <- 
+  calculate_sample_size_2(
+    p = parameter_number, 
+    R2_CS_adj = cox_snell_r2,
+    max_R2_CS_app = max_apparent_cox_snell_r2
+  ) |> ceiling()
+)
+
+```
+
+We see that `r sample_size_criterion_2` participants are required to meet criterion 2.
+
+### Step 5: Criterion 3
+
+Calculate the sample size required to ensure a precise estimate of the overall risk in the population. The suggested absolute margin of error is <= 0.05. 
+
+```{r}
+calculate_sample_size_3 <- function(phi_hat, delta = 0.05) {
+  n <- (1.96 / delta) ^ 2 * phi_hat * (1 - phi_hat)
+  return(n)
+}
+
+(
+sample_size_criterion_3 <- 
+  calculate_sample_size_3(phi_hat = 0.37) |> ceiling()
+)
+```
+
+We see that `r sample_size_criterion_3` participants are required to meet criterion 3.
+
+### Step 6: Final sample size
+
+The required minimum sample size í the maximum value from steps 3 to 5, to ensure that each of criteria 1 to 3 are met. 
+
+```{r}
+(minimum_sample_size <- max(sample_size_criterion_1, sample_size_criterion_2, sample_size_criterion_3))
+```
+
+The final estimate of minimum sample size is `r minimum_sample_size`, therefore our data is sufficient for model development with at most 20 parameters. 
+
+## Outcomes and predictors {#sec-outcomes-and-predictors}
 
 ## Data preparation
 

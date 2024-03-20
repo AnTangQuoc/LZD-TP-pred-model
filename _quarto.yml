@@ -5,6 +5,8 @@ project:
 manuscript:
   article: index.qmd
 
+number-sections: true
+
 date: last-modified
 date-format: full
 
