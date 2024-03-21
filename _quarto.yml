@@ -18,9 +18,6 @@ format:
   jats: default
   pdf: default
 
-execute:
-  freeze: auto
-
 bibliography: references.bib
 
 csl: drug-safety.csl
