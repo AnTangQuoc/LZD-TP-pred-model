@@ -1,9 +1,23 @@
 {
   "cSpell.words": [
+    "coef",
     "colwidths",
+    "comed",
+    "furosemid",
+    "ggplot",
+    "glmnet",
     "Houwelingen's",
+    "linetype",
+    "logit",
     "Nagelkerke",
     "Nagelkerke's",
-    "PROBAST"
+    "nfolds",
+    "PROBAST",
+    "termlabels",
+    "tidymodels",
+    "unname"
+  ],
+  "quarto.zotero.groupLibraries": [
+    "LZD-TP-pred-model-shared"
   ]
 }

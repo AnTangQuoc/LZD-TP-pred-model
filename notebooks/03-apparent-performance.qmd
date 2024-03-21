@@ -151,11 +151,11 @@ Visual check of linearity assumption using logit of predicted probabilities vs. 
 data_patient_linear_check <- data_patient_complete |>
   select(all_of(multi_predict_HPM)) |>
   mutate(
-    probabilites = predict(model_full$fit, data_patient_complete, type = "response"),
-    log_odds = log(probabilites / (1 - probabilites))
+    probabilities = predict(model_full$fit, data_patient_complete, type = "response"),
+    log_odds = log(probabilities / (1 - probabilities))
   ) |>
   select_if(is.numeric) |>
-  gather(key = "predictors", value = "predictor_value", -log_odds, -probabilites)
+  gather(key = "predictors", value = "predictor_value", -log_odds, -probabilities)
 
 ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
   geom_point(size = 0.5, alpha = 0.5) +
