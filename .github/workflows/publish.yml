@@ -23,7 +23,7 @@ jobs:
           r-version: '4.3.3'
 
       - name: Install curl
-        run: sudo apt-get install libcurl4-openssl-dev
+        run: sudo apt-get install -y libcurl4-openssl-dev
 
       - name: Install textshaping
         run: sudo apt install libharfbuzz-dev libfribidi-dev libtiff5-dev        
