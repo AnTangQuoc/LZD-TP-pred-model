@@ -186,6 +186,8 @@
 <meta name="citation_abstract" content="Write abstract here,
 note the indentation
 ">
+<meta name="citation_author" content="Nhi Nguyen Ha">
+<meta name="citation_author" content="An Tang Quoc">
 <meta name="citation_publication_date" content="2024-03-22">
 <meta name="citation_cover_date" content="2024-03-22">
 <meta name="citation_year" content="2024">
@@ -265,10 +267,31 @@ note the indentation
     
     <div class="quarto-title-meta-container">
       <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Affiliation</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Nhi Nguyen Ha </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        The National DI&amp;ADR Centre, Hanoi University of Pharmacy
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">An Tang Quoc </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        The National DI&amp;ADR Centre, Hanoi University of Pharmacy
+                      </p>
+                  </div>
+                    </div>
         
         <div class="quarto-title-meta">
 
-                
+                      
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
@@ -362,7 +385,7 @@ note the indentation
 <colgroup>
 <col style="width: 24%">
 <col style="width: 24%">
-<col style="width: 27%">
+<col style="width: 26%">
 <col style="width: 24%">
 </colgroup>
 <thead>
@@ -709,11 +732,11 @@ Note
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>sample_size_criterion_1 <span class="ot">&lt;-</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate_sample_size_1</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> parameter_number, </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2_CS_adj =</span> cox_snell_r2</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_1 <span class="ot">&lt;-</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_1</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">p =</span> parameter_number,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">R2_CS_adj =</span> cox_snell_r2</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 775</code></pre>
@@ -732,12 +755,12 @@ Note
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>sample_size_criterion_2 <span class="ot">&lt;-</span> </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate_sample_size_2</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> parameter_number, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2_CS_adj =</span> cox_snell_r2,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_R2_CS_app =</span> max_apparent_cox_snell_r2</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_2 <span class="ot">&lt;-</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_2</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">p =</span> parameter_number,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">R2_CS_adj =</span> cox_snell_r2,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">max_R2_CS_app =</span> max_apparent_cox_snell_r2</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 478</code></pre>
@@ -750,13 +773,13 @@ Note
 <p>Calculate the sample size required to ensure a precise estimate of the overall risk in the population. The suggested absolute margin of error is &lt;= 0.05.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calculate_sample_size_3 <span class="ot">&lt;-</span> <span class="cf">function</span>(phi_hat, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> (<span class="fl">1.96</span> <span class="sc">/</span> delta) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> phi_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phi_hat)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> (<span class="fl">1.96</span> <span class="sc">/</span> delta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> phi_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phi_hat)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sample_size_criterion_3 <span class="ot">&lt;-</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate_sample_size_3</span>(<span class="at">phi_hat =</span> <span class="fl">0.37</span>) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_3 <span class="ot">&lt;-</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_3</span>(<span class="at">phi_hat =</span> <span class="fl">0.37</span>) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 359</code></pre>

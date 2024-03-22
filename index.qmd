@@ -1,11 +1,16 @@
 ---
 title: Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia in Vietnamese patients
 
-# authors:
-#   - name: Norah Jones
-#     affiliation: The University
-#     roles: writing
-#     corresponding: true
+authors:
+  - name: Nhi Nguyen Ha
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: false
+  - name: An Tang Quoc
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: false
+    
 # bibliography: references.bib
 
 css: styles.css
@@ -18,7 +23,7 @@ abstract: |
 # Checklist
 
 | **Section/topic**                   | **Item No** | **Description**                                                                                                                                                                                                                        | **Draft date** |
-|------------------|:----------------:|--------------------|:----------------:|
+|------------------|:----------------:|-------------------|:----------------:|
 | **Title and abstract**              |             |                                                                                                                                                                                                                                        |                |
 | Title                               |      1      | Identify the study as developing and/or validating a multivariable prediction model, the target population, and the outcome to be predicted                                                                                            |                |
 | Abstract                            |      2      | Provide a summary of research objectives, setting, participants, data source, sample size, predictors, outcome, statistical analysis, results, and conclusions\*                                                                       |                |
@@ -134,11 +139,11 @@ calculate_sample_size_1 <- function(p, R2_CS_adj, S_VH = 0.90) {
 }
 
 (
-sample_size_criterion_1 <- 
-  calculate_sample_size_1(
-    p = parameter_number, 
-    R2_CS_adj = cox_snell_r2
-  ) |> ceiling()
+  sample_size_criterion_1 <-
+    calculate_sample_size_1(
+      p = parameter_number,
+      R2_CS_adj = cox_snell_r2
+    ) |> ceiling()
 )
 ```
 
@@ -156,12 +161,12 @@ calculate_sample_size_2 <- function(p, R2_CS_adj, max_R2_CS_app, delta = 0.05) {
 }
 
 (
-sample_size_criterion_2 <- 
-  calculate_sample_size_2(
-    p = parameter_number, 
-    R2_CS_adj = cox_snell_r2,
-    max_R2_CS_app = max_apparent_cox_snell_r2
-  ) |> ceiling()
+  sample_size_criterion_2 <-
+    calculate_sample_size_2(
+      p = parameter_number,
+      R2_CS_adj = cox_snell_r2,
+      max_R2_CS_app = max_apparent_cox_snell_r2
+    ) |> ceiling()
 )
 
 ```
@@ -174,13 +179,13 @@ Calculate the sample size required to ensure a precise estimate of the overall r
 
 ```{r}
 calculate_sample_size_3 <- function(phi_hat, delta = 0.05) {
-  n <- (1.96 / delta) ^ 2 * phi_hat * (1 - phi_hat)
+  n <- (1.96 / delta)^2 * phi_hat * (1 - phi_hat)
   return(n)
 }
 
 (
-sample_size_criterion_3 <- 
-  calculate_sample_size_3(phi_hat = 0.37) |> ceiling()
+  sample_size_criterion_3 <-
+    calculate_sample_size_3(phi_hat = 0.37) |> ceiling()
 )
 ```
 

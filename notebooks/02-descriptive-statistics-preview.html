@@ -230,25 +230,23 @@
 </div></div>
 <p>Summary statistics, by thrombocytopenia status.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#BlackLivesMatter</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>table_stats <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_of</span>(predictor_list), <span class="fu">starts_with</span>(<span class="st">"comed"</span>), flag_ADR_TP_ID</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> flag_ADR_TP_ID,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{median} ({p25} - {p75})"</span>),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing =</span> <span class="st">"no"</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>table_stats <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_of</span>(predictor_list), <span class="fu">starts_with</span>(<span class="st">"comed"</span>), flag_ADR_TP_ID</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> flag_ADR_TP_ID,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{median} ({p25} - {p75})"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing =</span> <span class="st">"no"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Univariate logistic regression, by thrombocytopenia status.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</code></pre>
 </div>
@@ -273,42 +271,42 @@
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: future</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">as.factor</span>(flag_ADR_TP_ID)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fit_univariate_regression <span class="ot">&lt;-</span> <span class="cf">function</span>(predictor) {</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit</span>(</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">reformulate</span>(</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">termlabels =</span> predictor,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> <span class="st">"flag_ADR_TP_ID"</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_patient_complete_response_as_factor</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>arrange_univariate_regression <span class="ot">&lt;-</span> <span class="cf">function</span>(model) {</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  model <span class="sc">|&gt;</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tbl_regression</span>(</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">show_single_row =</span> <span class="fu">everything</span>()</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bold_p</span>()</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="fu">min</span>(parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">2</span>, <span class="dv">10</span>))</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>uni_model_list <span class="ot">&lt;-</span> <span class="fu">future_map</span>(predictor_list, fit_univariate_regression)</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>table_uni_list <span class="ot">&lt;-</span> <span class="fu">future_map</span>(uni_model_list, arrange_univariate_regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_ADR_TP_ID =</span> <span class="fu">as.factor</span>(flag_ADR_TP_ID)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>fit_univariate_regression <span class="ot">&lt;-</span> <span class="cf">function</span>(predictor) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">reformulate</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">termlabels =</span> predictor,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">response =</span> <span class="st">"flag_ADR_TP_ID"</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_patient_complete_response_as_factor</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>arrange_univariate_regression <span class="ot">&lt;-</span> <span class="cf">function</span>(model) {</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  model <span class="sc">|&gt;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tbl_regression</span>(</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">show_single_row =</span> <span class="fu">everything</span>()</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bold_p</span>()</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="fu">min</span>(parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">2</span>, <span class="dv">10</span>))</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>uni_model_list <span class="ot">&lt;-</span> <span class="fu">future_map</span>(predictor_list, fit_univariate_regression)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>table_uni_list <span class="ot">&lt;-</span> <span class="fu">future_map</span>(uni_model_list, arrange_univariate_regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre>
 </div>
@@ -371,40 +369,40 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>table_uni <span class="ot">&lt;-</span> <span class="fu">tbl_stack</span>(table_uni_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>table_uni <span class="ot">&lt;-</span> <span class="fu">tbl_stack</span>(table_uni_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Print and save results.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table_descriptive <span class="ot">&lt;-</span> <span class="fu">tbl_merge</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(table_stats, table_uni),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tab_spanner =</span> <span class="fu">c</span>(</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"**Thrombocytopenia Status**"</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"**Univariate Regression**"</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>table_descriptive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table_descriptive <span class="ot">&lt;-</span> <span class="fu">tbl_merge</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(table_stats, table_uni),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tab_spanner =</span> <span class="fu">c</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"**Thrombocytopenia Status**"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"**Univariate Regression**"</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>table_descriptive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<div id="thchqpdxxh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#thchqpdxxh table {
+<div id="vnypwvtnsn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vnypwvtnsn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#thchqpdxxh thead, #thchqpdxxh tbody, #thchqpdxxh tfoot, #thchqpdxxh tr, #thchqpdxxh td, #thchqpdxxh th {
+#vnypwvtnsn thead, #vnypwvtnsn tbody, #vnypwvtnsn tfoot, #vnypwvtnsn tr, #vnypwvtnsn td, #vnypwvtnsn th {
   border-style: none;
 }
 
-#thchqpdxxh p {
+#vnypwvtnsn p {
   margin: 0;
   padding: 0;
 }
 
-#thchqpdxxh .gt_table {
+#vnypwvtnsn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -430,12 +428,12 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-left-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_caption {
+#vnypwvtnsn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#thchqpdxxh .gt_title {
+#vnypwvtnsn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -447,7 +445,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-width: 0;
 }
 
-#thchqpdxxh .gt_subtitle {
+#vnypwvtnsn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -459,7 +457,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-top-width: 0;
 }
 
-#thchqpdxxh .gt_heading {
+#vnypwvtnsn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -471,13 +469,13 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_bottom_border {
+#vnypwvtnsn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_col_headings {
+#vnypwvtnsn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -492,7 +490,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_col_heading {
+#vnypwvtnsn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -512,7 +510,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   overflow-x: hidden;
 }
 
-#thchqpdxxh .gt_column_spanner_outer {
+#vnypwvtnsn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -524,15 +522,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 4px;
 }
 
-#thchqpdxxh .gt_column_spanner_outer:first-child {
+#vnypwvtnsn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#thchqpdxxh .gt_column_spanner_outer:last-child {
+#vnypwvtnsn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#thchqpdxxh .gt_column_spanner {
+#vnypwvtnsn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -544,11 +542,11 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   width: 100%;
 }
 
-#thchqpdxxh .gt_spanner_row {
+#vnypwvtnsn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#thchqpdxxh .gt_group_heading {
+#vnypwvtnsn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -574,7 +572,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   text-align: left;
 }
 
-#thchqpdxxh .gt_empty_group_heading {
+#vnypwvtnsn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -589,15 +587,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   vertical-align: middle;
 }
 
-#thchqpdxxh .gt_from_md > :first-child {
+#vnypwvtnsn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#thchqpdxxh .gt_from_md > :last-child {
+#vnypwvtnsn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#thchqpdxxh .gt_row {
+#vnypwvtnsn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -616,7 +614,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   overflow-x: hidden;
 }
 
-#thchqpdxxh .gt_stub {
+#vnypwvtnsn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -629,7 +627,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#thchqpdxxh .gt_stub_row_group {
+#vnypwvtnsn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -643,15 +641,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   vertical-align: top;
 }
 
-#thchqpdxxh .gt_row_group_first td {
+#vnypwvtnsn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#thchqpdxxh .gt_row_group_first th {
+#vnypwvtnsn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#thchqpdxxh .gt_summary_row {
+#vnypwvtnsn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -661,16 +659,16 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#thchqpdxxh .gt_first_summary_row {
+#vnypwvtnsn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_first_summary_row.thick {
+#vnypwvtnsn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#thchqpdxxh .gt_last_summary_row {
+#vnypwvtnsn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -680,7 +678,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_grand_summary_row {
+#vnypwvtnsn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -690,7 +688,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#thchqpdxxh .gt_first_grand_summary_row {
+#vnypwvtnsn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -700,7 +698,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-top-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_last_grand_summary_row_top {
+#vnypwvtnsn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -710,11 +708,11 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_striped {
+#vnypwvtnsn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#thchqpdxxh .gt_table_body {
+#vnypwvtnsn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -723,7 +721,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_footnotes {
+#vnypwvtnsn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -737,7 +735,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_footnote {
+#vnypwvtnsn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -746,7 +744,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#thchqpdxxh .gt_sourcenotes {
+#vnypwvtnsn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -760,7 +758,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#thchqpdxxh .gt_sourcenote {
+#vnypwvtnsn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -768,63 +766,63 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#thchqpdxxh .gt_left {
+#vnypwvtnsn .gt_left {
   text-align: left;
 }
 
-#thchqpdxxh .gt_center {
+#vnypwvtnsn .gt_center {
   text-align: center;
 }
 
-#thchqpdxxh .gt_right {
+#vnypwvtnsn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#thchqpdxxh .gt_font_normal {
+#vnypwvtnsn .gt_font_normal {
   font-weight: normal;
 }
 
-#thchqpdxxh .gt_font_bold {
+#vnypwvtnsn .gt_font_bold {
   font-weight: bold;
 }
 
-#thchqpdxxh .gt_font_italic {
+#vnypwvtnsn .gt_font_italic {
   font-style: italic;
 }
 
-#thchqpdxxh .gt_super {
+#vnypwvtnsn .gt_super {
   font-size: 65%;
 }
 
-#thchqpdxxh .gt_footnote_marks {
+#vnypwvtnsn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#thchqpdxxh .gt_asterisk {
+#vnypwvtnsn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#thchqpdxxh .gt_indent_1 {
+#vnypwvtnsn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#thchqpdxxh .gt_indent_2 {
+#vnypwvtnsn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#thchqpdxxh .gt_indent_3 {
+#vnypwvtnsn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#thchqpdxxh .gt_indent_4 {
+#vnypwvtnsn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#thchqpdxxh .gt_indent_5 {
+#vnypwvtnsn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1697,25 +1695,25 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
 </div>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(table_descriptive, <span class="at">file =</span> <span class="st">"data/results/table-descriptive.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(table_descriptive, <span class="at">file =</span> <span class="st">"data/results/table-descriptive.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>Summary statistics, by site.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>table_descriptive_site <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_of</span>(predictor_list), <span class="fu">starts_with</span>(<span class="st">"comed"</span>), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> site,</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{median} ({p25} - {p75})"</span>),</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing =</span> <span class="st">"no"</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_p</span>(</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">test.args =</span> <span class="fu">all_tests</span>(<span class="st">"fisher.test"</span>) <span class="sc">~</span> <span class="fu">list</span>(<span class="at">simulate.p.value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_p</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table_descriptive_site <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_of</span>(predictor_list), <span class="fu">starts_with</span>(<span class="st">"comed"</span>), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> site,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{median} ({p25} - {p75})"</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing =</span> <span class="st">"no"</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_p</span>(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">test.args =</span> <span class="fu">all_tests</span>(<span class="st">"fisher.test"</span>) <span class="sc">~</span> <span class="fu">list</span>(<span class="at">simulate.p.value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_p</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>There was an error in 'add_p()/add_difference()' for variable 'comed_aceclofenac', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</code></pre>
@@ -1792,26 +1790,26 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <pre><code>There was an error in 'add_p()/add_difference()' for variable 'comed_oxaliplatin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>table_descriptive_site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>table_descriptive_site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<div id="gceaxmnahb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gceaxmnahb table {
+<div id="zsvpzizqwt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zsvpzizqwt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gceaxmnahb thead, #gceaxmnahb tbody, #gceaxmnahb tfoot, #gceaxmnahb tr, #gceaxmnahb td, #gceaxmnahb th {
+#zsvpzizqwt thead, #zsvpzizqwt tbody, #zsvpzizqwt tfoot, #zsvpzizqwt tr, #zsvpzizqwt td, #zsvpzizqwt th {
   border-style: none;
 }
 
-#gceaxmnahb p {
+#zsvpzizqwt p {
   margin: 0;
   padding: 0;
 }
 
-#gceaxmnahb .gt_table {
+#zsvpzizqwt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1837,12 +1835,12 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-left-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_caption {
+#zsvpzizqwt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gceaxmnahb .gt_title {
+#zsvpzizqwt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1854,7 +1852,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-width: 0;
 }
 
-#gceaxmnahb .gt_subtitle {
+#zsvpzizqwt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1866,7 +1864,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-top-width: 0;
 }
 
-#gceaxmnahb .gt_heading {
+#zsvpzizqwt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1878,13 +1876,13 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_bottom_border {
+#zsvpzizqwt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_col_headings {
+#zsvpzizqwt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1899,7 +1897,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_col_heading {
+#zsvpzizqwt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1919,7 +1917,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   overflow-x: hidden;
 }
 
-#gceaxmnahb .gt_column_spanner_outer {
+#zsvpzizqwt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1931,15 +1929,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 4px;
 }
 
-#gceaxmnahb .gt_column_spanner_outer:first-child {
+#zsvpzizqwt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gceaxmnahb .gt_column_spanner_outer:last-child {
+#zsvpzizqwt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gceaxmnahb .gt_column_spanner {
+#zsvpzizqwt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1951,11 +1949,11 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   width: 100%;
 }
 
-#gceaxmnahb .gt_spanner_row {
+#zsvpzizqwt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gceaxmnahb .gt_group_heading {
+#zsvpzizqwt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1981,7 +1979,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   text-align: left;
 }
 
-#gceaxmnahb .gt_empty_group_heading {
+#zsvpzizqwt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1996,15 +1994,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   vertical-align: middle;
 }
 
-#gceaxmnahb .gt_from_md > :first-child {
+#zsvpzizqwt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gceaxmnahb .gt_from_md > :last-child {
+#zsvpzizqwt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gceaxmnahb .gt_row {
+#zsvpzizqwt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2023,7 +2021,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   overflow-x: hidden;
 }
 
-#gceaxmnahb .gt_stub {
+#zsvpzizqwt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2036,7 +2034,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#gceaxmnahb .gt_stub_row_group {
+#zsvpzizqwt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2050,15 +2048,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   vertical-align: top;
 }
 
-#gceaxmnahb .gt_row_group_first td {
+#zsvpzizqwt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gceaxmnahb .gt_row_group_first th {
+#zsvpzizqwt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gceaxmnahb .gt_summary_row {
+#zsvpzizqwt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2068,16 +2066,16 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#gceaxmnahb .gt_first_summary_row {
+#zsvpzizqwt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_first_summary_row.thick {
+#zsvpzizqwt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gceaxmnahb .gt_last_summary_row {
+#zsvpzizqwt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2087,7 +2085,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_grand_summary_row {
+#zsvpzizqwt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2097,7 +2095,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#gceaxmnahb .gt_first_grand_summary_row {
+#zsvpzizqwt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2107,7 +2105,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-top-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_last_grand_summary_row_top {
+#zsvpzizqwt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2117,11 +2115,11 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_striped {
+#zsvpzizqwt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gceaxmnahb .gt_table_body {
+#zsvpzizqwt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2130,7 +2128,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_footnotes {
+#zsvpzizqwt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2144,7 +2142,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_footnote {
+#zsvpzizqwt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2153,7 +2151,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#gceaxmnahb .gt_sourcenotes {
+#zsvpzizqwt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2167,7 +2165,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#gceaxmnahb .gt_sourcenote {
+#zsvpzizqwt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2175,63 +2173,63 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#gceaxmnahb .gt_left {
+#zsvpzizqwt .gt_left {
   text-align: left;
 }
 
-#gceaxmnahb .gt_center {
+#zsvpzizqwt .gt_center {
   text-align: center;
 }
 
-#gceaxmnahb .gt_right {
+#zsvpzizqwt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gceaxmnahb .gt_font_normal {
+#zsvpzizqwt .gt_font_normal {
   font-weight: normal;
 }
 
-#gceaxmnahb .gt_font_bold {
+#zsvpzizqwt .gt_font_bold {
   font-weight: bold;
 }
 
-#gceaxmnahb .gt_font_italic {
+#zsvpzizqwt .gt_font_italic {
   font-style: italic;
 }
 
-#gceaxmnahb .gt_super {
+#zsvpzizqwt .gt_super {
   font-size: 65%;
 }
 
-#gceaxmnahb .gt_footnote_marks {
+#zsvpzizqwt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gceaxmnahb .gt_asterisk {
+#zsvpzizqwt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gceaxmnahb .gt_indent_1 {
+#zsvpzizqwt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gceaxmnahb .gt_indent_2 {
+#zsvpzizqwt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gceaxmnahb .gt_indent_3 {
+#zsvpzizqwt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gceaxmnahb .gt_indent_4 {
+#zsvpzizqwt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gceaxmnahb .gt_indent_5 {
+#zsvpzizqwt .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2469,7 +2467,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">12 (12%)</td>
 <td class="gt_row gt_center" headers="stat_6">14 (6.4%)</td>
-<td class="gt_row gt_center" headers="p.value">0.077</td>
+<td class="gt_row gt_center" headers="p.value">0.080</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -2502,7 +2500,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">1 (1.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">4 (1.8%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.002</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.003</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comorb_K</td>
@@ -2843,7 +2841,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">4 (4.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">5 (2.3%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.031</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.028</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -2876,7 +2874,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">3 (3.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">13 (5.9%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.033</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.026</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -2922,7 +2920,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">6 (2.7%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.018</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.014</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_simvas</td>
@@ -2945,7 +2943,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">1 (0.9%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.028</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.033</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -2992,7 +2990,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">1 (0.5%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.005</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.006</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -3038,7 +3036,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">3 (2.6%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.019</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.016</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -3307,7 +3305,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 </div>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(table_descriptive_site, <span class="at">file =</span> <span class="st">"data/results/table-descriptive-site.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(table_descriptive_site, <span class="at">file =</span> <span class="st">"data/results/table-descriptive-site.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">

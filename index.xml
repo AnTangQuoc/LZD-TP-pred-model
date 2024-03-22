@@ -16,6 +16,43 @@ linezolid-induced thrombocytopenia in Vietnamese
 patients</article-title>
 </title-group>
 
+<contrib-group>
+<contrib contrib-type="author">
+<name>
+<surname>Ha</surname>
+<given-names>Nhi Nguyen</given-names>
+</name>
+<string-name>Nhi Nguyen Ha</string-name>
+
+<role vocab="https://credit.niso.org" vocab-term="writing – original
+draft" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-original-draft/">writing</role>
+<xref ref-type="aff" rid="aff-1">a</xref>
+</contrib>
+<contrib contrib-type="author">
+<name>
+<surname>Quoc</surname>
+<given-names>An Tang</given-names>
+</name>
+<string-name>An Tang Quoc</string-name>
+
+<role vocab="https://credit.niso.org" vocab-term="writing – original
+draft" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-original-draft/">writing</role>
+<xref ref-type="aff" rid="aff-1">a</xref>
+</contrib>
+</contrib-group>
+<aff id="aff-1">
+<institution-wrap>
+<institution>The National DI&amp;ADR Centre, Hanoi University of
+Pharmacy</institution>
+</institution-wrap>
+
+
+
+
+
+
+
+</aff>
 
 
 
@@ -50,10 +87,10 @@ patients</article-title>
     </caption>
     <table>
       <colgroup>
-        <col width="24%" />
-        <col width="24%" />
-        <col width="27%" />
-        <col width="24%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="26%" />
+        <col width="25%" />
       </colgroup>
       <thead>
         <tr>
@@ -867,6 +904,43 @@ patients</article-title>
 linezolid-induced thrombocytopenia in Vietnamese
 patients</article-title>
 </title-group>
+<contrib-group>
+<contrib contrib-type="author">
+<name>
+<surname>Ha</surname>
+<given-names>Nhi Nguyen</given-names>
+</name>
+<string-name>Nhi Nguyen Ha</string-name>
+
+<role vocab="https://credit.niso.org" vocab-term="writing – original
+draft" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-original-draft/">writing</role>
+<xref ref-type="aff" rid="aff-1-nb-article">a</xref>
+</contrib>
+<contrib contrib-type="author">
+<name>
+<surname>Quoc</surname>
+<given-names>An Tang</given-names>
+</name>
+<string-name>An Tang Quoc</string-name>
+
+<role vocab="https://credit.niso.org" vocab-term="writing – original
+draft" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-original-draft/">writing</role>
+<xref ref-type="aff" rid="aff-1-nb-article">a</xref>
+</contrib>
+</contrib-group>
+<aff id="aff-1-nb-article">
+<institution-wrap>
+<institution>The National DI&amp;ADR Centre, Hanoi University of
+Pharmacy</institution>
+</institution-wrap>
+
+
+
+
+
+
+
+</aff>
 <abstract>
 <p>Write abstract here, note the indentation</p>
 </abstract>
@@ -883,10 +957,10 @@ patients</article-title>
     </caption>
     <table>
       <colgroup>
-        <col width="24%" />
-        <col width="24%" />
-        <col width="27%" />
-        <col width="24%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="26%" />
+        <col width="25%" />
       </colgroup>
       <thead>
         <tr>
@@ -1355,11 +1429,11 @@ patients</article-title>
 }
 
 (
-sample_size_criterion_1 &lt;- 
-  calculate_sample_size_1(
-    p = parameter_number, 
-    R2_CS_adj = cox_snell_r2
-  ) |&gt; ceiling()
+  sample_size_criterion_1 &lt;-
+    calculate_sample_size_1(
+      p = parameter_number,
+      R2_CS_adj = cox_snell_r2
+    ) |&gt; ceiling()
 )</code>
       <sec id="nb-code-cell-3-output-0-nb-article" specific-use="notebook-output">
       <preformat>[1] 775</preformat>
@@ -1383,12 +1457,12 @@ sample_size_criterion_1 &lt;-
 }
 
 (
-sample_size_criterion_2 &lt;- 
-  calculate_sample_size_2(
-    p = parameter_number, 
-    R2_CS_adj = cox_snell_r2,
-    max_R2_CS_app = max_apparent_cox_snell_r2
-  ) |&gt; ceiling()
+  sample_size_criterion_2 &lt;-
+    calculate_sample_size_2(
+      p = parameter_number,
+      R2_CS_adj = cox_snell_r2,
+      max_R2_CS_app = max_apparent_cox_snell_r2
+    ) |&gt; ceiling()
 )</code>
       <sec id="nb-code-cell-4-output-0-nb-article" specific-use="notebook-output">
       <preformat>[1] 478</preformat>
@@ -1404,13 +1478,13 @@ sample_size_criterion_2 &lt;-
       margin of error is &lt;= 0.05.</p>
       <sec id="nb-code-cell-5-nb-article" specific-use="notebook-code">
       <code language="r script">calculate_sample_size_3 &lt;- function(phi_hat, delta = 0.05) {
-  n &lt;- (1.96 / delta) ^ 2 * phi_hat * (1 - phi_hat)
+  n &lt;- (1.96 / delta)^2 * phi_hat * (1 - phi_hat)
   return(n)
 }
 
 (
-sample_size_criterion_3 &lt;- 
-  calculate_sample_size_3(phi_hat = 0.37) |&gt; ceiling()
+  sample_size_criterion_3 &lt;-
+    calculate_sample_size_3(phi_hat = 0.37) |&gt; ceiling()
 )</code>
       <sec id="nb-code-cell-5-output-0-nb-article" specific-use="notebook-output">
       <preformat>[1] 359</preformat>
@@ -1835,7 +1909,7 @@ parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by 
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
 </sec>
 </sec>
 <sec id="risk-score-system-nb-1">
@@ -2268,8 +2342,8 @@ points_system_factors |&gt; knitr::kable()
 <p>Summary statistics, by thrombocytopenia status.</p>
 <sec id="nb-code-cell-2-nb-2" specific-use="notebook-code">
 <code language="r script">library(gtsummary)
-
-table_stats &lt;- data_patient_complete |&gt;
+</code>
+<code language="r script">table_stats &lt;- data_patient_complete |&gt;
   select(
     all_of(predictor_list), starts_with(&quot;comed&quot;), flag_ADR_TP_ID
   ) |&gt;
@@ -2281,6 +2355,9 @@ table_stats &lt;- data_patient_complete |&gt;
   add_overall() |&gt;
   bold_labels()
 </code>
+<sec id="nb-code-cell-2-output-0-nb-2" specific-use="notebook-output">
+<preformat>#Uighur</preformat>
+</sec>
 </sec>
 <p>Univariate logistic regression, by thrombocytopenia status.</p>
 <sec id="nb-code-cell-3-nb-2" specific-use="notebook-code">
@@ -3506,7 +3583,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.4%)</td>
-        <td headers="p.value">0.086</td>
+        <td headers="p.value">0.080</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -3539,7 +3616,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">1 (1.0%)</td>
         <td headers="stat_6">4 (1.8%)</td>
-        <td headers="p.value" style="font-weight: bold">0.001</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_K</td>
@@ -3913,7 +3990,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">3 (3.0%)</td>
         <td headers="stat_6">13 (5.9%)</td>
-        <td headers="p.value" style="font-weight: bold">0.024</td>
+        <td headers="p.value" style="font-weight: bold">0.021</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -3957,7 +4034,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">6 (2.7%)</td>
-        <td headers="p.value" style="font-weight: bold">0.017</td>
+        <td headers="p.value" style="font-weight: bold">0.018</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_simvas</td>
@@ -4023,7 +4100,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.002</td>
+        <td headers="p.value" style="font-weight: bold">0.003</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4067,7 +4144,7 @@ table_descriptive
         <td headers="stat_4">3 (2.6%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.015</td>
+        <td headers="p.value" style="font-weight: bold">0.019</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4089,7 +4166,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.14</td>
+        <td headers="p.value">0.2</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -4937,7 +5014,7 @@ Attaching package: 'Matrix'</preformat>
     <preformat>Loaded glmnet 4.1-8</preformat>
     </sec>
     <sec id="nb-code-cell-4-output-4-nb-5" specific-use="notebook-output">
-    <preformat>[1] 20</preformat>
+    <preformat>[1] 21</preformat>
     </sec>
     </sec>
     <p>Results: LASSO algorithm selected 22-25 predictors.</p>
@@ -4979,64 +5056,64 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model, estimator = &quot;BP
   <sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
   <preformat>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.782325595    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004691494    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.005016634    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.318307977    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004930764    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.010898421    0.0000    0.0000000    0.00000000
-baseline_HGB               0.340579563    1.0000    0.0000000    0.00000000
-baseline_WBC               0.016614013    0.0000    0.0000000    0.00000000
+patient_age                0.782293207    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.004964168    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.004526416    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.317967333    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.004813998    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.010873452    0.0000    0.0000000    0.00000000
+baseline_HGB               0.340792911    1.0000    0.0000000    0.00000000
+baseline_WBC               0.017154740    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999781220    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.123807988    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.496814275    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.006738844    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980868850    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004341780    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.007443785    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.085727203    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004640253    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.087553323    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013857150    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012284507    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.009680572    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.005019661    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.014504509    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.004932177    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.047346588    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.007291033    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.018686954    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.018701649    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004152075    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004764308    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005584564    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.008422105    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.206294431    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004355638    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.005449085    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004136942    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.006311163    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.008175630    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.009096934    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.005057448    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.067865323    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.028527107    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004404736    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.013228969    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.005273797    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.011229428    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010778976    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.058695752    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.016628190    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.006003194    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007283226    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.028095637    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.160604604    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007891058    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.004806117    0.0000    0.0000000    0.00000000
+LZD_duration               0.999942692    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.125220946    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.494502906    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.006950489    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.981257349    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.004678584    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007744123    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.086901208    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004743103    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.087121716    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.014506286    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.013143210    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.010487015    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.004832721    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.013845163    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.004909443    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.048387753    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.006687160    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.017231093    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.021190371    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004603430    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.004550014    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005424311    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.007205115    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.203751258    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004957028    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.005410155    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.005085008    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.006390723    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.008069084    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.008262795    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005818394    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.067464059    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.028505496    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.005009297    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.012985597    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.005165151    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.011063927    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.010577838    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.059819973    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.016398792    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005328044    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.006728380    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.028635756    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.161411354    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.007774690    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.005095624    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0483    0.0473000    0.04360000
+PostProbs                           NA    0.0479    0.0469000    0.04330000
 R2                                  NA    0.1838    0.1745000    0.16450000
 dim                                 NA    7.0000    6.0000000    5.00000000
 logmarg                             NA -439.7101 -441.8714407 -444.29445157
@@ -5099,7 +5176,7 @@ comed_furosemidTRUE       0.000000e+00    0.00000000
 comed_haloperidolTRUE     0.000000e+00    0.00000000
 comed_valproicTRUE        0.000000e+00    0.00000000
 BF                        5.935666e-03    0.05614118
-PostProbs                 2.530000e-02    0.02300000
+PostProbs                 2.510000e-02    0.02290000
 R2                        1.634000e-01    0.17310000
 dim                       5.000000e+00    6.00000000
 logmarg                  -4.448369e+02 -442.59000543</preformat>
@@ -5147,7 +5224,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
   </sec>
   </sec>
 </sec>
@@ -5354,6 +5431,9 @@ library(gtsummary)
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
+  </sec>
+  <sec id="nb-code-cell-1-output-1-nb-6" specific-use="notebook-output">
+  <preformat>#BlackLivesMatter</preformat>
   </sec>
   </sec>
   <sec id="nb-code-cell-2-nb-6" specific-use="notebook-code">
@@ -5598,7 +5678,7 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-4-nb-7" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>

@@ -341,7 +341,7 @@ Attaching package: 'Matrix'</code></pre>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_fit, <span class="at">s =</span> cv_lasso_fit<span class="sc">$</span>lambda.min)<span class="sc">@</span>i <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 25</code></pre>
+<pre><code>[1] 20</code></pre>
 </div>
 </div></div>
 <p>Results: LASSO algorithm selected 22-25 predictors.</p>
@@ -362,64 +362,64 @@ Attaching package: 'Matrix'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.780538446    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.005354803    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.005127902    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.321912844    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004689136    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.010987916    0.0000    0.0000000    0.00000000
-baseline_HGB               0.338641770    1.0000    0.0000000    0.00000000
-baseline_WBC               0.016646954    0.0000    0.0000000    0.00000000
+patient_age                0.783145497    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.004480213    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.004285051    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.316489870    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.004729565    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.010474928    0.0000    0.0000000    0.00000000
+baseline_HGB               0.340491903    1.0000    0.0000000    0.00000000
+baseline_WBC               0.016581573    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999638402    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.126209367    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.492950421    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.007031548    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980702064    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004748817    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.007326530    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.083289124    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004330788    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.089253760    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013912114    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012228867    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.009943652    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.004964290    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.013611464    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.004711207    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.045939513    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.006700756    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.017967036    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.019918135    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004754490    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004517403    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005883580    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.007889607    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.203835358    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004579732    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.005311744    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004487476    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.005762486    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.007674007    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.009413138    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.005244422    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.066866629    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.028273823    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004727392    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.012660202    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.004930317    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.010592825    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010186520    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.058798555    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.015588778    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005716178    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007354196    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.027356359    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.162208448    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007469105    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.005495619    0.0000    0.0000000    0.00000000
+LZD_duration               0.999920311    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.126781422    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.495407055    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.006582277    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.979915019    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.005101032    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007059620    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.086171078    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004383182    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.088438830    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.013888292    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.012649584    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.009973166    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.004729964    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.013796711    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.004966324    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.048613322    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.007033189    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.018681189    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.019840181    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004377274    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.004632637    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005839678    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.008045612    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.207518645    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004229228    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.005213263    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.004617432    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.006183439    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.008727664    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.008777931    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005825521    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.066875259    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.027485770    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.004643740    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.012916435    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.004836146    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.010868818    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.009991324    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.059911813    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.016635801    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005188013    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.007058774    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.028648453    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.163071847    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.007397560    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.004885977    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0482    0.0472000    0.04350000
+PostProbs                           NA    0.0481    0.0470000    0.04340000
 R2                                  NA    0.1838    0.1745000    0.16450000
 dim                                 NA    7.0000    6.0000000    5.00000000
 logmarg                             NA -439.7101 -441.8714407 -444.29445157
@@ -482,7 +482,7 @@ comed_furosemidTRUE       0.000000e+00    0.00000000
 comed_haloperidolTRUE     0.000000e+00    0.00000000
 comed_valproicTRUE        0.000000e+00    0.00000000
 BF                        5.935666e-03    0.05614118
-PostProbs                 2.530000e-02    0.02300000
+PostProbs                 2.520000e-02    0.02290000
 R2                        1.634000e-01    0.17310000
 dim                       5.000000e+00    6.00000000
 logmarg                  -4.448369e+02 -442.59000543</code></pre>
@@ -1165,7 +1165,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
