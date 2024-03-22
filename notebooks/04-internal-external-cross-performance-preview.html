@@ -128,7 +128,7 @@
             // if location was not changed in 100 ms, then there is no history back
             if(currentUrl === window.location.href){              
                 // redirect to site root
-                window.location.href = "...html";
+                window.location.href = "../index.html";
             }
         }, 100);
       }
@@ -192,7 +192,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Saturday, March 9, 2024</p>
+              <p class="date">Friday, March 22, 2024</p>
             </div>
           </div>
           
@@ -243,9 +243,9 @@
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ broom        1.0.5      ✔ recipes      1.0.10
-✔ dials        1.2.1      ✔ tune         1.1.2 
+✔ dials        1.2.1      ✔ tune         1.2.0 
 ✔ infer        1.0.6      ✔ workflows    1.1.4 
-✔ modeldata    1.3.0      ✔ workflowsets 1.0.1 
+✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
 ✔ parsnip      1.2.0      ✔ yardstick    1.3.0 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -256,7 +256,7 @@
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CalibrationCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -342,22 +342,30 @@ Attaching package: 'Hmisc'</code></pre>
 <span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up future to use multiple cores</span></span>
-<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">6</span>)</span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>cross_predict_HPM <span class="ot">&lt;-</span> cross_samples<span class="sc">$</span>splits <span class="sc">|&gt;</span></span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">future_map</span>(extract_variable_names_cross, <span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model to each sample in parallel</span></span>
-<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>cross_full <span class="ot">&lt;-</span> <span class="fu">future_map2</span>(cross_samples<span class="sc">$</span>splits, cross_predict_HPM, fit_model_to_sample)</span>
-<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>cross_estimates <span class="ot">&lt;-</span> <span class="fu">future_map2_dfr</span>(cross_samples<span class="sc">$</span>splits, cross_full, calc_cross_performance)</span>
-<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>cross_plots <span class="ot">&lt;-</span> <span class="fu">future_map2</span>(cross_samples<span class="sc">$</span>splits, cross_full, plot_calibration_curve)</span>
-<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in checkNumberOfLocalWorkers(workers): Careful, you are setting up 6
+localhost parallel workers with only 4 CPU cores available for this R process
+(per 'system'), which could result in a 150% load. The soft limit is set to
+100%. Overusing the CPUs has negative impact on the current R process, but also
+on all other processes of yours and others running on the same machine. See
+help("parallelly.options", package = "parallelly") for how to override the soft
+and hard limits</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cross_predict_HPM <span class="ot">&lt;-</span> cross_samples<span class="sc">$</span>splits <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">future_map</span>(extract_variable_names_cross, <span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model to each sample in parallel</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cross_full <span class="ot">&lt;-</span> <span class="fu">future_map2</span>(cross_samples<span class="sc">$</span>splits, cross_predict_HPM, fit_model_to_sample)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cross_estimates <span class="ot">&lt;-</span> <span class="fu">future_map2_dfr</span>(cross_samples<span class="sc">$</span>splits, cross_full, calc_cross_performance)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>cross_plots <span class="ot">&lt;-</span> <span class="fu">future_map2</span>(cross_samples<span class="sc">$</span>splits, cross_full, plot_calibration_curve)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cross_plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cross_plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]</code></pre>
 </div>
@@ -425,7 +433,7 @@ Attaching package: 'Hmisc'</code></pre>
 </div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(meta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(meta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: metadat</code></pre>
 </div>
@@ -435,27 +443,27 @@ Type 'help(meta)' for a brief overview.
 Readers of 'Meta-Analysis with R (Use R!)' should install
 older version of 'meta' package: https://tinyurl.com/dt4y5drs</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cross_C_index_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_C_index,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_C_index_lower,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_C_index_upper,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_statistic"</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>forest_plot_C_index <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  cross_C_index_meta,</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="cn">NA</span>,</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.9</span>),</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>cross_C_index_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_C_index,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_C_index_lower,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_C_index_upper,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_statistic"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>forest_plot_C_index <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  cross_C_index_meta,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="cn">NA</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.9</span>),</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -463,28 +471,28 @@ older version of 'meta' package: https://tinyurl.com/dt4y5drs</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cross_calibration_intercept_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_calibration_intercept,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_calibration_intercept_lower,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_calibration_intercept_upper,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_intercept"</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">null.effect =</span> <span class="dv">0</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>forest_plot_calibration_intercept <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  cross_calibration_intercept_meta,</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="dv">0</span>,</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.8</span>),</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cross_calibration_intercept_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_calibration_intercept,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_calibration_intercept_lower,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_calibration_intercept_upper,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_intercept"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">null.effect =</span> <span class="dv">0</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>forest_plot_calibration_intercept <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  cross_calibration_intercept_meta,</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="dv">0</span>,</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.8</span>),</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -492,28 +500,28 @@ older version of 'meta' package: https://tinyurl.com/dt4y5drs</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>cross_calibration_slope_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_calibration_slope,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_calibration_slope_lower,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_calibration_slope_upper,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_slope"</span>,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">null.effect =</span> <span class="dv">1</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>forest_plot_calibration_slope <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  cross_calibration_slope_meta,</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="dv">1</span>,</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.7</span>),</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cross_calibration_slope_meta <span class="ot">&lt;-</span> <span class="fu">metagen</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cross_estimates,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">studlab =</span> site,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TE =</span> cross_calibration_slope,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> cross_calibration_slope_lower,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> cross_calibration_slope_upper,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sm =</span> <span class="st">"C_slope"</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.tau =</span> <span class="st">"REML"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method.random.ci =</span> <span class="st">"HK"</span>,</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">adhoc.hakn.ci =</span> <span class="st">"IQWiG6"</span>,</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">null.effect =</span> <span class="dv">1</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>forest_plot_calibration_slope <span class="ot">&lt;-</span> <span class="fu">forest</span>(</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  cross_calibration_slope_meta,</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">sortvar =</span> TE,</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref =</span> <span class="dv">1</span>,</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.7</span>),</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"RevMan5"</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -521,24 +529,24 @@ older version of 'meta' package: https://tinyurl.com/dt4y5drs</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cross_meta_performance <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"Total"</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">sum</span>(cross_estimates<span class="sc">$</span>n),</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index =</span> cross_C_index_meta<span class="sc">$</span>TE.random,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index_lower =</span> cross_C_index_meta<span class="sc">$</span>lower.random,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index_upper =</span> cross_C_index_meta<span class="sc">$</span>upper.random,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept =</span> cross_calibration_intercept_meta<span class="sc">$</span>TE.random,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept_lower =</span> cross_calibration_intercept_meta<span class="sc">$</span>lower.random,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept_upper =</span> cross_calibration_intercept_meta<span class="sc">$</span>upper.random,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope =</span> cross_calibration_slope_meta<span class="sc">$</span>TE.random,</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope_lower =</span> cross_calibration_slope_meta<span class="sc">$</span>lower.random,</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope_upper =</span> cross_calibration_slope_meta<span class="sc">$</span>upper.random</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>cross_performance_metrics <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cross_estimates, cross_meta_performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>cross_meta_performance <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"Total"</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">sum</span>(cross_estimates<span class="sc">$</span>n),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index =</span> cross_C_index_meta<span class="sc">$</span>TE.random,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index_lower =</span> cross_C_index_meta<span class="sc">$</span>lower.random,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_C_index_upper =</span> cross_C_index_meta<span class="sc">$</span>upper.random,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept =</span> cross_calibration_intercept_meta<span class="sc">$</span>TE.random,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept_lower =</span> cross_calibration_intercept_meta<span class="sc">$</span>lower.random,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_intercept_upper =</span> cross_calibration_intercept_meta<span class="sc">$</span>upper.random,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope =</span> cross_calibration_slope_meta<span class="sc">$</span>TE.random,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope_lower =</span> cross_calibration_slope_meta<span class="sc">$</span>lower.random,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_calibration_slope_upper =</span> cross_calibration_slope_meta<span class="sc">$</span>upper.random</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>cross_performance_metrics <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cross_estimates, cross_meta_performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(cross_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/cross-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(cross_performance_metrics, <span class="at">file =</span> <span class="st">"data/model-performance/cross-performance-metrics.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
@@ -949,7 +957,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

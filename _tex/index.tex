@@ -41,7 +41,7 @@
 \makeatother
 \usepackage{xcolor}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
@@ -77,8 +77,57 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -139,7 +188,7 @@
 \title{Development and Validation of a Risk Prediction Model of
 linezolid-induced thrombocytopenia in Vietnamese patients}
 \author{}
-\date{Monday, March 11, 2024}
+\date{Friday, March 22, 2024}
 
 \begin{document}
 \maketitle
@@ -150,10 +199,10 @@ Write abstract here, note the indentation
 \section{Checklist}\label{checklist}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1259}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0442}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.7857}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0442}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2432}}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2432}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2703}}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2432}}@{}}
 \caption{TRIPOD-Cluster checklist of items to include when reporting a
 study developing or validating a multivariable prediction model using
 clustered data}\tabularnewline
@@ -165,7 +214,7 @@ clustered data}\tabularnewline
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Description}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Page No}
+\textbf{Draft date}
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
@@ -177,7 +226,7 @@ clustered data}\tabularnewline
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Description}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Page No}
+\textbf{Draft date}
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -202,9 +251,10 @@ Participants and data & 4a & Describe eligibility criteria for
 participants and datasets* & \\
 & 4b & Describe the origin of the data, and how the data were
 identified, requested, and collected & \\
-Sample size & 5 & Explain how the sample size was arrived at* & \\
+Sample size & 5 & Explain how the sample size was arrived at* & Mar
+21 \\
 Outcomes and predictors & 6a & Define the outcome that is predicted by
-the model, including how and when assessed* & \\
+the model, including how and when assessed* & Mar 21 \\
 & 6b & Define all predictors used in developing or validating the model,
 including how and when measured* & \\
 Data preparation & 7a & Describe how the data were prepared for
@@ -290,19 +340,231 @@ for the present study & \\
 
 \subsection{Background and objectives}\label{background-and-objectives}
 
+Linezolid is an oxazolidinones antibiotics {[}1{]}.
+
 \section{Methods}\label{methods}
 
 \subsection{Participants and data}\label{participants-and-data}
 
 \subsection{Sample size}\label{sample-size}
 
-There are {[}number{]} candidate predictors selected by clinical
-experts, and the BMS algorithm identified {[}number{]} additional
-predictors, for a total of {[}number{]} predictors.
+Previous studies developing logistic regression models for LI-TP risk
+predictions have included 4-6 predictors in their final models {[}2{]};
+{[}3{]}; {[}4{]}; {[}5{]}. We expect to include about as many candidate
+predictors, based on results from the expert opinion survey and the
+Bayesian Model Selection algorithm
+see~\ref{sec-outcomes-and-predictors}. Some of the candidate predictors
+might be continuous, which may potentially require non-linear modelling
+and therefore slightly increase the number of variables.
 
-\subsection{Outcomes and predictors}\label{outcomes-and-predictors}
+A general rule of thumb is for at least 10 events be available for each
+candidate predictor considered in a prediction model {[}6{]}. We have a
+total of 816 eligible patients and 264 of those have experienced the
+outcome. If the number of candidate predictors is 7, we would have 37
+events per candidate predictor, which is considerably greater than the
+minimum number required. Even if the number of parameters screened is
+20, we would still have 13 events per candidate predictor.
+
+However, the aforementioned rule of thumb have generated some debate in
+the literature, with recent results suggesting that event per variable
+criterion is too simplistic and has no strong relation to the predictive
+performance of a model. Riley et al {[}7{]} proposed a different set of
+criteria to estimate minimum sample size for models developed using
+logistic regression, which are the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Small optimism in predictor effect estimates, defined as a global
+  shrinkage factor of \textgreater= 0.9.
+\item
+  Small absolute difference of \textless= 0.05 in the model's apparent
+  and adjusted Nagelkerke's R-squared.
+\item
+  Precise estimation of the overall risk in the population.
+\end{enumerate}
+
+Criteria 1 and 2 aims to reduce the potential of overfitting. Criteria 3
+aims to ensure the overall risk is estimated precisely.
+
+\subsubsection{Step 1: Choose the number of candidate predictors of
+interest for inclusion in the model, and calculate the corresponding
+number of predictor parameters
+(p)}\label{step-1-choose-the-number-of-candidate-predictors-of-interest-for-inclusion-in-the-model-and-calculate-the-corresponding-number-of-predictor-parameters-p}
+
+Note that one predictor may require two or more parameters. For example,
+a k-category predictor requires k-1 parameters and a continuous
+predictor model with a non-linear trend requires more than one parameter
+to be estimated. Also include any potential interaction terms towards
+the total p.
+
+When using a predictor selection method, p should be defined as the
+total number of parameters screened, and not just the subset that are
+included in the final model.
+
+Assuming maximum total p to be 20.
+
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, rightrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, bottomrule=.15mm, toptitle=1mm, breakable, colback=white, bottomtitle=1mm, left=2mm, leftrule=.75mm, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, arc=.35mm, opacityback=0]
+
+The value of p is assumed to be no larger than 20 because univariate
+regression shows there are 20 variables that are significantly
+correlated with the outcome.
+
+\end{tcolorbox}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\subsubsection{\texorpdfstring{Step 2: Choose sensible values for
+R\textsuperscript{2}\textsubscript{CS\_adj} and
+max(R\textsuperscript{2}\textsubscript{CS\_app}) based on previous
+studies where R\textsuperscript{2}\textsubscript{CS} is the Cox-Snell
+R\textsuperscript{2}
+statistic.}{Step 2: Choose sensible values for R2CS\_adj and max(R2CS\_app) based on previous studies where R2CS is the Cox-Snell R2 statistic.}}\label{step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic.}
+
+The value of max(R\textsuperscript{2}\textsubscript{CS\_app}) is based
+on the overall prevalence or overall rate of the outcome in the
+population of interest. The incidence of LI-TP in patients treated with
+linezolid was estimated to be 37\% in a meta-analysis by Zhao et al
+{[}8{]}.
+
+The value of R\textsuperscript{2}\textsubscript{CS\_adj} could be based
+on that for a previously published model in the same setting and
+population (with similar outcome definition). However, as previous
+studies does not provide any information to identify a sensible value of
+the minimum expected Cox-Snell R\textsuperscript{2}, the value
+R\textsuperscript{2}\textsubscript{CS\_adj} will be assumed to
+correspond to a R\textsuperscript{2}\textsubscript{Nagelkerke} of 0.15.
+
+\begin{verbatim}
+[1] 0.2048324
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\subsubsection{Step 3: Criterion 1}\label{step-3-criterion-1}
+
+Calculate the sample size required to ensure Van Houwelingen's global
+shrinkage factor (S\textsubscript{VH}) is close to 1. A value of
+S\textsubscript{VH} \textgreater= 0.90 is generally recommended, which
+reflects a small amount of overfitting during model development.
+
+\begin{verbatim}
+[1] 775
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 775 participants are required to meet criterion 1.
+
+\subsubsection{Step 4: Criterion 2}\label{step-4-criterion-2}
+
+Calculate the shrinkage factor (S\textsubscript{VH}) required to ensure
+a small absolute difference of \textless= 0.05 in the developed model's
+apparent and adjusted Nagelkerke's R\textsuperscript{2}. Then derive the
+required sample size conditional on this value of S\textsubscript{VH}.
+
+\begin{verbatim}
+[1] 478
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 478 participants are required to meet criterion 2.
+
+\subsubsection{Step 5: Criterion 3}\label{step-5-criterion-3}
+
+Calculate the sample size required to ensure a precise estimate of the
+overall risk in the population. The suggested absolute margin of error
+is \textless= 0.05.
+
+\begin{verbatim}
+[1] 359
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 359 participants are required to meet criterion 3.
+
+\subsubsection{Step 6: Final sample
+size}\label{step-6-final-sample-size}
+
+The required minimum sample size is the maximum value from steps 3 to 5,
+to ensure that each of criteria 1 to 3 are met.
+
+\begin{verbatim}
+[1] 775
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+The final estimate of minimum sample size is 775, therefore our data is
+sufficient for model development with at most 20 parameters.
+
+\subsection{Outcomes and predictors}\label{sec-outcomes-and-predictors}
+
+\subsubsection{6a. Define the outcome that is predicted by the model,
+including how and when
+assessed}\label{a.-define-the-outcome-that-is-predicted-by-the-model-including-how-and-when-assessed}
+
+The outcome of interest is linezolid-induced thrombocytopenia, defined
+as (i) a platelet count of \textless{} 112.5 x 10\textsuperscript{9}
+cells/L (75\% of the lower limit of normal) for patients with a baseline
+platelet count in the normal range; (ii) A reduction in platelet count
+of ≥ 25\% from the baseline value for patients with a baseline platelet
+count of \textless{} 150 x 10\textsuperscript{9} cells/L {[}9{]};
+{[}5{]}; {[}10{]}.
+
+Normal platelet count is defined as 150-450 x 10\textsuperscript{9}
+cells/L. Baseline platelet count is defined as the last recorded PLT
+value before the start of linezolid therapy. Participants are considered
+to have met the outcome if they have a platelet count that meets the
+above criteria at any time during linezolid therapy or within 5 days
+after the end of therapy.
+
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, rightrule=.15mm, colbacktitle=quarto-callout-warning-color!10!white, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-warning-color-frame, bottomrule=.15mm, toptitle=1mm, breakable, colback=white, bottomtitle=1mm, left=2mm, leftrule=.75mm, coltitle=black, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, arc=.35mm, opacityback=0]
+
+Thrombocytopenia may occur within a few days after stopping LZD, when
+the drug hasn't been completely eliminated. However, it is unknown
+exactly how long after stopping LZD can a TP event still be attributed
+to LZD use. The value of 5 days has been chosen \emph{almost}
+arbitrarily.
+
+Our rationale is that after 5 days (120 hrs), LZD is guaranteed to be
+completely eliminated in all patients, as the longest
+t\textsubscript{1/2} is 8.3 ± 2.4 hrs in end-stage renal disease
+patients, +3 SD would be \textasciitilde16 hrs, so 120 hrs is
+\textgreater7 half-lives, therefore in patients with the worst
+clearance, 99\% of them would have 99\% of the drug eliminated from
+their systems. Furthermore, trough LZD concentration
+(C\textsubscript{min}) has previously been identified as a predictor of
+LI-TP development, and LI-TP itself is mostly reversible after
+discontinuation, so we would argue that any TP events that occur after
+LZD has been eliminated from the system would not be related to LZD use.
+
+\end{tcolorbox}
+
+\subsubsection{6b. Define all predictors used in developing or
+validating the model, including how and when
+measured}\label{b.-define-all-predictors-used-in-developing-or-validating-the-model-including-how-and-when-measured}
 
 \subsection{Data preparation}\label{data-preparation}
+
+\subsubsection{7a. Describe how the data were prepared for analysis,
+including any cleaning, harmonisation, linkage, and quality
+checks}\label{a.-describe-how-the-data-were-prepared-for-analysis-including-any-cleaning-harmonisation-linkage-and-quality-checks}
 
 \subsection{Data analysis}\label{data-analysis}
 
@@ -335,510 +597,78 @@ specification}\label{model-development-and-specification}
 
 \subsection{Funding}\label{funding}
 
-\subsection{Objectives}\label{objectives}
+\subsection{References}\label{references}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Investigating risk factors of linezolid-induced thrombocytopenia
-  (LI-TP)
-\item
-  Developing and validating a logistics regression model to predict
-  LI-TP in Vietnamese patients
-\end{enumerate}
+\phantomsection\label{refs}
+\begin{CSLReferences}{0}{1}
+\bibitem[\citeproctext]{ref-cazavet_risk_2020}
+1. Cazavet J, Bounes FV, Ruiz S, Seguin T, Crognier L, Rouget A, et al.
+Risk factor analysis for linezolid-associated thrombocytopenia in
+critically ill patients. Eur J Clin Microbiol Infect Dis {[}Internet{]}.
+2020;39:527--38. Available from:
+\url{https://www.ncbi.nlm.nih.gov/pubmed/31853741}
 
-\subsection{Data cleaning}\label{data-cleaning}
+\bibitem[\citeproctext]{ref-liu_analysis_2021}
+2. Liu Y, Liu T, Wei G, Yan P, Fang X, Xie L. Analysis of risk factors
+and establishment of risk prediction model for linezolid-associated
+thrombocytopenia. Medical Journal of Chinese People's Liberation Army
+{[}Internet{]}. 2021;46. Available from:
+\url{https://d.wanfangdata.com.cn/periodical/jfjyxzz202108006}
 
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\bibitem[\citeproctext]{ref-duan_regression_2022}
+3. Duan L, Zhou Q, Feng Z, Zhu C, Cai Y, Wang S, et al. A {Regression}
+{Model} to {Predict} {Linezolid} {Induced} {Thrombocytopenia} in
+{Neonatal} {Sepsis} {Patients}: {A} {Ten}-{Year} {Retrospective}
+{Cohort} {Study}. Front Pharmacol {[}Internet{]}. 2022;13:710099.
+Available from: \url{https://www.ncbi.nlm.nih.gov/pubmed/35185555}
 
-\begin{verbatim}
-Rows: 816
-Columns: 58
-$ patient_age          <dbl> 90, 80, 79, 71, 72, 61, 60, 64, 92, 75, 86, 93, 6~
-$ patient_sex          <lgl> TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRU~
-$ LZD_dose_per_weight  <dbl> 25.00000, 30.00000, 30.00000, 13.33333, 17.14286,~
-$ baseline_CLCR        <dbl> 27.22860, 63.15805, 29.93031, 50.89929, 10.87932,~
-$ dept_ER              <lgl> TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, T~
-$ dept_ICU             <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,~
-$ baseline_HGB         <dbl> 96, 101, 86, 94, 86, 99, 98, 119, 60, 118, 99, 10~
-$ baseline_WBC         <dbl> 6.75, 11.91, 14.05, 14.61, 7.92, 21.79, 13.27, 6.~
-$ baseline_PLT         <dbl> 244, 180, 259, 179, 236, 113, 196, 154, 147, 101,~
-$ LZD_duration         <dbl> 6, 8, 15, 3, 7, 8, 22, 4, 3, 16, 14, 7, 13, 20, 6~
-$ invasive_ETI         <lgl> FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, FAL~
-$ invasive_CVC         <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FAL~
-$ invasive_IHD         <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F~
-$ invasive_CRRT        <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
-$ comorb_HTN           <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE,~
-$ comorb_DM            <lgl> TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FAL~
-$ comorb_HF            <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE~
-$ comorb_angina        <lgl> FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FA~
-$ comorb_cirr          <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
-$ comorb_COPD          <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
-$ comorb_CVA           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comorb_MI            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comorb_K             <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, F~
-$ comorb_hematological <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comorb_hema          <lgl> FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, F~
-$ infect_sepsis        <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TR~
-$ infect_CAP           <lgl> FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, F~
-$ infect_HAP           <lgl> TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRU~
-$ infect_SSTI          <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, T~
-$ infect_CNS           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
-$ infect_IAI           <lgl> FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FAL~
-$ infect_UTI           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ infect_BJI           <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ infect_septicemia    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_aspirin        <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_diclofenac     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_ibuprofen      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_paracetamol    <lgl> TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE,~
-$ comed_penicillin     <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE~
-$ comed_cepha          <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
-$ comed_carbapenem     <lgl> TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, ~
-$ comed_cotrimoxazol   <lgl> FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, F~
-$ comed_vancomycin     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_levofloxacin   <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, F~
-$ comed_teicoplanin    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_ethambutol     <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_pyrazinamid    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_rifampin       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_heparin        <lgl> FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FA~
-$ comed_clopidogrel    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_enoxaparin     <lgl> FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALS~
-$ comed_dexamethason   <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, F~
-$ comed_amiodaron      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_furosemid      <lgl> FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,~
-$ comed_haloperidol    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ comed_valproic       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~
-$ flag_ADR_TP_ID       <lgl> FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FAL~
-$ site                 <chr> "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", "TN1", ~
-\end{verbatim}
+\bibitem[\citeproctext]{ref-qin_development_2021}
+4. Qin Y, Chen Z, Gao S, Pan MK, Li YX, Lv ZQ, et al. Development and
+{Validation} of a {Risk} {Prediction} {Model} of {Linezolid}-induced
+{Thrombocytopenia} in {Elderly} {Patients} {[}Internet{]}. In Review;
+2021 Jun. Available from:
+\url{https://www.researchsquare.com/article/rs-582799/v1}
 
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\bibitem[\citeproctext]{ref-xu_establishment_2023}
+5. Xu J, Lu J, Yuan Y, Duan L, Shi L, Chen F, et al.
+\href{https://doi.org/10.1093/jac/dkad191}{Establishment and validation
+of a risk prediction model incorporating concentrations of linezolid and
+its metabolite {PNU142300} for linezolid-induced thrombocytopenia}. The
+Journal of Antimicrobial Chemotherapy. 2023;78:1974--81.
 
-\subsection{Descriptive statistics}\label{descriptive-statistics}
+\bibitem[\citeproctext]{ref-peduzzi1995}
+6. Peduzzi P, Concato J, Feinstein AR, Holford TR. Importance of events
+per independent variable in proportional hazards regression analysis II.
+Accuracy and precision of regression estimates. Journal of Clinical
+Epidemiology {[}Internet{]}. 1995;48:1503--10. Available from:
+\url{https://www.jclinepi.com/article/0895-4356(95)00048-8/abstract}
 
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\bibitem[\citeproctext]{ref-riley2019}
+7. Riley RD, Snell KI, Ensor J, Burke DL, Harrell Jr FE, Moons KG, et
+al. Minimum sample size for developing a multivariable prediction model:
+PART II - binary and time-to-event outcomes. Statistics in Medicine
+{[}Internet{]}. 2019;38:1276--96. Available from:
+\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.7992}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2083}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1833}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1667}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1667}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0667}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1000}}
-  >{\centering\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1083}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Characteristic}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Overall}, N = 816
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{FALSE}, N = 552
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{TRUE}, N = 264
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{OR}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{95\% CI}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{p-value}
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\textbf{patient\_age} & 62 (50 - 73) & 61 (47 - 72) & 64 (54 - 74) &
-1.02 & 1.01, 1.03 & \textbf{\textless0.001} \\
-\textbf{patient\_sex} & 306 (38\%) & 206 (37\%) & 100 (38\%) & 1.02 &
-0.76, 1.38 & 0.9 \\
-\textbf{LZD\_dose\_per\_weight} & 21.8 (20.0 - 24.0) & 21.8 (20.0 -
-24.0) & 21.8 (19.4 - 24.6) & 0.99 & 0.96, 1.03 & 0.8 \\
-\textbf{baseline\_CLCR} & 48 (21 - 84) & 55 (26 - 88) & 32 (15 - 64) &
-0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
-\textbf{dept\_ER} & 140 (17\%) & 95 (17\%) & 45 (17\%) & 0.99 & 0.67,
-1.45 & \textgreater0.9 \\
-\textbf{dept\_ICU} & 390 (48\%) & 240 (43\%) & 150 (57\%) & 1.71 & 1.27,
-2.30 & \textbf{\textless0.001} \\
-\textbf{baseline\_HGB} & 102 (89 - 120) & 105 (91 - 121) & 98 (85 - 117)
-& 0.99 & 0.98, 0.99 & \textbf{\textless0.001} \\
-\textbf{baseline\_WBC} & 12 (8 - 17) & 12 (8 - 17) & 12 (8 - 18) & 1.01
-& 0.99, 1.03 & 0.2 \\
-\textbf{baseline\_PLT} & 206 (143 - 288) & 234 (167 - 309) & 154 (103 -
-211) & 0.99 & 0.99, 0.99 & \textbf{\textless0.001} \\
-\textbf{LZD\_duration} & 9.0 (6.0 - 14.0) & 9.0 (6.0 - 13.0) & 10.0 (6.0
-- 14.0) & 1.03 & 1.01, 1.06 & \textbf{0.017} \\
-\textbf{invasive\_ETI} & 386 (47\%) & 230 (42\%) & 156 (59\%) & 2.02 &
-1.50, 2.73 & \textbf{\textless0.001} \\
-\textbf{invasive\_CVC} & 423 (52\%) & 246 (45\%) & 177 (67\%) & 2.53 &
-1.87, 3.45 & \textbf{\textless0.001} \\
-\textbf{invasive\_IHD} & 111 (14\%) & 64 (12\%) & 47 (18\%) & 1.65 &
-1.09, 2.48 & \textbf{0.016} \\
-\textbf{invasive\_CRRT} & 147 (18\%) & 64 (12\%) & 83 (31\%) & 3.50 &
-2.42, 5.07 & \textbf{\textless0.001} \\
-\textbf{comorb\_HTN} & 333 (41\%) & 218 (39\%) & 115 (44\%) & 1.18 &
-0.88, 1.59 & 0.3 \\
-\textbf{comorb\_DM} & 222 (27\%) & 150 (27\%) & 72 (27\%) & 1.01 & 0.72,
-1.39 & \textgreater0.9 \\
-\textbf{comorb\_HF} & 225 (28\%) & 131 (24\%) & 94 (36\%) & 1.78 & 1.29,
-2.44 & \textbf{\textless0.001} \\
-\textbf{comorb\_angina} & 32 (3.9\%) & 19 (3.4\%) & 13 (4.9\%) & 1.45 &
-0.69, 2.96 & 0.3 \\
-\textbf{comorb\_cirr} & 48 (5.9\%) & 20 (3.6\%) & 28 (11\%) & 3.16 &
-1.75, 5.79 & \textbf{\textless0.001} \\
-\textbf{comorb\_COPD} & 39 (4.8\%) & 25 (4.5\%) & 14 (5.3\%) & 1.18 &
-0.59, 2.28 & 0.6 \\
-\textbf{comorb\_CVA} & 93 (11\%) & 64 (12\%) & 29 (11\%) & 0.94 & 0.58,
-1.49 & 0.8 \\
-\textbf{comorb\_MI} & 20 (2.5\%) & 15 (2.7\%) & 5 (1.9\%) & 0.69 & 0.22,
-1.81 & 0.5 \\
-\textbf{comorb\_K} & 67 (8.2\%) & 44 (8.0\%) & 23 (8.7\%) & 1.10 & 0.64,
-1.85 & 0.7 \\
-\textbf{comorb\_hematological} & 46 (5.6\%) & 27 (4.9\%) & 19 (7.2\%) &
-1.51 & 0.81, 2.75 & 0.2 \\
-\textbf{comorb\_hema} & 61 (7.5\%) & 37 (6.7\%) & 24 (9.1\%) & 1.39 &
-0.81, 2.36 & 0.2 \\
-\textbf{infect\_sepsis} & 134 (16\%) & 66 (12\%) & 68 (26\%) & 2.55 &
-1.75, 3.73 & \textbf{\textless0.001} \\
-\textbf{infect\_CAP} & 118 (14\%) & 70 (13\%) & 48 (18\%) & 1.53 & 1.02,
-2.28 & \textbf{0.038} \\
-\textbf{infect\_HAP} & 375 (46\%) & 255 (46\%) & 120 (45\%) & 0.97 &
-0.72, 1.30 & 0.8 \\
-\textbf{infect\_SSTI} & 133 (16\%) & 100 (18\%) & 33 (13\%) & 0.65 &
-0.42, 0.98 & \textbf{0.043} \\
-\textbf{infect\_CNS} & 68 (8.3\%) & 46 (8.3\%) & 22 (8.3\%) & 1.00 &
-0.58, 1.68 & \textgreater0.9 \\
-\textbf{infect\_IAI} & 50 (6.1\%) & 34 (6.2\%) & 16 (6.1\%) & 0.98 &
-0.52, 1.79 & \textgreater0.9 \\
-\textbf{infect\_UTI} & 53 (6.5\%) & 37 (6.7\%) & 16 (6.1\%) & 0.90 &
-0.48, 1.62 & 0.7 \\
-\textbf{infect\_BJI} & 11 (1.3\%) & 10 (1.8\%) & 1 (0.4\%) & 0.21 &
-0.01, 1.08 & 0.13 \\
-\textbf{infect\_septicemia} & 237 (29\%) & 148 (27\%) & 89 (34\%) & 1.39
-& 1.01, 1.90 & \textbf{0.043} \\
-\textbf{comed\_aspirin} & 47 (5.8\%) & 30 (5.4\%) & 17 (6.4\%) & 1.20 &
-0.64, 2.19 & 0.6 \\
-\textbf{comed\_diclofenac} & 27 (3.3\%) & 20 (3.6\%) & 7 (2.7\%) & 0.72
-& 0.28, 1.66 & 0.5 \\
-\textbf{comed\_ibuprofen} & 26 (3.2\%) & 15 (2.7\%) & 11 (4.2\%) & 1.56
-& 0.69, 3.42 & 0.3 \\
-\textbf{comed\_paracetamol} & 357 (44\%) & 246 (45\%) & 111 (42\%) &
-0.90 & 0.67, 1.21 & 0.5 \\
-\textbf{comed\_penicillin} & 123 (15\%) & 78 (14\%) & 45 (17\%) & 1.25 &
-0.83, 1.86 & 0.3 \\
-\textbf{comed\_cepha} & 208 (25\%) & 150 (27\%) & 58 (22\%) & 0.75 &
-0.53, 1.06 & 0.11 \\
-\textbf{comed\_carbapenem} & 588 (72\%) & 385 (70\%) & 203 (77\%) & 1.44
-& 1.03, 2.04 & \textbf{0.034} \\
-\textbf{comed\_cotrimoxazol} & 67 (8.2\%) & 39 (7.1\%) & 28 (11\%) &
-1.56 & 0.93, 2.59 & 0.087 \\
-\textbf{comed\_vancomycin} & 67 (8.2\%) & 41 (7.4\%) & 26 (9.8\%) & 1.36
-& 0.81, 2.27 & 0.2 \\
-\textbf{comed\_levofloxacin} & 250 (31\%) & 162 (29\%) & 88 (33\%) &
-1.20 & 0.88, 1.65 & 0.2 \\
-\textbf{comed\_teicoplanin} & 37 (4.5\%) & 23 (4.2\%) & 14 (5.3\%) &
-1.29 & 0.64, 2.52 & 0.5 \\
-\textbf{comed\_ethambutol} & 8 (1.0\%) & 5 (0.9\%) & 3 (1.1\%) & 1.26 &
-0.26, 5.16 & 0.8 \\
-\textbf{comed\_pyrazinamid} & 12 (1.5\%) & 6 (1.1\%) & 6 (2.3\%) & 2.12
-& 0.66, 6.83 & 0.2 \\
-\textbf{comed\_rifampin} & 15 (1.8\%) & 8 (1.4\%) & 7 (2.7\%) & 1.85 &
-0.64, 5.21 & 0.2 \\
-\textbf{comed\_heparin} & 207 (25\%) & 109 (20\%) & 98 (37\%) & 2.40 &
-1.73, 3.33 & \textbf{\textless0.001} \\
-\textbf{comed\_clopidogrel} & 40 (4.9\%) & 30 (5.4\%) & 10 (3.8\%) &
-0.69 & 0.31, 1.38 & 0.3 \\
-\textbf{comed\_enoxaparin} & 352 (43\%) & 235 (43\%) & 117 (44\%) & 1.07
-& 0.80, 1.44 & 0.6 \\
-\textbf{comed\_dexamethason} & 106 (13\%) & 72 (13\%) & 34 (13\%) & 0.99
-& 0.63, 1.51 & \textgreater0.9 \\
-\textbf{comed\_amiodaron} & 36 (4.4\%) & 17 (3.1\%) & 19 (7.2\%) & 2.44
-& 1.24, 4.82 & \textbf{0.009} \\
-\textbf{comed\_furosemid} & 436 (53\%) & 260 (47\%) & 176 (67\%) & 2.25
-& 1.66, 3.06 & \textbf{\textless0.001} \\
-\textbf{comed\_haloperidol} & 53 (6.5\%) & 36 (6.5\%) & 17 (6.4\%) &
-0.99 & 0.53, 1.76 & \textgreater0.9 \\
-\textbf{comed\_valproic} & 32 (3.9\%) & 23 (4.2\%) & 9 (3.4\%) & 0.81 &
-0.35, 1.72 & 0.6 \\
-\textbf{comed\_aceclofenac} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_naproxen} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_daptomycin} & 1 (0.1\%) & 0 (0\%) & 1 (0.4\%) & & & \\
-\textbf{comed\_cetirizin} & 6 (0.7\%) & 5 (0.9\%) & 1 (0.4\%) & & & \\
-\textbf{comed\_simvas} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_bisoprolol} & 6 (0.7\%) & 4 (0.7\%) & 2 (0.8\%) & & & \\
-\textbf{comed\_diltiazem} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_eptifibatid} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_quinidin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_carbamazepin} & 8 (1.0\%) & 8 (1.4\%) & 0 (0\%) & & & \\
-\textbf{comed\_phenytoin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_mirtazapin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_quetiapin} & 4 (0.5\%) & 4 (0.7\%) & 0 (0\%) & & & \\
-\textbf{comed\_ondansetron} & 6 (0.7\%) & 4 (0.7\%) & 2 (0.8\%) & & & \\
-\textbf{comed\_palonosetron} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_oseltamivir} & 2 (0.2\%) & 1 (0.2\%) & 1 (0.4\%) & & & \\
-\textbf{comed\_quinin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_pembrolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_trastuzumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_atezolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_durvalumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_IVIG} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_tacrolimus} & 1 (0.1\%) & 0 (0\%) & 1 (0.4\%) & & & \\
-\textbf{comed\_fluorouracil} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_irinotecan} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_leucovorin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\textbf{comed\_oxaliplatin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & & & \\
-\end{longtable}
+\bibitem[\citeproctext]{ref-zhao_prediction_2024}
+8. Zhao X, Peng Q, Hu D, Li W, Ji Q, Dong Q, et al. Prediction of risk
+factors for linezolid-induced thrombocytopenia based on neural network
+model. Frontiers in Pharmacology {[}Internet{]}. 2024 {[}cited 2024 Feb
+27{]};15. Available from:
+\url{https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2024.1292828}
 
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\bibitem[\citeproctext]{ref-zyvoxpr}
+9. Zyvox prescribing information {[}Internet{]}. Available from:
+\url{https://labeling.pfizer.com/showlabeling.aspx?id=649}
 
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\bibitem[\citeproctext]{ref-kawasuji_proposal_2021}
+10. Kawasuji H, Tsuji Y, Ogami C, Kimoto K, Ueno A, Miyajima Y, et al.
+Proposal of initial and maintenance dosing regimens with linezolid for
+renal impairment patients. BMC Pharmacology and Toxicology
+{[}Internet{]}. 2021 {[}cited 2024 Feb 26{]};22:13. Available from:
+\url{https://doi.org/10.1186/s40360-021-00479-w}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1389}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1222}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1111}}
-  >{\centering\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0722}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Characteristic}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Overall}, N = 816
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{BM1}, N = 125
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{BM2}, N = 77
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{ND1}, N = 179
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{ND2}, N = 116
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{TN1}, N = 100
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{TN2}, N = 219
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{p-value}
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\textbf{patient\_age} & 62 (50 - 73) & 58 (43 - 69) & 60 (45 - 72) & 60
-(45 - 68) & 59 (46 - 68) & 69 (60 - 78) & 66 (58 - 78) &
-\textbf{\textless0.001} \\
-\textbf{patient\_sex} & 306 (38\%) & 54 (43\%) & 27 (35\%) & 73 (41\%) &
-28 (24\%) & 48 (48\%) & 76 (35\%) & \textbf{0.004} \\
-\textbf{LZD\_dose\_per\_weight} & 21.8 (20.0 - 24.0) & 22.6 (20.0 -
-25.5) & 21.4 (19.0 - 24.0) & 21.4 (19.4 - 24.0) & 21.8 (20.0 - 24.0) &
-24.0 (20.0 - 24.6) & 21.8 (19.7 - 24.0) & \textbf{0.028} \\
-\textbf{baseline\_CLCR} & 48 (21 - 84) & 50 (24 - 80) & 40 (17 - 86) &
-70 (41 - 104) & 60 (27 - 95) & 29 (14 - 54) & 35 (17 - 67) &
-\textbf{\textless0.001} \\
-\textbf{dept\_ER} & 140 (17\%) & 7 (5.6\%) & 9 (12\%) & 67 (37\%) & 15
-(13\%) & 16 (16\%) & 26 (12\%) & \textbf{\textless0.001} \\
-\textbf{dept\_ICU} & 390 (48\%) & 10 (8.0\%) & 23 (30\%) & 73 (41\%) &
-42 (36\%) & 77 (77\%) & 165 (75\%) & \textbf{\textless0.001} \\
-\textbf{baseline\_HGB} & 102 (89 - 120) & 105 (91 - 124) & 99 (83 - 118)
-& 105 (89 - 123) & 100 (88 - 118) & 99 (89 - 116) & 104 (91 - 120) &
-0.2 \\
-\textbf{baseline\_WBC} & 12 (8 - 17) & 11 (7 - 16) & 11 (7 - 17) & 12 (8
-- 18) & 11 (7 - 15) & 12 (8 - 18) & 13 (9 - 18) & \textbf{0.023} \\
-\textbf{baseline\_PLT} & 206 (143 - 288) & 195 (139 - 247) & 234 (160 -
-318) & 207 (129 - 293) & 225 (127 - 310) & 172 (122 - 245) & 225 (161 -
-299) & \textbf{\textless0.001} \\
-\textbf{LZD\_duration} & 9.0 (6.0 - 14.0) & 8.0 (6.0 - 13.0) & 10.0 (6.0
-- 14.0) & 10.0 (6.0 - 14.0) & 9.0 (6.0 - 12.0) & 11.0 (6.0 - 15.0) & 9.0
-(6.0 - 12.0) & 0.3 \\
-\textbf{invasive\_ETI} & 386 (47\%) & 63 (50\%) & 30 (39\%) & 111 (62\%)
-& 49 (42\%) & 48 (48\%) & 85 (39\%) & \textbf{\textless0.001} \\
-\textbf{invasive\_CVC} & 423 (52\%) & 75 (60\%) & 30 (39\%) & 99 (55\%)
-& 48 (41\%) & 50 (50\%) & 121 (55\%) & \textbf{0.008} \\
-\textbf{invasive\_IHD} & 111 (14\%) & 17 (14\%) & 16 (21\%) & 9 (5.0\%)
-& 0 (0\%) & 27 (27\%) & 42 (19\%) & \textbf{\textless0.001} \\
-\textbf{invasive\_CRRT} & 147 (18\%) & 17 (14\%) & 9 (12\%) & 52 (29\%)
-& 5 (4.3\%) & 20 (20\%) & 44 (20\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_HTN} & 333 (41\%) & 42 (34\%) & 31 (40\%) & 49 (27\%) &
-28 (24\%) & 59 (59\%) & 124 (57\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_DM} & 222 (27\%) & 28 (22\%) & 24 (31\%) & 28 (16\%) &
-27 (23\%) & 31 (31\%) & 84 (38\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_HF} & 225 (28\%) & 55 (44\%) & 11 (14\%) & 14 (7.8\%) &
-7 (6.0\%) & 70 (70\%) & 68 (31\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_angina} & 32 (3.9\%) & 0 (0\%) & 0 (0\%) & 1 (0.6\%) & 0
-(0\%) & 13 (13\%) & 18 (8.2\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_cirr} & 48 (5.9\%) & 6 (4.8\%) & 1 (1.3\%) & 10 (5.6\%)
-& 5 (4.3\%) & 12 (12\%) & 14 (6.4\%) & 0.078 \\
-\textbf{comorb\_COPD} & 39 (4.8\%) & 3 (2.4\%) & 0 (0\%) & 2 (1.1\%) & 2
-(1.7\%) & 9 (9.0\%) & 23 (11\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_CVA} & 93 (11\%) & 19 (15\%) & 11 (14\%) & 6 (3.4\%) & 4
-(3.4\%) & 16 (16\%) & 37 (17\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_MI} & 20 (2.5\%) & 10 (8.0\%) & 3 (3.9\%) & 2 (1.1\%) &
-0 (0\%) & 1 (1.0\%) & 4 (1.8\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_K} & 67 (8.2\%) & 5 (4.0\%) & 5 (6.5\%) & 8 (4.5\%) & 6
-(5.2\%) & 11 (11\%) & 32 (15\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_hematological} & 46 (5.6\%) & 9 (7.2\%) & 12 (16\%) & 10
-(5.6\%) & 5 (4.3\%) & 8 (8.0\%) & 2 (0.9\%) & \textbf{\textless0.001} \\
-\textbf{comorb\_hema} & 61 (7.5\%) & 13 (10\%) & 17 (22\%) & 14 (7.8\%)
-& 2 (1.7\%) & 13 (13\%) & 2 (0.9\%) & \textbf{\textless0.001} \\
-\textbf{infect\_sepsis} & 134 (16\%) & 10 (8.0\%) & 14 (18\%) & 16
-(8.9\%) & 15 (13\%) & 44 (44\%) & 35 (16\%) & \textbf{\textless0.001} \\
-\textbf{infect\_CAP} & 118 (14\%) & 7 (5.6\%) & 6 (7.8\%) & 11 (6.1\%) &
-1 (0.9\%) & 26 (26\%) & 67 (31\%) & \textbf{\textless0.001} \\
-\textbf{infect\_HAP} & 375 (46\%) & 38 (30\%) & 33 (43\%) & 93 (52\%) &
-59 (51\%) & 52 (52\%) & 100 (46\%) & \textbf{0.003} \\
-\textbf{infect\_SSTI} & 133 (16\%) & 33 (26\%) & 34 (44\%) & 1 (0.6\%) &
-4 (3.4\%) & 23 (23\%) & 38 (17\%) & \textbf{\textless0.001} \\
-\textbf{infect\_CNS} & 68 (8.3\%) & 0 (0\%) & 5 (6.5\%) & 24 (13\%) & 20
-(17\%) & 4 (4.0\%) & 15 (6.8\%) & \textbf{\textless0.001} \\
-\textbf{infect\_IAI} & 50 (6.1\%) & 8 (6.4\%) & 8 (10\%) & 1 (0.6\%) & 2
-(1.7\%) & 12 (12\%) & 19 (8.7\%) & \textbf{\textless0.001} \\
-\textbf{infect\_UTI} & 53 (6.5\%) & 6 (4.8\%) & 8 (10\%) & 10 (5.6\%) &
-5 (4.3\%) & 4 (4.0\%) & 20 (9.1\%) & 0.2 \\
-\textbf{infect\_BJI} & 11 (1.3\%) & 3 (2.4\%) & 0 (0\%) & 0 (0\%) & 2
-(1.7\%) & 1 (1.0\%) & 5 (2.3\%) & 0.2 \\
-\textbf{infect\_septicemia} & 237 (29\%) & 35 (28\%) & 24 (31\%) & 57
-(32\%) & 60 (52\%) & 7 (7.0\%) & 54 (25\%) & \textbf{\textless0.001} \\
-\textbf{comed\_aspirin} & 47 (5.8\%) & 8 (6.4\%) & 9 (12\%) & 3 (1.7\%)
-& 0 (0\%) & 5 (5.0\%) & 22 (10\%) & \textbf{\textless0.001} \\
-\textbf{comed\_diclofenac} & 27 (3.3\%) & 24 (19\%) & 0 (0\%) & 0 (0\%)
-& 1 (0.9\%) & 0 (0\%) & 2 (0.9\%) & \textbf{\textless0.001} \\
-\textbf{comed\_ibuprofen} & 26 (3.2\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 2
-(1.7\%) & 0 (0\%) & 24 (11\%) & \textbf{\textless0.001} \\
-\textbf{comed\_paracetamol} & 357 (44\%) & 66 (53\%) & 0 (0\%) & 92
-(51\%) & 69 (59\%) & 47 (47\%) & 83 (38\%) & \textbf{\textless0.001} \\
-\textbf{comed\_penicillin} & 123 (15\%) & 0 (0\%) & 5 (6.5\%) & 34
-(19\%) & 19 (16\%) & 17 (17\%) & 48 (22\%) & \textbf{\textless0.001} \\
-\textbf{comed\_cepha} & 208 (25\%) & 12 (9.6\%) & 10 (13\%) & 36 (20\%)
-& 33 (28\%) & 11 (11\%) & 106 (48\%) & \textbf{\textless0.001} \\
-\textbf{comed\_carbapenem} & 588 (72\%) & 52 (42\%) & 46 (60\%) & 158
-(88\%) & 78 (67\%) & 80 (80\%) & 174 (79\%) & \textbf{\textless0.001} \\
-\textbf{comed\_cotrimoxazol} & 67 (8.2\%) & 0 (0\%) & 5 (6.5\%) & 20
-(11\%) & 14 (12\%) & 9 (9.0\%) & 19 (8.7\%) & \textbf{0.007} \\
-\textbf{comed\_vancomycin} & 67 (8.2\%) & 8 (6.4\%) & 3 (3.9\%) & 10
-(5.6\%) & 22 (19\%) & 3 (3.0\%) & 21 (9.6\%) &
-\textbf{\textless0.001} \\
-\textbf{comed\_levofloxacin} & 250 (31\%) & 27 (22\%) & 6 (7.8\%) & 24
-(13\%) & 20 (17\%) & 34 (34\%) & 139 (63\%) & \textbf{\textless0.001} \\
-\textbf{comed\_teicoplanin} & 37 (4.5\%) & 0 (0\%) & 0 (0\%) & 7 (3.9\%)
-& 2 (1.7\%) & 0 (0\%) & 28 (13\%) & \textbf{\textless0.001} \\
-\textbf{comed\_ethambutol} & 8 (1.0\%) & 0 (0\%) & 0 (0\%) & 2 (1.1\%) &
-6 (5.2\%) & 0 (0\%) & 0 (0\%) & \textbf{\textless0.001} \\
-\textbf{comed\_pyrazinamid} & 12 (1.5\%) & 0 (0\%) & 0 (0\%) & 5 (2.8\%)
-& 7 (6.0\%) & 0 (0\%) & 0 (0\%) & \textbf{\textless0.001} \\
-\textbf{comed\_rifampin} & 15 (1.8\%) & 0 (0\%) & 0 (0\%) & 5 (2.8\%) &
-9 (7.8\%) & 1 (1.0\%) & 0 (0\%) & \textbf{\textless0.001} \\
-\textbf{comed\_heparin} & 207 (25\%) & 12 (9.6\%) & 2 (2.6\%) & 74
-(41\%) & 24 (21\%) & 33 (33\%) & 62 (28\%) & \textbf{\textless0.001} \\
-\textbf{comed\_clopidogrel} & 40 (4.9\%) & 7 (5.6\%) & 4 (5.2\%) & 1
-(0.6\%) & 0 (0\%) & 8 (8.0\%) & 20 (9.1\%) & \textbf{\textless0.001} \\
-\textbf{comed\_enoxaparin} & 352 (43\%) & 33 (26\%) & 13 (17\%) & 119
-(66\%) & 44 (38\%) & 40 (40\%) & 103 (47\%) & \textbf{\textless0.001} \\
-\textbf{comed\_dexamethason} & 106 (13\%) & 0 (0\%) & 0 (0\%) & 75
-(42\%) & 20 (17\%) & 2 (2.0\%) & 9 (4.1\%) & \textbf{\textless0.001} \\
-\textbf{comed\_amiodaron} & 36 (4.4\%) & 8 (6.4\%) & 0 (0\%) & 14
-(7.8\%) & 5 (4.3\%) & 4 (4.0\%) & 5 (2.3\%) & \textbf{0.026} \\
-\textbf{comed\_furosemid} & 436 (53\%) & 72 (58\%) & 15 (19\%) & 81
-(45\%) & 49 (42\%) & 71 (71\%) & 148 (68\%) & \textbf{\textless0.001} \\
-\textbf{comed\_haloperidol} & 53 (6.5\%) & 3 (2.4\%) & 4 (5.2\%) & 21
-(12\%) & 4 (3.4\%) & 5 (5.0\%) & 16 (7.3\%) & \textbf{0.015} \\
-\textbf{comed\_valproic} & 32 (3.9\%) & 0 (0\%) & 1 (1.3\%) & 10 (5.6\%)
-& 5 (4.3\%) & 3 (3.0\%) & 13 (5.9\%) & \textbf{0.029} \\
-\textbf{comed\_aceclofenac} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_naproxen} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_daptomycin} & 1 (0.1\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 1
-(0.9\%) & 0 (0\%) & 0 (0\%) & 0.4 \\
-\textbf{comed\_cetirizin} & 6 (0.7\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 6 (2.7\%) & \textbf{0.015} \\
-\textbf{comed\_simvas} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%)
-& 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_bisoprolol} & 6 (0.7\%) & 4 (3.2\%) & 0 (0\%) & 1 (0.6\%)
-& 1 (0.9\%) & 0 (0\%) & 0 (0\%) & \textbf{0.029} \\
-\textbf{comed\_diltiazem} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_eptifibatid} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_quinidin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_carbamazepin} & 8 (1.0\%) & 0 (0\%) & 0 (0\%) & 7 (3.9\%)
-& 0 (0\%) & 0 (0\%) & 1 (0.5\%) & \textbf{0.003} \\
-\textbf{comed\_phenytoin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_mirtazapin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_quetiapin} & 4 (0.5\%) & 1 (0.8\%) & 1 (1.3\%) & 0 (0\%)
-& 0 (0\%) & 0 (0\%) & 2 (0.9\%) & 0.5 \\
-\textbf{comed\_ondansetron} & 6 (0.7\%) & 2 (1.6\%) & 1 (1.3\%) & 0
-(0\%) & 3 (2.6\%) & 0 (0\%) & 0 (0\%) & \textbf{0.016} \\
-\textbf{comed\_palonosetron} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_oseltamivir} & 2 (0.2\%) & 1 (0.8\%) & 1 (1.3\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0.14 \\
-\textbf{comed\_quinin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%)
-& 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_pembrolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) &
-0 (0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_trastuzumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_atezolizumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_durvalumab} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_IVIG} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) &
-0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_tacrolimus} & 1 (0.1\%) & 1 (0.8\%) & 0 (0\%) & 0 (0\%) &
-0 (0\%) & 0 (0\%) & 0 (0\%) & 0.5 \\
-\textbf{comed\_fluorouracil} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_irinotecan} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_leucovorin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{comed\_oxaliplatin} & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 0
-(0\%) & 0 (0\%) & 0 (0\%) & \\
-\textbf{flag\_ADR\_TP\_ID} & 264 (32\%) & 34 (27\%) & 22 (29\%) & 59
-(33\%) & 35 (30\%) & 38 (38\%) & 76 (35\%) & 0.5 \\
-\textbf{ADR\_CTCAE\_max} & & & & & & & & \textbf{\textless0.001} \\
-1 & 85 (32\%) & 11 (32\%) & 9 (41\%) & 17 (29\%) & 7 (20\%) & 7 (18\%) &
-34 (45\%) & \\
-2 & 78 (30\%) & 10 (29\%) & 6 (27\%) & 12 (20\%) & 6 (17\%) & 17 (45\%)
-& 27 (36\%) & \\
-3 & 49 (19\%) & 4 (12\%) & 3 (14\%) & 17 (29\%) & 7 (20\%) & 6 (16\%) &
-12 (16\%) & \\
-4 & 52 (20\%) & 9 (26\%) & 4 (18\%) & 13 (22\%) & 15 (43\%) & 8 (21\%) &
-3 (3.9\%) & \\
-\textbf{ADR\_onset\_first} & 4.0 (2.0 - 10.0) & 2.0 (1.0 - 9.8) & 3.5
-(2.0 - 7.8) & 4.0 (2.0 - 9.0) & 6.0 (2.5 - 11.0) & 4.0 (2.0 - 9.0) & 6.0
-(2.0 - 11.0) & 0.15 \\
-\textbf{ADR\_PLT\_ratio} & 0.36 (0.22 - 0.52) & 0.55 (0.26 - 0.64) &
-0.39 (0.21 - 0.58) & 0.37 (0.26 - 0.50) & 0.30 (0.16 - 0.45) & 0.36
-(0.20 - 0.48) & 0.35 (0.25 - 0.50) & 0.077 \\
-\end{longtable}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-\subsection{Model Performance}\label{model-performance-1}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
+\end{CSLReferences}
 
 
 

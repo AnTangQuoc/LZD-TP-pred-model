@@ -128,7 +128,7 @@
             // if location was not changed in 100 ms, then there is no history back
             if(currentUrl === window.location.href){              
                 // redirect to site root
-                window.location.href = "...html";
+                window.location.href = "../index.html";
             }
         }, 100);
       }
@@ -192,7 +192,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Monday, March 11, 2024</p>
+              <p class="date">Friday, March 22, 2024</p>
             </div>
           </div>
           
@@ -341,7 +341,7 @@ Attaching package: 'Matrix'</code></pre>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_fit, <span class="at">s =</span> cv_lasso_fit<span class="sc">$</span>lambda.min)<span class="sc">@</span>i <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 18</code></pre>
+<pre><code>[1] 25</code></pre>
 </div>
 </div></div>
 <p>Results: LASSO algorithm selected 22-25 predictors.</p>
@@ -362,62 +362,62 @@ Attaching package: 'Matrix'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.779030635    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004614579    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.003964769    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.320510793    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.005007583    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.010700129    0.0000    0.0000000    0.00000000
-baseline_HGB               0.337280104    1.0000    0.0000000    0.00000000
-baseline_WBC               0.016639918    0.0000    0.0000000    0.00000000
+patient_age                0.780538446    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.005354803    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.005127902    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.321912844    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.004689136    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.010987916    0.0000    0.0000000    0.00000000
+baseline_HGB               0.338641770    1.0000    0.0000000    0.00000000
+baseline_WBC               0.016646954    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999404062    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.126981116    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.494177349    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.007022229    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980174215    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004407398    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.007255127    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.086241028    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004727603    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.088933649    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013758749    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.011879542    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.010954931    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.004558489    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.014035147    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.004758380    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.046919221    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.007503973    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.016776620    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.020035921    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004763800    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.005061878    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005066031    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.007218511    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.203864994    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004560509    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.004938813    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004285310    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.006080531    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.007705612    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.009351066    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.005721677    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.066718529    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.029736046    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004644412    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.012225496    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.005462446    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.010578267    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010135366    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.058280255    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.016189370    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005511379    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007082884    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.028307836    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.162094326    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007629073    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.005009155    0.0000    0.0000000    0.00000000
+LZD_duration               0.999638402    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.126209367    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.492950421    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.007031548    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.980702064    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.004748817    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007326530    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.083289124    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004330788    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.089253760    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.013912114    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.012228867    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.009943652    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.004964290    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.013611464    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.004711207    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.045939513    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.006700756    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.017967036    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.019918135    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004754490    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.004517403    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005883580    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.007889607    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.203835358    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004579732    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.005311744    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.004487476    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.005762486    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.007674007    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.009413138    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005244422    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.066866629    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.028273823    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.004727392    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.012660202    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.004930317    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.010592825    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.010186520    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.058798555    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.015588778    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005716178    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.007354196    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.027356359    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.162208448    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.007469105    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.005495619    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
 PostProbs                           NA    0.0482    0.0472000    0.04350000
 R2                                  NA    0.1838    0.1745000    0.16450000
@@ -551,9 +551,9 @@ logmarg                  -4.448369e+02 -442.59000543</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ broom        1.0.5      ✔ rsample      1.2.0 
-✔ dials        1.2.1      ✔ tune         1.1.2 
+✔ dials        1.2.1      ✔ tune         1.2.0 
 ✔ infer        1.0.6      ✔ workflows    1.1.4 
-✔ modeldata    1.3.0      ✔ workflowsets 1.0.1 
+✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
 ✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
 ✔ recipes      1.0.10     </code></pre>
 </div>
@@ -569,7 +569,7 @@ logmarg                  -4.448369e+02 -442.59000543</code></pre>
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -628,11 +628,11 @@ logmarg                  -4.448369e+02 -442.59000543</code></pre>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_patient_linear_check <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(multi_predict_HPM)) <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">probabilites =</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>),</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_odds =</span> <span class="fu">log</span>(probabilites <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> probabilites))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">probabilities =</span> <span class="fu">predict</span>(model_full<span class="sc">$</span>fit, data_patient_complete, <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_odds =</span> <span class="fu">log</span>(probabilities <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> probabilities))</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">|&gt;</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">"predictors"</span>, <span class="at">value =</span> <span class="st">"predictor_value"</span>, <span class="sc">-</span>log_odds, <span class="sc">-</span>probabilites)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">"predictors"</span>, <span class="at">value =</span> <span class="st">"predictor_value"</span>, <span class="sc">-</span>log_odds, <span class="sc">-</span>probabilities)</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_patient_linear_check, <span class="fu">aes</span>(<span class="at">y =</span> log_odds, <span class="at">x =</span> predictor_value)) <span class="sc">+</span></span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
@@ -1165,7 +1165,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
