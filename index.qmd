@@ -80,6 +80,13 @@ Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020.
 
 ## Participants and data
 
+### 4a: Describe eligibility criteria for participants and datasets
+
+### 4b: Describe the origin of the data, and how the data were identified, requested, and collected
+Note: 2 periods, convenience sampling (1st), extract from the electronic medical record (except BM1 from physical MR). Infomation was filled out in a paper form and stored in Excel.
+
+Include 2 publications for BM1 and TN1.
+
 ## Sample size
 
 Previous studies developing logistic regression models for LI-TP risk predictions have included 4-6 predictors in their final models @liu_analysis_2021; @duan_regression_2022; @qin_development_2021; @xu_establishment_2023. We expect to include about as many candidate predictors, based on results from the expert opinion survey and the Bayesian Model Selection algorithm [see @sec-outcomes-and-predictors]. Some of the candidate predictors might be continuous, which may potentially require non-linear modelling and therefore slightly increase the number of variables.
@@ -220,6 +227,13 @@ Our rationale is that after 5 days (120 hrs), LZD is guaranteed to be completely
 ## Data preparation
 
 ### 7a. Describe how the data were prepared for analysis, including any cleaning, harmonisation, linkage, and quality checks
+
+Infection diagnosis was recoded into binary variable....
+
+look up by ID number. Điền thông tin về bệnh mắc kèm, bệnh nhiễm khuẩn và thuốc dùng kèm từ
+
+1 BN có 2 đợt điều trị -> 2 entry have identical ID number -> manually sort and exclude the 2nd course
+Cepha, peni và carbapenem.
 
 ## Data analysis
 

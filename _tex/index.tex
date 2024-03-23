@@ -188,7 +188,7 @@
 \title{Development and Validation of a Risk Prediction Model of
 linezolid-induced thrombocytopenia in Vietnamese patients}
 \author{Nhi Nguyen Ha \and An Tang Quoc}
-\date{Friday, March 22, 2024}
+\date{Saturday, March 23, 2024}
 
 \begin{document}
 \maketitle
@@ -346,6 +346,19 @@ Linezolid is an oxazolidinones antibiotics {[}1{]}.
 
 \subsection{Participants and data}\label{participants-and-data}
 
+\subsubsection{4a: Describe eligibility criteria for participants and
+datasets}\label{a-describe-eligibility-criteria-for-participants-and-datasets}
+
+\subsubsection{4b: Describe the origin of the data, and how the data
+were identified, requested, and
+collected}\label{b-describe-the-origin-of-the-data-and-how-the-data-were-identified-requested-and-collected}
+
+Note: 2 periods, convenience sampling (1st), extract from the electronic
+medical record (except BM1 from physical MR). Infomation was filled out
+in a paper form and stored in Excel.
+
+Include 2 publications for BM1 and TN1.
+
 \subsection{Sample size}\label{sample-size}
 
 Previous studies developing logistic regression models for LI-TP risk
@@ -405,7 +418,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, opacityback=0, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, bottomrule=.15mm, breakable, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, colbacktitle=quarto-callout-note-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, titlerule=0mm, toprule=.15mm, left=2mm, leftrule=.75mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, opacitybacktitle=0.6, toptitle=1mm, opacityback=0, colback=white, breakable, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, rightrule=.15mm]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
@@ -534,7 +547,7 @@ to have met the outcome if they have a platelet count that meets the
 above criteria at any time during linezolid therapy or within 5 days
 after the end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, opacityback=0, opacitybacktitle=0.6, bottomtitle=1mm, leftrule=.75mm, toprule=.15mm, bottomrule=.15mm, breakable, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, colframe=quarto-callout-warning-color-frame, coltitle=black, left=2mm, colbacktitle=quarto-callout-warning-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-warning-color-frame, colbacktitle=quarto-callout-warning-color!10!white, coltitle=black, titlerule=0mm, toprule=.15mm, left=2mm, leftrule=.75mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, opacitybacktitle=0.6, toptitle=1mm, opacityback=0, colback=white, breakable, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, rightrule=.15mm]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -565,6 +578,15 @@ measured}\label{b.-define-all-predictors-used-in-developing-or-validating-the-mo
 \subsubsection{7a. Describe how the data were prepared for analysis,
 including any cleaning, harmonisation, linkage, and quality
 checks}\label{a.-describe-how-the-data-were-prepared-for-analysis-including-any-cleaning-harmonisation-linkage-and-quality-checks}
+
+Infection diagnosis was recoded into binary variable\ldots.
+
+look up by ID number. Điền thông tin về bệnh mắc kèm, bệnh nhiễm khuẩn
+và thuốc dùng kèm từ
+
+1 BN có 2 đợt điều trị -\textgreater{} 2 entry have identical ID number
+-\textgreater{} manually sort and exclude the 2nd course Cepha, peni và
+carbapenem.
 
 \subsection{Data analysis}\label{data-analysis}
 
