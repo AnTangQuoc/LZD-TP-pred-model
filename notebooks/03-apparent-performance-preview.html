@@ -152,10 +152,12 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -362,64 +364,64 @@ Attaching package: 'Matrix'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.781372154    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004311913    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.004017873    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.319097094    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004535713    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.011014429    0.0000    0.0000000    0.00000000
-baseline_HGB               0.338330110    1.0000    0.0000000    0.00000000
-baseline_WBC               0.016288480    0.0000    0.0000000    0.00000000
+patient_age                0.779076539    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.005550596    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.004264025    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.323794156    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.004444790    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.010969601    0.0000    0.0000000    0.00000000
+baseline_HGB               0.336310194    1.0000    0.0000000    0.00000000
+baseline_WBC               0.016686661    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999978799    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.124952048    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.496292915    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.006334594    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980140508    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004928127    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.007413977    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.085221242    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.005001168    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.090023810    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013614257    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012522450    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.009357786    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.004868713    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.013586238    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.005157696    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.048988898    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.007072622    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.017143412    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.020363860    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004055177    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004344210    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005577031    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.007880338    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.205014478    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004717062    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.005170322    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004570410    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.006077477    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.008142644    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.008566633    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.005748761    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.066872392    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.028993074    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004236293    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.013263849    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.004358075    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.010673991    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010847604    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.060884822    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.016876024    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005401899    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007089800    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.029752881    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.160680376    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007915891    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.004589010    0.0000    0.0000000    0.00000000
+LZD_duration               0.999726142    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.126034016    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.493680411    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.006817741    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.980148111    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.004665851    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007171289    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.086611006    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004611917    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.087485308    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.013773473    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.012156547    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.010590532    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.005012406    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.014412647    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.004840873    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.047986952    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.007560416    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.018634452    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.020336289    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004495501    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.004546384    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005650195    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.007544802    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.203678633    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004295084    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.005069039    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.004498474    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.005342169    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.007867621    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.008157246    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005226484    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.068533928    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.028087787    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.004160855    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.013105210    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.004724418    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.011052684    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.010067574    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.059942870    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.017123626    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005524016    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.006975822    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.028088281    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.163048250    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.006489269    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.005304742    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0481    0.0470000    0.04340000
+PostProbs                           NA    0.0480    0.0470000    0.04340000
 R2                                  NA    0.1838    0.1745000    0.16450000
 dim                                 NA    7.0000    6.0000000    5.00000000
 logmarg                             NA -439.7101 -441.8714407 -444.29445157
@@ -569,7 +571,7 @@ logmarg                  -4.448369e+02 -442.59000543</code></pre>
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_patient_complete_response_as_factor <span class="ot">&lt;-</span> data_patient_complete <span class="sc">|&gt;</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -777,6 +779,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1165,7 +1311,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

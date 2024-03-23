@@ -71,7 +71,7 @@ plot_calibration_curve <- function(sample, model) {
 }
 
 # Set up future to use multiple cores
-plan(multisession, workers = 6)
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
 
 cross_predict_HPM <- cross_samples$splits |>
   future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))

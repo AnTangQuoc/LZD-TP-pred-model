@@ -455,10 +455,7 @@ Pharmacy</institution>
     <title>3.2 Sample size</title>
     <p>Previous studies developing logistic regression models for LI-TP
     risk predictions have included 4-6 predictors in their final models
-    [<xref alt="2" rid="ref-liu_analysis_2021" ref-type="bibr">2</xref>];
-    [<xref alt="3" rid="ref-duan_regression_2022" ref-type="bibr">3</xref>];
-    [<xref alt="4" rid="ref-qin_development_2021" ref-type="bibr">4</xref>];
-    [<xref alt="5" rid="ref-xu_establishment_2023" ref-type="bibr">5</xref>].
+    [<xref alt="2" rid="ref-liu_analysis_2021" ref-type="bibr">2</xref>–<xref alt="5" rid="ref-xu_establishment_2023" ref-type="bibr">5</xref>].
     We expect to include about as many candidate predictors, based on
     results from the expert opinion survey and the Bayesian Model
     Selection algorithm
@@ -591,9 +588,7 @@ Pharmacy</institution>
       baseline platelet count in the normal range; (ii) A reduction in
       platelet count of ≥ 25% from the baseline value for patients with
       a baseline platelet count of &lt; 150 x 10<sup>9</sup> cells/L
-      [<xref alt="9" rid="ref-zyvoxpr" ref-type="bibr">9</xref>];
-      [<xref alt="5" rid="ref-xu_establishment_2023" ref-type="bibr">5</xref>];
-      [<xref alt="10" rid="ref-kawasuji_proposal_2021" ref-type="bibr">10</xref>].</p>
+      [<xref alt="5" rid="ref-xu_establishment_2023" ref-type="bibr">5</xref>,<xref alt="9" rid="ref-zyvoxpr" ref-type="bibr">9</xref>,<xref alt="10" rid="ref-kawasuji_proposal_2021" ref-type="bibr">10</xref>].</p>
       <p>Normal platelet count is defined as 150-450 x 10<sup>9</sup>
       cells/L. Baseline platelet count is defined as the last recorded
       PLT value before the start of linezolid therapy. Participants are
@@ -1343,10 +1338,7 @@ Pharmacy</institution>
     <title>3.2 Sample size</title>
     <p>Previous studies developing logistic regression models for LI-TP
     risk predictions have included 4-6 predictors in their final models
-    [<xref alt="2" rid="ref-liu_analysis_2021-nb-article" ref-type="bibr">2</xref>];
-    [<xref alt="3" rid="ref-duan_regression_2022-nb-article" ref-type="bibr">3</xref>];
-    [<xref alt="4" rid="ref-qin_development_2021-nb-article" ref-type="bibr">4</xref>];
-    [<xref alt="5" rid="ref-xu_establishment_2023-nb-article" ref-type="bibr">5</xref>].
+    [<xref alt="2" rid="ref-liu_analysis_2021-nb-article" ref-type="bibr">2</xref>–<xref alt="5" rid="ref-xu_establishment_2023-nb-article" ref-type="bibr">5</xref>].
     We expect to include about as many candidate predictors, based on
     results from the expert opinion survey and the Bayesian Model
     Selection algorithm
@@ -1549,9 +1541,7 @@ Pharmacy</institution>
       baseline platelet count in the normal range; (ii) A reduction in
       platelet count of ≥ 25% from the baseline value for patients with
       a baseline platelet count of &lt; 150 x 10<sup>9</sup> cells/L
-      [<xref alt="9" rid="ref-zyvoxpr-nb-article" ref-type="bibr">9</xref>];
-      [<xref alt="5" rid="ref-xu_establishment_2023-nb-article" ref-type="bibr">5</xref>];
-      [<xref alt="10" rid="ref-kawasuji_proposal_2021-nb-article" ref-type="bibr">10</xref>].</p>
+      [<xref alt="5" rid="ref-xu_establishment_2023-nb-article" ref-type="bibr">5</xref>,<xref alt="9" rid="ref-zyvoxpr-nb-article" ref-type="bibr">9</xref>,<xref alt="10" rid="ref-kawasuji_proposal_2021-nb-article" ref-type="bibr">10</xref>].</p>
       <p>Normal platelet count is defined as 150-450 x 10<sup>9</sup>
       cells/L. Baseline platelet count is defined as the last recorded
       PLT value before the start of linezolid therapy. Participants are
@@ -1945,7 +1935,7 @@ parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by 
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
+• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
 </sec>
 </sec>
 <sec id="risk-score-system-nb-1">
@@ -2425,7 +2415,7 @@ arrange_univariate_regression &lt;- function(model) {
     bold_p()
 }
 
-plan(multisession, workers = min(parallel::detectCores() - 2, 10))
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
 uni_model_list &lt;- future_map(predictor_list, fit_univariate_regression)
 table_uni_list &lt;- future_map(uni_model_list, arrange_univariate_regression)
 </code>
@@ -2457,7 +2447,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
+• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-2" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -2467,15 +2457,6 @@ table_uni &lt;- tbl_stack(table_uni_list)
 </sec>
 <sec id="nb-code-cell-3-output-5-nb-2" specific-use="notebook-output">
 <preformat>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
-Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
@@ -2505,6 +2486,17 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</preformat>
+</sec>
+<sec id="nb-code-cell-3-output-7-nb-2" specific-use="notebook-output">
+<preformat>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
@@ -3616,7 +3608,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.4%)</td>
-        <td headers="p.value">0.079</td>
+        <td headers="p.value">0.086</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -3649,7 +3641,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">1 (1.0%)</td>
         <td headers="stat_6">4 (1.8%)</td>
-        <td headers="p.value" style="font-weight: bold">0.001</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_K</td>
@@ -3913,7 +3905,7 @@ table_descriptive
         <td headers="stat_4">6 (5.2%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
@@ -3990,7 +3982,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">4 (4.0%)</td>
         <td headers="stat_6">5 (2.3%)</td>
-        <td headers="p.value" style="font-weight: bold">0.019</td>
+        <td headers="p.value" style="font-weight: bold">0.030</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4023,7 +4015,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">3 (3.0%)</td>
         <td headers="stat_6">13 (5.9%)</td>
-        <td headers="p.value" style="font-weight: bold">0.027</td>
+        <td headers="p.value" style="font-weight: bold">0.039</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -4067,7 +4059,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">6 (2.7%)</td>
-        <td headers="p.value" style="font-weight: bold">0.018</td>
+        <td headers="p.value" style="font-weight: bold">0.014</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_simvas</td>
@@ -4089,7 +4081,7 @@ table_descriptive
         <td headers="stat_4">1 (0.9%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.027</td>
+        <td headers="p.value" style="font-weight: bold">0.030</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4133,7 +4125,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.004</td>
+        <td headers="p.value" style="font-weight: bold">0.005</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4177,7 +4169,7 @@ table_descriptive
         <td headers="stat_4">3 (2.6%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.018</td>
+        <td headers="p.value" style="font-weight: bold">0.016</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4199,7 +4191,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.14</td>
+        <td headers="p.value">0.2</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -5089,64 +5081,64 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model, estimator = &quot;BP
   <sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
   <preformat>                         P(B != 0 | Y)   model 1      model 2       model 3
 Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.782927554    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004992918    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.004537924    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.318176154    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004733947    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.011038644    0.0000    0.0000000    0.00000000
-baseline_HGB               0.339879083    1.0000    0.0000000    0.00000000
-baseline_WBC               0.015784362    0.0000    0.0000000    0.00000000
+patient_age                0.777185584    1.0000    1.0000000    1.00000000
+patient_sexTRUE            0.004702920    0.0000    0.0000000    0.00000000
+LZD_dose_per_weight        0.004651245    0.0000    0.0000000    0.00000000
+baseline_CLCR              0.324502893    0.0000    0.0000000    0.00000000
+dept_ERTRUE                0.004350595    0.0000    0.0000000    0.00000000
+dept_ICUTRUE               0.011327065    0.0000    0.0000000    0.00000000
+baseline_HGB               0.335547265    1.0000    0.0000000    0.00000000
+baseline_WBC               0.016698870    0.0000    0.0000000    0.00000000
 baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999993493    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.124247072    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.496685217    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.006214808    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.979019598    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004355227    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.006960688    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.086982310    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004831134    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.088187466    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.013785823    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012092411    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.010254111    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.005112983    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.013914862    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.004994440    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.048664336    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.007169937    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.016808213    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.019863639    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004701231    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004810440    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005321099    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.008516514    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.207842875    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004463154    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.004452270    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.004785498    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.006279825    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.008458729    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.008927611    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.004816441    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.066663228    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.029166449    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004726745    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.013238801    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.005038680    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.011066116    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.009993850    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.062434663    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.016796954    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005366121    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007217612    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.028711754    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.164261847    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.008240365    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.004618628    0.0000    0.0000000    0.00000000
+LZD_duration               0.999592216    1.0000    1.0000000    1.00000000
+invasive_ETITRUE           0.123755560    0.0000    0.0000000    0.00000000
+invasive_CVCTRUE           0.495975716    1.0000    1.0000000    0.00000000
+invasive_IHDTRUE           0.007052467    0.0000    0.0000000    0.00000000
+invasive_CRRTTRUE          0.980624165    1.0000    1.0000000    1.00000000
+comorb_HTNTRUE             0.004994055    0.0000    0.0000000    0.00000000
+comorb_DMTRUE              0.007765659    0.0000    0.0000000    0.00000000
+comorb_HFTRUE              0.086146120    0.0000    0.0000000    0.00000000
+comorb_anginaTRUE          0.004743809    0.0000    0.0000000    0.00000000
+comorb_cirrTRUE            0.087489684    0.0000    0.0000000    0.00000000
+comorb_COPDTRUE            0.014796723    0.0000    0.0000000    0.00000000
+comorb_CVATRUE             0.012315377    0.0000    0.0000000    0.00000000
+comorb_MITRUE              0.010243471    0.0000    0.0000000    0.00000000
+comorb_KTRUE               0.004298879    0.0000    0.0000000    0.00000000
+comorb_hematologicalTRUE   0.013144375    0.0000    0.0000000    0.00000000
+comorb_hemaTRUE            0.005341122    0.0000    0.0000000    0.00000000
+infect_sepsisTRUE          0.047032219    0.0000    0.0000000    0.00000000
+infect_CAPTRUE             0.007911935    0.0000    0.0000000    0.00000000
+infect_HAPTRUE             0.017142851    0.0000    0.0000000    0.00000000
+infect_SSTITRUE            0.019283846    0.0000    0.0000000    0.00000000
+infect_CNSTRUE             0.004473430    0.0000    0.0000000    0.00000000
+infect_IAITRUE             0.004554536    0.0000    0.0000000    0.00000000
+infect_UTITRUE             0.005508492    0.0000    0.0000000    0.00000000
+infect_BJITRUE             0.007679057    0.0000    0.0000000    0.00000000
+infect_septicemiaTRUE      0.205998227    0.0000    0.0000000    0.00000000
+comed_aspirinTRUE          0.004292326    0.0000    0.0000000    0.00000000
+comed_diclofenacTRUE       0.005130676    0.0000    0.0000000    0.00000000
+comed_ibuprofenTRUE        0.005076847    0.0000    0.0000000    0.00000000
+comed_paracetamolTRUE      0.005573385    0.0000    0.0000000    0.00000000
+comed_penicillinTRUE       0.008345627    0.0000    0.0000000    0.00000000
+comed_cephaTRUE            0.008714237    0.0000    0.0000000    0.00000000
+comed_carbapenemTRUE       0.005457606    0.0000    0.0000000    0.00000000
+comed_cotrimoxazolTRUE     0.067950416    0.0000    0.0000000    0.00000000
+comed_vancomycinTRUE       0.029324862    0.0000    0.0000000    0.00000000
+comed_levofloxacinTRUE     0.004322301    0.0000    0.0000000    0.00000000
+comed_teicoplaninTRUE      0.012605173    0.0000    0.0000000    0.00000000
+comed_ethambutolTRUE       0.004639725    0.0000    0.0000000    0.00000000
+comed_pyrazinamidTRUE      0.010691892    0.0000    0.0000000    0.00000000
+comed_rifampinTRUE         0.010331299    0.0000    0.0000000    0.00000000
+comed_heparinTRUE          0.059949496    0.0000    0.0000000    0.00000000
+comed_clopidogrelTRUE      0.015786172    0.0000    0.0000000    0.00000000
+comed_enoxaparinTRUE       0.005822821    0.0000    0.0000000    0.00000000
+comed_dexamethasonTRUE     0.007451354    0.0000    0.0000000    0.00000000
+comed_amiodaronTRUE        0.029323208    0.0000    0.0000000    0.00000000
+comed_furosemidTRUE        0.162352557    0.0000    0.0000000    0.00000000
+comed_haloperidolTRUE      0.007307944    0.0000    0.0000000    0.00000000
+comed_valproicTRUE         0.004565279    0.0000    0.0000000    0.00000000
 BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0479    0.0469000    0.04320000
+PostProbs                           NA    0.0481    0.0471000    0.04340000
 R2                                  NA    0.1838    0.1745000    0.16450000
 dim                                 NA    7.0000    6.0000000    5.00000000
 logmarg                             NA -439.7101 -441.8714407 -444.29445157
@@ -5209,7 +5201,7 @@ comed_furosemidTRUE       0.000000e+00    0.00000000
 comed_haloperidolTRUE     0.000000e+00    0.00000000
 comed_valproicTRUE        0.000000e+00    0.00000000
 BF                        5.935666e-03    0.05614118
-PostProbs                 2.510000e-02    0.02280000
+PostProbs                 2.520000e-02    0.02290000
 R2                        1.634000e-01    0.17310000
 dim                       5.000000e+00    6.00000000
 logmarg                  -4.448369e+02 -442.59000543</preformat>
@@ -5257,7 +5249,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
   </sec>
   </sec>
 </sec>
@@ -5464,6 +5456,9 @@ library(gtsummary)
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
+  </sec>
+  <sec id="nb-code-cell-1-output-1-nb-6" specific-use="notebook-output">
+  <preformat>#BlackLivesMatter</preformat>
   </sec>
   </sec>
   <sec id="nb-code-cell-2-nb-6" specific-use="notebook-code">
@@ -5673,9 +5668,9 @@ plot_calibration_curve &lt;- function(sample, model) {
 }
 
 # Set up future to use multiple cores
-plan(multisession, workers = 6)
-</code>
-<code language="r script">cross_predict_HPM &lt;- cross_samples$splits |&gt;
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+
+cross_predict_HPM &lt;- cross_samples$splits |&gt;
   future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
 
 # Fit model to each sample in parallel
@@ -5734,15 +5729,6 @@ Attaching package: 'Hmisc'</preformat>
 <preformat>The following objects are masked from 'package:base':
 
     format.pval, units</preformat>
-</sec>
-<sec id="nb-code-cell-2-output-10-nb-7" specific-use="notebook-output">
-<preformat>Warning in checkNumberOfLocalWorkers(workers): Careful, you are setting up 6
-localhost parallel workers with only 4 CPU cores available for this R process
-(per 'system'), which could result in a 150% load. The soft limit is set to
-100%. Overusing the CPUs has negative impact on the current R process, but also
-on all other processes of yours and others running on the same machine. See
-help(&quot;parallelly.options&quot;, package = &quot;parallelly&quot;) for how to override the soft
-and hard limits</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-3-nb-7" specific-use="notebook-code">
