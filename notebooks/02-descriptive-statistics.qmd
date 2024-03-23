@@ -56,7 +56,7 @@ arrange_univariate_regression <- function(model) {
     bold_p()
 }
 
-plan(multisession, workers = min(parallel::detectCores() - 2, 10))
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
 uni_model_list <- future_map(predictor_list, fit_univariate_regression)
 table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
 plan(sequential)

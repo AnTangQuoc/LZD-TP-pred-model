@@ -18,7 +18,7 @@ abstract: |
 # Checklist
 
 | **Section/topic**                   | **Item No** | **Description**                                                                                                                                                                                                                        | **Draft date** |
-|------------------|:----------------:|--------------------|:----------------:|
+|------------------|:----------------:|-------------------|:----------------:|
 | **Title and abstract**              |             |                                                                                                                                                                                                                                        |                |
 | Title                               |      1      | Identify the study as developing and/or validating a multivariable prediction model, the target population, and the outcome to be predicted                                                                                            |                |
 | Abstract                            |      2      | Provide a summary of research objectives, setting, participants, data source, sample size, predictors, outcome, statistical analysis, results, and conclusions\*                                                                       |                |
@@ -77,7 +77,7 @@ Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020.
 
 ## Sample size
 
-Previous studies developing logistic regression models for LI-TP risk predictions have included 4-6 predictors in their final models @liu_analysis_2021; @duan_regression_2022; @qin_development_2021; @xu_establishment_2023. We expect to include about as many candidate predictors, based on results from the expert opinion survey and the Bayesian Model Selection algorithm [see @sec-outcomes-and-predictors]. Some of the candidate predictors might be continuous, which may potentially require non-linear modelling and therefore slightly increase the number of variables.
+Previous studies developing logistic regression models for LI-TP risk predictions have included 4-6 predictors in their final models [@liu_analysis_2021; @duan_regression_2022; @qin_development_2021; @xu_establishment_2023]. We expect to include about as many candidate predictors, based on results from the expert opinion survey and the Bayesian Model Selection algorithm [see @sec-outcomes-and-predictors]. Some of the candidate predictors might be continuous, which may potentially require non-linear modelling and therefore slightly increase the number of variables.
 
 A general rule of thumb is for at least 10 events be available for each candidate predictor considered in a prediction model @peduzzi1995. We have a total of 816 eligible patients and 264 of those have experienced the outcome. If the number of candidate predictors is 7, we would have 37 events per candidate predictor, which is considerably greater than the minimum number required. Even if the number of parameters screened is 20, we would still have 13 events per candidate predictor.
 
@@ -200,7 +200,7 @@ The final estimate of minimum sample size is `r minimum_sample_size`, therefore 
 
 ### 6a. Define the outcome that is predicted by the model, including how and when assessed
 
-The outcome of interest is linezolid-induced thrombocytopenia, defined as (i) a platelet count of \< 112.5 x 10^9^ cells/L (75% of the lower limit of normal) for patients with a baseline platelet count in the normal range; (ii) A reduction in platelet count of ≥ 25% from the baseline value for patients with a baseline platelet count of \< 150 x 10^9^ cells/L @zyvoxpr; @xu_establishment_2023; @kawasuji_proposal_2021.
+The outcome of interest is linezolid-induced thrombocytopenia, defined as (i) a platelet count of \< 112.5 x 10^9^ cells/L (75% of the lower limit of normal) for patients with a baseline platelet count in the normal range; (ii) A reduction in platelet count of ≥ 25% from the baseline value for patients with a baseline platelet count of \< 150 x 10^9^ cells/L [@zyvoxpr; @xu_establishment_2023; @kawasuji_proposal_2021].
 
 Normal platelet count is defined as 150-450 x 10^9^ cells/L. Baseline platelet count is defined as the last recorded PLT value before the start of linezolid therapy. Participants are considered to have met the outcome if they have a platelet count that meets the above criteria at any time during linezolid therapy or within 5 days after the end of therapy.
 

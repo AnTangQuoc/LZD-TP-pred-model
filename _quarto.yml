@@ -14,6 +14,9 @@ format:
   html:
     comments:
       hypothesis: true
+    theme:
+      light: default
+      dark: default
   docx: default
   jats: default
   pdf: default
