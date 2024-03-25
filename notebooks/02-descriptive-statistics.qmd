@@ -31,7 +31,8 @@ library(furrr)
 
 data_patient_complete_response_as_factor <- data_patient_complete |>
   mutate(
-    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID),
+    LZD_route = as.factor(LZD_route)
   )
 
 fit_univariate_regression <- function(predictor) {
@@ -51,7 +52,7 @@ arrange_univariate_regression <- function(model) {
   model |>
     tbl_regression(
       exponentiate = TRUE,
-      show_single_row = everything()
+      show_single_row = everything() & -any_of("LZD_route")
     ) |>
     bold_p()
 }
