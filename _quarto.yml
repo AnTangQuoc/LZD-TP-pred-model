@@ -1,6 +1,14 @@
 project:
   type: manuscript
   execute-dir: project
+  render:
+    - notebooks/01-data-cleaning.qmd
+    - notebooks/02-descriptive-statistics.qmd
+    - notebooks/03-apparent-performance.qmd
+    - notebooks/03A-expert-survey-processing.qmd
+    - notebooks/04-internal-external-cross-performance.qmd
+    - notebooks/05-risk-score.qmd
+    - index.qmd
 
 manuscript:
   article: index.qmd
@@ -15,8 +23,8 @@ format:
     comments:
       hypothesis: true
     theme:
-      light: default
-      dark: default
+      light: flatly
+      dark: darkly
   docx: default
   jats: default
   pdf: default

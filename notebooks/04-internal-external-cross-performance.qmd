@@ -13,8 +13,8 @@ library(furrr) # for future_map()
 library(tidymodels)
 library(CalibrationCurves)
 
-data_patient_cross_prep <- data_patient_complete |>
-  select(all_of(predictor_list), flag_ADR_TP_ID, site)
+data_patient_cross_prep <- data_patient_transformed |>
+  select(all_of(predictor_transformed), flag_ADR_TP_ID, site)
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep, group = "site")
 
@@ -22,10 +22,11 @@ extract_variable_names_cross <- function(sample) {
   data <- analysis(sample) |> select(-site)
   model <- data |>
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .
+      formula = flag_ADR_TP_ID ~ .,
+      include.always = ~1 + comed_heparin
     )
   variable.names(predict(model, estimator = "HPM"))[-1] |>
-    str_extract(paste(predictor_list, collapse = "|"))
+    str_extract(paste(predictor_transformed, collapse = "|"))
 }
 
 # Function to modify sample data and fit model
