@@ -910,7 +910,7 @@ Pharmacy</institution>
 <back>
 </back>
 
-<sub-article article-type="notebook" id="nb-32-nb-article">
+<sub-article article-type="notebook" id="nb-28-nb-article">
 <front-stub>
 <title-group>
 <article-title>Development and Validation of a Risk Prediction Model of
@@ -1873,18 +1873,30 @@ Pharmacy</institution>
 <sub-article article-type="notebook" id="nb-4-nb-1">
 <front-stub>
 <title-group>
-<article-title>Risk Score System and Algorithm</article-title>
+<article-title>Data Cleaning</article-title>
 </title-group>
 </front-stub>
 
 <body>
-<sec id="nb-code-cell-1-nb-1" specific-use="notebook-code">
-<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
-</code>
-<code language="r script">load(&quot;data/model-performance/model-full.rda&quot;)
-</code>
-<sec id="nb-code-cell-1-output-0-nb-1" specific-use="notebook-output">
-<preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+<sec id="inputs-nb-1">
+  <title>Inputs</title>
+  <p>Import processed original data from the
+  <monospace>data-original-processed</monospace> directory, which is
+  available on Github.</p>
+  <p>The import code is in the <monospace>process-data.R</monospace>
+  file in the <monospace>data-original-processed</monospace>
+  directory.</p>
+  <p>The unprocessed data in Excel format is not available on GitHub as
+  it contains non-anonymized patient data.</p>
+  <p>Some cleaning steps were performed in Excel before importing the
+  data into R.</p>
+  <sec id="nb-code-cell-1-nb-1" specific-use="notebook-code">
+  <code language="r script">library(tidyverse)
+  </code>
+  <code language="r script">load(&quot;data/data-original-processed/data-processed.rda&quot;)
+  </code>
+  <sec id="nb-code-cell-1-output-0-nb-1" specific-use="notebook-output">
+  <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
@@ -1894,441 +1906,368 @@ Pharmacy</institution>
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
+  </sec>
+  </sec>
 </sec>
-</sec>
-<sec id="nb-code-cell-2-nb-1" specific-use="notebook-code">
-<code language="r script">library(tidyverse)
-library(tidymodels)
-</code>
-<code language="r script">model_beta_estimates &lt;- model_full$fit |&gt;
-  tidy() |&gt;
-  select(term, estimate, p.value)
-
-model_odds_ratios &lt;- model_full$fit |&gt;
-  tidy(conf.int = TRUE, exponentiate = TRUE) |&gt;
-  select(term, estimate, conf.low, conf.high) |&gt;
-  filter(term != &quot;(Intercept)&quot;) |&gt;
-  rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high)
-
-predictor_list_with_intercept &lt;- c(predictor_list, &quot;(Intercept)&quot;)
-
-parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by = &quot;term&quot;) |&gt;
-  rename(risk_factor = term, beta = estimate, p_value = p.value) |&gt;
-  mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept, collapse = &quot;|&quot;)))
-</code>
-<sec id="nb-code-cell-2-output-0-nb-1" specific-use="notebook-output">
-<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
-</sec>
-<sec id="nb-code-cell-2-output-1-nb-1" specific-use="notebook-output">
-<preformat>✔ broom        1.0.5      ✔ rsample      1.2.0 
-✔ dials        1.2.1      ✔ tune         1.2.0 
-✔ infer        1.0.6      ✔ workflows    1.1.4 
-✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
-✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
-✔ recipes      1.0.10     </preformat>
-</sec>
-<sec id="nb-code-cell-2-output-2-nb-1" specific-use="notebook-output">
-<preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
-✖ scales::discard() masks purrr::discard()
-✖ dplyr::filter()   masks stats::filter()
-✖ recipes::fixed()  masks stringr::fixed()
-✖ dplyr::lag()      masks stats::lag()
-✖ yardstick::spec() masks readr::spec()
-✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
-</sec>
-</sec>
-<sec id="risk-score-system-nb-1">
-  <title>Risk Score System</title>
-  <p>All code below is not automatic. Variables and ranges are manually
-  defined.</p>
-  <sec id="nb-code-cell-3-nb-1" specific-use="notebook-code">
-  <code language="r script">risk_profile_1 &lt;- tibble(
-  risk_factor = &quot;patient_age&quot;,
-  min_range = c(18, 30, 40, 50, 60, 70, 80, 90), # minimum age is 18
-  max_range = lead(min_range, default = 101), # maximum age is 101, interval is 10
-  reference = (min_range + max_range) / 2,
-  flag_base_risk = FALSE
-) |&gt;
+<sec id="cleaning-nb-1">
+  <title>Cleaning</title>
+  <p>This code cleans and filters the ‘inputs_general’ data.</p>
+  <list list-type="order">
+    <list-item>
+      <p>Replaces ‘TrTM’ with ‘IV’ in the ‘LZD_route’ column.</p>
+    </list-item>
+    <list-item>
+      <p>Replaces any occurrence of ‘IV’ followed by ‘PO’ or ‘PO’
+      followed by ‘IV’ in the ‘LZD_route’ column with ‘IV&amp;PO’.</p>
+    </list-item>
+    <list-item>
+      <p>Removes rows where ‘LZD_route’ is ‘0’.</p>
+    </list-item>
+    <list-item>
+      <p>Removes rows where ‘patient_age’ is less than 18.</p>
+    </list-item>
+    <list-item>
+      <p>Removes rows where ‘LZD_duration’ is less than 3.</p>
+    </list-item>
+    <list-item>
+      <p>Removes rows where ‘LZD_start’ or ‘LZD_end’ is not within the
+      study period.</p>
+    </list-item>
+    <list-item>
+      <p>Removes rows where any variable that starts with “comed” is
+      NA.</p>
+    </list-item>
+    <list-item>
+      <p>Removes second treatment period (if any) by removing rows where
+      ‘patient_ID’ contains “_2”.</p>
+    </list-item>
+  </list>
+  <sec id="nb-code-cell-2-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_cleaned &lt;- inputs_general |&gt;
   mutate(
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
-risk_profile_2 &lt;- tibble(
-  risk_factor = &quot;baseline_PLT&quot;,
-  min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
-  max_range = lag(min_range, default = 434), # 99% percentile is 434
-  reference = (min_range + max_range) / 2,
-  flag_base_risk = FALSE
-) |&gt;
-  mutate(
-    min_range = replace(min_range, n(), -Inf),
-    max_range = replace(max_range, 1, Inf),
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
-risk_profile_3 &lt;- tibble(
-  risk_factor = &quot;LZD_duration&quot;,
-  min_range = c(3, 7, 14), # 1% percentile is 3
-  max_range = lead(min_range, default = 26), # 99% percentile is 26
-  reference = (min_range + max_range) / 2,
-  flag_base_risk = FALSE
-) |&gt;
-  mutate(
-    min_range = replace(min_range, 1, -Inf),
-    max_range = replace(max_range, n(), Inf),
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
-risk_profile_4 &lt;- tibble(
-  risk_factor = &quot;invasive_CRRT&quot;,
-  min_range = c(0, 1), # 0 or 1
-  max_range = c(0, 1), # 0 or 1
-  reference = c(0, 1),
-  flag_base_risk = FALSE
-) |&gt;
-  mutate(
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
-risk_profile_5 &lt;- tibble(
-  risk_factor = &quot;invasive_CVC&quot;,
-  min_range = c(0, 1), # 0 or 1
-  max_range = c(0, 1), # 0 or 1
-  reference = c(0, 1),
-  flag_base_risk = FALSE
-) |&gt;
-  mutate(
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
-risk_profile &lt;- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5)
+    LZD_route = str_replace(LZD_route, &quot;TrTM&quot;, &quot;IV&quot;),
+    LZD_route = str_replace(LZD_route, &quot;IV.*PO|PO.*IV&quot;, &quot;IV&amp;PO&quot;)
+  ) |&gt;
+  filter(!LZD_route == &quot;0&quot;) |&gt;
+  filter(patient_age &gt;= 18) |&gt;
+  filter(LZD_duration &gt;= 3) |&gt;
+  filter(complete.cases(across(starts_with(&quot;comed&quot;)))) |&gt;
+  filter(
+    site == &quot;ND1&quot; &amp;
+      (between(LZD_start, as_date(&quot;2021-05-01&quot;), as_date(&quot;2021-12-31&quot;)) |
+        between(LZD_end, as_date(&quot;2021-05-01&quot;), as_date(&quot;2021-12-31&quot;))) |
+      site == &quot;ND2&quot; &amp;
+        (between(LZD_start, as_date(&quot;2022-04-01&quot;), as_date(&quot;2022-09-30&quot;)) |
+          between(LZD_end, as_date(&quot;2022-04-01&quot;), as_date(&quot;2022-09-30&quot;))) |
+      site == &quot;BM1&quot; &amp;
+        (between(LZD_start, as_date(&quot;2019-11-01&quot;), as_date(&quot;2019-12-31&quot;)) |
+          between(LZD_end, as_date(&quot;2019-11-01&quot;), as_date(&quot;2019-12-31&quot;))) |
+      site == &quot;BM2&quot; &amp;
+        (between(LZD_start, as_date(&quot;2022-12-01&quot;), as_date(&quot;2023-03-31&quot;)) |
+          between(LZD_end, as_date(&quot;2022-12-01&quot;), as_date(&quot;2023-03-31&quot;))) |
+      site == &quot;TN1&quot; &amp;
+        (between(LZD_start, as_date(&quot;2020-01-01&quot;), as_date(&quot;2020-06-30&quot;)) |
+          between(LZD_end, as_date(&quot;2020-01-01&quot;), as_date(&quot;2020-06-30&quot;))) |
+      site == &quot;TN2&quot; &amp;
+        (between(LZD_start, as_date(&quot;2022-09-01&quot;), as_date(&quot;2023-02-28&quot;)) |
+          between(LZD_end, as_date(&quot;2022-09-01&quot;), as_date(&quot;2023-02-28&quot;)))
+  ) |&gt;
+  filter(!str_detect(patient_ID, &quot;_2&quot;))
   </code>
   </sec>
+  <p>This code filters the ‘inputs_labs_general’ data frame.</p>
+  <list list-type="order">
+    <list-item>
+      <p>Remove rows with LZD use duration less than 3 days.</p>
+    </list-item>
+  </list>
+  <sec id="nb-code-cell-3-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_labs_pipe_1 &lt;- inputs_labs_general |&gt;
+  filter(LZD_end - LZD_start &gt;= 2) |&gt;
+  filter(!str_detect(patient_ID, &quot;_2&quot;))
+  </code>
+  </sec>
+  <p>This code remove ‘patient_ID’ that has no valid ‘test_PLT’ either
+  in 7 days prior to ‘LZD_start’ or during LZD use.</p>
+  <list list-type="order">
+    <list-item>
+      <p>Two rows are added to each ‘patient_ID’ to ensure there is at
+      least one row in both time periods of each patient that can be
+      used for flagging.</p>
+    </list-item>
+    <list-item>
+      <p>‘flag_post_start’ is used to separate two time periods for each
+      ‘patient_ID’. The first period is 7 days prior to ‘LZD_start’ and
+      the second period is during LZD use.</p>
+    </list-item>
+    <list-item>
+      <p>‘flag_too_early’ and ‘flag_post_end’ are used to flag
+      observations that are before 7 days prior to ‘LZD_start’ or after
+      ‘LZD_end’, so ‘test_PLT’ in these periods will not be valid.</p>
+    </list-item>
+    <list-item>
+      <p>‘flag_remove_check’ is used to check if all ‘test_PLT’ values
+      are NAs in each time periods of each ‘patient_ID’. If any time
+      period initially had no rows, the new row added in step 1 will be
+      used. That group will have only one ‘test_PLT’ with the value NA
+      and so the flag will be TRUE. The ‘test_PLT’ in ‘flag_too_early’
+      and ‘flag_post_end’ periods are not included in the check as they
+      are not valid.</p>
+    </list-item>
+    <list-item>
+      <p>For each ‘patient_ID’, if any ‘flag_remove_check’ is TRUE, all
+      rows of that ‘patient_ID’ will be removed.</p>
+    </list-item>
+    <list-item>
+      <p>Finally, rows with ‘flag_temp’ as TRUE are removed. These rows
+      were added in step 1 and are no longer needed. The column itself
+      is also removed.</p>
+    </list-item>
+  </list>
   <sec id="nb-code-cell-4-nb-1" specific-use="notebook-code">
-  <code language="r script">B_constant &lt;- parameter_estimates |&gt;
-  filter(risk_factor == &quot;patient_age&quot;) |&gt;
-  pull(beta) * 10 # constant equivalent to 10-year increase in age
-
-points_system_full &lt;- parameter_estimates |&gt;
-  select(risk_factor, beta) |&gt;
-  right_join(risk_profile, by = &quot;risk_factor&quot;) |&gt;
-  group_by(risk_factor) |&gt;
-  mutate(
-    beta_sum = beta * (reference - reference[which.max(flag_base_risk)]),
-    points = round(beta_sum / B_constant, 0)
-  )
-
-points_system_factors &lt;- points_system_full |&gt;
-  select(risk_factor, min_range, max_range, points)
-
-min_points &lt;- points_system_full |&gt;
-  group_by(risk_factor) |&gt;
-  summarise(min_points = min(points)) |&gt;
-  summarise(total_min_points = sum(min_points)) |&gt;
-  pull(total_min_points)
-
-max_points &lt;- points_system_full |&gt;
-  group_by(risk_factor) |&gt;
-  summarise(max_points = max(points)) |&gt;
-  summarise(total_max_points = sum(max_points)) |&gt;
-  pull(total_max_points)
-
-risk_function &lt;- function(points) {
-  intercept &lt;- parameter_estimates |&gt;
-    filter(risk_factor == &quot;Intercept&quot;) |&gt;
-    pull(beta)
-
-  beta_base &lt;- points_system_full |&gt;
-    filter(flag_base_risk == TRUE) |&gt;
-    ungroup() |&gt;
-    summarise(
-      beta_base = sum(beta * reference)
-    ) |&gt;
-    pull(beta_base)
-
-  1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
+  <code language="r script"># Helper function to add new rows to each group in a data frame.
+# reframe() generate new rows where its arguments are variables in the data frame.
+# bind_rows() bind the new rows to the original data frame.
+# group_modify() apply the previous functions to each group in a data frame.
+add_reframe_rows &lt;- function(.data, ...) {
+  group_modify(.data, function(x, y) {
+    bind_rows(x, reframe(x, ...))
+  })
 }
 
-points_system_risks &lt;- tibble(
-  points_total = seq(min_points, max_points),
-  risk_estimate = risk_function(points_total)
-)
+inputs_labs_cleaned &lt;- inputs_labs_pipe_1 |&gt;
+  group_by(patient_ID) |&gt;
+  arrange(test_date, .by_group = TRUE) |&gt;
+  add_reframe_rows(test_date = min(test_date) - 100, LZD_start = min(LZD_start), flag_temp = TRUE) |&gt;
+  add_reframe_rows(test_date = max(test_date) + 100, LZD_start = max(LZD_start), flag_temp = TRUE) |&gt;
+  mutate(
+    flag_too_early = test_date &lt;= LZD_start - 8,
+    flag_post_start = test_date &gt;= LZD_start + 1,
+    flag_post_end = test_date &gt;= LZD_end + 1
+  ) |&gt;
+  group_by(patient_ID, flag_post_start) |&gt;
+  mutate(flag_remove_check = all(is.na(test_PLT[which((!flag_too_early &amp; !flag_post_end) | flag_temp)]))) |&gt;
+  group_by(patient_ID) |&gt;
+  filter(!any(flag_remove_check)) |&gt;
+  filter(is.na(flag_temp)) |&gt;
+  select(-flag_temp)
+  </code>
+  </sec>
+  <p>inner_join() keeps only patients present in both data frames,
+  essentially removing patients without lab tests or other
+  comorbidity/medication data.</p>
+  <sec id="nb-code-cell-5-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_cleaned_joined &lt;-
+  inner_join(inputs_cleaned, inputs_labs_cleaned)
+  </code>
+  <sec id="nb-code-cell-5-output-0-nb-1" specific-use="notebook-output">
+  <preformat>Joining with `by = join_by(patient_ID, LZD_start, LZD_end)`</preformat>
+  </sec>
+  </sec>
+</sec>
+<sec id="mutating-nb-1">
+  <title>Mutating</title>
+  <p>This code flags ‘patient_ID’ that had at least one thrombocytopenia
+  event during LZD use.</p>
+  <p>Thrombocytopenia is defined as follows:</p>
+  <list list-type="alpha-lower">
+    <list-item>
+      <p>If baseline PLT is normal (150-450), then thrombocytopenia is
+      defined as PLT &lt; 112.5.</p>
+    </list-item>
+    <list-item>
+      <p>If baseline PLT is low (&lt; 150), then thrombocytopenia is
+      defined as PLT &lt;= 75% of baseline.</p>
+    </list-item>
+  </list>
+  <p>Baseline date is defined as the latest ‘test_date’ before
+  ‘LZD_start’ that has a non-NA ‘test_PLT.’</p>
+  <p>This ‘test_date’ must be within 7 days before ‘LZD_start’, which
+  means ‘flag_too_early’ must be FALSE.</p>
+  <p>The code performs the following operations: 1. Groups the data by
+  ‘patient_ID’. 2. Flags all ‘test_date’ after the baseline date.
+  Baseline is defined above. 3. Flags all ‘test_date’ that meet the
+  thrombocytopenia definition. This is an ADR event. 4. Flags all
+  ‘patient_ID’ that have at least one thrombocytopenia ADR event during
+  LZD use.</p>
+  <p>Notes: max(which()) finds the index of the last TRUE value in a
+  logical vector.</p>
+  <p>while which.max() finds the index of the first TRUE value in a
+  logical vector.</p>
+  <sec id="nb-code-cell-6-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_analyze_1 &lt;- inputs_cleaned_joined |&gt;
+  group_by(patient_ID) |&gt;
+  mutate(
+    flag_too_late = test_date &gt;= LZD_end + 6,
+    flag_post_baseline = test_date &gt;= test_date[max(which(test_date &lt;= LZD_start &amp; !is.na(test_PLT) &amp; !flag_too_early))],
+    test_ADR_TP = flag_post_baseline &amp; !flag_too_late &amp; (
+      (test_PLT[which.max(flag_post_baseline)] &gt;= 150 &amp; test_PLT &lt;= 112.5) |
+        (test_PLT[which.max(flag_post_baseline)] &lt; 150 &amp; test_PLT &lt;= 0.75 * test_PLT[which.max(flag_post_baseline)])
+    ),
+    flag_ADR_TP_ID = any(test_ADR_TP, na.rm = TRUE)
+  )
+  </code>
+  </sec>
+  <p>This code adds a new column ‘test_CTCAE’ based on the Common
+  Terminology Criteria for Adverse Events (CTCAE) for decreased platelet
+  count.</p>
+  <p>If ‘test_ADR_TP’ is TRUE, it assigns a value to ‘test_CTCAE’ based
+  on the ‘test_PLT’ column.</p>
+  <list list-type="alpha-lower">
+    <list-item>
+      <p>If ‘test_PLT’ is less than 25, ‘test_CTCAE’ is assigned a value
+      of 4.</p>
+    </list-item>
+    <list-item>
+      <p>If ‘test_PLT’ is between 25 and 50, ‘test_CTCAE’ is assigned a
+      value of 3.</p>
+    </list-item>
+    <list-item>
+      <p>If ‘test_PLT’ is between 50 and 75, ‘test_CTCAE’ is assigned a
+      value of 2.</p>
+    </list-item>
+    <list-item>
+      <p>If ‘test_PLT’ is between 75 and 150, ‘test_CTCAE’ is assigned a
+      value of 1.</p>
+    </list-item>
+  </list>
+  <p>If ‘test_ADR_TP’ is FALSE, ‘test_CTCAE’ is assigned NA.</p>
+  <p>Finally, ‘test_CTCAE_max’ is assigned the maximum value of
+  ‘test_CTCAE’ for each ‘patient_ID’.</p>
+  <sec id="nb-code-cell-7-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_analyze_2 &lt;- inputs_analyze_1 |&gt;
+  mutate(
+    test_CTCAE =
+      if_else(
+        test_ADR_TP,
+        case_when(
+          test_PLT &lt; 25 ~ 4,
+          test_PLT &lt; 50 ~ 3,
+          test_PLT &lt; 75 ~ 2,
+          test_PLT &lt; 150 ~ 1
+        ),
+        NA_real_
+      ),
+    ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE),
+    ADR_CTCAE_max = na_if(ADR_CTCAE_max, -Inf)
+  )
+  </code>
+  <sec id="nb-code-cell-7-output-0-nb-1" specific-use="notebook-output">
+  <preformat>Warning: There were 638 warnings in `mutate()`.
+The first warning was:
+ℹ In argument: `ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE)`.
+ℹ In group 1: `patient_ID = &quot;000847&quot;`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 637 remaining warnings.</preformat>
+  </sec>
+  </sec>
+  <p>This code adds a new column ‘test_onset’, which is the number of
+  days from ‘LZD_start’ to the thrombocytopenia event.</p>
+  <p>If ‘test_ADR_TP’ is TRUE, ‘test_onset’ is assigned the value of
+  ‘test_date’ minus ‘LZD_start’.</p>
+  <p>If ‘test_ADR_TP’ is FALSE, ‘test_onset’ is assigned NA.</p>
+  <p>Finally, ‘test_onset_first’ is assigned the first non-NA value of
+  ‘test_onset’ for each ‘patient_ID’.</p>
+  <sec id="nb-code-cell-8-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_analyze_3 &lt;- inputs_analyze_2 |&gt;
+  mutate(
+    ADR_onset =
+      if_else(
+        test_ADR_TP,
+        as.double(test_date - LZD_start),
+        NA_real_
+      ),
+    ADR_onset_first = first(na.omit(ADR_onset))
+  )
+  </code>
+  </sec>
+  <p>This code adds a new column ‘test_PLT_ratio’, which is the ratio of
+  the minimum ‘test_PLT’ to the baseline ‘test_PLT’.</p>
+  <p>If ‘flag_ADR_TP_ID’ is TRUE, ‘test_PLT_ratio’ is assigned the value
+  of the ratio.</p>
+  <p>If ‘flag_ADR_TP_ID’ is FALSE, ‘test_PLT_ratio’ is assigned NA.</p>
+  <sec id="nb-code-cell-9-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_analyze_4 &lt;- inputs_analyze_3 |&gt;
+  mutate(
+    ADR_PLT_ratio =
+      if_else(
+        flag_ADR_TP_ID,
+        test_PLT[which.min(test_PLT)] / test_PLT[which.max(flag_post_baseline)],
+        NA_real_
+      )
+  )
+  </code>
+  </sec>
+  <p>Changes existing data to get values from data_lab_test instead of
+  relying on data_patient The code also removes duplicates and sorts the
+  data by ‘site’ and ‘patient_ID’.</p>
+  <sec id="nb-code-cell-10-nb-1" specific-use="notebook-code">
+  <code language="r script">inputs_analyze_5 &lt;- inputs_analyze_4 |&gt;
+  mutate(
+    LZD_duration = as.numeric(LZD_end - LZD_start) + 1,
+    baseline_date = test_date[which.max(flag_post_baseline)],
+    baseline_PLT = test_PLT[which.max(flag_post_baseline)],
+    baseline_HGB = test_HGB[which.max(flag_post_baseline)],
+    baseline_WBC = test_WBC[which.max(flag_post_baseline)],
+    ADR_PLT_min = min(test_PLT[which.max(flag_post_baseline) + 1:max(which(flag_post_baseline))], na.rm = TRUE),
+  ) 
+  </code>
+  </sec>
+</sec>
+<sec id="outputs-nb-1">
+  <title>Outputs</title>
+  <p>This code prepares the final data for analysis and exports it to
+  the ‘data-cleaned’ directory.</p>
+  <list list-type="order">
+    <list-item>
+      <p>The ‘data_patient_complete’ data frame contains only the first
+      complete row of each ‘patient_ID’ in ‘data_complete’.</p>
+    </list-item>
+  </list>
+  <list list-type="bullet">
+    <list-item>
+      <p>Patients with any missing initial data are removed.</p>
+    </list-item>
+    <list-item>
+      <p>Patients with baseline PLT &gt; 450 are removed.</p>
+    </list-item>
+    <list-item>
+      <p>The ‘data_patient_complete’ data frame is used for
+      patient-level analysis.</p>
+    </list-item>
+  </list>
+  <list list-type="order">
+    <list-item>
+      <label>2.</label>
+      <p>The ‘data_complete’ data frame contains all the cleaned and
+      filtered data.</p>
+    </list-item>
+  </list>
+  <list list-type="bullet">
+    <list-item>
+      <p>The ‘data_complete’ data frame is used for event-level
+      analysis.</p>
+    </list-item>
+  </list>
+  <sec id="nb-code-cell-11-nb-1" specific-use="notebook-code">
+  <code language="r script">data_patient_complete &lt;- inputs_analyze_5 |&gt;
+  arrange(site, patient_ID) |&gt;
+  slice_head(n = 1) |&gt;
+  select(-starts_with(&quot;test&quot;)) |&gt;
+  filter(complete.cases(across(-starts_with(&quot;ADR&quot;)))) |&gt;
+  filter(baseline_PLT &lt;= 450) |&gt;
+  ungroup()
 
-points_system_factors |&gt; knitr::kable()
+data_complete &lt;- inputs_analyze_5 |&gt;
+  filter(patient_ID %in% data_patient_complete$patient_ID) |&gt;
+  ungroup()
+
+write_csv(data_complete, &quot;data/data-cleaned/data-complete.csv&quot;)
+write_csv(data_patient_complete, &quot;data/data-cleaned/data-patient-complete.csv&quot;)
+
+save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-cleaned.rda&quot;)
   </code>
-  <table-wrap>
-    <table>
-      <thead>
-        <tr>
-          <th align="left">risk_factor</th>
-          <th align="right">min_range</th>
-          <th align="right">max_range</th>
-          <th align="right">points</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">18</td>
-          <td align="right">30</td>
-          <td align="right">0</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">30</td>
-          <td align="right">40</td>
-          <td align="right">1</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">40</td>
-          <td align="right">50</td>
-          <td align="right">2</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">50</td>
-          <td align="right">60</td>
-          <td align="right">3</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">60</td>
-          <td align="right">70</td>
-          <td align="right">4</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">70</td>
-          <td align="right">80</td>
-          <td align="right">5</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">80</td>
-          <td align="right">90</td>
-          <td align="right">6</td>
-        </tr>
-        <tr>
-          <td align="left">patient_age</td>
-          <td align="right">90</td>
-          <td align="right">101</td>
-          <td align="right">7</td>
-        </tr>
-        <tr>
-          <td align="left">baseline_PLT</td>
-          <td align="right">150</td>
-          <td align="right">Inf</td>
-          <td align="right">0</td>
-        </tr>
-        <tr>
-          <td align="left">baseline_PLT</td>
-          <td align="right">75</td>
-          <td align="right">150</td>
-          <td align="right">7</td>
-        </tr>
-        <tr>
-          <td align="left">baseline_PLT</td>
-          <td align="right">50</td>
-          <td align="right">75</td>
-          <td align="right">9</td>
-        </tr>
-        <tr>
-          <td align="left">baseline_PLT</td>
-          <td align="right">25</td>
-          <td align="right">50</td>
-          <td align="right">10</td>
-        </tr>
-        <tr>
-          <td align="left">baseline_PLT</td>
-          <td align="right">-Inf</td>
-          <td align="right">25</td>
-          <td align="right">11</td>
-        </tr>
-        <tr>
-          <td align="left">LZD_duration</td>
-          <td align="right">-Inf</td>
-          <td align="right">7</td>
-          <td align="right">0</td>
-        </tr>
-        <tr>
-          <td align="left">LZD_duration</td>
-          <td align="right">7</td>
-          <td align="right">14</td>
-          <td align="right">2</td>
-        </tr>
-        <tr>
-          <td align="left">LZD_duration</td>
-          <td align="right">14</td>
-          <td align="right">Inf</td>
-          <td align="right">5</td>
-        </tr>
-        <tr>
-          <td align="left">invasive_CVC</td>
-          <td align="right">0</td>
-          <td align="right">0</td>
-          <td align="right">0</td>
-        </tr>
-        <tr>
-          <td align="left">invasive_CVC</td>
-          <td align="right">1</td>
-          <td align="right">1</td>
-          <td align="right">3</td>
-        </tr>
-        <tr>
-          <td align="left">invasive_CRRT</td>
-          <td align="right">0</td>
-          <td align="right">0</td>
-          <td align="right">0</td>
-        </tr>
-        <tr>
-          <td align="left">invasive_CRRT</td>
-          <td align="right">1</td>
-          <td align="right">1</td>
-          <td align="right">4</td>
-        </tr>
-      </tbody>
-    </table>
-  </table-wrap>
-  <code language="r script">points_system_risks |&gt; knitr::kable()
-  </code>
-  <table-wrap>
-    <table>
-      <thead>
-        <tr>
-          <th align="right">points_total</th>
-          <th align="right">risk_estimate</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td align="right">0</td>
-          <td align="right">0.1145607</td>
-        </tr>
-        <tr>
-          <td align="right">1</td>
-          <td align="right">0.1390520</td>
-        </tr>
-        <tr>
-          <td align="right">2</td>
-          <td align="right">0.1677869</td>
-        </tr>
-        <tr>
-          <td align="right">3</td>
-          <td align="right">0.2010730</td>
-        </tr>
-        <tr>
-          <td align="right">4</td>
-          <td align="right">0.2390657</td>
-        </tr>
-        <tr>
-          <td align="right">5</td>
-          <td align="right">0.2817057</td>
-        </tr>
-        <tr>
-          <td align="right">6</td>
-          <td align="right">0.3286662</td>
-        </tr>
-        <tr>
-          <td align="right">7</td>
-          <td align="right">0.3793210</td>
-        </tr>
-        <tr>
-          <td align="right">8</td>
-          <td align="right">0.4327503</td>
-        </tr>
-        <tr>
-          <td align="right">9</td>
-          <td align="right">0.4877908</td>
-        </tr>
-        <tr>
-          <td align="right">10</td>
-          <td align="right">0.5431291</td>
-        </tr>
-        <tr>
-          <td align="right">11</td>
-          <td align="right">0.5974229</td>
-        </tr>
-        <tr>
-          <td align="right">12</td>
-          <td align="right">0.6494292</td>
-        </tr>
-        <tr>
-          <td align="right">13</td>
-          <td align="right">0.6981120</td>
-        </tr>
-        <tr>
-          <td align="right">14</td>
-          <td align="right">0.7427127</td>
-        </tr>
-        <tr>
-          <td align="right">15</td>
-          <td align="right">0.7827745</td>
-        </tr>
-        <tr>
-          <td align="right">16</td>
-          <td align="right">0.8181258</td>
-        </tr>
-        <tr>
-          <td align="right">17</td>
-          <td align="right">0.8488351</td>
-        </tr>
-        <tr>
-          <td align="right">18</td>
-          <td align="right">0.8751504</td>
-        </tr>
-        <tr>
-          <td align="right">19</td>
-          <td align="right">0.8974382</td>
-        </tr>
-        <tr>
-          <td align="right">20</td>
-          <td align="right">0.9161285</td>
-        </tr>
-        <tr>
-          <td align="right">21</td>
-          <td align="right">0.9316722</td>
-        </tr>
-        <tr>
-          <td align="right">22</td>
-          <td align="right">0.9445096</td>
-        </tr>
-        <tr>
-          <td align="right">23</td>
-          <td align="right">0.9550515</td>
-        </tr>
-        <tr>
-          <td align="right">24</td>
-          <td align="right">0.9636678</td>
-        </tr>
-        <tr>
-          <td align="right">25</td>
-          <td align="right">0.9706830</td>
-        </tr>
-        <tr>
-          <td align="right">26</td>
-          <td align="right">0.9763770</td>
-        </tr>
-        <tr>
-          <td align="right">27</td>
-          <td align="right">0.9809867</td>
-        </tr>
-        <tr>
-          <td align="right">28</td>
-          <td align="right">0.9847109</td>
-        </tr>
-        <tr>
-          <td align="right">29</td>
-          <td align="right">0.9877149</td>
-        </tr>
-        <tr>
-          <td align="right">30</td>
-          <td align="right">0.9901345</td>
-        </tr>
-      </tbody>
-    </table>
-  </table-wrap>
   </sec>
 </sec>
 </body>
@@ -2390,7 +2329,8 @@ table_stats &lt;- data_patient_complete |&gt;
 </code>
 <code language="r script">data_patient_complete_response_as_factor &lt;- data_patient_complete |&gt;
   mutate(
-    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID),
+    LZD_route = as.factor(LZD_route)
   )
 
 fit_univariate_regression &lt;- function(predictor) {
@@ -2410,7 +2350,7 @@ arrange_univariate_regression &lt;- function(model) {
   model |&gt;
     tbl_regression(
       exponentiate = TRUE,
-      show_single_row = everything()
+      show_single_row = everything() &amp; -any_of(&quot;LZD_route&quot;)
     ) |&gt;
     bold_p()
 }
@@ -2477,6 +2417,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-6-nb-2" specific-use="notebook-output">
 <preformat>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
@@ -2594,13 +2535,13 @@ table_descriptive
         <td headers="p.value_2">0.9</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">LZD_dose_per_weight</td>
-        <td headers="stat_0_1">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_1_1">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_2_1">21.8 (19.4 - 24.6)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.96, 1.03</td>
-        <td headers="p.value_2">0.8</td>
+        <td headers="label" style="font-weight: bold">patient_weight</td>
+        <td headers="stat_0_1">55 (50 - 60)</td>
+        <td headers="stat_1_1">55 (50 - 60)</td>
+        <td headers="stat_2_1">55 (48 - 62)</td>
+        <td headers="estimate_2">1.00</td>
+        <td headers="ci_2">0.99, 1.02</td>
+        <td headers="p.value_2">0.7</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">baseline_CLCR</td>
@@ -2664,6 +2605,42 @@ table_descriptive
         <td headers="estimate_2">1.03</td>
         <td headers="ci_2">1.01, 1.06</td>
         <td headers="p.value_2" style="font-weight: bold">0.017</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_route</td>
+        <td headers="stat_0_1"><break/></td>
+        <td headers="stat_1_1"><break/></td>
+        <td headers="stat_2_1"><break/></td>
+        <td headers="estimate_2"><break/></td>
+        <td headers="ci_2"><break/></td>
+        <td headers="p.value_2"><break/></td>
+      </tr>
+      <tr>
+        <td headers="label">    IV</td>
+        <td headers="stat_0_1">792 (97%)</td>
+        <td headers="stat_1_1">533 (97%)</td>
+        <td headers="stat_2_1">259 (98%)</td>
+        <td headers="estimate_2">—</td>
+        <td headers="ci_2">—</td>
+        <td headers="p.value_2"><break/></td>
+      </tr>
+      <tr>
+        <td headers="label">    IV&amp;PO</td>
+        <td headers="stat_0_1">9 (1.1%)</td>
+        <td headers="stat_1_1">7 (1.3%)</td>
+        <td headers="stat_2_1">2 (0.8%)</td>
+        <td headers="estimate_2">0.59</td>
+        <td headers="ci_2">0.09, 2.45</td>
+        <td headers="p.value_2">0.5</td>
+      </tr>
+      <tr>
+        <td headers="label">    PO</td>
+        <td headers="stat_0_1">15 (1.8%)</td>
+        <td headers="stat_1_1">12 (2.2%)</td>
+        <td headers="stat_2_1">3 (1.1%)</td>
+        <td headers="estimate_2">0.51</td>
+        <td headers="ci_2">0.12, 1.64</td>
+        <td headers="p.value_2">0.3</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">invasive_ETI</td>
@@ -3424,14 +3401,14 @@ table_descriptive
         <td headers="p.value" style="font-weight: bold">0.004</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">LZD_dose_per_weight</td>
-        <td headers="stat_0">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_1">22.6 (20.0 - 25.5)</td>
-        <td headers="stat_2">21.4 (19.0 - 24.0)</td>
-        <td headers="stat_3">21.4 (19.4 - 24.0)</td>
-        <td headers="stat_4">21.8 (20.0 - 24.0)</td>
-        <td headers="stat_5">24.0 (20.0 - 24.6)</td>
-        <td headers="stat_6">21.8 (19.7 - 24.0)</td>
+        <td headers="label" style="font-weight: bold">patient_weight</td>
+        <td headers="stat_0">55 (50 - 60)</td>
+        <td headers="stat_1">53 (47 - 60)</td>
+        <td headers="stat_2">56 (50 - 63)</td>
+        <td headers="stat_3">56 (50 - 62)</td>
+        <td headers="stat_4">55 (50 - 60)</td>
+        <td headers="stat_5">50 (49 - 60)</td>
+        <td headers="stat_6">55 (50 - 60)</td>
         <td headers="p.value" style="font-weight: bold">0.028</td>
       </tr>
       <tr>
@@ -3510,6 +3487,50 @@ table_descriptive
         <td headers="stat_5">11.0 (6.0 - 15.0)</td>
         <td headers="stat_6">9.0 (6.0 - 12.0)</td>
         <td headers="p.value">0.3</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_route</td>
+        <td headers="stat_0"><break/></td>
+        <td headers="stat_1"><break/></td>
+        <td headers="stat_2"><break/></td>
+        <td headers="stat_3"><break/></td>
+        <td headers="stat_4"><break/></td>
+        <td headers="stat_5"><break/></td>
+        <td headers="stat_6"><break/></td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label">    IV</td>
+        <td headers="stat_0">792 (97%)</td>
+        <td headers="stat_1">111 (89%)</td>
+        <td headers="stat_2">67 (87%)</td>
+        <td headers="stat_3">179 (100%)</td>
+        <td headers="stat_4">116 (100%)</td>
+        <td headers="stat_5">100 (100%)</td>
+        <td headers="stat_6">219 (100%)</td>
+        <td headers="p.value"><break/></td>
+      </tr>
+      <tr>
+        <td headers="label">    IV&amp;PO</td>
+        <td headers="stat_0">9 (1.1%)</td>
+        <td headers="stat_1">6 (4.8%)</td>
+        <td headers="stat_2">3 (3.9%)</td>
+        <td headers="stat_3">0 (0%)</td>
+        <td headers="stat_4">0 (0%)</td>
+        <td headers="stat_5">0 (0%)</td>
+        <td headers="stat_6">0 (0%)</td>
+        <td headers="p.value"><break/></td>
+      </tr>
+      <tr>
+        <td headers="label">    PO</td>
+        <td headers="stat_0">15 (1.8%)</td>
+        <td headers="stat_1">8 (6.4%)</td>
+        <td headers="stat_2">7 (9.1%)</td>
+        <td headers="stat_3">0 (0%)</td>
+        <td headers="stat_4">0 (0%)</td>
+        <td headers="stat_5">0 (0%)</td>
+        <td headers="stat_6">0 (0%)</td>
+        <td headers="p.value"><break/></td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">invasive_ETI</td>
@@ -3608,7 +3629,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.4%)</td>
-        <td headers="p.value">0.086</td>
+        <td headers="p.value">0.081</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -3641,7 +3662,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">1 (1.0%)</td>
         <td headers="stat_6">4 (1.8%)</td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_K</td>
@@ -3905,7 +3926,7 @@ table_descriptive
         <td headers="stat_4">6 (5.2%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.001</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
@@ -3982,7 +4003,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">4 (4.0%)</td>
         <td headers="stat_6">5 (2.3%)</td>
-        <td headers="p.value" style="font-weight: bold">0.030</td>
+        <td headers="p.value" style="font-weight: bold">0.027</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4015,7 +4036,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">3 (3.0%)</td>
         <td headers="stat_6">13 (5.9%)</td>
-        <td headers="p.value" style="font-weight: bold">0.039</td>
+        <td headers="p.value" style="font-weight: bold">0.036</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -4059,7 +4080,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">6 (2.7%)</td>
-        <td headers="p.value" style="font-weight: bold">0.014</td>
+        <td headers="p.value" style="font-weight: bold">0.019</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_simvas</td>
@@ -4081,7 +4102,7 @@ table_descriptive
         <td headers="stat_4">1 (0.9%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.030</td>
+        <td headers="p.value" style="font-weight: bold">0.027</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4125,7 +4146,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.005</td>
+        <td headers="p.value" style="font-weight: bold">0.004</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4191,7 +4212,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.2</td>
+        <td headers="p.value">0.14</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -4495,442 +4516,18 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 </sub-article>
 <sub-article article-type="notebook" id="nb-12-nb-3">
 <front-stub>
-</front-stub>
-
-<body>
-
-</body>
-
-
-
-<back>
-</back>
-
-
-</sub-article>
-<sub-article article-type="notebook" id="nb-16-nb-4">
-<front-stub>
-<title-group>
-<article-title>Data Cleaning</article-title>
-</title-group>
-</front-stub>
-
-<body>
-<sec id="inputs-nb-4">
-  <title>Inputs</title>
-  <p>Import processed original data from the
-  <monospace>data-original-processed</monospace> directory, which is
-  available on Github.</p>
-  <p>The import code is in the <monospace>process-data.R</monospace>
-  file in the <monospace>data-original-processed</monospace>
-  directory.</p>
-  <p>The unprocessed data in Excel format is not available on GitHub as
-  it contains non-anonymized patient data.</p>
-  <p>Some cleaning steps were performed in Excel before importing the
-  data into R.</p>
-  <sec id="nb-code-cell-1-nb-4" specific-use="notebook-code">
-  <code language="r script">library(tidyverse)
-  </code>
-  <code language="r script">load(&quot;data/data-original-processed/data-processed.rda&quot;)
-  </code>
-  <sec id="nb-code-cell-1-output-0-nb-4" specific-use="notebook-output">
-  <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
-  </sec>
-  </sec>
-</sec>
-<sec id="cleaning-nb-4">
-  <title>Cleaning</title>
-  <p>This code cleans and filters the ‘inputs_general’ data.</p>
-  <list list-type="order">
-    <list-item>
-      <p>Replaces ‘TrTM’ with ‘IV’ in the ‘LZD_route’ column.</p>
-    </list-item>
-    <list-item>
-      <p>Replaces any occurrence of ‘IV’ followed by ‘PO’ or ‘PO’
-      followed by ‘IV’ in the ‘LZD_route’ column with ‘IV&amp;PO’.</p>
-    </list-item>
-    <list-item>
-      <p>Removes rows where ‘LZD_route’ is ‘0’.</p>
-    </list-item>
-    <list-item>
-      <p>Removes rows where ‘patient_age’ is less than 18.</p>
-    </list-item>
-    <list-item>
-      <p>Removes rows where ‘LZD_duration’ is less than 3.</p>
-    </list-item>
-    <list-item>
-      <p>Removes rows where ‘LZD_start’ or ‘LZD_end’ is not within the
-      study period.</p>
-    </list-item>
-    <list-item>
-      <p>Removes rows where any variable that starts with “comed” is
-      NA.</p>
-    </list-item>
-    <list-item>
-      <p>Removes second treatment period (if any) by removing rows where
-      ‘patient_ID’ contains “_2”.</p>
-    </list-item>
-  </list>
-  <sec id="nb-code-cell-2-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_cleaned &lt;- inputs_general |&gt;
-  mutate(
-    LZD_route = str_replace(LZD_route, &quot;TrTM&quot;, &quot;IV&quot;),
-    LZD_route = str_replace(LZD_route, &quot;IV.*PO|PO.*IV&quot;, &quot;IV&amp;PO&quot;)
-  ) |&gt;
-  filter(!LZD_route == &quot;0&quot;) |&gt;
-  filter(patient_age &gt;= 18) |&gt;
-  filter(LZD_duration &gt;= 3) |&gt;
-  filter(complete.cases(across(starts_with(&quot;comed&quot;)))) |&gt;
-  filter(
-    site == &quot;ND1&quot; &amp;
-      (between(LZD_start, as_date(&quot;2021-05-01&quot;), as_date(&quot;2021-12-31&quot;)) |
-        between(LZD_end, as_date(&quot;2021-05-01&quot;), as_date(&quot;2021-12-31&quot;))) |
-      site == &quot;ND2&quot; &amp;
-        (between(LZD_start, as_date(&quot;2022-04-01&quot;), as_date(&quot;2022-09-30&quot;)) |
-          between(LZD_end, as_date(&quot;2022-04-01&quot;), as_date(&quot;2022-09-30&quot;))) |
-      site == &quot;BM1&quot; &amp;
-        (between(LZD_start, as_date(&quot;2019-11-01&quot;), as_date(&quot;2019-12-31&quot;)) |
-          between(LZD_end, as_date(&quot;2019-11-01&quot;), as_date(&quot;2019-12-31&quot;))) |
-      site == &quot;BM2&quot; &amp;
-        (between(LZD_start, as_date(&quot;2022-12-01&quot;), as_date(&quot;2023-03-31&quot;)) |
-          between(LZD_end, as_date(&quot;2022-12-01&quot;), as_date(&quot;2023-03-31&quot;))) |
-      site == &quot;TN1&quot; &amp;
-        (between(LZD_start, as_date(&quot;2020-01-01&quot;), as_date(&quot;2020-06-30&quot;)) |
-          between(LZD_end, as_date(&quot;2020-01-01&quot;), as_date(&quot;2020-06-30&quot;))) |
-      site == &quot;TN2&quot; &amp;
-        (between(LZD_start, as_date(&quot;2022-09-01&quot;), as_date(&quot;2023-02-28&quot;)) |
-          between(LZD_end, as_date(&quot;2022-09-01&quot;), as_date(&quot;2023-02-28&quot;)))
-  ) |&gt;
-  filter(!str_detect(patient_ID, &quot;_2&quot;))
-  </code>
-  </sec>
-  <p>This code filters the ‘inputs_labs_general’ data frame.</p>
-  <list list-type="order">
-    <list-item>
-      <p>Remove rows with LZD use duration less than 3 days.</p>
-    </list-item>
-  </list>
-  <sec id="nb-code-cell-3-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_labs_pipe_1 &lt;- inputs_labs_general |&gt;
-  filter(LZD_end - LZD_start &gt;= 2) |&gt;
-  filter(!str_detect(patient_ID, &quot;_2&quot;))
-  </code>
-  </sec>
-  <p>This code remove ‘patient_ID’ that has no valid ‘test_PLT’ either
-  in 7 days prior to ‘LZD_start’ or during LZD use.</p>
-  <list list-type="order">
-    <list-item>
-      <p>Two rows are added to each ‘patient_ID’ to ensure there is at
-      least one row in both time periods of each patient that can be
-      used for flagging.</p>
-    </list-item>
-    <list-item>
-      <p>‘flag_post_start’ is used to separate two time periods for each
-      ‘patient_ID’. The first period is 7 days prior to ‘LZD_start’ and
-      the second period is during LZD use.</p>
-    </list-item>
-    <list-item>
-      <p>‘flag_too_early’ and ‘flag_post_end’ are used to flag
-      observations that are before 7 days prior to ‘LZD_start’ or after
-      ‘LZD_end’, so ‘test_PLT’ in these periods will not be valid.</p>
-    </list-item>
-    <list-item>
-      <p>‘flag_remove_check’ is used to check if all ‘test_PLT’ values
-      are NAs in each time periods of each ‘patient_ID’. If any time
-      period initially had no rows, the new row added in step 1 will be
-      used. That group will have only one ‘test_PLT’ with the value NA
-      and so the flag will be TRUE. The ‘test_PLT’ in ‘flag_too_early’
-      and ‘flag_post_end’ periods are not included in the check as they
-      are not valid.</p>
-    </list-item>
-    <list-item>
-      <p>For each ‘patient_ID’, if any ‘flag_remove_check’ is TRUE, all
-      rows of that ‘patient_ID’ will be removed.</p>
-    </list-item>
-    <list-item>
-      <p>Finally, rows with ‘flag_temp’ as TRUE are removed. These rows
-      were added in step 1 and are no longer needed. The column itself
-      is also removed.</p>
-    </list-item>
-  </list>
-  <sec id="nb-code-cell-4-nb-4" specific-use="notebook-code">
-  <code language="r script"># Helper function to add new rows to each group in a data frame.
-# reframe() generate new rows where its arguments are variables in the data frame.
-# bind_rows() bind the new rows to the original data frame.
-# group_modify() apply the previous functions to each group in a data frame.
-add_reframe_rows &lt;- function(.data, ...) {
-  group_modify(.data, function(x, y) {
-    bind_rows(x, reframe(x, ...))
-  })
-}
-
-inputs_labs_cleaned &lt;- inputs_labs_pipe_1 |&gt;
-  group_by(patient_ID) |&gt;
-  arrange(test_date, .by_group = TRUE) |&gt;
-  add_reframe_rows(test_date = min(test_date) - 100, LZD_start = min(LZD_start), flag_temp = TRUE) |&gt;
-  add_reframe_rows(test_date = max(test_date) + 100, LZD_start = max(LZD_start), flag_temp = TRUE) |&gt;
-  mutate(
-    flag_too_early = test_date &lt;= LZD_start - 8,
-    flag_post_start = test_date &gt;= LZD_start + 1,
-    flag_post_end = test_date &gt;= LZD_end + 1
-  ) |&gt;
-  group_by(patient_ID, flag_post_start) |&gt;
-  mutate(flag_remove_check = all(is.na(test_PLT[which((!flag_too_early &amp; !flag_post_end) | flag_temp)]))) |&gt;
-  group_by(patient_ID) |&gt;
-  filter(!any(flag_remove_check)) |&gt;
-  filter(is.na(flag_temp)) |&gt;
-  select(-flag_temp)
-  </code>
-  </sec>
-  <p>inner_join() keeps only patients present in both data frames,
-  essentially removing patients without lab tests or other
-  comorbidity/medication data.</p>
-  <sec id="nb-code-cell-5-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_cleaned_joined &lt;-
-  inner_join(inputs_cleaned, inputs_labs_cleaned)
-  </code>
-  <sec id="nb-code-cell-5-output-0-nb-4" specific-use="notebook-output">
-  <preformat>Joining with `by = join_by(patient_ID, LZD_start, LZD_end)`</preformat>
-  </sec>
-  </sec>
-</sec>
-<sec id="mutating-nb-4">
-  <title>Mutating</title>
-  <p>This code flags ‘patient_ID’ that had at least one thrombocytopenia
-  event during LZD use.</p>
-  <p>Thrombocytopenia is defined as follows:</p>
-  <list list-type="alpha-lower">
-    <list-item>
-      <p>If baseline PLT is normal (150-450), then thrombocytopenia is
-      defined as PLT &lt; 112.5.</p>
-    </list-item>
-    <list-item>
-      <p>If baseline PLT is low (&lt; 150), then thrombocytopenia is
-      defined as PLT &lt;= 75% of baseline.</p>
-    </list-item>
-  </list>
-  <p>Baseline date is defined as the latest ‘test_date’ before
-  ‘LZD_start’ that has a non-NA ‘test_PLT.’</p>
-  <p>This ‘test_date’ must be within 7 days before ‘LZD_start’, which
-  means ‘flag_too_early’ must be FALSE.</p>
-  <p>The code performs the following operations: 1. Groups the data by
-  ‘patient_ID’. 2. Flags all ‘test_date’ after the baseline date.
-  Baseline is defined above. 3. Flags all ‘test_date’ that meet the
-  thrombocytopenia definition. This is an ADR event. 4. Flags all
-  ‘patient_ID’ that have at least one thrombocytopenia ADR event during
-  LZD use.</p>
-  <p>Notes: max(which()) finds the index of the last TRUE value in a
-  logical vector.</p>
-  <p>while which.max() finds the index of the first TRUE value in a
-  logical vector.</p>
-  <sec id="nb-code-cell-6-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_analyze_1 &lt;- inputs_cleaned_joined |&gt;
-  group_by(patient_ID) |&gt;
-  mutate(
-    flag_too_late = test_date &gt;= LZD_end + 6,
-    flag_post_baseline = test_date &gt;= test_date[max(which(test_date &lt;= LZD_start &amp; !is.na(test_PLT) &amp; !flag_too_early))],
-    test_ADR_TP = flag_post_baseline &amp; !flag_too_late &amp; (
-      (test_PLT[which.max(flag_post_baseline)] &gt;= 150 &amp; test_PLT &lt;= 112.5) |
-        (test_PLT[which.max(flag_post_baseline)] &lt; 150 &amp; test_PLT &lt;= 0.75 * test_PLT[which.max(flag_post_baseline)])
-    ),
-    flag_ADR_TP_ID = any(test_ADR_TP, na.rm = TRUE)
-  )
-  </code>
-  </sec>
-  <p>This code adds a new column ‘test_CTCAE’ based on the Common
-  Terminology Criteria for Adverse Events (CTCAE) for decreased platelet
-  count.</p>
-  <p>If ‘test_ADR_TP’ is TRUE, it assigns a value to ‘test_CTCAE’ based
-  on the ‘test_PLT’ column.</p>
-  <list list-type="alpha-lower">
-    <list-item>
-      <p>If ‘test_PLT’ is less than 25, ‘test_CTCAE’ is assigned a value
-      of 4.</p>
-    </list-item>
-    <list-item>
-      <p>If ‘test_PLT’ is between 25 and 50, ‘test_CTCAE’ is assigned a
-      value of 3.</p>
-    </list-item>
-    <list-item>
-      <p>If ‘test_PLT’ is between 50 and 75, ‘test_CTCAE’ is assigned a
-      value of 2.</p>
-    </list-item>
-    <list-item>
-      <p>If ‘test_PLT’ is between 75 and 150, ‘test_CTCAE’ is assigned a
-      value of 1.</p>
-    </list-item>
-  </list>
-  <p>If ‘test_ADR_TP’ is FALSE, ‘test_CTCAE’ is assigned NA.</p>
-  <p>Finally, ‘test_CTCAE_max’ is assigned the maximum value of
-  ‘test_CTCAE’ for each ‘patient_ID’.</p>
-  <sec id="nb-code-cell-7-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_analyze_2 &lt;- inputs_analyze_1 |&gt;
-  mutate(
-    test_CTCAE =
-      if_else(
-        test_ADR_TP,
-        case_when(
-          test_PLT &lt; 25 ~ 4,
-          test_PLT &lt; 50 ~ 3,
-          test_PLT &lt; 75 ~ 2,
-          test_PLT &lt; 150 ~ 1
-        ),
-        NA_real_
-      ),
-    ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE),
-    ADR_CTCAE_max = na_if(ADR_CTCAE_max, -Inf)
-  )
-  </code>
-  <sec id="nb-code-cell-7-output-0-nb-4" specific-use="notebook-output">
-  <preformat>Warning: There were 638 warnings in `mutate()`.
-The first warning was:
-ℹ In argument: `ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE)`.
-ℹ In group 1: `patient_ID = &quot;000847&quot;`.
-Caused by warning in `max()`:
-! no non-missing arguments to max; returning -Inf
-ℹ Run `dplyr::last_dplyr_warnings()` to see the 637 remaining warnings.</preformat>
-  </sec>
-  </sec>
-  <p>This code adds a new column ‘test_onset’, which is the number of
-  days from ‘LZD_start’ to the thrombocytopenia event.</p>
-  <p>If ‘test_ADR_TP’ is TRUE, ‘test_onset’ is assigned the value of
-  ‘test_date’ minus ‘LZD_start’.</p>
-  <p>If ‘test_ADR_TP’ is FALSE, ‘test_onset’ is assigned NA.</p>
-  <p>Finally, ‘test_onset_first’ is assigned the first non-NA value of
-  ‘test_onset’ for each ‘patient_ID’.</p>
-  <sec id="nb-code-cell-8-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_analyze_3 &lt;- inputs_analyze_2 |&gt;
-  mutate(
-    ADR_onset =
-      if_else(
-        test_ADR_TP,
-        as.double(test_date - LZD_start),
-        NA_real_
-      ),
-    ADR_onset_first = first(na.omit(ADR_onset))
-  )
-  </code>
-  </sec>
-  <p>This code adds a new column ‘test_PLT_ratio’, which is the ratio of
-  the minimum ‘test_PLT’ to the baseline ‘test_PLT’.</p>
-  <p>If ‘flag_ADR_TP_ID’ is TRUE, ‘test_PLT_ratio’ is assigned the value
-  of the ratio.</p>
-  <p>If ‘flag_ADR_TP_ID’ is FALSE, ‘test_PLT_ratio’ is assigned NA.</p>
-  <sec id="nb-code-cell-9-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_analyze_4 &lt;- inputs_analyze_3 |&gt;
-  mutate(
-    ADR_PLT_ratio =
-      if_else(
-        flag_ADR_TP_ID,
-        test_PLT[which.min(test_PLT)] / test_PLT[which.max(flag_post_baseline)],
-        NA_real_
-      )
-  )
-  </code>
-  </sec>
-  <p>Changes existing data to get values from data_lab_test instead of
-  relying on data_patient The code also removes duplicates and sorts the
-  data by ‘site’ and ‘patient_ID’.</p>
-  <sec id="nb-code-cell-10-nb-4" specific-use="notebook-code">
-  <code language="r script">inputs_analyze_5 &lt;- inputs_analyze_4 |&gt;
-  mutate(
-    LZD_duration = as.numeric(LZD_end - LZD_start) + 1,
-    baseline_date = test_date[which.max(flag_post_baseline)],
-    baseline_PLT = test_PLT[which.max(flag_post_baseline)],
-    baseline_HGB = test_HGB[which.max(flag_post_baseline)],
-    baseline_WBC = test_WBC[which.max(flag_post_baseline)],
-    ADR_PLT_min = min(test_PLT[which.max(flag_post_baseline) + 1:max(which(flag_post_baseline))], na.rm = TRUE),
-  ) 
-  </code>
-  </sec>
-</sec>
-<sec id="outputs-nb-4">
-  <title>Outputs</title>
-  <p>This code prepares the final data for analysis and exports it to
-  the ‘data-cleaned’ directory.</p>
-  <list list-type="order">
-    <list-item>
-      <p>The ‘data_patient_complete’ data frame contains only the first
-      complete row of each ‘patient_ID’ in ‘data_complete’.</p>
-    </list-item>
-  </list>
-  <list list-type="bullet">
-    <list-item>
-      <p>Patients with any missing initial data are removed.</p>
-    </list-item>
-    <list-item>
-      <p>Patients with baseline PLT &gt; 450 are removed.</p>
-    </list-item>
-    <list-item>
-      <p>The ‘data_patient_complete’ data frame is used for
-      patient-level analysis.</p>
-    </list-item>
-  </list>
-  <list list-type="order">
-    <list-item>
-      <label>2.</label>
-      <p>The ‘data_complete’ data frame contains all the cleaned and
-      filtered data.</p>
-    </list-item>
-  </list>
-  <list list-type="bullet">
-    <list-item>
-      <p>The ‘data_complete’ data frame is used for event-level
-      analysis.</p>
-    </list-item>
-  </list>
-  <sec id="nb-code-cell-11-nb-4" specific-use="notebook-code">
-  <code language="r script">data_patient_complete &lt;- inputs_analyze_5 |&gt;
-  arrange(site, patient_ID) |&gt;
-  slice_head(n = 1) |&gt;
-  select(-starts_with(&quot;test&quot;)) |&gt;
-  filter(complete.cases(across(-starts_with(&quot;ADR&quot;)))) |&gt;
-  filter(baseline_PLT &lt;= 450) |&gt;
-  ungroup()
-
-data_complete &lt;- inputs_analyze_5 |&gt;
-  filter(patient_ID %in% data_patient_complete$patient_ID) |&gt;
-  ungroup()
-
-write_csv(data_complete, &quot;data/data-cleaned/data-complete.csv&quot;)
-write_csv(data_patient_complete, &quot;data/data-cleaned/data-patient-complete.csv&quot;)
-
-save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-cleaned.rda&quot;)
-  </code>
-  </sec>
-</sec>
-</body>
-
-
-
-<back>
-</back>
-
-
-</sub-article>
-<sub-article article-type="notebook" id="nb-20-nb-5">
-<front-stub>
 <title-group>
 <article-title>Model Development and Apparent Validation</article-title>
 </title-group>
 </front-stub>
 
 <body>
-<sec id="nb-code-cell-1-nb-5" specific-use="notebook-code">
+<sec id="nb-code-cell-1-nb-3" specific-use="notebook-code">
 <code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
 </code>
 <code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
-<sec id="nb-code-cell-1-output-0-nb-5" specific-use="notebook-output">
+<sec id="nb-code-cell-1-output-0-nb-3" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -4943,11 +4540,11 @@ save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-c
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
 </sec>
 </sec>
-<sec id="penalized-likelihood-methods-nb-5">
+<sec id="penalized-likelihood-methods-nb-3">
   <title>Penalized Likelihood Methods</title>
-  <sec id="backwards-stepwise-logistic-regression-nb-5">
+  <sec id="backwards-stepwise-logistic-regression-nb-3">
     <title>Backwards Stepwise Logistic Regression</title>
-    <sec id="nb-code-cell-2-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-2-nb-3" specific-use="notebook-code">
     <code language="r script"># library(StepReg)
 # run_stepwise_logit &lt;- function(data, formula) {
 #   stepwiseLogit(
@@ -4968,7 +4565,7 @@ save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-c
 # stepwise_model |&gt; summary()
     </code>
     </sec>
-    <sec id="nb-code-cell-3-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-3-nb-3" specific-use="notebook-code">
     <code language="r script">run_step_AIC &lt;- function(data, formula) {
   MASS::stepAIC(
     glm(
@@ -4988,15 +4585,15 @@ stepwise_model &lt;- data_patient_complete |&gt;
 
 stepwise_model$coefficients |&gt; length()
     </code>
-    <sec id="nb-code-cell-3-output-0-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-3-output-0-nb-3" specific-use="notebook-output">
     <preformat>[1] 18</preformat>
     </sec>
     </sec>
     <p>Results: Stepwise algorithm selected 17 predictors.</p>
   </sec>
-  <sec id="lasso-variable-selection-nb-5">
+  <sec id="lasso-variable-selection-nb-3">
     <title>LASSO Variable Selection</title>
-    <sec id="nb-code-cell-4-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-4-nb-3" specific-use="notebook-code">
     <code language="r script">library(glmnet)
     </code>
     <code language="r script">predictor_matrix &lt;- data_patient_complete |&gt;
@@ -5012,34 +4609,61 @@ lasso_fit &lt;- glmnet(
   family = &quot;binomial&quot;,
   alpha = 1
 )
-
-cv_lasso_fit &lt;- cv.glmnet(
+    </code>
+    <code language="r script">cv_lasso_fit &lt;- cv.glmnet(
   x = predictor_matrix,
   y = response_matrix,
   family = &quot;binomial&quot;,
   alpha = 1,
   nfolds = 5
 )
-
-coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |&gt; length() - 1
     </code>
-    <sec id="nb-code-cell-4-output-0-nb-5" specific-use="notebook-output">
+    <code language="r script">coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |&gt; length() - 1
+    </code>
+    <sec id="nb-code-cell-4-output-0-nb-3" specific-use="notebook-output">
     <preformat>Loading required package: Matrix</preformat>
     </sec>
-    <sec id="nb-code-cell-4-output-1-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-4-output-1-nb-3" specific-use="notebook-output">
     <preformat>
 Attaching package: 'Matrix'</preformat>
     </sec>
-    <sec id="nb-code-cell-4-output-2-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-4-output-2-nb-3" specific-use="notebook-output">
     <preformat>The following objects are masked from 'package:tidyr':
 
     expand, pack, unpack</preformat>
     </sec>
-    <sec id="nb-code-cell-4-output-3-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-4-output-3-nb-3" specific-use="notebook-output">
     <preformat>Loaded glmnet 4.1-8</preformat>
     </sec>
-    <sec id="nb-code-cell-4-output-4-nb-5" specific-use="notebook-output">
-    <preformat>[1] 20</preformat>
+    <sec id="nb-code-cell-4-output-4-nb-3" specific-use="notebook-output">
+    <preformat>Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion</preformat>
+    </sec>
+    <sec id="nb-code-cell-4-output-5-nb-3" specific-use="notebook-output">
+    <preformat>Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion
+
+Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion
+
+Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion
+
+Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion
+
+Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion
+
+Warning in storage.mode(xd) &lt;- &quot;double&quot;: NAs introduced by coercion</preformat>
+    </sec>
+    <sec id="nb-code-cell-4-output-6-nb-3" specific-use="notebook-output">
+    <preformat>Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+
+Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+
+Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+
+Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+
+Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</preformat>
+    </sec>
+    <sec id="nb-code-cell-4-output-7-nb-3" specific-use="notebook-output">
+    <preformat>[1] 7</preformat>
     </sec>
     </sec>
     <p>Results: LASSO algorithm selected 22-25 predictors.</p>
@@ -5048,169 +4672,163 @@ Attaching package: 'Matrix'</preformat>
     more predictors.</p>
   </sec>
 </sec>
-<sec id="bayesian-model-selection-nb-5">
+<sec id="bayesian-model-selection-nb-3">
   <title>Bayesian Model Selection</title>
-  <sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
-  <code language="r script">multi_model &lt;- data_patient_complete |&gt;
-  select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
+  <sec id="nb-code-cell-5-nb-3" specific-use="notebook-code">
+  <code language="r script"># multi_model &lt;- data_patient_complete |&gt;
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
+#   run_bas_glm(
+#     formula = flag_ADR_TP_ID ~ .,
+#     include.always = ~1
+#   )
+
+# summary(multi_model)
+# plot(multi_model)
+# image(multi_model, rotate = FALSE)
+# diagnostics(multi_model)
+
+multi_model_transformed &lt;- data_patient_transformed |&gt;
+  select(all_of(predictor_transformed), flag_ADR_TP_ID) |&gt;
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
-    include.always = ~1
+    include.always = ~1 + comed_heparin
   )
 
-summary(multi_model)
+summary(multi_model_transformed)
   </code>
-  <code language="r script">plot(multi_model)
+  <code language="r script">plot(multi_model_transformed)
   </code>
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-1.png" />
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-2.png" />
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-3.png" />
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-4.png" />
-  <code language="r script">image(multi_model, rotate = FALSE)
+  <code language="r script">image(multi_model_transformed, rotate = FALSE)
   </code>
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-5.png" />
-  <code language="r script">diagnostics(multi_model)
+  <code language="r script">diagnostics(multi_model_transformed)
   </code>
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-6.png" />
   <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-5-7.png" />
-  <code language="r script">multi_predict_HPM &lt;- variable.names(predict(multi_model, estimator = &quot;HPM&quot;))[-1] |&gt;
-  str_extract(paste(predictor_list, collapse = &quot;|&quot;)) # highest probability model
-multi_predict_BPM &lt;- variable.names(predict(multi_model, estimator = &quot;BPM&quot;))[-1] |&gt;
-  str_extract(paste(predictor_list, collapse = &quot;|&quot;)) # best predictive model, this model is weird
+  <code language="r script">multi_predict_HPM &lt;- variable.names(predict(multi_model_transformed, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(predictor_transformed, collapse = &quot;|&quot;)) # highest probability model
+multi_predict_BPM &lt;- variable.names(predict(multi_model_transformed, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(predictor_transformed, collapse = &quot;|&quot;)) # best predictive model, this model is weird
   </code>
-  <sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
-  <preformat>                         P(B != 0 | Y)   model 1      model 2       model 3
-Intercept                  1.000000000    1.0000    1.0000000    1.00000000
-patient_age                0.777185584    1.0000    1.0000000    1.00000000
-patient_sexTRUE            0.004702920    0.0000    0.0000000    0.00000000
-LZD_dose_per_weight        0.004651245    0.0000    0.0000000    0.00000000
-baseline_CLCR              0.324502893    0.0000    0.0000000    0.00000000
-dept_ERTRUE                0.004350595    0.0000    0.0000000    0.00000000
-dept_ICUTRUE               0.011327065    0.0000    0.0000000    0.00000000
-baseline_HGB               0.335547265    1.0000    0.0000000    0.00000000
-baseline_WBC               0.016698870    0.0000    0.0000000    0.00000000
-baseline_PLT               1.000000000    1.0000    1.0000000    1.00000000
-LZD_duration               0.999592216    1.0000    1.0000000    1.00000000
-invasive_ETITRUE           0.123755560    0.0000    0.0000000    0.00000000
-invasive_CVCTRUE           0.495975716    1.0000    1.0000000    0.00000000
-invasive_IHDTRUE           0.007052467    0.0000    0.0000000    0.00000000
-invasive_CRRTTRUE          0.980624165    1.0000    1.0000000    1.00000000
-comorb_HTNTRUE             0.004994055    0.0000    0.0000000    0.00000000
-comorb_DMTRUE              0.007765659    0.0000    0.0000000    0.00000000
-comorb_HFTRUE              0.086146120    0.0000    0.0000000    0.00000000
-comorb_anginaTRUE          0.004743809    0.0000    0.0000000    0.00000000
-comorb_cirrTRUE            0.087489684    0.0000    0.0000000    0.00000000
-comorb_COPDTRUE            0.014796723    0.0000    0.0000000    0.00000000
-comorb_CVATRUE             0.012315377    0.0000    0.0000000    0.00000000
-comorb_MITRUE              0.010243471    0.0000    0.0000000    0.00000000
-comorb_KTRUE               0.004298879    0.0000    0.0000000    0.00000000
-comorb_hematologicalTRUE   0.013144375    0.0000    0.0000000    0.00000000
-comorb_hemaTRUE            0.005341122    0.0000    0.0000000    0.00000000
-infect_sepsisTRUE          0.047032219    0.0000    0.0000000    0.00000000
-infect_CAPTRUE             0.007911935    0.0000    0.0000000    0.00000000
-infect_HAPTRUE             0.017142851    0.0000    0.0000000    0.00000000
-infect_SSTITRUE            0.019283846    0.0000    0.0000000    0.00000000
-infect_CNSTRUE             0.004473430    0.0000    0.0000000    0.00000000
-infect_IAITRUE             0.004554536    0.0000    0.0000000    0.00000000
-infect_UTITRUE             0.005508492    0.0000    0.0000000    0.00000000
-infect_BJITRUE             0.007679057    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE      0.205998227    0.0000    0.0000000    0.00000000
-comed_aspirinTRUE          0.004292326    0.0000    0.0000000    0.00000000
-comed_diclofenacTRUE       0.005130676    0.0000    0.0000000    0.00000000
-comed_ibuprofenTRUE        0.005076847    0.0000    0.0000000    0.00000000
-comed_paracetamolTRUE      0.005573385    0.0000    0.0000000    0.00000000
-comed_penicillinTRUE       0.008345627    0.0000    0.0000000    0.00000000
-comed_cephaTRUE            0.008714237    0.0000    0.0000000    0.00000000
-comed_carbapenemTRUE       0.005457606    0.0000    0.0000000    0.00000000
-comed_cotrimoxazolTRUE     0.067950416    0.0000    0.0000000    0.00000000
-comed_vancomycinTRUE       0.029324862    0.0000    0.0000000    0.00000000
-comed_levofloxacinTRUE     0.004322301    0.0000    0.0000000    0.00000000
-comed_teicoplaninTRUE      0.012605173    0.0000    0.0000000    0.00000000
-comed_ethambutolTRUE       0.004639725    0.0000    0.0000000    0.00000000
-comed_pyrazinamidTRUE      0.010691892    0.0000    0.0000000    0.00000000
-comed_rifampinTRUE         0.010331299    0.0000    0.0000000    0.00000000
-comed_heparinTRUE          0.059949496    0.0000    0.0000000    0.00000000
-comed_clopidogrelTRUE      0.015786172    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE       0.005822821    0.0000    0.0000000    0.00000000
-comed_dexamethasonTRUE     0.007451354    0.0000    0.0000000    0.00000000
-comed_amiodaronTRUE        0.029323208    0.0000    0.0000000    0.00000000
-comed_furosemidTRUE        0.162352557    0.0000    0.0000000    0.00000000
-comed_haloperidolTRUE      0.007307944    0.0000    0.0000000    0.00000000
-comed_valproicTRUE         0.004565279    0.0000    0.0000000    0.00000000
-BF                                  NA    1.0000    0.1151729    0.01021057
-PostProbs                           NA    0.0481    0.0471000    0.04340000
-R2                                  NA    0.1838    0.1745000    0.16450000
-dim                                 NA    7.0000    6.0000000    5.00000000
-logmarg                             NA -439.7101 -441.8714407 -444.29445157
-                               model 4       model 5
-Intercept                 1.000000e+00    1.00000000
-patient_age               0.000000e+00    1.00000000
-patient_sexTRUE           0.000000e+00    0.00000000
-LZD_dose_per_weight       0.000000e+00    0.00000000
-baseline_CLCR             1.000000e+00    0.00000000
-dept_ERTRUE               0.000000e+00    0.00000000
-dept_ICUTRUE              0.000000e+00    0.00000000
-baseline_HGB              0.000000e+00    1.00000000
-baseline_WBC              0.000000e+00    0.00000000
-baseline_PLT              1.000000e+00    1.00000000
-LZD_duration              1.000000e+00    1.00000000
-invasive_ETITRUE          0.000000e+00    0.00000000
-invasive_CVCTRUE          0.000000e+00    0.00000000
-invasive_IHDTRUE          0.000000e+00    0.00000000
-invasive_CRRTTRUE         1.000000e+00    1.00000000
-comorb_HTNTRUE            0.000000e+00    0.00000000
-comorb_DMTRUE             0.000000e+00    0.00000000
-comorb_HFTRUE             0.000000e+00    0.00000000
-comorb_anginaTRUE         0.000000e+00    0.00000000
-comorb_cirrTRUE           0.000000e+00    0.00000000
-comorb_COPDTRUE           0.000000e+00    0.00000000
-comorb_CVATRUE            0.000000e+00    0.00000000
-comorb_MITRUE             0.000000e+00    0.00000000
-comorb_KTRUE              0.000000e+00    0.00000000
-comorb_hematologicalTRUE  0.000000e+00    0.00000000
-comorb_hemaTRUE           0.000000e+00    0.00000000
-infect_sepsisTRUE         0.000000e+00    0.00000000
-infect_CAPTRUE            0.000000e+00    0.00000000
-infect_HAPTRUE            0.000000e+00    0.00000000
-infect_SSTITRUE           0.000000e+00    0.00000000
-infect_CNSTRUE            0.000000e+00    0.00000000
-infect_IAITRUE            0.000000e+00    0.00000000
-infect_UTITRUE            0.000000e+00    0.00000000
-infect_BJITRUE            0.000000e+00    0.00000000
-infect_septicemiaTRUE     0.000000e+00    0.00000000
-comed_aspirinTRUE         0.000000e+00    0.00000000
-comed_diclofenacTRUE      0.000000e+00    0.00000000
-comed_ibuprofenTRUE       0.000000e+00    0.00000000
-comed_paracetamolTRUE     0.000000e+00    0.00000000
-comed_penicillinTRUE      0.000000e+00    0.00000000
-comed_cephaTRUE           0.000000e+00    0.00000000
-comed_carbapenemTRUE      0.000000e+00    0.00000000
-comed_cotrimoxazolTRUE    0.000000e+00    0.00000000
-comed_vancomycinTRUE      0.000000e+00    0.00000000
-comed_levofloxacinTRUE    0.000000e+00    0.00000000
-comed_teicoplaninTRUE     0.000000e+00    0.00000000
-comed_ethambutolTRUE      0.000000e+00    0.00000000
-comed_pyrazinamidTRUE     0.000000e+00    0.00000000
-comed_rifampinTRUE        0.000000e+00    0.00000000
-comed_heparinTRUE         0.000000e+00    0.00000000
-comed_clopidogrelTRUE     0.000000e+00    0.00000000
-comed_enoxaparinTRUE      0.000000e+00    0.00000000
-comed_dexamethasonTRUE    0.000000e+00    0.00000000
-comed_amiodaronTRUE       0.000000e+00    0.00000000
-comed_furosemidTRUE       0.000000e+00    0.00000000
-comed_haloperidolTRUE     0.000000e+00    0.00000000
-comed_valproicTRUE        0.000000e+00    0.00000000
-BF                        5.935666e-03    0.05614118
-PostProbs                 2.520000e-02    0.02290000
-R2                        1.634000e-01    0.17310000
-dim                       5.000000e+00    6.00000000
-logmarg                  -4.448369e+02 -442.59000543</preformat>
+  <sec id="nb-code-cell-5-output-0-nb-3" specific-use="notebook-output">
+  <preformat>                         P(B != 0 | Y)      model 1      model 2   model 3
+Intercept                  1.000000000    1.0000000    1.0000000    1.0000
+patient_age                0.752904592    1.0000000    1.0000000    1.0000
+patient_sexTRUE            0.007764627    0.0000000    0.0000000    0.0000
+patient_weight             0.007803794    0.0000000    0.0000000    0.0000
+baseline_CLCR_30TRUE       0.850606270    1.0000000    1.0000000    1.0000
+dept_ERTRUE                0.007257092    0.0000000    0.0000000    0.0000
+dept_ICUTRUE               0.009713776    0.0000000    0.0000000    0.0000
+baseline_HGB               0.071223913    0.0000000    0.0000000    0.0000
+baseline_WBC               0.019030832    0.0000000    0.0000000    0.0000
+baseline_PLT               1.000000000    1.0000000    1.0000000    1.0000
+LZD_duration_14TRUE        0.946269117    1.0000000    1.0000000    1.0000
+LZD_routeIV&amp;PO             0.009433249    0.0000000    0.0000000    0.0000
+LZD_routePO                0.007116572    0.0000000    0.0000000    0.0000
+invasive_ETITRUE           0.168051158    0.0000000    0.0000000    0.0000
+invasive_CVCTRUE           0.536522455    0.0000000    1.0000000    1.0000
+invasive_IHDTRUE           0.015908598    0.0000000    0.0000000    0.0000
+invasive_CRRTTRUE          0.671071991    1.0000000    0.0000000    0.0000
+comorb_HTNTRUE             0.008239192    0.0000000    0.0000000    0.0000
+comorb_DMTRUE              0.015171096    0.0000000    0.0000000    0.0000
+comorb_HFTRUE              0.073327970    0.0000000    0.0000000    0.0000
+comorb_anginaTRUE          0.007077564    0.0000000    0.0000000    0.0000
+comorb_cirrTRUE            0.352351859    0.0000000    0.0000000    1.0000
+comorb_COPDTRUE            0.021165814    0.0000000    0.0000000    0.0000
+comorb_CVATRUE             0.023209972    0.0000000    0.0000000    0.0000
+comorb_MITRUE              0.014849222    0.0000000    0.0000000    0.0000
+comorb_KTRUE               0.007050386    0.0000000    0.0000000    0.0000
+comorb_hematologicalTRUE   0.018711311    0.0000000    0.0000000    0.0000
+comorb_hemaTRUE            0.007629954    0.0000000    0.0000000    0.0000
+infect_sepsisTRUE          0.032967270    0.0000000    0.0000000    0.0000
+infect_CAPTRUE             0.011061103    0.0000000    0.0000000    0.0000
+infect_HAPTRUE             0.024004554    0.0000000    0.0000000    0.0000
+infect_SSTITRUE            0.030295412    0.0000000    0.0000000    0.0000
+infect_CNSTRUE             0.007288401    0.0000000    0.0000000    0.0000
+infect_IAITRUE             0.007144973    0.0000000    0.0000000    0.0000
+infect_UTITRUE             0.007760702    0.0000000    0.0000000    0.0000
+infect_BJITRUE             0.010788743    0.0000000    0.0000000    0.0000
+infect_septicemiaTRUE      0.239595348    0.0000000    0.0000000    0.0000
+comed_ibuprofenTRUE        0.009439256    0.0000000    0.0000000    0.0000
+comed_carbapenemTRUE       0.008160087    0.0000000    0.0000000    0.0000
+comed_vancomycinTRUE       0.045709684    0.0000000    0.0000000    0.0000
+comed_levofloxacinTRUE     0.007132446    0.0000000    0.0000000    0.0000
+comed_teicoplaninTRUE      0.019272575    0.0000000    0.0000000    0.0000
+comed_pyrazinamidTRUE      0.014890933    0.0000000    0.0000000    0.0000
+comed_rifampinTRUE         0.015019760    0.0000000    0.0000000    0.0000
+comed_heparinTRUE          1.000000000    1.0000000    1.0000000    1.0000
+comed_clopidogrelTRUE      0.025189364    0.0000000    0.0000000    0.0000
+comed_enoxaparinTRUE       0.007968411    0.0000000    0.0000000    0.0000
+comed_valproicTRUE         0.010363300    0.0000000    0.0000000    0.0000
+BF                                  NA    0.2230867    0.1862339    1.0000
+PostProbs                           NA    0.0425000    0.0355000    0.0279
+R2                                  NA           NA           NA        NA
+dim                                 NA    7.0000000    7.0000000    8.0000
+logmarg                             NA -445.8853099 -446.0658674 -444.3851
+                               model 4      model 5
+Intercept                   1.00000000    1.0000000
+patient_age                 0.00000000    1.0000000
+patient_sexTRUE             0.00000000    0.0000000
+patient_weight              0.00000000    0.0000000
+baseline_CLCR_30TRUE        1.00000000    1.0000000
+dept_ERTRUE                 0.00000000    0.0000000
+dept_ICUTRUE                0.00000000    0.0000000
+baseline_HGB                0.00000000    0.0000000
+baseline_WBC                0.00000000    0.0000000
+baseline_PLT                1.00000000    1.0000000
+LZD_duration_14TRUE         1.00000000    1.0000000
+LZD_routeIV&amp;PO              0.00000000    0.0000000
+LZD_routePO                 0.00000000    0.0000000
+invasive_ETITRUE            0.00000000    0.0000000
+invasive_CVCTRUE            1.00000000    1.0000000
+invasive_IHDTRUE            0.00000000    0.0000000
+invasive_CRRTTRUE           0.00000000    1.0000000
+comorb_HTNTRUE              0.00000000    0.0000000
+comorb_DMTRUE               0.00000000    0.0000000
+comorb_HFTRUE               0.00000000    0.0000000
+comorb_anginaTRUE           0.00000000    0.0000000
+comorb_cirrTRUE             0.00000000    0.0000000
+comorb_COPDTRUE             0.00000000    0.0000000
+comorb_CVATRUE              0.00000000    0.0000000
+comorb_MITRUE               0.00000000    0.0000000
+comorb_KTRUE                0.00000000    0.0000000
+comorb_hematologicalTRUE    0.00000000    0.0000000
+comorb_hemaTRUE             0.00000000    0.0000000
+infect_sepsisTRUE           0.00000000    0.0000000
+infect_CAPTRUE              0.00000000    0.0000000
+infect_HAPTRUE              0.00000000    0.0000000
+infect_SSTITRUE             0.00000000    0.0000000
+infect_CNSTRUE              0.00000000    0.0000000
+infect_IAITRUE              0.00000000    0.0000000
+infect_UTITRUE              0.00000000    0.0000000
+infect_BJITRUE              0.00000000    0.0000000
+infect_septicemiaTRUE       0.00000000    0.0000000
+comed_ibuprofenTRUE         0.00000000    0.0000000
+comed_carbapenemTRUE        0.00000000    0.0000000
+comed_vancomycinTRUE        0.00000000    0.0000000
+comed_levofloxacinTRUE      0.00000000    0.0000000
+comed_teicoplaninTRUE       0.00000000    0.0000000
+comed_pyrazinamidTRUE       0.00000000    0.0000000
+comed_rifampinTRUE          0.00000000    0.0000000
+comed_heparinTRUE           1.00000000    1.0000000
+comed_clopidogrelTRUE       0.00000000    0.0000000
+comed_enoxaparinTRUE        0.00000000    0.0000000
+comed_valproicTRUE          0.00000000    0.0000000
+BF                          0.01652402    0.8425264
+PostProbs                   0.02650000    0.0235000
+R2                                  NA           NA
+dim                         6.00000000    8.0000000
+logmarg                  -448.48805542 -444.5564656</preformat>
   </sec>
   </sec>
-  <sec id="nb-code-cell-6-nb-5" specific-use="notebook-code">
+  <sec id="nb-code-cell-6-nb-3" specific-use="notebook-code">
   <code language="r script">library(tidymodels)
   </code>
-  <code language="r script">data_patient_complete_response_as_factor &lt;- data_patient_complete |&gt;
+  <code language="r script">data_patient_transformed_response_as_factor &lt;- data_patient_transformed |&gt;
   mutate(
     flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
   )
@@ -5223,13 +4841,13 @@ model_full &lt;- logistic_reg() |&gt;
       termlabels = multi_predict_HPM,
       response = &quot;flag_ADR_TP_ID&quot;
     ),
-    data = data_patient_complete_response_as_factor
+    data = data_patient_transformed_response_as_factor
   )
   </code>
-  <sec id="nb-code-cell-6-output-0-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-6-output-0-nb-3" specific-use="notebook-output">
   <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
   </sec>
-  <sec id="nb-code-cell-6-output-1-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-6-output-1-nb-3" specific-use="notebook-output">
   <preformat>✔ broom        1.0.5      ✔ rsample      1.2.0 
 ✔ dials        1.2.1      ✔ tune         1.2.0 
 ✔ infer        1.0.6      ✔ workflows    1.1.4 
@@ -5237,7 +4855,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
 ✔ recipes      1.0.10     </preformat>
   </sec>
-  <sec id="nb-code-cell-6-output-2-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-6-output-2-nb-3" specific-use="notebook-output">
   <preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 ✖ scales::discard() masks purrr::discard()
 ✖ Matrix::expand()  masks tidyr::expand()
@@ -5249,13 +4867,13 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
   </sec>
   </sec>
 </sec>
-<sec id="check-model-assumptions-nb-5">
+<sec id="check-model-assumptions-nb-3">
   <title>Check Model Assumptions</title>
-  <sec id="linearity-nb-5">
+  <sec id="linearity-nb-3">
     <title>Linearity</title>
     <p>Visual check of linearity assumption using partial-residual plots
     (component+residual plots).</p>
@@ -5263,26 +4881,23 @@ model_full &lt;- logistic_reg() |&gt;
     <p>Red line: smoothed conditional mean</p>
     <p>The lines should be close together and the red line should be
     linear.</p>
-    <sec id="nb-code-cell-7-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-7-nb-3" specific-use="notebook-code">
     <code language="r script">car::crPlot(model_full$fit, variable = &quot;patient_age&quot;)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-1.png" />
     <code language="r script">car::crPlot(model_full$fit, variable = &quot;baseline_PLT&quot;)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-2.png" />
-    <code language="r script">car::crPlot(model_full$fit, variable = &quot;LZD_duration&quot;)
-    </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-3.png" />
     </sec>
     <p>Result: No obvious non-linearity in the partial-residual
     plots.</p>
     <p>Visual check of linearity assumption using logit of predicted
     probabilities vs. continuous predictors values.</p>
-    <sec id="nb-code-cell-8-nb-5" specific-use="notebook-code">
-    <code language="r script">data_patient_linear_check &lt;- data_patient_complete |&gt;
+    <sec id="nb-code-cell-8-nb-3" specific-use="notebook-code">
+    <code language="r script">data_patient_linear_check &lt;- data_patient_transformed |&gt;
   select(all_of(multi_predict_HPM)) |&gt;
   mutate(
-    probabilities = predict(model_full$fit, data_patient_complete, type = &quot;response&quot;),
+    probabilities = predict(model_full$fit, data_patient_transformed, type = &quot;response&quot;),
     log_odds = log(probabilities / (1 - probabilities))
   ) |&gt;
   select_if(is.numeric) |&gt;
@@ -5296,29 +4911,29 @@ ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
   facet_wrap(~predictors, scales = &quot;free_x&quot;)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-1.png" />
-    <sec id="nb-code-cell-8-output-0-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-8-output-0-nb-3" specific-use="notebook-output">
     <preformat>`geom_smooth()` using formula = 'y ~ x'
 `geom_smooth()` using formula = 'y ~ x'</preformat>
     </sec>
     </sec>
   </sec>
-  <sec id="no-multicollinearity-nb-5">
+  <sec id="no-multicollinearity-nb-3">
     <title>No Multicollinearity</title>
     <p>VIFs from the coefficient estimates should be less than 5 and as
     close to 1 as possible.</p>
-    <sec id="nb-code-cell-9-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-9-nb-3" specific-use="notebook-code">
     <code language="r script">car::vif(model_full$fit)
     </code>
-    <sec id="nb-code-cell-9-output-0-nb-5" specific-use="notebook-output">
-    <preformat>  patient_age  baseline_HGB  baseline_PLT  LZD_duration  invasive_CVC 
-     1.047767      1.015409      1.094139      1.102152      1.136600 
-invasive_CRRT 
-     1.129723 </preformat>
+    <sec id="nb-code-cell-9-output-0-nb-3" specific-use="notebook-output">
+    <preformat>     patient_age baseline_CLCR_30     baseline_PLT  LZD_duration_14 
+        1.096006         1.095229         1.044637         1.049860 
+   invasive_CRRT    comed_heparin 
+        1.214228         1.232163 </preformat>
     </sec>
     </sec>
     <p>Result: VIFs are all less than 5 and close to 1.</p>
   </sec>
-  <sec id="no-outlier-effects-nb-5">
+  <sec id="no-outlier-effects-nb-3">
     <title>No Outlier Effects</title>
     <p>Visual check from influence plot.</p>
     <p>Individual observations should not have too much influence on the
@@ -5335,50 +4950,37 @@ invasive_CRRT
         <p>Size of points: Cook’s distance</p>
       </list-item>
     </list>
-    <sec id="nb-code-cell-10-nb-5" specific-use="notebook-code">
+    <sec id="nb-code-cell-10-nb-3" specific-use="notebook-code">
     <code language="r script">car::influencePlot(model_full$fit)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-1.png" />
     <code language="r script"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()
     </code>
-    <sec id="nb-code-cell-10-output-0-nb-5" specific-use="notebook-output">
+    <sec id="nb-code-cell-10-output-0-nb-3" specific-use="notebook-output">
     <preformat>      StudRes         Hat       CookD
-30   1.972941 0.013530192 0.011386152
-229 -1.543583 0.115456843 0.040187659
-310  0.958262 0.055317911 0.004933167
-443  2.494706 0.002698824 0.008077000
-756  2.484277 0.003456496 0.010011110</preformat>
+56  -1.086046 0.024854070 0.002933216
+319 -1.880706 0.017851529 0.012217148
+401  2.502874 0.002941034 0.008967293
+443  2.401687 0.002612749 0.006192461
+524  2.278575 0.007149635 0.012277503
+561  1.043267 0.026451260 0.002817800</preformat>
     </sec>
     </sec>
-    <p>Result: Influential observations identified.</p>
-    <p>DONE: Investigate observations 292, 301, 335, 364, 504, 634.</p>
-    <p>Investigation result:</p>
-    <list list-type="bullet">
-      <list-item>
-        <p>invasive_CVC: 5/6</p>
-      </list-item>
-      <list-item>
-        <p>comed_furosemid: 3/6</p>
-      </list-item>
-      <list-item>
-        <p>infect_septicemia: 3/6</p>
-      </list-item>
-    </list>
-    <p>invasive_CVC might be a predictor.</p>
-    <sec id="nb-code-cell-11-nb-5" specific-use="notebook-code">
-    <code language="r script"># data_patient_complete |&gt;
+    <p>Result:</p>
+    <sec id="nb-code-cell-11-nb-3" specific-use="notebook-code">
+    <code language="r script"># data_patient_transformed |&gt;
 #   slice(c(292, 301, 335, 364, 504, 634)) |&gt; summary()
     </code>
     </sec>
   </sec>
 </sec>
-<sec id="model-performance-nb-5">
+<sec id="model-performance-nb-3">
   <title>Model Performance</title>
-  <sec id="nb-code-cell-12-nb-5" specific-use="notebook-code">
+  <sec id="nb-code-cell-12-nb-3" specific-use="notebook-code">
   <code language="r script">library(CalibrationCurves)
   </code>
-  <code language="r script">pHat &lt;- predict(model_full$fit, data_patient_complete, type = &quot;response&quot;)
-yTest &lt;- data_patient_complete$flag_ADR_TP_ID
+  <code language="r script">pHat &lt;- predict(model_full$fit, data_patient_transformed, type = &quot;response&quot;)
+yTest &lt;- data_patient_transformed$flag_ADR_TP_ID
 calperf &lt;- valProbggplot(pHat, yTest)
 
 apparent_performance_metrics &lt;- tibble(
@@ -5389,33 +4991,33 @@ apparent_performance_metrics &lt;- tibble(
 
 save(apparent_performance_metrics, file = &quot;data/model-performance/apparent-performance-metrics.rda&quot;)
   </code>
-  <sec id="nb-code-cell-12-output-0-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-0-nb-3" specific-use="notebook-output">
   <preformat>Loading required package: rms</preformat>
   </sec>
-  <sec id="nb-code-cell-12-output-1-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-1-nb-3" specific-use="notebook-output">
   <preformat>Loading required package: Hmisc</preformat>
   </sec>
-  <sec id="nb-code-cell-12-output-2-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-2-nb-3" specific-use="notebook-output">
   <preformat>
 Attaching package: 'Hmisc'</preformat>
   </sec>
-  <sec id="nb-code-cell-12-output-3-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-3-nb-3" specific-use="notebook-output">
   <preformat>The following object is masked from 'package:parsnip':
 
     translate</preformat>
   </sec>
-  <sec id="nb-code-cell-12-output-4-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-4-nb-3" specific-use="notebook-output">
   <preformat>The following objects are masked from 'package:dplyr':
 
     src, summarize</preformat>
   </sec>
-  <sec id="nb-code-cell-12-output-5-nb-5" specific-use="notebook-output">
+  <sec id="nb-code-cell-12-output-5-nb-3" specific-use="notebook-output">
   <preformat>The following objects are masked from 'package:base':
 
     format.pval, units</preformat>
   </sec>
   </sec>
-  <sec id="nb-code-cell-13-nb-5" specific-use="notebook-code">
+  <sec id="nb-code-cell-13-nb-3" specific-use="notebook-code">
   <code language="r script">save(model_full, file = &quot;data/model-performance/model-full.rda&quot;)
   </code>
   </sec>
@@ -5429,7 +5031,7 @@ Attaching package: 'Hmisc'</preformat>
 
 
 </sub-article>
-<sub-article article-type="notebook" id="nb-24-nb-6">
+<sub-article article-type="notebook" id="nb-16-nb-4">
 <front-stub>
 <title-group>
 <article-title>Expert Opinion Survey processing</article-title>
@@ -5437,15 +5039,15 @@ Attaching package: 'Hmisc'</preformat>
 </front-stub>
 
 <body>
-<sec id="sample-code-nb-6">
+<sec id="sample-code-nb-4">
   <title>Sample code</title>
-  <sec id="nb-code-cell-1-nb-6" specific-use="notebook-code">
+  <sec id="nb-code-cell-1-nb-4" specific-use="notebook-code">
   <code language="r script">library(tidyverse)
   </code>
   <code language="r script">library(ggstats)
 library(gtsummary)
   </code>
-  <sec id="nb-code-cell-1-output-0-nb-6" specific-use="notebook-output">
+  <sec id="nb-code-cell-1-output-0-nb-4" specific-use="notebook-output">
   <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -5457,11 +5059,8 @@ library(gtsummary)
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
   </sec>
-  <sec id="nb-code-cell-1-output-1-nb-6" specific-use="notebook-output">
-  <preformat>#BlackLivesMatter</preformat>
   </sec>
-  </sec>
-  <sec id="nb-code-cell-2-nb-6" specific-use="notebook-code">
+  <sec id="nb-code-cell-2-nb-4" specific-use="notebook-code">
   <code language="r script">likert_levels &lt;- c(
   &quot;Strongly disagree&quot;,
   &quot;Disagree&quot;,
@@ -5504,7 +5103,7 @@ df_dk &lt;-
   mutate(across(everything(), ~ factor(.x, levels = likert_levels_dk)))
   </code>
   </sec>
-  <sec id="nb-code-cell-3-nb-6" specific-use="notebook-code">
+  <sec id="nb-code-cell-3-nb-4" specific-use="notebook-code">
   <code language="r script">gglikert(df, sort = &quot;descending&quot;, sort_method = &quot;mean&quot;)
   </code>
   <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-3-1.png" />
@@ -5512,7 +5111,7 @@ df_dk &lt;-
   </code>
   <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-3-2.png" />
   </sec>
-  <sec id="nb-code-cell-4-nb-6" specific-use="notebook-code">
+  <sec id="nb-code-cell-4-nb-4" specific-use="notebook-code">
   <code language="r script">df_numeric &lt;- df |&gt;
   mutate(across(everything(), ~ as.numeric(.x)))
 df_numeric$expert &lt;- LETTERS[1:6]
@@ -5524,8 +5123,8 @@ df_numeric |&gt;
     <table>
       <thead>
         <tr>
-          <th id="U003CstrongU003ECharacteristicU003CU002FstrongU003E-nb-6" scope="col"><bold>Characteristic</bold></th>
-          <th id="U003CstrongU003ENU0020U003DU00206U003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-6" scope="col"><bold>N
+          <th id="U003CstrongU003ECharacteristicU003CU002FstrongU003E-nb-4" scope="col"><bold>Characteristic</bold></th>
+          <th id="U003CstrongU003ENU0020U003DU00206U003CU002FstrongU003EU003CspanU0020classU003DU0022gt_footnote_marksU0022U0020styleU003DU0022white-spaceU003AnowrapU003Bfont-styleU003AitalicU003Bfont-weightU003AnormalU003BU0022U003EU003CsupU003E1U003CU002FsupU003EU003CU002FspanU003E-nb-4" scope="col"><bold>N
           =
           6</bold><named-content content-type="gt_footnote_marks"><sup>1</sup></named-content></th>
         </tr>
@@ -5575,7 +5174,7 @@ df_numeric |&gt;
 
 
 </sub-article>
-<sub-article article-type="notebook" id="nb-28-nb-7">
+<sub-article article-type="notebook" id="nb-20-nb-5">
 <front-stub>
 <title-group>
 <article-title>Internal-External Development and
@@ -5584,12 +5183,12 @@ Cross-Validation</article-title>
 </front-stub>
 
 <body>
-<sec id="nb-code-cell-1-nb-7" specific-use="notebook-code">
+<sec id="nb-code-cell-1-nb-5" specific-use="notebook-code">
 <code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
 </code>
 <code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;) # run_bas_glm() function
 </code>
-<sec id="nb-code-cell-1-output-0-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-1-output-0-nb-5" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -5602,7 +5201,7 @@ Cross-Validation</article-title>
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-2-nb-7" specific-use="notebook-code">
+<sec id="nb-code-cell-2-nb-5" specific-use="notebook-code">
 <code language="r script">library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 </code>
@@ -5610,8 +5209,8 @@ library(furrr) # for future_map()
 </code>
 <code language="r script">library(CalibrationCurves)
 </code>
-<code language="r script">data_patient_cross_prep &lt;- data_patient_complete |&gt;
-  select(all_of(predictor_list), flag_ADR_TP_ID, site)
+<code language="r script">data_patient_cross_prep &lt;- data_patient_transformed |&gt;
+  select(all_of(predictor_transformed), flag_ADR_TP_ID, site)
 
 cross_samples &lt;- group_vfold_cv(data_patient_cross_prep, group = &quot;site&quot;)
 
@@ -5619,10 +5218,11 @@ extract_variable_names_cross &lt;- function(sample) {
   data &lt;- analysis(sample) |&gt; select(-site)
   model &lt;- data |&gt;
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .
+      formula = flag_ADR_TP_ID ~ .,
+      include.always = ~1 + comed_heparin
     )
   variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
-    str_extract(paste(predictor_list, collapse = &quot;|&quot;))
+    str_extract(paste(predictor_transformed, collapse = &quot;|&quot;))
 }
 
 # Function to modify sample data and fit model
@@ -5682,20 +5282,20 @@ cross_plots &lt;- future_map2(cross_samples$splits, cross_full, plot_calibration
 
 plan(sequential)
 </code>
-<sec id="nb-code-cell-2-output-0-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-0-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-1-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-1-nb-5" specific-use="notebook-output">
 <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-2-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-2-nb-5" specific-use="notebook-output">
 <preformat>✔ broom        1.0.5      ✔ recipes      1.0.10
 ✔ dials        1.2.1      ✔ tune         1.2.0 
 ✔ infer        1.0.6      ✔ workflows    1.1.4 
 ✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
 ✔ parsnip      1.2.0      ✔ yardstick    1.3.0 </preformat>
 </sec>
-<sec id="nb-code-cell-2-output-3-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-3-nb-5" specific-use="notebook-output">
 <preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 ✖ scales::discard() masks purrr::discard()
 ✖ dplyr::filter()   masks stats::filter()
@@ -5703,35 +5303,35 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-4-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-4-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-5-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-5-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: Hmisc</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-6-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-6-nb-5" specific-use="notebook-output">
 <preformat>
 Attaching package: 'Hmisc'</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-7-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-7-nb-5" specific-use="notebook-output">
 <preformat>The following object is masked from 'package:parsnip':
 
     translate</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-8-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-8-nb-5" specific-use="notebook-output">
 <preformat>The following objects are masked from 'package:dplyr':
 
     src, summarize</preformat>
 </sec>
-<sec id="nb-code-cell-2-output-9-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-2-output-9-nb-5" specific-use="notebook-output">
 <preformat>The following objects are masked from 'package:base':
 
     format.pval, units</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-3-nb-7" specific-use="notebook-code">
+<sec id="nb-code-cell-3-nb-5" specific-use="notebook-code">
 <code language="r script">cross_plots
 </code>
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-1.png" />
@@ -5740,31 +5340,31 @@ Attaching package: 'Hmisc'</preformat>
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-4.png" />
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-5.png" />
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-6.png" />
-<sec id="nb-code-cell-3-output-0-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-0-nb-5" specific-use="notebook-output">
 <preformat>[[1]]</preformat>
 </sec>
-<sec id="nb-code-cell-3-output-1-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-1-nb-5" specific-use="notebook-output">
 <preformat>
 [[2]]</preformat>
 </sec>
-<sec id="nb-code-cell-3-output-2-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-2-nb-5" specific-use="notebook-output">
 <preformat>
 [[3]]</preformat>
 </sec>
-<sec id="nb-code-cell-3-output-3-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-3-nb-5" specific-use="notebook-output">
 <preformat>
 [[4]]</preformat>
 </sec>
-<sec id="nb-code-cell-3-output-4-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-4-nb-5" specific-use="notebook-output">
 <preformat>
 [[5]]</preformat>
 </sec>
-<sec id="nb-code-cell-3-output-5-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-3-output-5-nb-5" specific-use="notebook-output">
 <preformat>
 [[6]]</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-4-nb-7" specific-use="notebook-code">
+<sec id="nb-code-cell-4-nb-5" specific-use="notebook-code">
 <code language="r script">library(meta)
 </code>
 <code language="r script">cross_C_index_meta &lt;- metagen(
@@ -5854,19 +5454,532 @@ forest_plot_calibration_slope &lt;- forest(
 
 cross_performance_metrics &lt;- bind_rows(cross_estimates, cross_meta_performance)
 </code>
-<sec id="nb-code-cell-4-output-0-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-4-output-0-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: metadat</preformat>
 </sec>
-<sec id="nb-code-cell-4-output-1-nb-7" specific-use="notebook-output">
+<sec id="nb-code-cell-4-output-1-nb-5" specific-use="notebook-output">
 <preformat>Loading 'meta' package (version 7.0-0).
 Type 'help(meta)' for a brief overview.
 Readers of 'Meta-Analysis with R (Use R!)' should install
 older version of 'meta' package: https://tinyurl.com/dt4y5drs</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-5-nb-7" specific-use="notebook-code">
+<sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
 <code language="r script">save(cross_performance_metrics, file = &quot;data/model-performance/cross-performance-metrics.rda&quot;)
 </code>
+</sec>
+</body>
+
+
+
+<back>
+</back>
+
+
+</sub-article>
+<sub-article article-type="notebook" id="nb-24-nb-6">
+<front-stub>
+<title-group>
+<article-title>Risk Score System and Algorithm</article-title>
+</title-group>
+</front-stub>
+
+<body>
+<sec id="nb-code-cell-1-nb-6" specific-use="notebook-code">
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<code language="r script">load(&quot;data/model-performance/model-full.rda&quot;)
+</code>
+<sec id="nb-code-cell-1-output-0-nb-6" specific-use="notebook-output">
+<preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
+</sec>
+</sec>
+<sec id="nb-code-cell-2-nb-6" specific-use="notebook-code">
+<code language="r script">library(tidyverse)
+library(tidymodels)
+</code>
+<code language="r script">model_beta_estimates &lt;- model_full$fit |&gt;
+  tidy() |&gt;
+  select(term, estimate, p.value)
+
+model_odds_ratios &lt;- model_full$fit |&gt;
+  tidy(conf.int = TRUE, exponentiate = TRUE) |&gt;
+  select(term, estimate, conf.low, conf.high) |&gt;
+  filter(term != &quot;(Intercept)&quot;) |&gt;
+  rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high)
+
+predictor_list_with_intercept &lt;- c(predictor_transformed, &quot;(Intercept)&quot;)
+
+parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by = &quot;term&quot;) |&gt;
+  rename(risk_factor = term, beta = estimate, p_value = p.value) |&gt;
+  mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept, collapse = &quot;|&quot;)))
+</code>
+<sec id="nb-code-cell-2-output-0-nb-6" specific-use="notebook-output">
+<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
+</sec>
+<sec id="nb-code-cell-2-output-1-nb-6" specific-use="notebook-output">
+<preformat>✔ broom        1.0.5      ✔ rsample      1.2.0 
+✔ dials        1.2.1      ✔ tune         1.2.0 
+✔ infer        1.0.6      ✔ workflows    1.1.4 
+✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
+✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
+✔ recipes      1.0.10     </preformat>
+</sec>
+<sec id="nb-code-cell-2-output-2-nb-6" specific-use="notebook-output">
+<preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ scales::discard() masks purrr::discard()
+✖ dplyr::filter()   masks stats::filter()
+✖ recipes::fixed()  masks stringr::fixed()
+✖ dplyr::lag()      masks stats::lag()
+✖ yardstick::spec() masks readr::spec()
+✖ recipes::step()   masks stats::step()
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+</sec>
+</sec>
+<sec id="risk-score-system-nb-6">
+  <title>Risk Score System</title>
+  <p>All code below is not automatic. Variables and ranges are manually
+  defined.</p>
+  <sec id="nb-code-cell-3-nb-6" specific-use="notebook-code">
+  <code language="r script">risk_profile_1 &lt;- tibble(
+  risk_factor = &quot;patient_age&quot;,
+  min_range = c(18, 30, 40, 50, 60, 70, 80, 90), # minimum age is 18
+  max_range = lead(min_range, default = 101), # maximum age is 101, interval is 10
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_2 &lt;- tibble(
+  risk_factor = &quot;baseline_CLCR_30&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_3 &lt;- tibble(
+  risk_factor = &quot;baseline_PLT&quot;,
+  min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
+  max_range = lag(min_range, default = 434), # 99% percentile is 434
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_4 &lt;- tibble(
+  risk_factor = &quot;LZD_duration_14&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_5 &lt;- tibble(
+  risk_factor = &quot;invasive_CRRT&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_6 &lt;- tibble(
+  risk_factor = &quot;comed_heparin&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile &lt;- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5, risk_profile_6)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-4-nb-6" specific-use="notebook-code">
+  <code language="r script">B_constant &lt;- parameter_estimates |&gt;
+  filter(risk_factor == &quot;patient_age&quot;) |&gt;
+  pull(beta) * 10 # constant equivalent to 10-year increase in age
+
+points_system_full &lt;- parameter_estimates |&gt;
+  select(risk_factor, beta) |&gt;
+  right_join(risk_profile, by = &quot;risk_factor&quot;) |&gt;
+  group_by(risk_factor) |&gt;
+  mutate(
+    beta_sum = beta * (reference - reference[which.max(flag_base_risk)]),
+    points = round(beta_sum / B_constant, 0)
+  )
+
+points_system_factors &lt;- points_system_full |&gt;
+  select(risk_factor, min_range, max_range, points)
+
+min_points &lt;- points_system_full |&gt;
+  group_by(risk_factor) |&gt;
+  summarise(min_points = min(points)) |&gt;
+  summarise(total_min_points = sum(min_points)) |&gt;
+  pull(total_min_points)
+
+max_points &lt;- points_system_full |&gt;
+  group_by(risk_factor) |&gt;
+  summarise(max_points = max(points)) |&gt;
+  summarise(total_max_points = sum(max_points)) |&gt;
+  pull(total_max_points)
+
+risk_function &lt;- function(points) {
+  intercept &lt;- parameter_estimates |&gt;
+    filter(risk_factor == &quot;Intercept&quot;) |&gt;
+    pull(beta)
+
+  beta_base &lt;- points_system_full |&gt;
+    filter(flag_base_risk == TRUE) |&gt;
+    ungroup() |&gt;
+    summarise(
+      beta_base = sum(beta * reference)
+    ) |&gt;
+    pull(beta_base)
+
+  1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
+}
+
+points_system_risks &lt;- tibble(
+  points_total = seq(min_points, max_points),
+  risk_estimate = risk_function(points_total)
+)
+
+points_system_factors |&gt; knitr::kable()
+  </code>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="left">risk_factor</th>
+          <th align="right">min_range</th>
+          <th align="right">max_range</th>
+          <th align="right">points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">18</td>
+          <td align="right">30</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">30</td>
+          <td align="right">40</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">40</td>
+          <td align="right">50</td>
+          <td align="right">2</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">50</td>
+          <td align="right">60</td>
+          <td align="right">3</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">60</td>
+          <td align="right">70</td>
+          <td align="right">4</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">70</td>
+          <td align="right">80</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">80</td>
+          <td align="right">90</td>
+          <td align="right">6</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">90</td>
+          <td align="right">101</td>
+          <td align="right">7</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR_30</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR_30</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">4</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">150</td>
+          <td align="right">Inf</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">75</td>
+          <td align="right">150</td>
+          <td align="right">9</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">50</td>
+          <td align="right">75</td>
+          <td align="right">12</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">25</td>
+          <td align="right">50</td>
+          <td align="right">13</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">-Inf</td>
+          <td align="right">25</td>
+          <td align="right">14</td>
+        </tr>
+        <tr>
+          <td align="left">LZD_duration_14</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">LZD_duration_14</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">invasive_CRRT</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">invasive_CRRT</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">comed_heparin</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">comed_heparin</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">2</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  <code language="r script">points_system_risks |&gt; knitr::kable()
+  </code>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="right">points_total</th>
+          <th align="right">risk_estimate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="right">0</td>
+          <td align="right">0.0554817</td>
+        </tr>
+        <tr>
+          <td align="right">1</td>
+          <td align="right">0.0650599</td>
+        </tr>
+        <tr>
+          <td align="right">2</td>
+          <td align="right">0.0761583</td>
+        </tr>
+        <tr>
+          <td align="right">3</td>
+          <td align="right">0.0889699</td>
+        </tr>
+        <tr>
+          <td align="right">4</td>
+          <td align="right">0.1036947</td>
+        </tr>
+        <tr>
+          <td align="right">5</td>
+          <td align="right">0.1205340</td>
+        </tr>
+        <tr>
+          <td align="right">6</td>
+          <td align="right">0.1396819</td>
+        </tr>
+        <tr>
+          <td align="right">7</td>
+          <td align="right">0.1613135</td>
+        </tr>
+        <tr>
+          <td align="right">8</td>
+          <td align="right">0.1855726</td>
+        </tr>
+        <tr>
+          <td align="right">9</td>
+          <td align="right">0.2125552</td>
+        </tr>
+        <tr>
+          <td align="right">10</td>
+          <td align="right">0.2422940</td>
+        </tr>
+        <tr>
+          <td align="right">11</td>
+          <td align="right">0.2747418</td>
+        </tr>
+        <tr>
+          <td align="right">12</td>
+          <td align="right">0.3097586</td>
+        </tr>
+        <tr>
+          <td align="right">13</td>
+          <td align="right">0.3471024</td>
+        </tr>
+        <tr>
+          <td align="right">14</td>
+          <td align="right">0.3864279</td>
+        </tr>
+        <tr>
+          <td align="right">15</td>
+          <td align="right">0.4272929</td>
+        </tr>
+        <tr>
+          <td align="right">16</td>
+          <td align="right">0.4691749</td>
+        </tr>
+        <tr>
+          <td align="right">17</td>
+          <td align="right">0.5114957</td>
+        </tr>
+        <tr>
+          <td align="right">18</td>
+          <td align="right">0.5536523</td>
+        </tr>
+        <tr>
+          <td align="right">19</td>
+          <td align="right">0.5950511</td>
+        </tr>
+        <tr>
+          <td align="right">20</td>
+          <td align="right">0.6351406</td>
+        </tr>
+        <tr>
+          <td align="right">21</td>
+          <td align="right">0.6734393</td>
+        </tr>
+        <tr>
+          <td align="right">22</td>
+          <td align="right">0.7095562</td>
+        </tr>
+        <tr>
+          <td align="right">23</td>
+          <td align="right">0.7432019</td>
+        </tr>
+        <tr>
+          <td align="right">24</td>
+          <td align="right">0.7741903</td>
+        </tr>
+        <tr>
+          <td align="right">25</td>
+          <td align="right">0.8024334</td>
+        </tr>
+        <tr>
+          <td align="right">26</td>
+          <td align="right">0.8279291</td>
+        </tr>
+        <tr>
+          <td align="right">27</td>
+          <td align="right">0.8507466</td>
+        </tr>
+        <tr>
+          <td align="right">28</td>
+          <td align="right">0.8710098</td>
+        </tr>
+        <tr>
+          <td align="right">29</td>
+          <td align="right">0.8888813</td>
+        </tr>
+        <tr>
+          <td align="right">30</td>
+          <td align="right">0.9045480</td>
+        </tr>
+        <tr>
+          <td align="right">31</td>
+          <td align="right">0.9182092</td>
+        </tr>
+        <tr>
+          <td align="right">32</td>
+          <td align="right">0.9300663</td>
+        </tr>
+        <tr>
+          <td align="right">33</td>
+          <td align="right">0.9403162</td>
+        </tr>
+        <tr>
+          <td align="right">34</td>
+          <td align="right">0.9491460</td>
+        </tr>
+        <tr>
+          <td align="right">35</td>
+          <td align="right">0.9567296</td>
+        </tr>
+        <tr>
+          <td align="right">36</td>
+          <td align="right">0.9632261</td>
+        </tr>
+        <tr>
+          <td align="right">37</td>
+          <td align="right">0.9687790</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  </sec>
 </sec>
 </body>
 

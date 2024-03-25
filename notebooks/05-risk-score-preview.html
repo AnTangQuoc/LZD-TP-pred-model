@@ -157,7 +157,7 @@
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
      <script async="" src="https://hypothes.is/embed.js"></script>
 <script>
   window.document.addEventListener("DOMContentLoaded", function (_event) {
@@ -191,7 +191,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Saturday, March 23, 2024</p>
+              <p class="date">Monday, March 25, 2024</p>
             </div>
           </div>
           
@@ -258,7 +258,7 @@
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_beta_estimates <span class="ot">&lt;-</span> model_full<span class="sc">$</span>fit <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
@@ -270,7 +270,7 @@
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">odds_ratio =</span> estimate, <span class="at">OR_lower =</span> conf.low, <span class="at">OR_upper =</span> conf.high)</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>predictor_list_with_intercept <span class="ot">&lt;-</span> <span class="fu">c</span>(predictor_list, <span class="st">"(Intercept)"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>predictor_list_with_intercept <span class="ot">&lt;-</span> <span class="fu">c</span>(predictor_transformed, <span class="st">"(Intercept)"</span>)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>parameter_estimates <span class="ot">&lt;-</span> <span class="fu">left_join</span>(model_beta_estimates, model_odds_ratios, <span class="at">by =</span> <span class="st">"term"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">risk_factor =</span> term, <span class="at">beta =</span> estimate, <span class="at">p_value =</span> p.value) <span class="sc">|&gt;</span></span>
@@ -292,54 +292,63 @@
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>risk_profile_2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"baseline_PLT"</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">75</span>, <span class="dv">50</span>, <span class="dv">25</span>, <span class="dv">18</span>), <span class="co"># 1% percentile is 18</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">lag</span>(min_range, <span class="at">default =</span> <span class="dv">434</span>), <span class="co"># 99% percentile is 434</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> (min_range <span class="sc">+</span> max_range) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"baseline_CLCR_30"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_range =</span> <span class="fu">replace</span>(min_range, <span class="fu">n</span>(), <span class="sc">-</span><span class="cn">Inf</span>),</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_range =</span> <span class="fu">replace</span>(max_range, <span class="dv">1</span>, <span class="cn">Inf</span>),</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>risk_profile_3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"LZD_duration"</span>,</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">14</span>), <span class="co"># 1% percentile is 3</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">lead</span>(min_range, <span class="at">default =</span> <span class="dv">26</span>), <span class="co"># 99% percentile is 26</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> (min_range <span class="sc">+</span> max_range) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_range =</span> <span class="fu">replace</span>(min_range, <span class="dv">1</span>, <span class="sc">-</span><span class="cn">Inf</span>),</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_range =</span> <span class="fu">replace</span>(max_range, <span class="fu">n</span>(), <span class="cn">Inf</span>),</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>risk_profile_4 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"invasive_CRRT"</span>,</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>risk_profile_5 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"invasive_CVC"</span>,</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>risk_profile <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>risk_profile_3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"baseline_PLT"</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">75</span>, <span class="dv">50</span>, <span class="dv">25</span>, <span class="dv">18</span>), <span class="co"># 1% percentile is 18</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">lag</span>(min_range, <span class="at">default =</span> <span class="dv">434</span>), <span class="co"># 99% percentile is 434</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> (min_range <span class="sc">+</span> max_range) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_range =</span> <span class="fu">replace</span>(min_range, <span class="fu">n</span>(), <span class="sc">-</span><span class="cn">Inf</span>),</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_range =</span> <span class="fu">replace</span>(max_range, <span class="dv">1</span>, <span class="cn">Inf</span>),</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>risk_profile_4 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"LZD_duration_14"</span>,</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>risk_profile_5 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"invasive_CRRT"</span>,</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>risk_profile_6 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_factor =</span> <span class="st">"comed_heparin"</span>,</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># 0 or 1</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">flag_base_risk =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_base_risk =</span> <span class="fu">replace</span>(flag_base_risk, <span class="dv">1</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>risk_profile <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5, risk_profile_6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>B_constant <span class="ot">&lt;-</span> parameter_estimates <span class="sc">|&gt;</span></span>
@@ -452,76 +461,82 @@
 <td style="text-align: right;">7</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">baseline_PLT</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">baseline_PLT</td>
-<td style="text-align: right;">75</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">baseline_PLT</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">75</td>
-<td style="text-align: right;">9</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">baseline_PLT</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">baseline_PLT</td>
-<td style="text-align: right;">-Inf</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">11</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">LZD_duration</td>
-<td style="text-align: right;">-Inf</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">LZD_duration</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">LZD_duration</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">invasive_CVC</td>
+<td style="text-align: left;">baseline_CLCR_30</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">invasive_CVC</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">invasive_CRRT</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">invasive_CRRT</td>
+<td style="text-align: left;">baseline_CLCR_30</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">baseline_PLT</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">baseline_PLT</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">baseline_PLT</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">baseline_PLT</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">baseline_PLT</td>
+<td style="text-align: right;">-Inf</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LZD_duration_14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LZD_duration_14</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">invasive_CRRT</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">invasive_CRRT</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">comed_heparin</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">comed_heparin</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
 </tr>
 </tbody>
 </table>
@@ -538,127 +553,155 @@
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.1145607</td>
+<td style="text-align: right;">0.0554817</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.1390520</td>
+<td style="text-align: right;">0.0650599</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.1677869</td>
+<td style="text-align: right;">0.0761583</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.2010730</td>
+<td style="text-align: right;">0.0889699</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.2390657</td>
+<td style="text-align: right;">0.1036947</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.2817057</td>
+<td style="text-align: right;">0.1205340</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.3286662</td>
+<td style="text-align: right;">0.1396819</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">0.3793210</td>
+<td style="text-align: right;">0.1613135</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">0.4327503</td>
+<td style="text-align: right;">0.1855726</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0.4877908</td>
+<td style="text-align: right;">0.2125552</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">0.5431291</td>
+<td style="text-align: right;">0.2422940</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">11</td>
-<td style="text-align: right;">0.5974229</td>
+<td style="text-align: right;">0.2747418</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">12</td>
-<td style="text-align: right;">0.6494292</td>
+<td style="text-align: right;">0.3097586</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">13</td>
-<td style="text-align: right;">0.6981120</td>
+<td style="text-align: right;">0.3471024</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">14</td>
-<td style="text-align: right;">0.7427127</td>
+<td style="text-align: right;">0.3864279</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">15</td>
-<td style="text-align: right;">0.7827745</td>
+<td style="text-align: right;">0.4272929</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.8181258</td>
+<td style="text-align: right;">0.4691749</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">17</td>
-<td style="text-align: right;">0.8488351</td>
+<td style="text-align: right;">0.5114957</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">18</td>
-<td style="text-align: right;">0.8751504</td>
+<td style="text-align: right;">0.5536523</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">19</td>
-<td style="text-align: right;">0.8974382</td>
+<td style="text-align: right;">0.5950511</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">20</td>
-<td style="text-align: right;">0.9161285</td>
+<td style="text-align: right;">0.6351406</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">21</td>
-<td style="text-align: right;">0.9316722</td>
+<td style="text-align: right;">0.6734393</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">22</td>
-<td style="text-align: right;">0.9445096</td>
+<td style="text-align: right;">0.7095562</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">23</td>
-<td style="text-align: right;">0.9550515</td>
+<td style="text-align: right;">0.7432019</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">24</td>
-<td style="text-align: right;">0.9636678</td>
+<td style="text-align: right;">0.7741903</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">25</td>
-<td style="text-align: right;">0.9706830</td>
+<td style="text-align: right;">0.8024334</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">26</td>
-<td style="text-align: right;">0.9763770</td>
+<td style="text-align: right;">0.8279291</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">27</td>
-<td style="text-align: right;">0.9809867</td>
+<td style="text-align: right;">0.8507466</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">28</td>
-<td style="text-align: right;">0.9847109</td>
+<td style="text-align: right;">0.8710098</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">29</td>
-<td style="text-align: right;">0.9877149</td>
+<td style="text-align: right;">0.8888813</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">30</td>
-<td style="text-align: right;">0.9901345</td>
+<td style="text-align: right;">0.9045480</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0.9182092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.9300663</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.9403162</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.9491460</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">0.9567296</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">0.9632261</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">0.9687790</td>
 </tr>
 </tbody>
 </table>

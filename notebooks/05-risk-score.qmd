@@ -21,7 +21,7 @@ model_odds_ratios <- model_full$fit |>
   filter(term != "(Intercept)") |>
   rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high)
 
-predictor_list_with_intercept <- c(predictor_list, "(Intercept)")
+predictor_list_with_intercept <- c(predictor_transformed, "(Intercept)")
 
 parameter_estimates <- left_join(model_beta_estimates, model_odds_ratios, by = "term") |>
   rename(risk_factor = term, beta = estimate, p_value = p.value) |>
@@ -45,6 +45,17 @@ risk_profile_1 <- tibble(
   )
 
 risk_profile_2 <- tibble(
+  risk_factor = "baseline_CLCR_30",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_3 <- tibble(
   risk_factor = "baseline_PLT",
   min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
   max_range = lag(min_range, default = 434), # 99% percentile is 434
@@ -57,21 +68,8 @@ risk_profile_2 <- tibble(
     flag_base_risk = replace(flag_base_risk, 1, TRUE)
   )
 
-risk_profile_3 <- tibble(
-  risk_factor = "LZD_duration",
-  min_range = c(3, 7, 14), # 1% percentile is 3
-  max_range = lead(min_range, default = 26), # 99% percentile is 26
-  reference = (min_range + max_range) / 2,
-  flag_base_risk = FALSE
-) |>
-  mutate(
-    min_range = replace(min_range, 1, -Inf),
-    max_range = replace(max_range, n(), Inf),
-    flag_base_risk = replace(flag_base_risk, 1, TRUE)
-  )
-
 risk_profile_4 <- tibble(
-  risk_factor = "invasive_CRRT",
+  risk_factor = "LZD_duration_14",
   min_range = c(0, 1), # 0 or 1
   max_range = c(0, 1), # 0 or 1
   reference = c(0, 1),
@@ -82,7 +80,7 @@ risk_profile_4 <- tibble(
   )
 
 risk_profile_5 <- tibble(
-  risk_factor = "invasive_CVC",
+  risk_factor = "invasive_CRRT",
   min_range = c(0, 1), # 0 or 1
   max_range = c(0, 1), # 0 or 1
   reference = c(0, 1),
@@ -92,7 +90,18 @@ risk_profile_5 <- tibble(
     flag_base_risk = replace(flag_base_risk, 1, TRUE)
   )
 
-risk_profile <- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5)
+risk_profile_6 <- tibble(
+  risk_factor = "comed_heparin",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile <- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5, risk_profile_6)
 ```
 
 ```{r}
