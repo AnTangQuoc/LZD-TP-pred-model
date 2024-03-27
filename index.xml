@@ -441,14 +441,37 @@ Pharmacy</institution>
     <sec id="a-describe-eligibility-criteria-for-participants-and-datasets">
       <title>3.1.1 4a: Describe eligibility criteria for participants
       and datasets</title>
+      <p>This study used data from three hospitals in Vietnam: Thanh
+      Nhan Hospital, Bach Mai Hospital, and the National Hospital of
+      Tropical Diseases. Patients hospitalized and treated with
+      linezolid were included. The following patients were excluded: (i)
+      those under 18 years of age; (ii) those treated with linezolid for
+      less than 3 days; (iii) those without any recorded platelet count
+      in the period before or after initiation of linezolid therapy;
+      (iv) those with baseline platelet count of &gt; 450 x
+      10<sup>9</sup> cells/L; (v) those with any missing recorded values
+      among the specified predictors.</p>
     </sec>
     <sec id="b-describe-the-origin-of-the-data-and-how-the-data-were-identified-requested-and-collected">
       <title>3.1.2 4b: Describe the origin of the data, and how the data
       were identified, requested, and collected</title>
-      <p>Note: 2 periods, convenience sampling (1st), extract from the
-      electronic medical record (except BM1 from physical MR).
-      Infomation was filled out in a paper form and stored in Excel.</p>
-      <p>Include 2 publications for BM1 and TN1.</p>
+      <p>The data was collected from each hospital in two phases: a
+      pilot phase and an extension phase. In the pilot phase, we
+      requested existing datasets at the hospitals. In the extension
+      phase, additional data was collected prospectively. Data was
+      extracted from the electronic medical records of the hospitals,
+      except for the pilot dataset at Bach Mai Hospital which was
+      extracted from physical records. In order to harmonise different
+      datasets, data was filled out in a paper form and stored in
+      Excel.</p>
+      <p>The pilot datasets were collected from January 01 to June 30,
+      2020 at Thanh Nhan Hospital; from November 01 to December 31, 2019
+      at Bach Mai Hospital; from May 01 to December 31, 2021 at the
+      National Hospital of Tropical Diseases. The extension datasets
+      were collected from September 01, 2022 to March 31, 2023 at Thanh
+      Nhan Hospital; from December 01, 2022 to March 31, 2023 at Bach
+      Mai Hospital; from April 01 to September 31, 2022 at the National
+      Hospital of Tropical Diseases.</p>
     </sec>
   </sec>
   <sec id="sample-size">
@@ -600,8 +623,9 @@ Pharmacy</institution>
       <p>Thrombocytopenia may occur within a few days after stopping
       LZD, when the drug hasn’t been completely eliminated. However, it
       is unknown exactly how long after stopping LZD can a TP event
-      still be attributed to LZD use. The value of 5 days has been
-      chosen <italic>almost</italic> arbitrarily.</p>
+      still be attributed to LZD use. We deemed that any TP events that
+      occur after 5 days of stopping LZD would not be related to LZD
+      use.</p>
       <p>Our rationale is that after 5 days (120 hrs), LZD is guaranteed
       to be completely eliminated in all patients, as the longest
       t<sub>1/2</sub> is 8.3 ± 2.4 hrs in end-stage renal disease
@@ -618,6 +642,49 @@ Pharmacy</institution>
     <sec id="b.-define-all-predictors-used-in-developing-or-validating-the-model-including-how-and-when-measured">
       <title>3.3.2 6b. Define all predictors used in developing or
       validating the model, including how and when measured</title>
+      <p>Predictors will be screened for inclusion in the model if they
+      meet all of the following criteria: (i) has been identified as a
+      risk factor of LI-TP in previous studies; (ii) can be collected or
+      evaluated from the information in the datasets; (iii) for
+      concomitant medications, has drug-induced immune thrombocytopenia
+      as an adverse drug reaction with a frequency of at least &gt;
+      1/1000 in the drug label or Micromedex; (iv) has consensus from a
+      clinical expert panel as possibly related to LI-TP
+      development.</p>
+      <p>The following information was extracted from all records:</p>
+      <list list-type="bullet">
+        <list-item>
+          <p>Patient demographics</p>
+        </list-item>
+        <list-item>
+          <p>Clinical department where linezolid was initiated.</p>
+        </list-item>
+        <list-item>
+          <p>Co-morbidities</p>
+        </list-item>
+        <list-item>
+          <p>Invasive procedures performed</p>
+        </list-item>
+        <list-item>
+          <p>Infection type</p>
+        </list-item>
+        <list-item>
+          <p>Laboratory results</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid route of administration</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid dose in milligrams.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid duration, defined as the number of days from the
+          first to the last dose of linezolid.</p>
+        </list-item>
+        <list-item>
+          <p>Concomitant medications during linezolid therapy</p>
+        </list-item>
+      </list>
     </sec>
   </sec>
   <sec id="data-preparation">
@@ -626,16 +693,134 @@ Pharmacy</institution>
       <title>3.4.1 7a. Describe how the data were prepared for analysis,
       including any cleaning, harmonisation, linkage, and quality
       checks</title>
-      <p>Infection diagnosis was recoded into binary variable….</p>
-      <p>look up by ID number. Điền thông tin về bệnh mắc kèm, bệnh
-      nhiễm khuẩn và thuốc dùng kèm từ</p>
-      <p>1 BN có 2 đợt điều trị -&gt; 2 entry have identical ID number
-      -&gt; manually sort and exclude the 2nd course Cepha, peni và
-      carbapenem.</p>
+      <p>Harmonisation between datasets was mainly done via manually
+      recording data to a standardized form. Data was then entered into
+      an Excel spreadsheet. Data cleaning was done by handling
+      duplicates, checking for missing values and inconsistencies.
+      Multiple linezolid treatment episodes in the same patient were
+      treated as duplicates and only the first episode was included in
+      the analysis. Patients with missing values were excluded from
+      subsequent analyses. Inconsistencies were resolved by referring
+      back to the original records.</p>
+      <p>Before analysis, the extracted predictors are limited to those
+      that meet criteria (i) to (iii) in the previous section:</p>
+      <list list-type="bullet">
+        <list-item>
+          <p>Patient demographics were limited to age in years, gender,
+          and weight in kilograms.</p>
+        </list-item>
+        <list-item>
+          <p>Clinical department was recorded into binary variables:
+          intensive care unit, emergency department, and others.</p>
+        </list-item>
+        <list-item>
+          <p>Co-morbidities were recorded into binary variables:
+          hypertension, heart failure, angina, myocardial infarction,
+          cerebral vascular accident, diabetes, chronic obstructive
+          pulmonary disease, cirrhosis, malignancies, and hematological
+          disorders.</p>
+        </list-item>
+        <list-item>
+          <p>Invasive procedures were recorded into binary variables:
+          endotracheal intubation, central venous catheter insertion,
+          intermittent hemodialysis, and continuous renal replacement
+          therapy.</p>
+        </list-item>
+        <list-item>
+          <p>Infection type was recorded into binary variables:
+          community-acquired pneumonia, hospital-acquired pneumonia,
+          skin and soft tissue infection, central nervous system
+          infection, intra-abdominal infection, urinary tract infection,
+          bone and joint infection, septicemia, and sepsis.</p>
+        </list-item>
+        <list-item>
+          <p>Laboratory results were limited to serum creatinine,
+          hemoglobin count, white blood cell count, and platelet count.
+          Creatinine clearance was estimated from serum creatinine using
+          the Cockcroft-Gault equation.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid route of administration was recorded into binary
+          variables: intravenous, oral, and both.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid dose in milligrams.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid duration in days.</p>
+        </list-item>
+        <list-item>
+          <p>Concomitant medications were recoded to binary variables:
+          carbapenems, daptomycin, teicoplanin, levofloxacin, ibuprofen,
+          naproxen, heparin, clopidogrel, enoxaparin, eptifibatide,
+          carbamazepine, valproic acid, quetiapine, atezolizumab,
+          pembrolizumab, trastuzumab, tacrolimus, fluorouracil,
+          irinotecan, leucovorin, oxaliplatin, pyrazinamide, and
+          rifampin.</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast">
+      <title>3.4.2 7b. Describe the method for assessing risk of bias
+      and applicability in the individual clusters (eg, using
+      PROBAST)</title>
+      <boxed-text>
+      <p><bold>Important</bold></p>
+      <p>Is this even possible for this study?</p>
+      </boxed-text>
+    </sec>
+    <sec id="c.-for-validation-identify-any-differences-in-definition-and-measurement-from-the-development-data-eg-setting-eligibility-criteria-outcome-predictors">
+      <title>3.4.3 7c. For validation, identify any differences in
+      definition and measurement from the development data (eg, setting,
+      eligibility criteria, outcome, predictors)</title>
+    </sec>
+    <sec id="d.-describe-how-missing-data-were-handled">
+      <title>3.4.4 7d. Describe how missing data were handled</title>
+      <p>Any subsequent analyses were conducted on the complete case
+      dataset. There are ~5% of observations with missing values in the
+      dataset, which is considered low. The missing data mechanism is
+      assumed to be missing completely at random.</p>
+      <boxed-text>
+      <p><bold>Important</bold></p>
+      <p>What is a possible reason for missing data?</p>
+      </boxed-text>
     </sec>
   </sec>
   <sec id="data-analysis">
     <title>3.5 Data analysis</title>
+    <sec id="a.-describe-how-predictors-were-handled-in-the-analyses">
+      <title>3.5.1 8a. Describe how predictors were handled in the
+      analyses</title>
+    </sec>
+    <sec id="b.-specify-the-type-of-model-all-model-building-procedures-eg-any-predictor-selection-and-penalisation-and-method-for-validation">
+      <title>3.5.2 8b. Specify the type of model, all model building
+      procedures (eg, any predictor selection and penalisation), and
+      method for validation</title>
+    </sec>
+    <sec id="c.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-parameter-values-was-handled">
+      <title>3.5.3 8c. Describe how any heterogeneity across clusters
+      (eg, studies or settings) in model parameter values was
+      handled</title>
+    </sec>
+    <sec id="d.-for-validation-describe-how-the-predictions-were-calculated">
+      <title>3.5.4 8d. For validation, describe how the predictions were
+      calculated</title>
+    </sec>
+    <sec id="e.-specify-all-measures-used-to-assess-model-performance-eg-calibration-discrimination-and-decision-curve-analysis-and-if-relevant-to-compare-multiple-models">
+      <title>3.5.5 8e. Specify all measures used to assess model
+      performance (eg, calibration, discrimination, and decision curve
+      analysis) and, if relevant, to compare multiple models</title>
+    </sec>
+    <sec id="f.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-performance-was-handled-and-quantified">
+      <title>3.5.6 8f. Describe how any heterogeneity across clusters
+      (eg, studies or settings) in model performance was handled and
+      quantified</title>
+    </sec>
+    <sec id="g.-describe-any-model-updating-eg-recalibration-arising-from-the-validation-either-overall-or-for-particular-populations-or-settings">
+      <title>3.5.7 8g. Describe any model updating (eg, recalibration)
+      arising from the validation, either overall or for particular
+      populations or settings</title>
+    </sec>
   </sec>
   <sec id="sensitivity-analysis">
     <title>3.6 Sensitivity analysis</title>
@@ -1324,14 +1509,37 @@ Pharmacy</institution>
     <sec id="a-describe-eligibility-criteria-for-participants-and-datasets-nb-article">
       <title>3.1.1 4a: Describe eligibility criteria for participants
       and datasets</title>
+      <p>This study used data from three hospitals in Vietnam: Thanh
+      Nhan Hospital, Bach Mai Hospital, and the National Hospital of
+      Tropical Diseases. Patients hospitalized and treated with
+      linezolid were included. The following patients were excluded: (i)
+      those under 18 years of age; (ii) those treated with linezolid for
+      less than 3 days; (iii) those without any recorded platelet count
+      in the period before or after initiation of linezolid therapy;
+      (iv) those with baseline platelet count of &gt; 450 x
+      10<sup>9</sup> cells/L; (v) those with any missing recorded values
+      among the specified predictors.</p>
     </sec>
     <sec id="b-describe-the-origin-of-the-data-and-how-the-data-were-identified-requested-and-collected-nb-article">
       <title>3.1.2 4b: Describe the origin of the data, and how the data
       were identified, requested, and collected</title>
-      <p>Note: 2 periods, convenience sampling (1st), extract from the
-      electronic medical record (except BM1 from physical MR).
-      Infomation was filled out in a paper form and stored in Excel.</p>
-      <p>Include 2 publications for BM1 and TN1.</p>
+      <p>The data was collected from each hospital in two phases: a
+      pilot phase and an extension phase. In the pilot phase, we
+      requested existing datasets at the hospitals. In the extension
+      phase, additional data was collected prospectively. Data was
+      extracted from the electronic medical records of the hospitals,
+      except for the pilot dataset at Bach Mai Hospital which was
+      extracted from physical records. In order to harmonise different
+      datasets, data was filled out in a paper form and stored in
+      Excel.</p>
+      <p>The pilot datasets were collected from January 01 to June 30,
+      2020 at Thanh Nhan Hospital; from November 01 to December 31, 2019
+      at Bach Mai Hospital; from May 01 to December 31, 2021 at the
+      National Hospital of Tropical Diseases. The extension datasets
+      were collected from September 01, 2022 to March 31, 2023 at Thanh
+      Nhan Hospital; from December 01, 2022 to March 31, 2023 at Bach
+      Mai Hospital; from April 01 to September 31, 2022 at the National
+      Hospital of Tropical Diseases.</p>
     </sec>
   </sec>
   <sec id="sample-size-nb-article">
@@ -1554,8 +1762,9 @@ Pharmacy</institution>
           <p>Thrombocytopenia may occur within a few days after stopping
           LZD, when the drug hasn’t been completely eliminated. However,
           it is unknown exactly how long after stopping LZD can a TP
-          event still be attributed to LZD use. The value of 5 days has
-          been chosen <italic>almost</italic> arbitrarily.</p>
+          event still be attributed to LZD use. We deemed that any TP
+          events that occur after 5 days of stopping LZD would not be
+          related to LZD use.</p>
           <p>Our rationale is that after 5 days (120 hrs), LZD is
           guaranteed to be completely eliminated in all patients, as the
           longest t<sub>1/2</sub> is 8.3 ± 2.4 hrs in end-stage renal
@@ -1574,6 +1783,49 @@ Pharmacy</institution>
     <sec id="b.-define-all-predictors-used-in-developing-or-validating-the-model-including-how-and-when-measured-nb-article">
       <title>3.3.2 6b. Define all predictors used in developing or
       validating the model, including how and when measured</title>
+      <p>Predictors will be screened for inclusion in the model if they
+      meet all of the following criteria: (i) has been identified as a
+      risk factor of LI-TP in previous studies; (ii) can be collected or
+      evaluated from the information in the datasets; (iii) for
+      concomitant medications, has drug-induced immune thrombocytopenia
+      as an adverse drug reaction with a frequency of at least &gt;
+      1/1000 in the drug label or Micromedex; (iv) has consensus from a
+      clinical expert panel as possibly related to LI-TP
+      development.</p>
+      <p>The following information was extracted from all records:</p>
+      <list list-type="bullet">
+        <list-item>
+          <p>Patient demographics</p>
+        </list-item>
+        <list-item>
+          <p>Clinical department where linezolid was initiated.</p>
+        </list-item>
+        <list-item>
+          <p>Co-morbidities</p>
+        </list-item>
+        <list-item>
+          <p>Invasive procedures performed</p>
+        </list-item>
+        <list-item>
+          <p>Infection type</p>
+        </list-item>
+        <list-item>
+          <p>Laboratory results</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid route of administration</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid dose in milligrams.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid duration, defined as the number of days from the
+          first to the last dose of linezolid.</p>
+        </list-item>
+        <list-item>
+          <p>Concomitant medications during linezolid therapy</p>
+        </list-item>
+      </list>
     </sec>
   </sec>
   <sec id="data-preparation-nb-article">
@@ -1582,16 +1834,138 @@ Pharmacy</institution>
       <title>3.4.1 7a. Describe how the data were prepared for analysis,
       including any cleaning, harmonisation, linkage, and quality
       checks</title>
-      <p>Infection diagnosis was recoded into binary variable….</p>
-      <p>look up by ID number. Điền thông tin về bệnh mắc kèm, bệnh
-      nhiễm khuẩn và thuốc dùng kèm từ</p>
-      <p>1 BN có 2 đợt điều trị -&gt; 2 entry have identical ID number
-      -&gt; manually sort and exclude the 2nd course Cepha, peni và
-      carbapenem.</p>
+      <p>Harmonisation between datasets was mainly done via manually
+      recording data to a standardized form. Data was then entered into
+      an Excel spreadsheet. Data cleaning was done by handling
+      duplicates, checking for missing values and inconsistencies.
+      Multiple linezolid treatment episodes in the same patient were
+      treated as duplicates and only the first episode was included in
+      the analysis. Patients with missing values were excluded from
+      subsequent analyses. Inconsistencies were resolved by referring
+      back to the original records.</p>
+      <p>Before analysis, the extracted predictors are limited to those
+      that meet criteria (i) to (iii) in the previous section:</p>
+      <list list-type="bullet">
+        <list-item>
+          <p>Patient demographics were limited to age in years, gender,
+          and weight in kilograms.</p>
+        </list-item>
+        <list-item>
+          <p>Clinical department was recorded into binary variables:
+          intensive care unit, emergency department, and others.</p>
+        </list-item>
+        <list-item>
+          <p>Co-morbidities were recorded into binary variables:
+          hypertension, heart failure, angina, myocardial infarction,
+          cerebral vascular accident, diabetes, chronic obstructive
+          pulmonary disease, cirrhosis, malignancies, and hematological
+          disorders.</p>
+        </list-item>
+        <list-item>
+          <p>Invasive procedures were recorded into binary variables:
+          endotracheal intubation, central venous catheter insertion,
+          intermittent hemodialysis, and continuous renal replacement
+          therapy.</p>
+        </list-item>
+        <list-item>
+          <p>Infection type was recorded into binary variables:
+          community-acquired pneumonia, hospital-acquired pneumonia,
+          skin and soft tissue infection, central nervous system
+          infection, intra-abdominal infection, urinary tract infection,
+          bone and joint infection, septicemia, and sepsis.</p>
+        </list-item>
+        <list-item>
+          <p>Laboratory results were limited to serum creatinine,
+          hemoglobin count, white blood cell count, and platelet count.
+          Creatinine clearance was estimated from serum creatinine using
+          the Cockcroft-Gault equation.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid route of administration was recorded into binary
+          variables: intravenous, oral, and both.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid dose in milligrams.</p>
+        </list-item>
+        <list-item>
+          <p>Linezolid duration in days.</p>
+        </list-item>
+        <list-item>
+          <p>Concomitant medications were recoded to binary variables:
+          carbapenems, daptomycin, teicoplanin, levofloxacin, ibuprofen,
+          naproxen, heparin, clopidogrel, enoxaparin, eptifibatide,
+          carbamazepine, valproic acid, quetiapine, atezolizumab,
+          pembrolizumab, trastuzumab, tacrolimus, fluorouracil,
+          irinotecan, leucovorin, oxaliplatin, pyrazinamide, and
+          rifampin.</p>
+        </list-item>
+      </list>
+    </sec>
+    <sec id="b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast-nb-article">
+      <title>3.4.2 7b. Describe the method for assessing risk of bias
+      and applicability in the individual clusters (eg, using
+      PROBAST)</title>
+      <boxed-text>
+        <disp-quote>
+          <p><bold>Important</bold></p>
+          <p>Is this even possible for this study?</p>
+        </disp-quote>
+      </boxed-text>
+    </sec>
+    <sec id="c.-for-validation-identify-any-differences-in-definition-and-measurement-from-the-development-data-eg-setting-eligibility-criteria-outcome-predictors-nb-article">
+      <title>3.4.3 7c. For validation, identify any differences in
+      definition and measurement from the development data (eg, setting,
+      eligibility criteria, outcome, predictors)</title>
+    </sec>
+    <sec id="d.-describe-how-missing-data-were-handled-nb-article">
+      <title>3.4.4 7d. Describe how missing data were handled</title>
+      <p>Any subsequent analyses were conducted on the complete case
+      dataset. There are ~5% of observations with missing values in the
+      dataset, which is considered low. The missing data mechanism is
+      assumed to be missing completely at random.</p>
+      <boxed-text>
+        <disp-quote>
+          <p><bold>Important</bold></p>
+          <p>What is a possible reason for missing data?</p>
+        </disp-quote>
+      </boxed-text>
     </sec>
   </sec>
   <sec id="data-analysis-nb-article">
     <title>3.5 Data analysis</title>
+    <sec id="a.-describe-how-predictors-were-handled-in-the-analyses-nb-article">
+      <title>3.5.1 8a. Describe how predictors were handled in the
+      analyses</title>
+    </sec>
+    <sec id="b.-specify-the-type-of-model-all-model-building-procedures-eg-any-predictor-selection-and-penalisation-and-method-for-validation-nb-article">
+      <title>3.5.2 8b. Specify the type of model, all model building
+      procedures (eg, any predictor selection and penalisation), and
+      method for validation</title>
+    </sec>
+    <sec id="c.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-parameter-values-was-handled-nb-article">
+      <title>3.5.3 8c. Describe how any heterogeneity across clusters
+      (eg, studies or settings) in model parameter values was
+      handled</title>
+    </sec>
+    <sec id="d.-for-validation-describe-how-the-predictions-were-calculated-nb-article">
+      <title>3.5.4 8d. For validation, describe how the predictions were
+      calculated</title>
+    </sec>
+    <sec id="e.-specify-all-measures-used-to-assess-model-performance-eg-calibration-discrimination-and-decision-curve-analysis-and-if-relevant-to-compare-multiple-models-nb-article">
+      <title>3.5.5 8e. Specify all measures used to assess model
+      performance (eg, calibration, discrimination, and decision curve
+      analysis) and, if relevant, to compare multiple models</title>
+    </sec>
+    <sec id="f.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-performance-was-handled-and-quantified-nb-article">
+      <title>3.5.6 8f. Describe how any heterogeneity across clusters
+      (eg, studies or settings) in model performance was handled and
+      quantified</title>
+    </sec>
+    <sec id="g.-describe-any-model-updating-eg-recalibration-arising-from-the-validation-either-overall-or-for-particular-populations-or-settings-nb-article">
+      <title>3.5.7 8g. Describe any model updating (eg, recalibration)
+      arising from the validation, either overall or for particular
+      populations or settings</title>
+    </sec>
   </sec>
   <sec id="sensitivity-analysis-nb-article">
     <title>3.6 Sensitivity analysis</title>
@@ -2387,7 +2761,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-2" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -3629,7 +4003,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.4%)</td>
-        <td headers="p.value">0.081</td>
+        <td headers="p.value">0.089</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -3662,7 +4036,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">1 (1.0%)</td>
         <td headers="stat_6">4 (1.8%)</td>
-        <td headers="p.value" style="font-weight: bold">0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.003</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_K</td>
@@ -4003,7 +4377,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">4 (4.0%)</td>
         <td headers="stat_6">5 (2.3%)</td>
-        <td headers="p.value" style="font-weight: bold">0.027</td>
+        <td headers="p.value" style="font-weight: bold">0.028</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4036,7 +4410,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">3 (3.0%)</td>
         <td headers="stat_6">13 (5.9%)</td>
-        <td headers="p.value" style="font-weight: bold">0.036</td>
+        <td headers="p.value" style="font-weight: bold">0.026</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -4080,7 +4454,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">6 (2.7%)</td>
-        <td headers="p.value" style="font-weight: bold">0.019</td>
+        <td headers="p.value" style="font-weight: bold">0.018</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_simvas</td>
@@ -4102,7 +4476,7 @@ table_descriptive
         <td headers="stat_4">1 (0.9%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.027</td>
+        <td headers="p.value" style="font-weight: bold">0.033</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4146,7 +4520,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.004</td>
+        <td headers="p.value" style="font-weight: bold">0.003</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4190,7 +4564,7 @@ table_descriptive
         <td headers="stat_4">3 (2.6%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.016</td>
+        <td headers="p.value" style="font-weight: bold">0.023</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4212,7 +4586,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.14</td>
+        <td headers="p.value">0.2</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -4717,55 +5091,55 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model_transformed, estimato
   <sec id="nb-code-cell-5-output-0-nb-3" specific-use="notebook-output">
   <preformat>                         P(B != 0 | Y)      model 1      model 2   model 3
 Intercept                  1.000000000    1.0000000    1.0000000    1.0000
-patient_age                0.752904592    1.0000000    1.0000000    1.0000
-patient_sexTRUE            0.007764627    0.0000000    0.0000000    0.0000
-patient_weight             0.007803794    0.0000000    0.0000000    0.0000
-baseline_CLCR_30TRUE       0.850606270    1.0000000    1.0000000    1.0000
-dept_ERTRUE                0.007257092    0.0000000    0.0000000    0.0000
-dept_ICUTRUE               0.009713776    0.0000000    0.0000000    0.0000
-baseline_HGB               0.071223913    0.0000000    0.0000000    0.0000
-baseline_WBC               0.019030832    0.0000000    0.0000000    0.0000
+patient_age                0.753536390    1.0000000    1.0000000    1.0000
+patient_sexTRUE            0.007814554    0.0000000    0.0000000    0.0000
+patient_weight             0.007708555    0.0000000    0.0000000    0.0000
+baseline_CLCR_30TRUE       0.851587131    1.0000000    1.0000000    1.0000
+dept_ERTRUE                0.007706485    0.0000000    0.0000000    0.0000
+dept_ICUTRUE               0.009164196    0.0000000    0.0000000    0.0000
+baseline_HGB               0.069162863    0.0000000    0.0000000    0.0000
+baseline_WBC               0.019026926    0.0000000    0.0000000    0.0000
 baseline_PLT               1.000000000    1.0000000    1.0000000    1.0000
-LZD_duration_14TRUE        0.946269117    1.0000000    1.0000000    1.0000
-LZD_routeIV&amp;PO             0.009433249    0.0000000    0.0000000    0.0000
-LZD_routePO                0.007116572    0.0000000    0.0000000    0.0000
-invasive_ETITRUE           0.168051158    0.0000000    0.0000000    0.0000
-invasive_CVCTRUE           0.536522455    0.0000000    1.0000000    1.0000
-invasive_IHDTRUE           0.015908598    0.0000000    0.0000000    0.0000
-invasive_CRRTTRUE          0.671071991    1.0000000    0.0000000    0.0000
-comorb_HTNTRUE             0.008239192    0.0000000    0.0000000    0.0000
-comorb_DMTRUE              0.015171096    0.0000000    0.0000000    0.0000
-comorb_HFTRUE              0.073327970    0.0000000    0.0000000    0.0000
-comorb_anginaTRUE          0.007077564    0.0000000    0.0000000    0.0000
-comorb_cirrTRUE            0.352351859    0.0000000    0.0000000    1.0000
-comorb_COPDTRUE            0.021165814    0.0000000    0.0000000    0.0000
-comorb_CVATRUE             0.023209972    0.0000000    0.0000000    0.0000
-comorb_MITRUE              0.014849222    0.0000000    0.0000000    0.0000
-comorb_KTRUE               0.007050386    0.0000000    0.0000000    0.0000
-comorb_hematologicalTRUE   0.018711311    0.0000000    0.0000000    0.0000
-comorb_hemaTRUE            0.007629954    0.0000000    0.0000000    0.0000
-infect_sepsisTRUE          0.032967270    0.0000000    0.0000000    0.0000
-infect_CAPTRUE             0.011061103    0.0000000    0.0000000    0.0000
-infect_HAPTRUE             0.024004554    0.0000000    0.0000000    0.0000
-infect_SSTITRUE            0.030295412    0.0000000    0.0000000    0.0000
-infect_CNSTRUE             0.007288401    0.0000000    0.0000000    0.0000
-infect_IAITRUE             0.007144973    0.0000000    0.0000000    0.0000
-infect_UTITRUE             0.007760702    0.0000000    0.0000000    0.0000
-infect_BJITRUE             0.010788743    0.0000000    0.0000000    0.0000
-infect_septicemiaTRUE      0.239595348    0.0000000    0.0000000    0.0000
-comed_ibuprofenTRUE        0.009439256    0.0000000    0.0000000    0.0000
-comed_carbapenemTRUE       0.008160087    0.0000000    0.0000000    0.0000
-comed_vancomycinTRUE       0.045709684    0.0000000    0.0000000    0.0000
-comed_levofloxacinTRUE     0.007132446    0.0000000    0.0000000    0.0000
-comed_teicoplaninTRUE      0.019272575    0.0000000    0.0000000    0.0000
-comed_pyrazinamidTRUE      0.014890933    0.0000000    0.0000000    0.0000
-comed_rifampinTRUE         0.015019760    0.0000000    0.0000000    0.0000
+LZD_duration_14TRUE        0.944699084    1.0000000    1.0000000    1.0000
+LZD_routeIV&amp;PO             0.009919015    0.0000000    0.0000000    0.0000
+LZD_routePO                0.006759292    0.0000000    0.0000000    0.0000
+invasive_ETITRUE           0.164914660    0.0000000    0.0000000    0.0000
+invasive_CVCTRUE           0.538720217    0.0000000    1.0000000    1.0000
+invasive_IHDTRUE           0.015339463    0.0000000    0.0000000    0.0000
+invasive_CRRTTRUE          0.669776096    1.0000000    0.0000000    0.0000
+comorb_HTNTRUE             0.007825639    0.0000000    0.0000000    0.0000
+comorb_DMTRUE              0.015446406    0.0000000    0.0000000    0.0000
+comorb_HFTRUE              0.071572529    0.0000000    0.0000000    0.0000
+comorb_anginaTRUE          0.007432131    0.0000000    0.0000000    0.0000
+comorb_cirrTRUE            0.351348973    0.0000000    0.0000000    1.0000
+comorb_COPDTRUE            0.020126762    0.0000000    0.0000000    0.0000
+comorb_CVATRUE             0.023913449    0.0000000    0.0000000    0.0000
+comorb_MITRUE              0.014379967    0.0000000    0.0000000    0.0000
+comorb_KTRUE               0.007598757    0.0000000    0.0000000    0.0000
+comorb_hematologicalTRUE   0.018279788    0.0000000    0.0000000    0.0000
+comorb_hemaTRUE            0.007075368    0.0000000    0.0000000    0.0000
+infect_sepsisTRUE          0.035091784    0.0000000    0.0000000    0.0000
+infect_CAPTRUE             0.011371317    0.0000000    0.0000000    0.0000
+infect_HAPTRUE             0.024803632    0.0000000    0.0000000    0.0000
+infect_SSTITRUE            0.029752744    0.0000000    0.0000000    0.0000
+infect_CNSTRUE             0.008087873    0.0000000    0.0000000    0.0000
+infect_IAITRUE             0.007932133    0.0000000    0.0000000    0.0000
+infect_UTITRUE             0.007754611    0.0000000    0.0000000    0.0000
+infect_BJITRUE             0.011076336    0.0000000    0.0000000    0.0000
+infect_septicemiaTRUE      0.239840978    0.0000000    0.0000000    0.0000
+comed_ibuprofenTRUE        0.008981781    0.0000000    0.0000000    0.0000
+comed_carbapenemTRUE       0.007893149    0.0000000    0.0000000    0.0000
+comed_vancomycinTRUE       0.047030436    0.0000000    0.0000000    0.0000
+comed_levofloxacinTRUE     0.006740464    0.0000000    0.0000000    0.0000
+comed_teicoplaninTRUE      0.019733964    0.0000000    0.0000000    0.0000
+comed_pyrazinamidTRUE      0.014719622    0.0000000    0.0000000    0.0000
+comed_rifampinTRUE         0.014283608    0.0000000    0.0000000    0.0000
 comed_heparinTRUE          1.000000000    1.0000000    1.0000000    1.0000
-comed_clopidogrelTRUE      0.025189364    0.0000000    0.0000000    0.0000
-comed_enoxaparinTRUE       0.007968411    0.0000000    0.0000000    0.0000
-comed_valproicTRUE         0.010363300    0.0000000    0.0000000    0.0000
+comed_clopidogrelTRUE      0.024388633    0.0000000    0.0000000    0.0000
+comed_enoxaparinTRUE       0.007875995    0.0000000    0.0000000    0.0000
+comed_valproicTRUE         0.011008180    0.0000000    0.0000000    0.0000
 BF                                  NA    0.2230867    0.1862339    1.0000
-PostProbs                           NA    0.0425000    0.0355000    0.0279
+PostProbs                           NA    0.0426000    0.0356000    0.0279
 R2                                  NA           NA           NA        NA
 dim                                 NA    7.0000000    7.0000000    8.0000
 logmarg                             NA -445.8853099 -446.0658674 -444.3851
@@ -4843,6 +5217,45 @@ model_full &lt;- logistic_reg() |&gt;
     ),
     data = data_patient_transformed_response_as_factor
   )
+
+# dd &lt;- data_patient_transformed_response_as_factor |&gt;
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
+#   datadist()
+
+# options(datadist = &quot;dd&quot;)
+# lrm(flag_ADR_TP_ID ~ rcs(patient_age, 4) + rcs(baseline_PLT, 4) + rcs(baseline_CLCR, 4) + rcs(LZD_duration, 4) + invasive_CRRT + comed_heparin, data = data_patient_transformed_response_as_factor) |&gt;
+#   nomogram(fun = plogis, funlabel = &quot;Risk&quot;) |&gt; plot()
+
+# print.nomogram &lt;- function(x, dec = 0, ...) {
+#   obj &lt;- x
+#   w &lt;- diff(range(obj$lp$x)) / diff(range(obj$lp$x.real))
+#   cat(
+#     &quot;Points per unit of linear predictor:&quot;, format(w),
+#     &quot;\nLinear predictor units per point   :&quot;, format(1 / w), &quot;\n\n&quot;
+#   )
+
+#   fun &lt;- FALSE
+#   for (x in names(obj)) {
+#     k &lt;- x == &quot;total.points&quot; || x == &quot;lp&quot; || x == &quot;abbrev&quot;
+#     if (k) {
+#       fun &lt;- TRUE
+#       next
+#     }
+#     y &lt;- obj[[x]]
+#     if (fun) {
+#       z &lt;- cbind(round(y[[1]], dec), y$x.real)
+#       dimnames(z) &lt;- list(rep(&quot;&quot;, nrow(z)), c(&quot;Total Points&quot;, x))
+#     } else {
+#       z &lt;- cbind(format(y[[1]]), format(round(y$points, dec)))
+#       dimnames(z) &lt;- list(rep(&quot;&quot;, length(y$points)), c(x, &quot;Points&quot;))
+#       ## didn't use data.frame since wanted blank row names
+#     }
+#     cat(&quot;\n&quot;)
+#     print(z, quote = FALSE)
+#     cat(&quot;\n&quot;)
+#   }
+#   invisible()
+# }
   </code>
   <sec id="nb-code-cell-6-output-0-nb-3" specific-use="notebook-output">
   <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
@@ -4867,7 +5280,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
   </sec>
   </sec>
 </sec>
@@ -5303,7 +5716,7 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-4-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>

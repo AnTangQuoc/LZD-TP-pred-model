@@ -188,7 +188,7 @@
 \title{Development and Validation of a Risk Prediction Model of
 linezolid-induced thrombocytopenia in Vietnamese patients}
 \author{Nhi Nguyen Ha \and An Tang Quoc}
-\date{Monday, March 25, 2024}
+\date{Wednesday, March 27, 2024}
 
 \begin{document}
 \maketitle
@@ -349,15 +349,36 @@ Linezolid is an oxazolidinones antibiotics {[}1{]}.
 \subsubsection{4a: Describe eligibility criteria for participants and
 datasets}\label{a-describe-eligibility-criteria-for-participants-and-datasets}
 
+This study used data from three hospitals in Vietnam: Thanh Nhan
+Hospital, Bach Mai Hospital, and the National Hospital of Tropical
+Diseases. Patients hospitalized and treated with linezolid were
+included. The following patients were excluded: (i) those under 18 years
+of age; (ii) those treated with linezolid for less than 3 days; (iii)
+those without any recorded platelet count in the period before or after
+initiation of linezolid therapy; (iv) those with baseline platelet count
+of \textgreater{} 450 x 10\textsuperscript{9} cells/L; (v) those with
+any missing recorded values among the specified predictors.
+
 \subsubsection{4b: Describe the origin of the data, and how the data
 were identified, requested, and
 collected}\label{b-describe-the-origin-of-the-data-and-how-the-data-were-identified-requested-and-collected}
 
-Note: 2 periods, convenience sampling (1st), extract from the electronic
-medical record (except BM1 from physical MR). Infomation was filled out
-in a paper form and stored in Excel.
+The data was collected from each hospital in two phases: a pilot phase
+and an extension phase. In the pilot phase, we requested existing
+datasets at the hospitals. In the extension phase, additional data was
+collected prospectively. Data was extracted from the electronic medical
+records of the hospitals, except for the pilot dataset at Bach Mai
+Hospital which was extracted from physical records. In order to
+harmonise different datasets, data was filled out in a paper form and
+stored in Excel.
 
-Include 2 publications for BM1 and TN1.
+The pilot datasets were collected from January 01 to June 30, 2020 at
+Thanh Nhan Hospital; from November 01 to December 31, 2019 at Bach Mai
+Hospital; from May 01 to December 31, 2021 at the National Hospital of
+Tropical Diseases. The extension datasets were collected from September
+01, 2022 to March 31, 2023 at Thanh Nhan Hospital; from December 01,
+2022 to March 31, 2023 at Bach Mai Hospital; from April 01 to September
+31, 2022 at the National Hospital of Tropical Diseases.
 
 \subsection{Sample size}\label{sample-size}
 
@@ -418,7 +439,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, leftrule=.75mm, arc=.35mm, left=2mm, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, toprule=.15mm, rightrule=.15mm, opacityback=0, colback=white, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-note-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
@@ -546,13 +567,13 @@ to have met the outcome if they have a platelet count that meets the
 above criteria at any time during linezolid therapy or within 5 days
 after the end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, opacitybacktitle=0.6, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, breakable, colbacktitle=quarto-callout-warning-color!10!white, bottomrule=.15mm, leftrule=.75mm, arc=.35mm, left=2mm, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, toprule=.15mm, rightrule=.15mm, opacityback=0, colback=white, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-warning-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-warning-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
 exactly how long after stopping LZD can a TP event still be attributed
-to LZD use. The value of 5 days has been chosen \emph{almost}
-arbitrarily.
+to LZD use. We deemed that any TP events that occur after 5 days of
+stopping LZD would not be related to LZD use.
 
 Our rationale is that after 5 days (120 hrs), LZD is guaranteed to be
 completely eliminated in all patients, as the longest
@@ -572,22 +593,162 @@ LZD has been eliminated from the system would not be related to LZD use.
 validating the model, including how and when
 measured}\label{b.-define-all-predictors-used-in-developing-or-validating-the-model-including-how-and-when-measured}
 
+Predictors will be screened for inclusion in the model if they meet all
+of the following criteria: (i) has been identified as a risk factor of
+LI-TP in previous studies; (ii) can be collected or evaluated from the
+information in the datasets; (iii) for concomitant medications, has
+drug-induced immune thrombocytopenia as an adverse drug reaction with a
+frequency of at least \textgreater{} 1/1000 in the drug label or
+Micromedex; (iv) has consensus from a clinical expert panel as possibly
+related to LI-TP development.
+
+The following information was extracted from all records:
+
+\begin{itemize}
+\tightlist
+\item
+  Patient demographics
+\item
+  Clinical department where linezolid was initiated.
+\item
+  Co-morbidities
+\item
+  Invasive procedures performed
+\item
+  Infection type
+\item
+  Laboratory results
+\item
+  Linezolid route of administration
+\item
+  Linezolid dose in milligrams.
+\item
+  Linezolid duration, defined as the number of days from the first to
+  the last dose of linezolid.
+\item
+  Concomitant medications during linezolid therapy
+\end{itemize}
+
 \subsection{Data preparation}\label{data-preparation}
 
 \subsubsection{7a. Describe how the data were prepared for analysis,
 including any cleaning, harmonisation, linkage, and quality
 checks}\label{a.-describe-how-the-data-were-prepared-for-analysis-including-any-cleaning-harmonisation-linkage-and-quality-checks}
 
-Infection diagnosis was recoded into binary variable\ldots.
+Harmonisation between datasets was mainly done via manually recording
+data to a standardized form. Data was then entered into an Excel
+spreadsheet. Data cleaning was done by handling duplicates, checking for
+missing values and inconsistencies. Multiple linezolid treatment
+episodes in the same patient were treated as duplicates and only the
+first episode was included in the analysis. Patients with missing values
+were excluded from subsequent analyses. Inconsistencies were resolved by
+referring back to the original records.
 
-look up by ID number. Điền thông tin về bệnh mắc kèm, bệnh nhiễm khuẩn
-và thuốc dùng kèm từ
+Before analysis, the extracted predictors are limited to those that meet
+criteria (i) to (iii) in the previous section:
 
-1 BN có 2 đợt điều trị -\textgreater{} 2 entry have identical ID number
--\textgreater{} manually sort and exclude the 2nd course Cepha, peni và
-carbapenem.
+\begin{itemize}
+\tightlist
+\item
+  Patient demographics were limited to age in years, gender, and weight
+  in kilograms.
+\item
+  Clinical department was recorded into binary variables: intensive care
+  unit, emergency department, and others.
+\item
+  Co-morbidities were recorded into binary variables: hypertension,
+  heart failure, angina, myocardial infarction, cerebral vascular
+  accident, diabetes, chronic obstructive pulmonary disease, cirrhosis,
+  malignancies, and hematological disorders.
+\item
+  Invasive procedures were recorded into binary variables: endotracheal
+  intubation, central venous catheter insertion, intermittent
+  hemodialysis, and continuous renal replacement therapy.
+\item
+  Infection type was recorded into binary variables: community-acquired
+  pneumonia, hospital-acquired pneumonia, skin and soft tissue
+  infection, central nervous system infection, intra-abdominal
+  infection, urinary tract infection, bone and joint infection,
+  septicemia, and sepsis.
+\item
+  Laboratory results were limited to serum creatinine, hemoglobin count,
+  white blood cell count, and platelet count. Creatinine clearance was
+  estimated from serum creatinine using the Cockcroft-Gault equation.
+\item
+  Linezolid route of administration was recorded into binary variables:
+  intravenous, oral, and both.
+\item
+  Linezolid dose in milligrams.
+\item
+  Linezolid duration in days.
+\item
+  Concomitant medications were recoded to binary variables: carbapenems,
+  daptomycin, teicoplanin, levofloxacin, ibuprofen, naproxen, heparin,
+  clopidogrel, enoxaparin, eptifibatide, carbamazepine, valproic acid,
+  quetiapine, atezolizumab, pembrolizumab, trastuzumab, tacrolimus,
+  fluorouracil, irinotecan, leucovorin, oxaliplatin, pyrazinamide, and
+  rifampin.
+\end{itemize}
+
+\subsubsection{7b. Describe the method for assessing risk of bias and
+applicability in the individual clusters (eg, using
+PROBAST)}\label{b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-important-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+
+Is this even possible for this study?
+
+\end{tcolorbox}
+
+\subsubsection{7c. For validation, identify any differences in
+definition and measurement from the development data (eg, setting,
+eligibility criteria, outcome,
+predictors)}\label{c.-for-validation-identify-any-differences-in-definition-and-measurement-from-the-development-data-eg-setting-eligibility-criteria-outcome-predictors}
+
+\subsubsection{7d. Describe how missing data were
+handled}\label{d.-describe-how-missing-data-were-handled}
+
+Any subsequent analyses were conducted on the complete case dataset.
+There are \textasciitilde5\% of observations with missing values in the
+dataset, which is considered low. The missing data mechanism is assumed
+to be missing completely at random.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-important-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+
+What is a possible reason for missing data?
+
+\end{tcolorbox}
 
 \subsection{Data analysis}\label{data-analysis}
+
+\subsubsection{8a. Describe how predictors were handled in the
+analyses}\label{a.-describe-how-predictors-were-handled-in-the-analyses}
+
+\subsubsection{8b. Specify the type of model, all model building
+procedures (eg, any predictor selection and penalisation), and method
+for
+validation}\label{b.-specify-the-type-of-model-all-model-building-procedures-eg-any-predictor-selection-and-penalisation-and-method-for-validation}
+
+\subsubsection{8c. Describe how any heterogeneity across clusters (eg,
+studies or settings) in model parameter values was
+handled}\label{c.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-parameter-values-was-handled}
+
+\subsubsection{8d. For validation, describe how the predictions were
+calculated}\label{d.-for-validation-describe-how-the-predictions-were-calculated}
+
+\subsubsection{8e. Specify all measures used to assess model performance
+(eg, calibration, discrimination, and decision curve analysis) and, if
+relevant, to compare multiple
+models}\label{e.-specify-all-measures-used-to-assess-model-performance-eg-calibration-discrimination-and-decision-curve-analysis-and-if-relevant-to-compare-multiple-models}
+
+\subsubsection{8f. Describe how any heterogeneity across clusters (eg,
+studies or settings) in model performance was handled and
+quantified}\label{f.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-performance-was-handled-and-quantified}
+
+\subsubsection{8g. Describe any model updating (eg, recalibration)
+arising from the validation, either overall or for particular
+populations or
+settings}\label{g.-describe-any-model-updating-eg-recalibration-arising-from-the-validation-either-overall-or-for-particular-populations-or-settings}
 
 \subsection{Sensitivity analysis}\label{sensitivity-analysis}
 
