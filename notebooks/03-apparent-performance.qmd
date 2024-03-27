@@ -136,6 +136,45 @@ model_full <- logistic_reg() |>
     ),
     data = data_patient_transformed_response_as_factor
   )
+
+# dd <- data_patient_transformed_response_as_factor |>
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |>
+#   datadist()
+
+# options(datadist = "dd")
+# lrm(flag_ADR_TP_ID ~ rcs(patient_age, 4) + rcs(baseline_PLT, 4) + rcs(baseline_CLCR, 4) + rcs(LZD_duration, 4) + invasive_CRRT + comed_heparin, data = data_patient_transformed_response_as_factor) |>
+#   nomogram(fun = plogis, funlabel = "Risk") |> plot()
+
+# print.nomogram <- function(x, dec = 0, ...) {
+#   obj <- x
+#   w <- diff(range(obj$lp$x)) / diff(range(obj$lp$x.real))
+#   cat(
+#     "Points per unit of linear predictor:", format(w),
+#     "\nLinear predictor units per point   :", format(1 / w), "\n\n"
+#   )
+
+#   fun <- FALSE
+#   for (x in names(obj)) {
+#     k <- x == "total.points" || x == "lp" || x == "abbrev"
+#     if (k) {
+#       fun <- TRUE
+#       next
+#     }
+#     y <- obj[[x]]
+#     if (fun) {
+#       z <- cbind(round(y[[1]], dec), y$x.real)
+#       dimnames(z) <- list(rep("", nrow(z)), c("Total Points", x))
+#     } else {
+#       z <- cbind(format(y[[1]]), format(round(y$points, dec)))
+#       dimnames(z) <- list(rep("", length(y$points)), c(x, "Points"))
+#       ## didn't use data.frame since wanted blank row names
+#     }
+#     cat("\n")
+#     print(z, quote = FALSE)
+#     cat("\n")
+#   }
+#   invisible()
+# }
 ```
 
 # Check Model Assumptions
