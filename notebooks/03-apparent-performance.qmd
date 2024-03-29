@@ -137,7 +137,7 @@ model_full <- logistic_reg() |>
     data = data_patient_transformed_response_as_factor
   )
 
-library(splines2)
+# library(splines2)
 
 # library(rms)
 

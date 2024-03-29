@@ -1,5 +1,5 @@
 ---
-title: Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia in Vietnamese patients
+title: Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia
 
 authors:
   - name: Nhi Nguyen Ha
@@ -10,7 +10,26 @@ authors:
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
     corresponding: false
-    
+  - name: Ha Tran Ngan
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: false
+  - name: Hang Nguyen Thi Thu
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: false 
+  - name: Hoa Vu Dinh
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: false 
+  - name: Nhung TH Trinh
+    affiliation: Pharmacoepidemiology and Drug Safety Research Group, Department of Pharmacy, Faculty of Mathematics and Natural Sciences, University of Oslo, Oslo, Norway
+    roles: writing
+    corresponding: false
+  - name: Anh Nguyen Hoang
+    affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
+    roles: writing
+    corresponding: true
 # bibliography: references.bib
 
 css: styles.css
@@ -74,7 +93,13 @@ abstract: |
 
 ## Background and objectives
 
-Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020.
+**First paragraph:** introduction about linezolid and associated ADR including thrombocytopenia
+
+**Second paragraph:** what is already known in the literature about this association (magnitude and associated factors)
+
+**Third paragraph:** the importance of investigation this association in Vietnamese settings and develop a risk prediction model. Why is this study needed?
+
+This study aimed to develop and validate a risk prediction model of linezolid-induced thrombocytopenia adapted to Vietnamese setting. In addition, we constructed a simplified risk score using this model to enhance the applicability of the prediction rule in clinical practice.
 
 # Methods
 
@@ -82,13 +107,17 @@ Linezolid is an oxazolidinones antibiotics @cazavet_risk_2020.
 
 ### 4a: Describe eligibility criteria for participants and datasets
 
-This study used data from three hospitals in Vietnam: Thanh Nhan Hospital, Bach Mai Hospital, and the National Hospital of Tropical Diseases. Patients hospitalized and treated with linezolid were included. The following patients were excluded: (i) those under 18 years of age; (ii) those treated with linezolid for less than 3 days; (iii) those without any recorded platelet count in the period before or after initiation of linezolid therapy; (iv) those with baseline platelet count of \> 450 x 10^9^ cells/L; (v) those with any missing recorded values among the specified predictors.
+This study used data from three tertiary hospitals in Northern Vietnam: Thanh Nhan Hospital, Bach Mai Hospital, and the National Hospital of Tropical Diseases. Patients hospitalized and treated with linezolid were included. The following patients were excluded: (i) those under 18 years of age; (ii) those treated with linezolid for less than 3 days; (iii) those without any recorded platelet count in the period before or after initiation of linezolid therapy; (iv) those with baseline platelet count of \> 450 x 10^9^ cells/L; (v) those with any missing recorded values among the specified predictors. Each patient was included only once per admission and the first linezolid treatment course was evaluated. Included patients were followed up until the end of the linezolid treatment course or discharge date whichever comes first.
 
 ### 4b: Describe the origin of the data, and how the data were identified, requested, and collected
 
 The data was collected from each hospital in two phases: a pilot phase and an extension phase. In the pilot phase, we requested existing datasets at the hospitals. In the extension phase, additional data was collected prospectively. Data was extracted from the electronic medical records of the hospitals, except for the pilot dataset at Bach Mai Hospital which was extracted from physical records. In order to harmonise different datasets, data was filled out in a paper form and stored in Excel.
 
-The pilot datasets were collected from January 01 to June 30, 2020 at Thanh Nhan Hospital; from November 01 to December 31, 2019 at Bach Mai Hospital; from May 01 to December 31, 2021 at the National Hospital of Tropical Diseases. The extension datasets were collected from September 01, 2022 to March 31, 2023 at Thanh Nhan Hospital; from December 01, 2022 to March 31, 2023 at Bach Mai Hospital; from April 01 to September 31, 2022 at the National Hospital of Tropical Diseases.
+The pilot datasets were collected from January 01 to June 30, 2020 at Thanh Nhan Hospital; from November 01 to December 31, 2019 at Bach Mai Hospital; from May 01 to December 31, 2021 at the National Hospital of Tropical Diseases. The extension datasets were collected from September 01, 2022 to March 31, 2023 at Thanh Nhan Hospital; from December 01, 2022 to March 31, 2023 at Bach Mai Hospital; from April 01 to September 31, 2022 at the National Hospital of Tropical Diseases. *(comment: no data of total number of patients admitted to these hospitals during each period)*
+
+The anonymized data were extracted from electronical medical records at each medical institution, except data from Bach Mai Hospital in the pilot phase. Individual ID number were assigned to each patient's hospital admission.
+
+Ethical approval was obtained from....
 
 ## Sample size
 
@@ -248,7 +277,7 @@ The maximum number of parameters that can be screened is `r maximum_parameter_li
 
 The outcome of interest is linezolid-induced thrombocytopenia, defined as (i) a platelet count of \< 112.5 x 10^9^ cells/L (75% of the lower limit of normal) for patients with a baseline platelet count in the normal range; (ii) A reduction in platelet count of ≥ 25% from the baseline value for patients with a baseline platelet count of \< 150 x 10^9^ cells/L [@zyvoxpr; @xu_establishment_2023; @kawasuji_proposal_2021].
 
-Normal platelet count is defined as 150-450 x 10^9^ cells/L. Baseline platelet count is defined as the last recorded PLT value before the start of linezolid therapy. Participants are considered to have met the outcome if they have a platelet count that meets the above criteria at any time during linezolid therapy or within 5 days after the end of therapy.
+Normal platelet count is defined as 150-450 x 10^9^ cells/L. Baseline platelet count is defined as the last recorded PLT value before the start of linezolid therapy. Participants are considered to have met the outcome if their platelet count value meets the above criteria at any time during linezolid therapy or within 5 days after the end of therapy.
 
 ::: callout-warning
 Thrombocytopenia may occur within a few days after stopping LZD, when the drug hasn't been completely eliminated. However, it is unknown exactly how long after stopping LZD can a TP event still be attributed to LZD use. We deemed that any TP events that occur after 5 days of stopping LZD would not be related to LZD use.
@@ -260,18 +289,18 @@ Our rationale is that after 5 days (120 hrs), LZD is guaranteed to be completely
 
 Predictors will be screened for inclusion in the model if they meet all of the following criteria: (i) has been identified as a risk factor of LI-TP in previous studies; (ii) can be collected or evaluated from the information in the datasets; (iii) for concomitant medications, has drug-induced immune thrombocytopenia as an adverse drug reaction with a frequency of at least \> 1/1000 in the drug label or Micromedex; (iv) has consensus from a clinical expert panel as possibly related to LI-TP development.
 
-The following information was extracted from all records: 
+The following information was extracted from all records:
 
-- Patient demographics
-- Clinical department where linezolid was initiated. 
-- Co-morbidities
-- Invasive procedures performed
-- Infection type
-- Laboratory results
-- Linezolid route of administration
-- Linezolid dose in milligrams.
-- Linezolid duration, defined as the number of days from the first to the last dose of linezolid.
-- Concomitant medications during linezolid therapy
+-   Patient demographics
+-   Clinical department where linezolid was initiated.
+-   Co-morbidities
+-   Invasive procedures performed
+-   Infection type
+-   Laboratory results
+-   Linezolid route of administration
+-   Linezolid dose in milligrams.
+-   Linezolid duration, defined as the number of days from the first to the last dose of linezolid.
+-   Concomitant medications during linezolid therapy
 
 ## Data preparation
 
@@ -281,16 +310,16 @@ Harmonisation between datasets was mainly done via manually recording data to a 
 
 Before analysis, the extracted predictors are limited to those that meet criteria (i) to (iii) in the previous section:
 
-- Patient demographics were limited to age in years, gender, and weight in kilograms.
-- Clinical department was recorded into binary variables: intensive care unit, emergency department, and others.
-- Co-morbidities were recorded into binary variables: hypertension, heart failure, angina, myocardial infarction, cerebral vascular accident, diabetes, chronic obstructive pulmonary disease, cirrhosis, malignancies, and hematological disorders.
-- Invasive procedures were recorded into binary variables: endotracheal intubation, central venous catheter insertion, intermittent hemodialysis, and continuous renal replacement therapy.
-- Infection type was recorded into binary variables: community-acquired pneumonia, hospital-acquired pneumonia, skin and soft tissue infection, central nervous system infection, intra-abdominal infection, urinary tract infection, bone and joint infection, septicemia, and sepsis.
-- Laboratory results were limited to serum creatinine, hemoglobin count, white blood cell count, and platelet count. Creatinine clearance was estimated from serum creatinine using the Cockcroft-Gault equation.
-- Linezolid route of administration was recorded into binary variables: intravenous, oral, and both.
-- Linezolid dose in milligrams.
-- Linezolid duration in days.
-- Concomitant medications were recoded to binary variables: carbapenems, daptomycin, teicoplanin, levofloxacin, ibuprofen, naproxen, heparin, clopidogrel, enoxaparin, eptifibatide, carbamazepine, valproic acid, quetiapine, atezolizumab, pembrolizumab, trastuzumab, tacrolimus, fluorouracil, irinotecan, leucovorin, oxaliplatin, pyrazinamide, and rifampin.
+-   Patient demographics were limited to age in years, gender, and weight in kilograms.
+-   Clinical department was recorded into binary variables: intensive care unit, emergency department, and others.
+-   Co-morbidities were recorded into binary variables: hypertension, heart failure, angina, myocardial infarction, cerebral vascular accident, diabetes, chronic obstructive pulmonary disease, cirrhosis, malignancies, and hematological disorders.
+-   Invasive procedures were recorded into binary variables: endotracheal intubation, central venous catheter insertion, intermittent hemodialysis, and continuous renal replacement therapy.
+-   Infection type was recorded into binary variables: community-acquired pneumonia, hospital-acquired pneumonia, skin and soft tissue infection, central nervous system infection, intra-abdominal infection, urinary tract infection, bone and joint infection, septicemia, and sepsis.
+-   Laboratory results were limited to serum creatinine, hemoglobin count, white blood cell count, and platelet count. Creatinine clearance was estimated from serum creatinine using the Cockcroft-Gault equation.
+-   Linezolid route of administration was recorded into binary variables: intravenous, oral, and both.
+-   Linezolid dose in milligrams.
+-   Linezolid duration in days.
+-   Concomitant medications were recoded to binary variables: carbapenems, daptomycin, teicoplanin, levofloxacin, ibuprofen, naproxen, heparin, clopidogrel, enoxaparin, eptifibatide, carbamazepine, valproic acid, quetiapine, atezolizumab, pembrolizumab, trastuzumab, tacrolimus, fluorouracil, irinotecan, leucovorin, oxaliplatin, pyrazinamide, and rifampin.
 
 ### 7b. Describe the method for assessing risk of bias and applicability in the individual clusters (eg, using PROBAST)
 
@@ -302,7 +331,7 @@ Is this even possible for this study?
 
 ### 7d. Describe how missing data were handled
 
-Any subsequent analyses were conducted on the complete case dataset. There are ~5% of observations with missing values in the dataset, which is considered low. The missing data mechanism is assumed to be missing completely at random.
+Any subsequent analyses were conducted on the complete case dataset. There are \~5% of observations with missing values in the dataset, which is considered low. The missing data mechanism is assumed to be missing completely at random.
 
 ::: callout-important
 What is a possible reason for missing data?
