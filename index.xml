@@ -651,8 +651,10 @@ University of Oslo, Oslo, Norway</institution>
       studies does not provide any information to identify a sensible
       value of the minimum expected Cox-Snell R<sup>2</sup>, the value
       R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a
-      R<sup>2</sup><sub>Nagelkerke</sub> of 0.15.</p>
-      <preformat>[1] 0.2048324</preformat>
+      R<sup>2</sup><sub>Nagelkerke</sub> of 0.50, as baseline platelet
+      count, a “direct” measurement of the outcome, is likely to be a
+      predictor.</p>
+      <preformat>[1] 0.6827745</preformat>
     </sec>
     <sec id="step-3-criterion-1">
       <title>3.2.3 Step 3: Criterion 1</title>
@@ -660,8 +662,9 @@ University of Oslo, Oslo, Norway</institution>
       global shrinkage factor (S<sub>VH</sub>) is close to 1. A value of
       S<sub>VH</sub> &gt;= 0.90 is generally recommended, which reflects
       a small amount of overfitting during model development.</p>
-      <preformat>[1] 775</preformat>
-      <p>We see that 775 participants are required to meet criterion
+      <preformat>[1] 141</preformat>
+      <preformat>[1] 115</preformat>
+      <p>We see that 141 participants are required to meet criterion
       1.</p>
     </sec>
     <sec id="step-4-criterion-2">
@@ -671,8 +674,9 @@ University of Oslo, Oslo, Norway</institution>
       model’s apparent and adjusted Nagelkerke’s R<sup>2</sup>. Then
       derive the required sample size conditional on this value of
       S<sub>VH</sub>.</p>
-      <preformat>[1] 478</preformat>
-      <p>We see that 478 participants are required to meet criterion
+      <preformat>[1] 310</preformat>
+      <preformat>[1] 52</preformat>
+      <p>We see that 310 participants are required to meet criterion
       2.</p>
     </sec>
     <sec id="step-5-criterion-3">
@@ -688,10 +692,12 @@ University of Oslo, Oslo, Norway</institution>
       <title>3.2.6 Step 6: Final sample size</title>
       <p>The required minimum sample size is the maximum value from
       steps 3 to 5, to ensure that each of criteria 1 to 3 are met.</p>
-      <preformat>[1] 775</preformat>
-      <p>The final estimate of minimum sample size is 775, therefore our
-      data is sufficient for model development with at most 20
-      parameters.</p>
+      <preformat>[1] 359</preformat>
+      <preformat>[1] 52</preformat>
+      <p>The final estimate of minimum sample size is 359, therefore our
+      data is sufficient for model development with 20 parameters.</p>
+      <p>The maximum number of parameters that can be screened is
+      52.</p>
     </sec>
   </sec>
   <sec id="sec-outcomes-and-predictors">
@@ -1771,7 +1777,8 @@ University of Oslo, Oslo, Norway</institution>
         </disp-quote>
       </boxed-text>
       <sec id="nb-code-cell-1-nb-article" specific-use="notebook-code">
-      <code language="r script">parameter_number &lt;- 20</code>
+      <code language="r script">parameter_number &lt;- 20
+sample_size &lt;- 816</code>
       </sec>
     </sec>
     <sec id="step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic.-nb-article">
@@ -1792,9 +1799,11 @@ University of Oslo, Oslo, Norway</institution>
       studies does not provide any information to identify a sensible
       value of the minimum expected Cox-Snell R<sup>2</sup>, the value
       R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a
-      R<sup>2</sup><sub>Nagelkerke</sub> of 0.15.</p>
+      R<sup>2</sup><sub>Nagelkerke</sub> of 0.50, as baseline platelet
+      count, a “direct” measurement of the outcome, is likely to be a
+      predictor.</p>
       <sec id="nb-code-cell-2-nb-article" specific-use="notebook-code">
-      <code language="r script">calculate_R2_CS_adj &lt;- function(n = 100, E, R2_N = 0.15) {
+      <code language="r script">calculate_R2_CS_adj &lt;- function(n = 100, E, R2_N = 0.50) {
   ln_L_null &lt;- E * log(E / n) + (n - E) * log(1 - E / n)
   max_R2_CS_app &lt;- 1 - exp(2 * ln_L_null / n)
   R2_CS_adj &lt;- R2_N / max_R2_CS_app
@@ -1804,7 +1813,7 @@ University of Oslo, Oslo, Norway</institution>
 (cox_snell_r2 &lt;- calculate_R2_CS_adj(E = 37)$R2_CS_adj)</code>
       <code language="r script">max_apparent_cox_snell_r2 &lt;- calculate_R2_CS_adj(E = 37)$max_R2_CS_app</code>
       <sec id="nb-code-cell-2-output-0-nb-article" specific-use="notebook-output">
-      <preformat>[1] 0.2048324</preformat>
+      <preformat>[1] 0.6827745</preformat>
       </sec>
       </sec>
     </sec>
@@ -1827,11 +1836,25 @@ University of Oslo, Oslo, Norway</institution>
       R2_CS_adj = cox_snell_r2
     ) |&gt; ceiling()
 )</code>
+      <code language="r script">calculate_param_limit_1 &lt;- function(n, R2_CS_adj, S_VH = 0.90) {
+  p &lt;- n * ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(p)
+}
+
+(
+  parameter_limit_1 &lt;- calculate_param_limit_1(
+    n = sample_size,
+    R2_CS_adj = cox_snell_r2
+  ) |&gt; floor()
+)</code>
       <sec id="nb-code-cell-3-output-0-nb-article" specific-use="notebook-output">
-      <preformat>[1] 775</preformat>
+      <preformat>[1] 141</preformat>
+      </sec>
+      <sec id="nb-code-cell-3-output-1-nb-article" specific-use="notebook-output">
+      <preformat>[1] 115</preformat>
       </sec>
       </sec>
-      <p>We see that 775 participants are required to meet criterion
+      <p>We see that 141 participants are required to meet criterion
       1.</p>
     </sec>
     <sec id="step-4-criterion-2-nb-article">
@@ -1856,11 +1879,27 @@ University of Oslo, Oslo, Norway</institution>
       max_R2_CS_app = max_apparent_cox_snell_r2
     ) |&gt; ceiling()
 )</code>
+      <code language="r script">calculate_param_limit_2 &lt;- function(n, R2_CS_adj, max_R2_CS_app, delta = 0.05) {
+  S_VH &lt;- R2_CS_adj / (R2_CS_adj + delta * max_R2_CS_app)
+  p &lt;- n * ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(p)
+}
+
+(
+  parameter_limit_2 &lt;- calculate_param_limit_2(
+    n = sample_size,
+    R2_CS_adj = cox_snell_r2,
+    max_R2_CS_app = max_apparent_cox_snell_r2
+  ) |&gt; floor()
+) </code>
       <sec id="nb-code-cell-4-output-0-nb-article" specific-use="notebook-output">
-      <preformat>[1] 478</preformat>
+      <preformat>[1] 310</preformat>
+      </sec>
+      <sec id="nb-code-cell-4-output-1-nb-article" specific-use="notebook-output">
+      <preformat>[1] 52</preformat>
       </sec>
       </sec>
-      <p>We see that 478 participants are required to meet criterion
+      <p>We see that 310 participants are required to meet criterion
       2.</p>
     </sec>
     <sec id="step-5-criterion-3-nb-article">
@@ -1891,13 +1930,18 @@ University of Oslo, Oslo, Norway</institution>
       steps 3 to 5, to ensure that each of criteria 1 to 3 are met.</p>
       <sec id="nb-code-cell-6-nb-article" specific-use="notebook-code">
       <code language="r script">(minimum_sample_size &lt;- max(sample_size_criterion_1, sample_size_criterion_2, sample_size_criterion_3))</code>
+      <code language="r script">(maximum_parameter_limit &lt;- min(parameter_limit_1, parameter_limit_2))</code>
       <sec id="nb-code-cell-6-output-0-nb-article" specific-use="notebook-output">
-      <preformat>[1] 775</preformat>
+      <preformat>[1] 359</preformat>
+      </sec>
+      <sec id="nb-code-cell-6-output-1-nb-article" specific-use="notebook-output">
+      <preformat>[1] 52</preformat>
       </sec>
       </sec>
-      <p>The final estimate of minimum sample size is 775, therefore our
-      data is sufficient for model development with at most 20
-      parameters.</p>
+      <p>The final estimate of minimum sample size is 359, therefore our
+      data is sufficient for model development with 20 parameters.</p>
+      <p>The maximum number of parameters that can be screened is
+      52.</p>
     </sec>
   </sec>
   <sec id="sec-outcomes-and-predictors-nb-article">
@@ -2897,7 +2941,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-2" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -4139,7 +4183,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.4%)</td>
-        <td headers="p.value">0.092</td>
+        <td headers="p.value">0.080</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -4513,7 +4557,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">4 (4.0%)</td>
         <td headers="stat_6">5 (2.3%)</td>
-        <td headers="p.value" style="font-weight: bold">0.025</td>
+        <td headers="p.value" style="font-weight: bold">0.024</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4546,7 +4590,7 @@ table_descriptive
         <td headers="stat_4">5 (4.3%)</td>
         <td headers="stat_5">3 (3.0%)</td>
         <td headers="stat_6">13 (5.9%)</td>
-        <td headers="p.value" style="font-weight: bold">0.026</td>
+        <td headers="p.value" style="font-weight: bold">0.030</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -4612,7 +4656,7 @@ table_descriptive
         <td headers="stat_4">1 (0.9%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.028</td>
+        <td headers="p.value" style="font-weight: bold">0.035</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4656,7 +4700,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.003</td>
+        <td headers="p.value" style="font-weight: bold">0.005</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4700,7 +4744,7 @@ table_descriptive
         <td headers="stat_4">3 (2.6%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.015</td>
+        <td headers="p.value" style="font-weight: bold">0.023</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4722,7 +4766,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.15</td>
+        <td headers="p.value">0.14</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -5201,7 +5245,7 @@ multi_model_transformed &lt;- data_patient_transformed |&gt;
   select(all_of(predictor_transformed), flag_ADR_TP_ID) |&gt;
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
-    include.always = ~1 + comed_heparin
+    include.always = ~ 1 + comed_heparin
   )
 
 summary(multi_model_transformed)
@@ -5227,55 +5271,55 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model_transformed, estimato
   <sec id="nb-code-cell-5-output-0-nb-3" specific-use="notebook-output">
   <preformat>                         P(B != 0 | Y)      model 1      model 2   model 3
 Intercept                  1.000000000    1.0000000    1.0000000    1.0000
-patient_age                0.753034405    1.0000000    1.0000000    1.0000
-patient_sexTRUE            0.007984047    0.0000000    0.0000000    0.0000
-patient_weight             0.007292762    0.0000000    0.0000000    0.0000
-baseline_CLCR_30TRUE       0.851367362    1.0000000    1.0000000    1.0000
-dept_ERTRUE                0.007571477    0.0000000    0.0000000    0.0000
-dept_ICUTRUE               0.009970400    0.0000000    0.0000000    0.0000
-baseline_HGB               0.068888842    0.0000000    0.0000000    0.0000
-baseline_WBC               0.019223339    0.0000000    0.0000000    0.0000
+patient_age                0.752278625    1.0000000    1.0000000    1.0000
+patient_sexTRUE            0.007827232    0.0000000    0.0000000    0.0000
+patient_weight             0.007519416    0.0000000    0.0000000    0.0000
+baseline_CLCR_30TRUE       0.849058240    1.0000000    1.0000000    1.0000
+dept_ERTRUE                0.007242913    0.0000000    0.0000000    0.0000
+dept_ICUTRUE               0.009867879    0.0000000    0.0000000    0.0000
+baseline_HGB               0.071277843    0.0000000    0.0000000    0.0000
+baseline_WBC               0.019274904    0.0000000    0.0000000    0.0000
 baseline_PLT               1.000000000    1.0000000    1.0000000    1.0000
-LZD_duration_14TRUE        0.946717879    1.0000000    1.0000000    1.0000
-LZD_routeIV&amp;PO             0.009326623    0.0000000    0.0000000    0.0000
-LZD_routePO                0.007416340    0.0000000    0.0000000    0.0000
-invasive_ETITRUE           0.166416355    0.0000000    0.0000000    0.0000
-invasive_CVCTRUE           0.538432092    0.0000000    1.0000000    1.0000
-invasive_IHDTRUE           0.015006976    0.0000000    0.0000000    0.0000
-invasive_CRRTTRUE          0.668630278    1.0000000    0.0000000    0.0000
-comorb_HTNTRUE             0.007788564    0.0000000    0.0000000    0.0000
-comorb_DMTRUE              0.016439015    0.0000000    0.0000000    0.0000
-comorb_HFTRUE              0.073554212    0.0000000    0.0000000    0.0000
-comorb_anginaTRUE          0.007436548    0.0000000    0.0000000    0.0000
-comorb_cirrTRUE            0.352142416    0.0000000    0.0000000    1.0000
-comorb_COPDTRUE            0.020384280    0.0000000    0.0000000    0.0000
-comorb_CVATRUE             0.024978836    0.0000000    0.0000000    0.0000
-comorb_MITRUE              0.015282489    0.0000000    0.0000000    0.0000
-comorb_KTRUE               0.006534568    0.0000000    0.0000000    0.0000
-comorb_hematologicalTRUE   0.019014108    0.0000000    0.0000000    0.0000
-comorb_hemaTRUE            0.007338714    0.0000000    0.0000000    0.0000
-infect_sepsisTRUE          0.035437416    0.0000000    0.0000000    0.0000
-infect_CAPTRUE             0.011547721    0.0000000    0.0000000    0.0000
-infect_HAPTRUE             0.025076119    0.0000000    0.0000000    0.0000
-infect_SSTITRUE            0.029896059    0.0000000    0.0000000    0.0000
-infect_CNSTRUE             0.007761150    0.0000000    0.0000000    0.0000
-infect_IAITRUE             0.007264809    0.0000000    0.0000000    0.0000
-infect_UTITRUE             0.008369198    0.0000000    0.0000000    0.0000
-infect_BJITRUE             0.010754121    0.0000000    0.0000000    0.0000
-infect_septicemiaTRUE      0.239751449    0.0000000    0.0000000    0.0000
-comed_ibuprofenTRUE        0.008860758    0.0000000    0.0000000    0.0000
-comed_carbapenemTRUE       0.007806447    0.0000000    0.0000000    0.0000
-comed_vancomycinTRUE       0.045158611    0.0000000    0.0000000    0.0000
-comed_levofloxacinTRUE     0.007179543    0.0000000    0.0000000    0.0000
-comed_teicoplaninTRUE      0.019095107    0.0000000    0.0000000    0.0000
-comed_pyrazinamidTRUE      0.015644809    0.0000000    0.0000000    0.0000
-comed_rifampinTRUE         0.013971770    0.0000000    0.0000000    0.0000
+LZD_duration_14TRUE        0.947503536    1.0000000    1.0000000    1.0000
+LZD_routeIV&amp;PO             0.009876484    0.0000000    0.0000000    0.0000
+LZD_routePO                0.006927015    0.0000000    0.0000000    0.0000
+invasive_ETITRUE           0.164458160    0.0000000    0.0000000    0.0000
+invasive_CVCTRUE           0.540404589    0.0000000    1.0000000    1.0000
+invasive_IHDTRUE           0.016155821    0.0000000    0.0000000    0.0000
+invasive_CRRTTRUE          0.667872617    1.0000000    0.0000000    0.0000
+comorb_HTNTRUE             0.007762381    0.0000000    0.0000000    0.0000
+comorb_DMTRUE              0.015041229    0.0000000    0.0000000    0.0000
+comorb_HFTRUE              0.071256795    0.0000000    0.0000000    0.0000
+comorb_anginaTRUE          0.007358417    0.0000000    0.0000000    0.0000
+comorb_cirrTRUE            0.353932937    0.0000000    0.0000000    1.0000
+comorb_COPDTRUE            0.021104571    0.0000000    0.0000000    0.0000
+comorb_CVATRUE             0.023801637    0.0000000    0.0000000    0.0000
+comorb_MITRUE              0.015597804    0.0000000    0.0000000    0.0000
+comorb_KTRUE               0.007244458    0.0000000    0.0000000    0.0000
+comorb_hematologicalTRUE   0.018921882    0.0000000    0.0000000    0.0000
+comorb_hemaTRUE            0.007510527    0.0000000    0.0000000    0.0000
+infect_sepsisTRUE          0.036376221    0.0000000    0.0000000    0.0000
+infect_CAPTRUE             0.011026158    0.0000000    0.0000000    0.0000
+infect_HAPTRUE             0.024532835    0.0000000    0.0000000    0.0000
+infect_SSTITRUE            0.029810594    0.0000000    0.0000000    0.0000
+infect_CNSTRUE             0.007490067    0.0000000    0.0000000    0.0000
+infect_IAITRUE             0.007723746    0.0000000    0.0000000    0.0000
+infect_UTITRUE             0.007752308    0.0000000    0.0000000    0.0000
+infect_BJITRUE             0.011261976    0.0000000    0.0000000    0.0000
+infect_septicemiaTRUE      0.240378561    0.0000000    0.0000000    0.0000
+comed_ibuprofenTRUE        0.009110375    0.0000000    0.0000000    0.0000
+comed_carbapenemTRUE       0.008089744    0.0000000    0.0000000    0.0000
+comed_vancomycinTRUE       0.043605000    0.0000000    0.0000000    0.0000
+comed_levofloxacinTRUE     0.007277024    0.0000000    0.0000000    0.0000
+comed_teicoplaninTRUE      0.019597445    0.0000000    0.0000000    0.0000
+comed_pyrazinamidTRUE      0.015738426    0.0000000    0.0000000    0.0000
+comed_rifampinTRUE         0.014758989    0.0000000    0.0000000    0.0000
 comed_heparinTRUE          1.000000000    1.0000000    1.0000000    1.0000
-comed_clopidogrelTRUE      0.025845239    0.0000000    0.0000000    0.0000
-comed_enoxaparinTRUE       0.007581895    0.0000000    0.0000000    0.0000
-comed_valproicTRUE         0.010699954    0.0000000    0.0000000    0.0000
+comed_clopidogrelTRUE      0.023509030    0.0000000    0.0000000    0.0000
+comed_enoxaparinTRUE       0.007856610    0.0000000    0.0000000    0.0000
+comed_valproicTRUE         0.010539559    0.0000000    0.0000000    0.0000
 BF                                  NA    0.2230867    0.1862339    1.0000
-PostProbs                           NA    0.0424000    0.0354000    0.0278
+PostProbs                           NA    0.0425000    0.0355000    0.0279
 R2                                  NA           NA           NA        NA
 dim                                 NA    7.0000000    7.0000000    8.0000
 logmarg                             NA -445.8853099 -446.0658674 -444.3851
@@ -5329,7 +5373,7 @@ comed_clopidogrelTRUE       0.00000000    0.0000000
 comed_enoxaparinTRUE        0.00000000    0.0000000
 comed_valproicTRUE          0.00000000    0.0000000
 BF                          0.01652402    0.8425264
-PostProbs                   0.02640000    0.0234000
+PostProbs                   0.02640000    0.0235000
 R2                                  NA           NA
 dim                         6.00000000    8.0000000
 logmarg                  -448.48805542 -444.5564656</preformat>
@@ -5354,13 +5398,33 @@ model_full &lt;- logistic_reg() |&gt;
     data = data_patient_transformed_response_as_factor
   )
 
-# dd &lt;- data_patient_transformed_response_as_factor |&gt;
+# library(splines2)
+
+# library(rms)
+
+# data_patient_transformed |&gt;
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
+#   select_if(is.numeric) |&gt;
+#   map(quantile, probs = c(0, 0.01, 0.05, 0.25, 0.50, 0.75, 0.95, 0.99, 1))
+
+# dd &lt;- data_patient_transformed |&gt;
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
 #   datadist()
 
+# dd$limits$patient_age &lt;- c(50, 62, 73, 19, 91, 19, 92)
+# dd$limits$baseline_PLT &lt;- c(143, 206, 288, 21, 433, 18, 434)
+# dd$limits$baseline_CLCR &lt;- c(21, 48, 84, 5, 184, 5, 189)
+# dd$limits$LZD_duration &lt;- c(6, 9, 14, 3, 26, 3, 28)
+
 # options(datadist = &quot;dd&quot;)
-# lrm(flag_ADR_TP_ID ~ rcs(patient_age, 4) + rcs(baseline_PLT, 4) + rcs(baseline_CLCR, 4) + rcs(LZD_duration, 4) + invasive_CRRT + comed_heparin, data = data_patient_transformed_response_as_factor) |&gt;
-#   nomogram(fun = plogis, funlabel = &quot;Risk&quot;) |&gt; plot()
+# nomo_obj &lt;- lrm(flag_ADR_TP_ID ~ rcs(patient_age, 3) + rcs(baseline_PLT, 3) + rcs(baseline_CLCR, 3) + rcs(LZD_duration, 3) + invasive_CRRT + comed_heparin, data = data_patient_transformed) |&gt;
+#   nomogram(fun = plogis, funlabel = &quot;Risk&quot;) |&gt;
+#   plot()
+
+# for(k in 3:5) {
+#   f &lt;- lrm(flag_ADR_TP_ID ~ rcs(patient_age, k) + rcs(baseline_PLT, k) + rcs(baseline_CLCR, k) + rcs(LZD_duration, k) + invasive_CRRT * comed_heparin, data = data_patient_transformed)
+#   cat('k=', k, '  AIC=', AIC(f), '\n')
+# }
 
 # print.nomogram &lt;- function(x, dec = 0, ...) {
 #   obj &lt;- x
@@ -5416,7 +5480,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
   </sec>
   </sec>
 </sec>
@@ -5607,6 +5671,9 @@ library(gtsummary)
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
+  </sec>
+  <sec id="nb-code-cell-1-output-1-nb-4" specific-use="notebook-output">
+  <preformat>#BlackLivesMatter</preformat>
   </sec>
   </sec>
   <sec id="nb-code-cell-2-nb-4" specific-use="notebook-code">
@@ -5852,7 +5919,7 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-4-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>
@@ -6091,7 +6158,7 @@ parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by 
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
 </sec>
 </sec>
 <sec id="risk-score-system-nb-6">

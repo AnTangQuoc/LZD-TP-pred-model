@@ -778,15 +778,16 @@ Note
 </div>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>parameter_number <span class="ot">&lt;-</span> <span class="dv">20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>parameter_number <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">816</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
 <section id="step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic." class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic."><span class="header-section-number">3.2.2</span> Step 2: Choose sensible values for R<sup>2</sup><sub>CS_adj</sub> and max(R<sup>2</sup><sub>CS_app</sub>) based on previous studies where R<sup>2</sup><sub>CS</sub> is the Cox-Snell R<sup>2</sup> statistic.</h3>
 <p>The value of max(R<sup>2</sup><sub>CS_app</sub>) is based on the overall prevalence or overall rate of the outcome in the population of interest. The incidence of LI-TP in patients treated with linezolid was estimated to be 37% in a meta-analysis by Zhao et al <span class="citation" data-cites="zhao_prediction_2024">[<a href="#ref-zhao_prediction_2024" role="doc-biblioref">7</a>]</span>.</p>
-<p>The value of R<sup>2</sup><sub>CS_adj</sub> could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R<sup>2</sup>, the value R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a R<sup>2</sup><sub>Nagelkerke</sub> of 0.15.</p>
+<p>The value of R<sup>2</sup><sub>CS_adj</sub> could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R<sup>2</sup>, the value R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a R<sup>2</sup><sub>Nagelkerke</sub> of 0.50, as baseline platelet count, a “direct” measurement of the outcome, is likely to be a predictor.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>calculate_R2_CS_adj <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">100</span>, E, <span class="at">R2_N =</span> <span class="fl">0.15</span>) {</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>calculate_R2_CS_adj <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">100</span>, E, <span class="at">R2_N =</span> <span class="fl">0.50</span>) {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  ln_L_null <span class="ot">&lt;-</span> E <span class="sc">*</span> <span class="fu">log</span>(E <span class="sc">/</span> n) <span class="sc">+</span> (n <span class="sc">-</span> E) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> E <span class="sc">/</span> n)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  max_R2_CS_app <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">*</span> ln_L_null <span class="sc">/</span> n)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  R2_CS_adj <span class="ot">&lt;-</span> R2_N <span class="sc">/</span> max_R2_CS_app</span>
@@ -795,7 +796,7 @@ Note
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(cox_snell_r2 <span class="ot">&lt;-</span> <span class="fu">calculate_R2_CS_adj</span>(<span class="at">E =</span> <span class="dv">37</span>)<span class="sc">$</span>R2_CS_adj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2048324</code></pre>
+<pre><code>[1] 0.6827745</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>max_apparent_cox_snell_r2 <span class="ot">&lt;-</span> <span class="fu">calculate_R2_CS_adj</span>(<span class="at">E =</span> <span class="dv">37</span>)<span class="sc">$</span>max_R2_CS_app</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
@@ -817,48 +818,78 @@ Note
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 775</code></pre>
+<pre><code>[1] 141</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>calculate_param_limit_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, R2_CS_adj, <span class="at">S_VH =</span> <span class="fl">0.90</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> n <span class="sc">*</span> ((S_VH <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> R2_CS_adj <span class="sc">/</span> S_VH))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  parameter_limit_1 <span class="ot">&lt;-</span> <span class="fu">calculate_param_limit_1</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sample_size,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2_CS_adj =</span> cox_snell_r2</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">floor</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 115</code></pre>
 </div>
 </div></div>
-<p>We see that 775 participants are required to meet criterion 1.</p>
+<p>We see that 141 participants are required to meet criterion 1.</p>
 </section>
 <section id="step-4-criterion-2" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="step-4-criterion-2"><span class="header-section-number">3.2.4</span> Step 4: Criterion 2</h3>
 <p>Calculate the shrinkage factor (S<sub>VH</sub>) required to ensure a small absolute difference of &lt;= 0.05 in the developed model’s apparent and adjusted Nagelkerke’s R<sup>2</sup>. Then derive the required sample size conditional on this value of S<sub>VH</sub>.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>calculate_sample_size_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(p, R2_CS_adj, max_R2_CS_app, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  S_VH <span class="ot">&lt;-</span> R2_CS_adj <span class="sc">/</span> (R2_CS_adj <span class="sc">+</span> delta <span class="sc">*</span> max_R2_CS_app)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> p <span class="sc">/</span> ((S_VH <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> R2_CS_adj <span class="sc">/</span> S_VH))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_2 <span class="ot">&lt;-</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_2</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">p =</span> parameter_number,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">R2_CS_adj =</span> cox_snell_r2,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">max_R2_CS_app =</span> max_apparent_cox_snell_r2</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calculate_sample_size_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(p, R2_CS_adj, max_R2_CS_app, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  S_VH <span class="ot">&lt;-</span> R2_CS_adj <span class="sc">/</span> (R2_CS_adj <span class="sc">+</span> delta <span class="sc">*</span> max_R2_CS_app)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> p <span class="sc">/</span> ((S_VH <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> R2_CS_adj <span class="sc">/</span> S_VH))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_2 <span class="ot">&lt;-</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_2</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">p =</span> parameter_number,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">R2_CS_adj =</span> cox_snell_r2,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">max_R2_CS_app =</span> max_apparent_cox_snell_r2</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 478</code></pre>
+<pre><code>[1] 310</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>calculate_param_limit_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, R2_CS_adj, max_R2_CS_app, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  S_VH <span class="ot">&lt;-</span> R2_CS_adj <span class="sc">/</span> (R2_CS_adj <span class="sc">+</span> delta <span class="sc">*</span> max_R2_CS_app)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> n <span class="sc">*</span> ((S_VH <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> R2_CS_adj <span class="sc">/</span> S_VH))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  parameter_limit_2 <span class="ot">&lt;-</span> <span class="fu">calculate_param_limit_2</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sample_size,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2_CS_adj =</span> cox_snell_r2,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_R2_CS_app =</span> max_apparent_cox_snell_r2</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">floor</span>()</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52</code></pre>
 </div>
 </div></div>
-<p>We see that 478 participants are required to meet criterion 2.</p>
+<p>We see that 310 participants are required to meet criterion 2.</p>
 </section>
 <section id="step-5-criterion-3" class="level3" data-number="3.2.5">
 <h3 data-number="3.2.5" class="anchored" data-anchor-id="step-5-criterion-3"><span class="header-section-number">3.2.5</span> Step 5: Criterion 3</h3>
 <p>Calculate the sample size required to ensure a precise estimate of the overall risk in the population. The suggested absolute margin of error is &lt;= 0.05.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calculate_sample_size_3 <span class="ot">&lt;-</span> <span class="cf">function</span>(phi_hat, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> (<span class="fl">1.96</span> <span class="sc">/</span> delta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> phi_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phi_hat)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_3 <span class="ot">&lt;-</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_3</span>(<span class="at">phi_hat =</span> <span class="fl">0.37</span>) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>calculate_sample_size_3 <span class="ot">&lt;-</span> <span class="cf">function</span>(phi_hat, <span class="at">delta =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> (<span class="fl">1.96</span> <span class="sc">/</span> delta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> phi_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phi_hat)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  sample_size_criterion_3 <span class="ot">&lt;-</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_sample_size_3</span>(<span class="at">phi_hat =</span> <span class="fl">0.37</span>) <span class="sc">|&gt;</span> <span class="fu">ceiling</span>()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 359</code></pre>
 </div>
@@ -869,12 +900,17 @@ Note
 <h3 data-number="3.2.6" class="anchored" data-anchor-id="step-6-final-sample-size"><span class="header-section-number">3.2.6</span> Step 6: Final sample size</h3>
 <p>The required minimum sample size is the maximum value from steps 3 to 5, to ensure that each of criteria 1 to 3 are met.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(minimum_sample_size <span class="ot">&lt;-</span> <span class="fu">max</span>(sample_size_criterion_1, sample_size_criterion_2, sample_size_criterion_3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(minimum_sample_size <span class="ot">&lt;-</span> <span class="fu">max</span>(sample_size_criterion_1, sample_size_criterion_2, sample_size_criterion_3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 775</code></pre>
+<pre><code>[1] 359</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(maximum_parameter_limit <span class="ot">&lt;-</span> <span class="fu">min</span>(parameter_limit_1, parameter_limit_2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52</code></pre>
 </div>
 </div></div>
-<p>The final estimate of minimum sample size is 775, therefore our data is sufficient for model development with at most 20 parameters.</p>
+<p>The final estimate of minimum sample size is 359, therefore our data is sufficient for model development with 20 parameters.</p>
+<p>The maximum number of parameters that can be screened is 52.</p>
 </section>
 </section>
 <section id="sec-outcomes-and-predictors" class="level2" data-number="3.3">

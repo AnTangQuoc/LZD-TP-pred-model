@@ -467,7 +467,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, opacityback=0, titlerule=0mm, breakable, colbacktitle=quarto-callout-note-color!10!white, left=2mm, coltitle=black, rightrule=.15mm, opacitybacktitle=0.6, bottomtitle=1mm, colback=white, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
@@ -498,10 +498,12 @@ population (with similar outcome definition). However, as previous
 studies does not provide any information to identify a sensible value of
 the minimum expected Cox-Snell R\textsuperscript{2}, the value
 R\textsuperscript{2}\textsubscript{CS\_adj} will be assumed to
-correspond to a R\textsuperscript{2}\textsubscript{Nagelkerke} of 0.15.
+correspond to a R\textsuperscript{2}\textsubscript{Nagelkerke} of 0.50,
+as baseline platelet count, a ``direct'' measurement of the outcome, is
+likely to be a predictor.
 
 \begin{verbatim}
-[1] 0.2048324
+[1] 0.6827745
 \end{verbatim}
 
 \textsubscript{Source:
@@ -516,14 +518,18 @@ S\textsubscript{VH} \textgreater= 0.90 is generally recommended, which
 reflects a small amount of overfitting during model development.
 
 \begin{verbatim}
-[1] 775
+[1] 141
+\end{verbatim}
+
+\begin{verbatim}
+[1] 115
 \end{verbatim}
 
 \textsubscript{Source:
 \href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
 Notebook}}
 
-We see that 775 participants are required to meet criterion 1.
+We see that 141 participants are required to meet criterion 1.
 
 \subsubsection{Step 4: Criterion 2}\label{step-4-criterion-2}
 
@@ -533,14 +539,18 @@ apparent and adjusted Nagelkerke's R\textsuperscript{2}. Then derive the
 required sample size conditional on this value of S\textsubscript{VH}.
 
 \begin{verbatim}
-[1] 478
+[1] 310
+\end{verbatim}
+
+\begin{verbatim}
+[1] 52
 \end{verbatim}
 
 \textsubscript{Source:
 \href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
 Notebook}}
 
-We see that 478 participants are required to meet criterion 2.
+We see that 310 participants are required to meet criterion 2.
 
 \subsubsection{Step 5: Criterion 3}\label{step-5-criterion-3}
 
@@ -565,15 +575,21 @@ The required minimum sample size is the maximum value from steps 3 to 5,
 to ensure that each of criteria 1 to 3 are met.
 
 \begin{verbatim}
-[1] 775
+[1] 359
+\end{verbatim}
+
+\begin{verbatim}
+[1] 52
 \end{verbatim}
 
 \textsubscript{Source:
 \href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
 Notebook}}
 
-The final estimate of minimum sample size is 775, therefore our data is
-sufficient for model development with at most 20 parameters.
+The final estimate of minimum sample size is 359, therefore our data is
+sufficient for model development with 20 parameters.
+
+The maximum number of parameters that can be screened is 52.
 
 \subsection{Outcomes and predictors}\label{sec-outcomes-and-predictors}
 
@@ -595,7 +611,7 @@ to have met the outcome if their platelet count value meets the above
 criteria at any time during linezolid therapy or within 5 days after the
 end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-warning-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, toptitle=1mm, colbacktitle=quarto-callout-warning-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, opacityback=0, titlerule=0mm, breakable, colbacktitle=quarto-callout-warning-color!10!white, left=2mm, coltitle=black, rightrule=.15mm, opacitybacktitle=0.6, bottomtitle=1mm, colback=white, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-warning-color-frame, toptitle=1mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -722,7 +738,7 @@ criteria (i) to (iii) in the previous section:
 applicability in the individual clusters (eg, using
 PROBAST)}\label{b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, opacityback=0, titlerule=0mm, breakable, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, rightrule=.15mm, opacitybacktitle=0.6, bottomtitle=1mm, colback=white, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
 
 Is this even possible for this study?
 
@@ -741,7 +757,7 @@ There are \textasciitilde5\% of observations with missing values in the
 dataset, which is considered low. The missing data mechanism is assumed
 to be missing completely at random.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, opacityback=0, titlerule=0mm, breakable, colbacktitle=quarto-callout-important-color!10!white, left=2mm, coltitle=black, rightrule=.15mm, opacitybacktitle=0.6, bottomtitle=1mm, colback=white, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}]
 
 What is a possible reason for missing data?
 

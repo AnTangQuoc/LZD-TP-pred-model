@@ -394,62 +394,62 @@ Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</code></pre>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_transformed), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run_bas_glm</span>(</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> flag_ADR_TP_ID <span class="sc">~</span> .,</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">include.always =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> comed_heparin</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">include.always =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> comed_heparin</span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model_transformed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         P(B != 0 | Y)      model 1      model 2   model 3
 Intercept                  1.000000000    1.0000000    1.0000000    1.0000
-patient_age                0.749964202    1.0000000    1.0000000    1.0000
-patient_sexTRUE            0.007764241    0.0000000    0.0000000    0.0000
-patient_weight             0.007709436    0.0000000    0.0000000    0.0000
-baseline_CLCR_30TRUE       0.853162168    1.0000000    1.0000000    1.0000
-dept_ERTRUE                0.007156713    0.0000000    0.0000000    0.0000
-dept_ICUTRUE               0.009813690    0.0000000    0.0000000    0.0000
-baseline_HGB               0.066270561    0.0000000    0.0000000    0.0000
-baseline_WBC               0.019802019    0.0000000    0.0000000    0.0000
+patient_age                0.753280621    1.0000000    1.0000000    1.0000
+patient_sexTRUE            0.008132904    0.0000000    0.0000000    0.0000
+patient_weight             0.007650195    0.0000000    0.0000000    0.0000
+baseline_CLCR_30TRUE       0.852197920    1.0000000    1.0000000    1.0000
+dept_ERTRUE                0.007598627    0.0000000    0.0000000    0.0000
+dept_ICUTRUE               0.009615395    0.0000000    0.0000000    0.0000
+baseline_HGB               0.069406921    0.0000000    0.0000000    0.0000
+baseline_WBC               0.018639418    0.0000000    0.0000000    0.0000
 baseline_PLT               1.000000000    1.0000000    1.0000000    1.0000
-LZD_duration_14TRUE        0.944995533    1.0000000    1.0000000    1.0000
-LZD_routeIV&amp;PO             0.008939132    0.0000000    0.0000000    0.0000
-LZD_routePO                0.007465939    0.0000000    0.0000000    0.0000
-invasive_ETITRUE           0.166242820    0.0000000    0.0000000    0.0000
-invasive_CVCTRUE           0.535694043    0.0000000    1.0000000    1.0000
-invasive_IHDTRUE           0.016070231    0.0000000    0.0000000    0.0000
-invasive_CRRTTRUE          0.668999649    1.0000000    0.0000000    0.0000
-comorb_HTNTRUE             0.007138583    0.0000000    0.0000000    0.0000
-comorb_DMTRUE              0.014863545    0.0000000    0.0000000    0.0000
-comorb_HFTRUE              0.074009211    0.0000000    0.0000000    0.0000
-comorb_anginaTRUE          0.007809582    0.0000000    0.0000000    0.0000
-comorb_cirrTRUE            0.350941436    0.0000000    0.0000000    1.0000
-comorb_COPDTRUE            0.020453805    0.0000000    0.0000000    0.0000
-comorb_CVATRUE             0.023889824    0.0000000    0.0000000    0.0000
-comorb_MITRUE              0.014574475    0.0000000    0.0000000    0.0000
-comorb_KTRUE               0.007166624    0.0000000    0.0000000    0.0000
-comorb_hematologicalTRUE   0.018224976    0.0000000    0.0000000    0.0000
-comorb_hemaTRUE            0.007748596    0.0000000    0.0000000    0.0000
-infect_sepsisTRUE          0.036663375    0.0000000    0.0000000    0.0000
-infect_CAPTRUE             0.011055707    0.0000000    0.0000000    0.0000
-infect_HAPTRUE             0.024257045    0.0000000    0.0000000    0.0000
-infect_SSTITRUE            0.030283915    0.0000000    0.0000000    0.0000
-infect_CNSTRUE             0.007722386    0.0000000    0.0000000    0.0000
-infect_IAITRUE             0.007246428    0.0000000    0.0000000    0.0000
-infect_UTITRUE             0.007071469    0.0000000    0.0000000    0.0000
-infect_BJITRUE             0.011099112    0.0000000    0.0000000    0.0000
-infect_septicemiaTRUE      0.237140557    0.0000000    0.0000000    0.0000
-comed_ibuprofenTRUE        0.009011833    0.0000000    0.0000000    0.0000
-comed_carbapenemTRUE       0.007974785    0.0000000    0.0000000    0.0000
-comed_vancomycinTRUE       0.044655745    0.0000000    0.0000000    0.0000
-comed_levofloxacinTRUE     0.007290598    0.0000000    0.0000000    0.0000
-comed_teicoplaninTRUE      0.019252657    0.0000000    0.0000000    0.0000
-comed_pyrazinamidTRUE      0.014223306    0.0000000    0.0000000    0.0000
-comed_rifampinTRUE         0.014451655    0.0000000    0.0000000    0.0000
+LZD_duration_14TRUE        0.944244975    1.0000000    1.0000000    1.0000
+LZD_routeIV&amp;PO             0.009613246    0.0000000    0.0000000    0.0000
+LZD_routePO                0.006983908    0.0000000    0.0000000    0.0000
+invasive_ETITRUE           0.165810476    0.0000000    0.0000000    0.0000
+invasive_CVCTRUE           0.538374917    0.0000000    1.0000000    1.0000
+invasive_IHDTRUE           0.015251495    0.0000000    0.0000000    0.0000
+invasive_CRRTTRUE          0.670364437    1.0000000    0.0000000    0.0000
+comorb_HTNTRUE             0.007604347    0.0000000    0.0000000    0.0000
+comorb_DMTRUE              0.014818437    0.0000000    0.0000000    0.0000
+comorb_HFTRUE              0.073280003    0.0000000    0.0000000    0.0000
+comorb_anginaTRUE          0.007065530    0.0000000    0.0000000    0.0000
+comorb_cirrTRUE            0.354847389    0.0000000    0.0000000    1.0000
+comorb_COPDTRUE            0.020401762    0.0000000    0.0000000    0.0000
+comorb_CVATRUE             0.024327758    0.0000000    0.0000000    0.0000
+comorb_MITRUE              0.014614836    0.0000000    0.0000000    0.0000
+comorb_KTRUE               0.007058614    0.0000000    0.0000000    0.0000
+comorb_hematologicalTRUE   0.018325028    0.0000000    0.0000000    0.0000
+comorb_hemaTRUE            0.007172966    0.0000000    0.0000000    0.0000
+infect_sepsisTRUE          0.035709678    0.0000000    0.0000000    0.0000
+infect_CAPTRUE             0.011221881    0.0000000    0.0000000    0.0000
+infect_HAPTRUE             0.024037494    0.0000000    0.0000000    0.0000
+infect_SSTITRUE            0.030486981    0.0000000    0.0000000    0.0000
+infect_CNSTRUE             0.008284287    0.0000000    0.0000000    0.0000
+infect_IAITRUE             0.007044526    0.0000000    0.0000000    0.0000
+infect_UTITRUE             0.008164707    0.0000000    0.0000000    0.0000
+infect_BJITRUE             0.010749833    0.0000000    0.0000000    0.0000
+infect_septicemiaTRUE      0.238826445    0.0000000    0.0000000    0.0000
+comed_ibuprofenTRUE        0.008717502    0.0000000    0.0000000    0.0000
+comed_carbapenemTRUE       0.008476143    0.0000000    0.0000000    0.0000
+comed_vancomycinTRUE       0.044806002    0.0000000    0.0000000    0.0000
+comed_levofloxacinTRUE     0.007356358    0.0000000    0.0000000    0.0000
+comed_teicoplaninTRUE      0.019482451    0.0000000    0.0000000    0.0000
+comed_pyrazinamidTRUE      0.016160535    0.0000000    0.0000000    0.0000
+comed_rifampinTRUE         0.014357910    0.0000000    0.0000000    0.0000
 comed_heparinTRUE          1.000000000    1.0000000    1.0000000    1.0000
-comed_clopidogrelTRUE      0.024354862    0.0000000    0.0000000    0.0000
-comed_enoxaparinTRUE       0.007765278    0.0000000    0.0000000    0.0000
-comed_valproicTRUE         0.010514457    0.0000000    0.0000000    0.0000
+comed_clopidogrelTRUE      0.024891409    0.0000000    0.0000000    0.0000
+comed_enoxaparinTRUE       0.007844061    0.0000000    0.0000000    0.0000
+comed_valproicTRUE         0.010196257    0.0000000    0.0000000    0.0000
 BF                                  NA    0.2230867    0.1862339    1.0000
-PostProbs                           NA    0.0427000    0.0356000    0.0280
+PostProbs                           NA    0.0426000    0.0355000    0.0279
 R2                                  NA           NA           NA        NA
 dim                                 NA    7.0000000    7.0000000    8.0000
 logmarg                             NA -445.8853099 -446.0658674 -444.3851
@@ -503,7 +503,7 @@ comed_clopidogrelTRUE       0.00000000    0.0000000
 comed_enoxaparinTRUE        0.00000000    0.0000000
 comed_valproicTRUE          0.00000000    0.0000000
 BF                          0.01652402    0.8425264
-PostProbs                   0.02660000    0.0236000
+PostProbs                   0.02650000    0.0235000
 R2                                  NA           NA
 dim                         6.00000000    8.0000000
 logmarg                  -448.48805542 -444.5564656</code></pre>
@@ -590,7 +590,7 @@ logmarg                  -448.48805542 -444.5564656</code></pre>
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data_patient_transformed_response_as_factor <span class="ot">&lt;-</span> data_patient_transformed <span class="sc">|&gt;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -608,44 +608,64 @@ logmarg                  -448.48805542 -444.5564656</code></pre>
 <span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_patient_transformed_response_as_factor</span>
 <span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co"># dd &lt;- data_patient_transformed_response_as_factor |&gt;</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co">#   datadist()</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co"># library(splines2)</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co"># library(rms)</span></span>
 <span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co"># options(datadist = "dd")</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co"># lrm(flag_ADR_TP_ID ~ rcs(patient_age, 4) + rcs(baseline_PLT, 4) + rcs(baseline_CLCR, 4) + rcs(LZD_duration, 4) + invasive_CRRT + comed_heparin, data = data_patient_transformed_response_as_factor) |&gt;</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   nomogram(fun = plogis, funlabel = "Risk") |&gt; plot()</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="co"># print.nomogram &lt;- function(x, dec = 0, ...) {</span></span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   obj &lt;- x</span></span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   w &lt;- diff(range(obj$lp$x)) / diff(range(obj$lp$x.real))</span></span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   cat(</span></span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Points per unit of linear predictor:", format(w),</span></span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     "\nLinear predictor units per point   :", format(1 / w), "\n\n"</span></span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="co">#   fun &lt;- FALSE</span></span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="co">#   for (x in names(obj)) {</span></span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="co">#     k &lt;- x == "total.points" || x == "lp" || x == "abbrev"</span></span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (k) {</span></span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="co">#       fun &lt;- TRUE</span></span>
-<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="co">#       next</span></span>
-<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     y &lt;- obj[[x]]</span></span>
-<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (fun) {</span></span>
-<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="co">#       z &lt;- cbind(round(y[[1]], dec), y$x.real)</span></span>
-<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="co">#       dimnames(z) &lt;- list(rep("", nrow(z)), c("Total Points", x))</span></span>
-<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else {</span></span>
-<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="co">#       z &lt;- cbind(format(y[[1]]), format(round(y$points, dec)))</span></span>
-<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="co">#       dimnames(z) &lt;- list(rep("", length(y$points)), c(x, "Points"))</span></span>
-<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="co">#       ## didn't use data.frame since wanted blank row names</span></span>
-<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a><span class="co">#     cat("\n")</span></span>
-<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(z, quote = FALSE)</span></span>
-<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="co">#     cat("\n")</span></span>
-<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
-<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="co">#   invisible()</span></span>
-<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co"># data_patient_transformed |&gt;</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   select_if(is.numeric) |&gt;</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   map(quantile, probs = c(0, 0.01, 0.05, 0.25, 0.50, 0.75, 0.95, 0.99, 1))</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="co"># dd &lt;- data_patient_transformed |&gt;</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   datadist()</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="co"># dd$limits$patient_age &lt;- c(50, 62, 73, 19, 91, 19, 92)</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="co"># dd$limits$baseline_PLT &lt;- c(143, 206, 288, 21, 433, 18, 434)</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="co"># dd$limits$baseline_CLCR &lt;- c(21, 48, 84, 5, 184, 5, 189)</span></span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="co"># dd$limits$LZD_duration &lt;- c(6, 9, 14, 3, 26, 3, 28)</span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="co"># options(datadist = "dd")</span></span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="co"># nomo_obj &lt;- lrm(flag_ADR_TP_ID ~ rcs(patient_age, 3) + rcs(baseline_PLT, 3) + rcs(baseline_CLCR, 3) + rcs(LZD_duration, 3) + invasive_CRRT + comed_heparin, data = data_patient_transformed) |&gt;</span></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   nomogram(fun = plogis, funlabel = "Risk") |&gt;</span></span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="co">#   plot()</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a><span class="co"># for(k in 3:5) {</span></span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="co">#   f &lt;- lrm(flag_ADR_TP_ID ~ rcs(patient_age, k) + rcs(baseline_PLT, k) + rcs(baseline_CLCR, k) + rcs(LZD_duration, k) + invasive_CRRT * comed_heparin, data = data_patient_transformed)</span></span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   cat('k=', k, '  AIC=', AIC(f), '\n')</span></span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="co"># print.nomogram &lt;- function(x, dec = 0, ...) {</span></span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="co">#   obj &lt;- x</span></span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="co">#   w &lt;- diff(range(obj$lp$x)) / diff(range(obj$lp$x.real))</span></span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   cat(</span></span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a><span class="co">#     "Points per unit of linear predictor:", format(w),</span></span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="co">#     "\nLinear predictor units per point   :", format(1 / w), "\n\n"</span></span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="co">#   fun &lt;- FALSE</span></span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="co">#   for (x in names(obj)) {</span></span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a><span class="co">#     k &lt;- x == "total.points" || x == "lp" || x == "abbrev"</span></span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (k) {</span></span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a><span class="co">#       fun &lt;- TRUE</span></span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a><span class="co">#       next</span></span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a><span class="co">#     y &lt;- obj[[x]]</span></span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (fun) {</span></span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a><span class="co">#       z &lt;- cbind(round(y[[1]], dec), y$x.real)</span></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a><span class="co">#       dimnames(z) &lt;- list(rep("", nrow(z)), c("Total Points", x))</span></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else {</span></span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a><span class="co">#       z &lt;- cbind(format(y[[1]]), format(round(y$points, dec)))</span></span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a><span class="co">#       dimnames(z) &lt;- list(rep("", length(y$points)), c(x, "Points"))</span></span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a><span class="co">#       ## didn't use data.frame since wanted blank row names</span></span>
+<span id="cb29-68"><a href="#cb29-68" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb29-69"><a href="#cb29-69" aria-hidden="true" tabindex="-1"></a><span class="co">#     cat("\n")</span></span>
+<span id="cb29-70"><a href="#cb29-70" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(z, quote = FALSE)</span></span>
+<span id="cb29-71"><a href="#cb29-71" aria-hidden="true" tabindex="-1"></a><span class="co">#     cat("\n")</span></span>
+<span id="cb29-72"><a href="#cb29-72" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
+<span id="cb29-73"><a href="#cb29-73" aria-hidden="true" tabindex="-1"></a><span class="co">#   invisible()</span></span>
+<span id="cb29-74"><a href="#cb29-74" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
 <section id="check-model-assumptions" class="level1">
@@ -1354,7 +1374,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

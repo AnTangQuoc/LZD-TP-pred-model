@@ -658,10 +658,10 @@ Note
 <section id="step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic." class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic."><span class="header-section-number">3.2.2</span> Step 2: Choose sensible values for R<sup>2</sup><sub>CS_adj</sub> and max(R<sup>2</sup><sub>CS_app</sub>) based on previous studies where R<sup>2</sup><sub>CS</sub> is the Cox-Snell R<sup>2</sup> statistic.</h3>
 <p>The value of max(R<sup>2</sup><sub>CS_app</sub>) is based on the overall prevalence or overall rate of the outcome in the population of interest. The incidence of LI-TP in patients treated with linezolid was estimated to be 37% in a meta-analysis by Zhao et al <span class="citation" data-cites="zhao_prediction_2024">[<a href="#ref-zhao_prediction_2024" role="doc-biblioref">7</a>]</span>.</p>
-<p>The value of R<sup>2</sup><sub>CS_adj</sub> could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R<sup>2</sup>, the value R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a R<sup>2</sup><sub>Nagelkerke</sub> of 0.15.</p>
+<p>The value of R<sup>2</sup><sub>CS_adj</sub> could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R<sup>2</sup>, the value R<sup>2</sup><sub>CS_adj</sub> will be assumed to correspond to a R<sup>2</sup><sub>Nagelkerke</sub> of 0.50, as baseline platelet count, a “direct” measurement of the outcome, is likely to be a predictor.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2048324</code></pre>
+<pre><code>[1] 0.6827745</code></pre>
 </div>
 <a class="quarto-notebook-link" id="nblink-1" href="index-preview.html">Source: Article Notebook</a></div>
 </section>
@@ -670,20 +670,26 @@ Note
 <p>Calculate the sample size required to ensure Van Houwelingen’s global shrinkage factor (S<sub>VH</sub>) is close to 1. A value of S<sub>VH</sub> &gt;= 0.90 is generally recommended, which reflects a small amount of overfitting during model development.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 775</code></pre>
+<pre><code>[1] 141</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 115</code></pre>
 </div>
 <a class="quarto-notebook-link" id="nblink-2" href="index-preview.html">Source: Article Notebook</a></div>
-<p>We see that 775 participants are required to meet criterion 1.</p>
+<p>We see that 141 participants are required to meet criterion 1.</p>
 </section>
 <section id="step-4-criterion-2" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="step-4-criterion-2"><span class="header-section-number">3.2.4</span> Step 4: Criterion 2</h3>
 <p>Calculate the shrinkage factor (S<sub>VH</sub>) required to ensure a small absolute difference of &lt;= 0.05 in the developed model’s apparent and adjusted Nagelkerke’s R<sup>2</sup>. Then derive the required sample size conditional on this value of S<sub>VH</sub>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 478</code></pre>
+<pre><code>[1] 310</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52</code></pre>
 </div>
 <a class="quarto-notebook-link" id="nblink-3" href="index-preview.html">Source: Article Notebook</a></div>
-<p>We see that 478 participants are required to meet criterion 2.</p>
+<p>We see that 310 participants are required to meet criterion 2.</p>
 </section>
 <section id="step-5-criterion-3" class="level3" data-number="3.2.5">
 <h3 data-number="3.2.5" class="anchored" data-anchor-id="step-5-criterion-3"><span class="header-section-number">3.2.5</span> Step 5: Criterion 3</h3>
@@ -700,10 +706,14 @@ Note
 <p>The required minimum sample size is the maximum value from steps 3 to 5, to ensure that each of criteria 1 to 3 are met.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 775</code></pre>
+<pre><code>[1] 359</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52</code></pre>
 </div>
 <a class="quarto-notebook-link" id="nblink-5" href="index-preview.html">Source: Article Notebook</a></div>
-<p>The final estimate of minimum sample size is 775, therefore our data is sufficient for model development with at most 20 parameters.</p>
+<p>The final estimate of minimum sample size is 359, therefore our data is sufficient for model development with 20 parameters.</p>
+<p>The maximum number of parameters that can be screened is 52.</p>
 </section>
 </section>
 <section id="sec-outcomes-and-predictors" class="level2" data-number="3.3">
