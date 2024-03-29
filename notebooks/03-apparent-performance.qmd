@@ -104,7 +104,7 @@ multi_model_transformed <- data_patient_transformed |>
   select(all_of(predictor_transformed), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
-    include.always = ~1 + comed_heparin
+    include.always = ~ 1 + comed_heparin
   )
 
 summary(multi_model_transformed)
@@ -137,13 +137,33 @@ model_full <- logistic_reg() |>
     data = data_patient_transformed_response_as_factor
   )
 
-# dd <- data_patient_transformed_response_as_factor |>
+library(splines2)
+
+# library(rms)
+
+# data_patient_transformed |>
+#   select(all_of(predictor_list), flag_ADR_TP_ID) |>
+#   select_if(is.numeric) |>
+#   map(quantile, probs = c(0, 0.01, 0.05, 0.25, 0.50, 0.75, 0.95, 0.99, 1))
+
+# dd <- data_patient_transformed |>
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |>
 #   datadist()
 
+# dd$limits$patient_age <- c(50, 62, 73, 19, 91, 19, 92)
+# dd$limits$baseline_PLT <- c(143, 206, 288, 21, 433, 18, 434)
+# dd$limits$baseline_CLCR <- c(21, 48, 84, 5, 184, 5, 189)
+# dd$limits$LZD_duration <- c(6, 9, 14, 3, 26, 3, 28)
+
 # options(datadist = "dd")
-# lrm(flag_ADR_TP_ID ~ rcs(patient_age, 4) + rcs(baseline_PLT, 4) + rcs(baseline_CLCR, 4) + rcs(LZD_duration, 4) + invasive_CRRT + comed_heparin, data = data_patient_transformed_response_as_factor) |>
-#   nomogram(fun = plogis, funlabel = "Risk") |> plot()
+# nomo_obj <- lrm(flag_ADR_TP_ID ~ rcs(patient_age, 3) + rcs(baseline_PLT, 3) + rcs(baseline_CLCR, 3) + rcs(LZD_duration, 3) + invasive_CRRT + comed_heparin, data = data_patient_transformed) |>
+#   nomogram(fun = plogis, funlabel = "Risk") |>
+#   plot()
+
+# for(k in 3:5) {
+#   f <- lrm(flag_ADR_TP_ID ~ rcs(patient_age, k) + rcs(baseline_PLT, k) + rcs(baseline_CLCR, k) + rcs(LZD_duration, k) + invasive_CRRT * comed_heparin, data = data_patient_transformed)
+#   cat('k=', k, '  AIC=', AIC(f), '\n')
+# }
 
 # print.nomogram <- function(x, dec = 0, ...) {
 #   obj <- x

@@ -41,3 +41,14 @@ predictor_transformed <- data_patient_transformed |>
     comed_clopidogrel, comed_enoxaparin, comed_valproic
   ) |>
   colnames()
+predictor_list_short <- data_patient_complete |>
+  select(
+    patient_age, patient_sex, patient_weight, baseline_CLCR,
+    dept_ER, dept_ICU, baseline_HGB, baseline_WBC, baseline_PLT,
+    LZD_duration, LZD_route, starts_with("invasive"), starts_with("comorb"),
+    starts_with("infect"), comed_ibuprofen, comed_carbapenem,
+    comed_vancomycin, comed_levofloxacin, comed_teicoplanin,
+    comed_pyrazinamid, comed_rifampin, comed_heparin,
+    comed_clopidogrel, comed_enoxaparin, comed_valproic
+  ) |>
+  colnames()

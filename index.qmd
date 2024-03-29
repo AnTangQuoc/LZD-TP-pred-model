@@ -118,16 +118,17 @@ The value of p is assumed to be no larger than 20 because univariate regression 
 
 ```{r}
 parameter_number <- 20
+sample_size <- 816
 ```
 
 ### Step 2: Choose sensible values for R^2^~CS_adj~ and max(R^2^~CS_app~) based on previous studies where R^2^~CS~ is the Cox-Snell R^2^ statistic.
 
 The value of max(R^2^~CS_app~) is based on the overall prevalence or overall rate of the outcome in the population of interest. The incidence of LI-TP in patients treated with linezolid was estimated to be 37% in a meta-analysis by Zhao et al @zhao_prediction_2024.
 
-The value of R^2^~CS_adj~ could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R^2^, the value R^2^~CS_adj~ will be assumed to correspond to a R^2^~Nagelkerke~ of 0.15.
+The value of R^2^~CS_adj~ could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R^2^, the value R^2^~CS_adj~ will be assumed to correspond to a R^2^~Nagelkerke~ of 0.50, as baseline platelet count, a "direct" measurement of the outcome, is likely to be a predictor.
 
 ```{r}
-calculate_R2_CS_adj <- function(n = 100, E, R2_N = 0.15) {
+calculate_R2_CS_adj <- function(n = 100, E, R2_N = 0.50) {
   ln_L_null <- E * log(E / n) + (n - E) * log(1 - E / n)
   max_R2_CS_app <- 1 - exp(2 * ln_L_null / n)
   R2_CS_adj <- R2_N / max_R2_CS_app
@@ -155,6 +156,19 @@ calculate_sample_size_1 <- function(p, R2_CS_adj, S_VH = 0.90) {
       R2_CS_adj = cox_snell_r2
     ) |> ceiling()
 )
+
+calculate_param_limit_1 <- function(n, R2_CS_adj, S_VH = 0.90) {
+  p <- n * ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(p)
+}
+
+(
+  parameter_limit_1 <- calculate_param_limit_1(
+    n = sample_size,
+    R2_CS_adj = cox_snell_r2
+  ) |> floor()
+)
+
 ```
 
 We see that `r sample_size_criterion_1` participants are required to meet criterion 1.
@@ -178,6 +192,20 @@ calculate_sample_size_2 <- function(p, R2_CS_adj, max_R2_CS_app, delta = 0.05) {
       max_R2_CS_app = max_apparent_cox_snell_r2
     ) |> ceiling()
 )
+
+calculate_param_limit_2 <- function(n, R2_CS_adj, max_R2_CS_app, delta = 0.05) {
+  S_VH <- R2_CS_adj / (R2_CS_adj + delta * max_R2_CS_app)
+  p <- n * ((S_VH - 1) * log(1 - R2_CS_adj / S_VH))
+  return(p)
+}
+
+(
+  parameter_limit_2 <- calculate_param_limit_2(
+    n = sample_size,
+    R2_CS_adj = cox_snell_r2,
+    max_R2_CS_app = max_apparent_cox_snell_r2
+  ) |> floor()
+) 
 
 ```
 
@@ -207,9 +235,12 @@ The required minimum sample size is the maximum value from steps 3 to 5, to ensu
 
 ```{r}
 (minimum_sample_size <- max(sample_size_criterion_1, sample_size_criterion_2, sample_size_criterion_3))
+(maximum_parameter_limit <- min(parameter_limit_1, parameter_limit_2))
 ```
 
-The final estimate of minimum sample size is `r minimum_sample_size`, therefore our data is sufficient for model development with at most 20 parameters.
+The final estimate of minimum sample size is `r minimum_sample_size`, therefore our data is sufficient for model development with 20 parameters.
+
+The maximum number of parameters that can be screened is `r maximum_parameter_limit`.
 
 ## Outcomes and predictors {#sec-outcomes-and-predictors}
 
