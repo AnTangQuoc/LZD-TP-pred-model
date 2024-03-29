@@ -191,7 +191,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Wednesday, March 27, 2024</p>
+              <p class="date">Friday, March 29, 2024</p>
             </div>
           </div>
           
@@ -275,7 +275,7 @@
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -394,23 +394,23 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>table_descriptive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<div id="fvehlrxodh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fvehlrxodh table {
+<div id="qdmpbpbjma" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qdmpbpbjma table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fvehlrxodh thead, #fvehlrxodh tbody, #fvehlrxodh tfoot, #fvehlrxodh tr, #fvehlrxodh td, #fvehlrxodh th {
+#qdmpbpbjma thead, #qdmpbpbjma tbody, #qdmpbpbjma tfoot, #qdmpbpbjma tr, #qdmpbpbjma td, #qdmpbpbjma th {
   border-style: none;
 }
 
-#fvehlrxodh p {
+#qdmpbpbjma p {
   margin: 0;
   padding: 0;
 }
 
-#fvehlrxodh .gt_table {
+#qdmpbpbjma .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -436,12 +436,12 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-left-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_caption {
+#qdmpbpbjma .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fvehlrxodh .gt_title {
+#qdmpbpbjma .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -453,7 +453,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-width: 0;
 }
 
-#fvehlrxodh .gt_subtitle {
+#qdmpbpbjma .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -465,7 +465,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-top-width: 0;
 }
 
-#fvehlrxodh .gt_heading {
+#qdmpbpbjma .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -477,13 +477,13 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_bottom_border {
+#qdmpbpbjma .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_col_headings {
+#qdmpbpbjma .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -498,7 +498,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_col_heading {
+#qdmpbpbjma .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -518,7 +518,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   overflow-x: hidden;
 }
 
-#fvehlrxodh .gt_column_spanner_outer {
+#qdmpbpbjma .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -530,15 +530,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 4px;
 }
 
-#fvehlrxodh .gt_column_spanner_outer:first-child {
+#qdmpbpbjma .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fvehlrxodh .gt_column_spanner_outer:last-child {
+#qdmpbpbjma .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fvehlrxodh .gt_column_spanner {
+#qdmpbpbjma .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -550,11 +550,11 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   width: 100%;
 }
 
-#fvehlrxodh .gt_spanner_row {
+#qdmpbpbjma .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fvehlrxodh .gt_group_heading {
+#qdmpbpbjma .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -580,7 +580,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   text-align: left;
 }
 
-#fvehlrxodh .gt_empty_group_heading {
+#qdmpbpbjma .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -595,15 +595,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   vertical-align: middle;
 }
 
-#fvehlrxodh .gt_from_md > :first-child {
+#qdmpbpbjma .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fvehlrxodh .gt_from_md > :last-child {
+#qdmpbpbjma .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fvehlrxodh .gt_row {
+#qdmpbpbjma .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -622,7 +622,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   overflow-x: hidden;
 }
 
-#fvehlrxodh .gt_stub {
+#qdmpbpbjma .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -635,7 +635,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#fvehlrxodh .gt_stub_row_group {
+#qdmpbpbjma .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -649,15 +649,15 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   vertical-align: top;
 }
 
-#fvehlrxodh .gt_row_group_first td {
+#qdmpbpbjma .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fvehlrxodh .gt_row_group_first th {
+#qdmpbpbjma .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fvehlrxodh .gt_summary_row {
+#qdmpbpbjma .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -667,16 +667,16 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#fvehlrxodh .gt_first_summary_row {
+#qdmpbpbjma .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_first_summary_row.thick {
+#qdmpbpbjma .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fvehlrxodh .gt_last_summary_row {
+#qdmpbpbjma .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -686,7 +686,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_grand_summary_row {
+#qdmpbpbjma .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -696,7 +696,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#fvehlrxodh .gt_first_grand_summary_row {
+#qdmpbpbjma .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -706,7 +706,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-top-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_last_grand_summary_row_top {
+#qdmpbpbjma .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -716,11 +716,11 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_striped {
+#qdmpbpbjma .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fvehlrxodh .gt_table_body {
+#qdmpbpbjma .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -729,7 +729,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-bottom-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_footnotes {
+#qdmpbpbjma .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -743,7 +743,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_footnote {
+#qdmpbpbjma .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -752,7 +752,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#fvehlrxodh .gt_sourcenotes {
+#qdmpbpbjma .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -766,7 +766,7 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   border-right-color: #D3D3D3;
 }
 
-#fvehlrxodh .gt_sourcenote {
+#qdmpbpbjma .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -774,63 +774,63 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</code></pre
   padding-right: 5px;
 }
 
-#fvehlrxodh .gt_left {
+#qdmpbpbjma .gt_left {
   text-align: left;
 }
 
-#fvehlrxodh .gt_center {
+#qdmpbpbjma .gt_center {
   text-align: center;
 }
 
-#fvehlrxodh .gt_right {
+#qdmpbpbjma .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fvehlrxodh .gt_font_normal {
+#qdmpbpbjma .gt_font_normal {
   font-weight: normal;
 }
 
-#fvehlrxodh .gt_font_bold {
+#qdmpbpbjma .gt_font_bold {
   font-weight: bold;
 }
 
-#fvehlrxodh .gt_font_italic {
+#qdmpbpbjma .gt_font_italic {
   font-style: italic;
 }
 
-#fvehlrxodh .gt_super {
+#qdmpbpbjma .gt_super {
   font-size: 65%;
 }
 
-#fvehlrxodh .gt_footnote_marks {
+#qdmpbpbjma .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fvehlrxodh .gt_asterisk {
+#qdmpbpbjma .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fvehlrxodh .gt_indent_1 {
+#qdmpbpbjma .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fvehlrxodh .gt_indent_2 {
+#qdmpbpbjma .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fvehlrxodh .gt_indent_3 {
+#qdmpbpbjma .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fvehlrxodh .gt_indent_4 {
+#qdmpbpbjma .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fvehlrxodh .gt_indent_5 {
+#qdmpbpbjma .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1844,23 +1844,23 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>table_descriptive_site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<div id="rhtlirgmeh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rhtlirgmeh table {
+<div id="krfrviyyhh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#krfrviyyhh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rhtlirgmeh thead, #rhtlirgmeh tbody, #rhtlirgmeh tfoot, #rhtlirgmeh tr, #rhtlirgmeh td, #rhtlirgmeh th {
+#krfrviyyhh thead, #krfrviyyhh tbody, #krfrviyyhh tfoot, #krfrviyyhh tr, #krfrviyyhh td, #krfrviyyhh th {
   border-style: none;
 }
 
-#rhtlirgmeh p {
+#krfrviyyhh p {
   margin: 0;
   padding: 0;
 }
 
-#rhtlirgmeh .gt_table {
+#krfrviyyhh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1886,12 +1886,12 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-left-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_caption {
+#krfrviyyhh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rhtlirgmeh .gt_title {
+#krfrviyyhh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1903,7 +1903,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-width: 0;
 }
 
-#rhtlirgmeh .gt_subtitle {
+#krfrviyyhh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1915,7 +1915,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-top-width: 0;
 }
 
-#rhtlirgmeh .gt_heading {
+#krfrviyyhh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1927,13 +1927,13 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_bottom_border {
+#krfrviyyhh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_col_headings {
+#krfrviyyhh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1948,7 +1948,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_col_heading {
+#krfrviyyhh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1968,7 +1968,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   overflow-x: hidden;
 }
 
-#rhtlirgmeh .gt_column_spanner_outer {
+#krfrviyyhh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1980,15 +1980,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 4px;
 }
 
-#rhtlirgmeh .gt_column_spanner_outer:first-child {
+#krfrviyyhh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rhtlirgmeh .gt_column_spanner_outer:last-child {
+#krfrviyyhh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rhtlirgmeh .gt_column_spanner {
+#krfrviyyhh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2000,11 +2000,11 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   width: 100%;
 }
 
-#rhtlirgmeh .gt_spanner_row {
+#krfrviyyhh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rhtlirgmeh .gt_group_heading {
+#krfrviyyhh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2030,7 +2030,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   text-align: left;
 }
 
-#rhtlirgmeh .gt_empty_group_heading {
+#krfrviyyhh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2045,15 +2045,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   vertical-align: middle;
 }
 
-#rhtlirgmeh .gt_from_md > :first-child {
+#krfrviyyhh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rhtlirgmeh .gt_from_md > :last-child {
+#krfrviyyhh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rhtlirgmeh .gt_row {
+#krfrviyyhh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2072,7 +2072,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   overflow-x: hidden;
 }
 
-#rhtlirgmeh .gt_stub {
+#krfrviyyhh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2085,7 +2085,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#rhtlirgmeh .gt_stub_row_group {
+#krfrviyyhh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2099,15 +2099,15 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   vertical-align: top;
 }
 
-#rhtlirgmeh .gt_row_group_first td {
+#krfrviyyhh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rhtlirgmeh .gt_row_group_first th {
+#krfrviyyhh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rhtlirgmeh .gt_summary_row {
+#krfrviyyhh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2117,16 +2117,16 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#rhtlirgmeh .gt_first_summary_row {
+#krfrviyyhh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_first_summary_row.thick {
+#krfrviyyhh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rhtlirgmeh .gt_last_summary_row {
+#krfrviyyhh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2136,7 +2136,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_grand_summary_row {
+#krfrviyyhh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2146,7 +2146,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#rhtlirgmeh .gt_first_grand_summary_row {
+#krfrviyyhh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2156,7 +2156,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-top-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_last_grand_summary_row_top {
+#krfrviyyhh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2166,11 +2166,11 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_striped {
+#krfrviyyhh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rhtlirgmeh .gt_table_body {
+#krfrviyyhh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2179,7 +2179,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-bottom-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_footnotes {
+#krfrviyyhh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2193,7 +2193,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_footnote {
+#krfrviyyhh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2202,7 +2202,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#rhtlirgmeh .gt_sourcenotes {
+#krfrviyyhh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2216,7 +2216,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   border-right-color: #D3D3D3;
 }
 
-#rhtlirgmeh .gt_sourcenote {
+#krfrviyyhh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2224,63 +2224,63 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
   padding-right: 5px;
 }
 
-#rhtlirgmeh .gt_left {
+#krfrviyyhh .gt_left {
   text-align: left;
 }
 
-#rhtlirgmeh .gt_center {
+#krfrviyyhh .gt_center {
   text-align: center;
 }
 
-#rhtlirgmeh .gt_right {
+#krfrviyyhh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rhtlirgmeh .gt_font_normal {
+#krfrviyyhh .gt_font_normal {
   font-weight: normal;
 }
 
-#rhtlirgmeh .gt_font_bold {
+#krfrviyyhh .gt_font_bold {
   font-weight: bold;
 }
 
-#rhtlirgmeh .gt_font_italic {
+#krfrviyyhh .gt_font_italic {
   font-style: italic;
 }
 
-#rhtlirgmeh .gt_super {
+#krfrviyyhh .gt_super {
   font-size: 65%;
 }
 
-#rhtlirgmeh .gt_footnote_marks {
+#krfrviyyhh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rhtlirgmeh .gt_asterisk {
+#krfrviyyhh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rhtlirgmeh .gt_indent_1 {
+#krfrviyyhh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rhtlirgmeh .gt_indent_2 {
+#krfrviyyhh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rhtlirgmeh .gt_indent_3 {
+#krfrviyyhh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rhtlirgmeh .gt_indent_4 {
+#krfrviyyhh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rhtlirgmeh .gt_indent_5 {
+#krfrviyyhh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2572,7 +2572,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">12 (12%)</td>
 <td class="gt_row gt_center" headers="stat_6">14 (6.4%)</td>
-<td class="gt_row gt_center" headers="p.value">0.088</td>
+<td class="gt_row gt_center" headers="p.value">0.085</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -2605,7 +2605,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">1 (1.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">4 (1.8%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.001</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.002</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comorb_K</td>
@@ -2869,7 +2869,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">6 (5.2%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">&lt;0.001</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.001</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_pyrazinamid</td>
@@ -2946,7 +2946,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">4 (4.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">5 (2.3%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.022</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.029</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -2979,7 +2979,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">5 (4.3%)</td>
 <td class="gt_row gt_center" headers="stat_5">3 (3.0%)</td>
 <td class="gt_row gt_center" headers="stat_6">13 (5.9%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.034</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.028</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -3014,7 +3014,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">1 (0.9%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value">0.3</td>
+<td class="gt_row gt_center" headers="p.value">0.4</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_cetirizin</td>
@@ -3025,7 +3025,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">6 (2.7%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.015</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.012</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_simvas</td>
@@ -3048,7 +3048,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">1 (0.9%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.024</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.031</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -3095,7 +3095,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">1 (0.5%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.003</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.006</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -3141,7 +3141,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">3 (2.6%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.014</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">0.022</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -3164,7 +3164,7 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 <td class="gt_row gt_center" headers="stat_4">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_5">0 (0%)</td>
 <td class="gt_row gt_center" headers="stat_6">0 (0%)</td>
-<td class="gt_row gt_center" headers="p.value">0.15</td>
+<td class="gt_row gt_center" headers="p.value">0.14</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">comed_quinin</td>

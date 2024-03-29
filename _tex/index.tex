@@ -177,7 +177,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia in Vietnamese patients},
+  pdftitle={Development and Validation of a Risk Prediction Model of linezolid-induced thrombocytopenia},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -186,9 +186,11 @@
   pdfcreator={LaTeX via pandoc}}
 
 \title{Development and Validation of a Risk Prediction Model of
-linezolid-induced thrombocytopenia in Vietnamese patients}
-\author{Nhi Nguyen Ha \and An Tang Quoc}
-\date{Wednesday, March 27, 2024}
+linezolid-induced thrombocytopenia}
+\author{Nhi Nguyen Ha \and An Tang Quoc \and Ha Tran Ngan \and Hang
+Nguyen Thi Thu \and Hoa Vu Dinh \and Nhung TH Trinh \and Anh Nguyen
+Hoang}
+\date{Friday, March 29, 2024}
 
 \begin{document}
 \maketitle
@@ -340,7 +342,20 @@ for the present study & \\
 
 \subsection{Background and objectives}\label{background-and-objectives}
 
-Linezolid is an oxazolidinones antibiotics {[}1{]}.
+\textbf{First paragraph:} introduction about linezolid and associated
+ADR including thrombocytopenia
+
+\textbf{Second paragraph:} what is already known in the literature about
+this association (magnitude and associated factors)
+
+\textbf{Third paragraph:} the importance of investigation this
+association in Vietnamese settings and develop a risk prediction model.
+Why is this study needed?
+
+This study aimed to develop and validate a risk prediction model of
+linezolid-induced thrombocytopenia adapted to Vietnamese setting. In
+addition, we constructed a simplified risk score using this model to
+enhance the applicability of the prediction rule in clinical practice.
 
 \section{Methods}\label{methods}
 
@@ -349,15 +364,19 @@ Linezolid is an oxazolidinones antibiotics {[}1{]}.
 \subsubsection{4a: Describe eligibility criteria for participants and
 datasets}\label{a-describe-eligibility-criteria-for-participants-and-datasets}
 
-This study used data from three hospitals in Vietnam: Thanh Nhan
-Hospital, Bach Mai Hospital, and the National Hospital of Tropical
-Diseases. Patients hospitalized and treated with linezolid were
+This study used data from three tertiary hospitals in Northern Vietnam:
+Thanh Nhan Hospital, Bach Mai Hospital, and the National Hospital of
+Tropical Diseases. Patients hospitalized and treated with linezolid were
 included. The following patients were excluded: (i) those under 18 years
 of age; (ii) those treated with linezolid for less than 3 days; (iii)
 those without any recorded platelet count in the period before or after
 initiation of linezolid therapy; (iv) those with baseline platelet count
 of \textgreater{} 450 x 10\textsuperscript{9} cells/L; (v) those with
-any missing recorded values among the specified predictors.
+any missing recorded values among the specified predictors. Each patient
+was included only once per admission and the first linezolid treatment
+course was evaluated. Included patients were followed up until the end
+of the linezolid treatment course or discharge date whichever comes
+first.
 
 \subsubsection{4b: Describe the origin of the data, and how the data
 were identified, requested, and
@@ -378,13 +397,22 @@ Hospital; from May 01 to December 31, 2021 at the National Hospital of
 Tropical Diseases. The extension datasets were collected from September
 01, 2022 to March 31, 2023 at Thanh Nhan Hospital; from December 01,
 2022 to March 31, 2023 at Bach Mai Hospital; from April 01 to September
-31, 2022 at the National Hospital of Tropical Diseases.
+31, 2022 at the National Hospital of Tropical Diseases. \emph{(comment:
+no data of total number of patients admitted to these hospitals during
+each period)}
+
+The anonymized data were extracted from electronical medical records at
+each medical institution, except data from Bach Mai Hospital in the
+pilot phase. Individual ID number were assigned to each patient's
+hospital admission.
+
+Ethical approval was obtained from\ldots.
 
 \subsection{Sample size}\label{sample-size}
 
 Previous studies developing logistic regression models for LI-TP risk
 predictions have included 4-6 predictors in their final models
-{[}2--5{]}. We expect to include about as many candidate predictors,
+{[}1--4{]}. We expect to include about as many candidate predictors,
 based on results from the expert opinion survey and the Bayesian Model
 Selection algorithm see~\ref{sec-outcomes-and-predictors}. Some of the
 candidate predictors might be continuous, which may potentially require
@@ -392,7 +420,7 @@ non-linear modelling and therefore slightly increase the number of
 variables.
 
 A general rule of thumb is for at least 10 events be available for each
-candidate predictor considered in a prediction model {[}6{]}. We have a
+candidate predictor considered in a prediction model {[}5{]}. We have a
 total of 816 eligible patients and 264 of those have experienced the
 outcome. If the number of candidate predictors is 7, we would have 37
 events per candidate predictor, which is considerably greater than the
@@ -402,7 +430,7 @@ minimum number required. Even if the number of parameters screened is
 However, the aforementioned rule of thumb have generated some debate in
 the literature, with recent results suggesting that event per variable
 criterion is too simplistic and has no strong relation to the predictive
-performance of a model. Riley et al {[}7{]} proposed a different set of
+performance of a model. Riley et al {[}6{]} proposed a different set of
 criteria to estimate minimum sample size for models developed using
 logistic regression, which are the following:
 
@@ -439,7 +467,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-note-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toptitle=1mm, colbacktitle=quarto-callout-note-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
@@ -462,7 +490,7 @@ The value of max(R\textsuperscript{2}\textsubscript{CS\_app}) is based
 on the overall prevalence or overall rate of the outcome in the
 population of interest. The incidence of LI-TP in patients treated with
 linezolid was estimated to be 37\% in a meta-analysis by Zhao et al
-{[}8{]}.
+{[}7{]}.
 
 The value of R\textsuperscript{2}\textsubscript{CS\_adj} could be based
 on that for a previously published model in the same setting and
@@ -558,16 +586,16 @@ as (i) a platelet count of \textless{} 112.5 x 10\textsuperscript{9}
 cells/L (75\% of the lower limit of normal) for patients with a baseline
 platelet count in the normal range; (ii) A reduction in platelet count
 of ≥ 25\% from the baseline value for patients with a baseline platelet
-count of \textless{} 150 x 10\textsuperscript{9} cells/L {[}5,9,10{]}.
+count of \textless{} 150 x 10\textsuperscript{9} cells/L {[}4,8,9{]}.
 
 Normal platelet count is defined as 150-450 x 10\textsuperscript{9}
 cells/L. Baseline platelet count is defined as the last recorded PLT
 value before the start of linezolid therapy. Participants are considered
-to have met the outcome if they have a platelet count that meets the
-above criteria at any time during linezolid therapy or within 5 days
-after the end of therapy.
+to have met the outcome if their platelet count value meets the above
+criteria at any time during linezolid therapy or within 5 days after the
+end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-warning-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-warning-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-warning-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, toptitle=1mm, colbacktitle=quarto-callout-warning-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -694,7 +722,7 @@ criteria (i) to (iii) in the previous section:
 applicability in the individual clusters (eg, using
 PROBAST)}\label{b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast}
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-important-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
 
 Is this even possible for this study?
 
@@ -713,7 +741,7 @@ There are \textasciitilde5\% of observations with missing values in the
 dataset, which is considered low. The missing data mechanism is assumed
 to be missing completely at random.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, breakable, colframe=quarto-callout-important-color-frame, titlerule=0mm, toprule=.15mm, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, left=2mm, toptitle=1mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colback=white, bottomrule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, rightrule=.15mm, breakable, left=2mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, colback=white, arc=.35mm, bottomrule=.15mm, toprule=.15mm, opacityback=0, coltitle=black, leftrule=.75mm]
 
 What is a possible reason for missing data?
 
@@ -783,68 +811,61 @@ specification}\label{model-development-and-specification}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{0}{1}
-\bibitem[\citeproctext]{ref-cazavet_risk_2020}
-1. Cazavet J, Bounes FV, Ruiz S, Seguin T, Crognier L, Rouget A, et al.
-Risk factor analysis for linezolid-associated thrombocytopenia in
-critically ill patients. Eur J Clin Microbiol Infect Dis {[}Internet{]}.
-2020;39:527--38. Available from:
-\url{https://www.ncbi.nlm.nih.gov/pubmed/31853741}
-
 \bibitem[\citeproctext]{ref-liu_analysis_2021}
-2. Liu Y, Liu T, Wei G, Yan P, Fang X, Xie L. Analysis of risk factors
+1. Liu Y, Liu T, Wei G, Yan P, Fang X, Xie L. Analysis of risk factors
 and establishment of risk prediction model for linezolid-associated
 thrombocytopenia. Medical Journal of Chinese People's Liberation Army
 {[}Internet{]}. 2021;46. Available from:
 \url{https://d.wanfangdata.com.cn/periodical/jfjyxzz202108006}
 
 \bibitem[\citeproctext]{ref-duan_regression_2022}
-3. Duan L, Zhou Q, Feng Z, Zhu C, Cai Y, Wang S, et al. A {Regression}
+2. Duan L, Zhou Q, Feng Z, Zhu C, Cai Y, Wang S, et al. A {Regression}
 {Model} to {Predict} {Linezolid} {Induced} {Thrombocytopenia} in
 {Neonatal} {Sepsis} {Patients}: {A} {Ten}-{Year} {Retrospective}
 {Cohort} {Study}. Front Pharmacol {[}Internet{]}. 2022;13:710099.
 Available from: \url{https://www.ncbi.nlm.nih.gov/pubmed/35185555}
 
 \bibitem[\citeproctext]{ref-qin_development_2021}
-4. Qin Y, Chen Z, Gao S, Pan MK, Li YX, Lv ZQ, et al. Development and
+3. Qin Y, Chen Z, Gao S, Pan MK, Li YX, Lv ZQ, et al. Development and
 {Validation} of a {Risk} {Prediction} {Model} of {Linezolid}-induced
 {Thrombocytopenia} in {Elderly} {Patients} {[}Internet{]}. In Review;
 2021 Jun. Available from:
 \url{https://www.researchsquare.com/article/rs-582799/v1}
 
 \bibitem[\citeproctext]{ref-xu_establishment_2023}
-5. Xu J, Lu J, Yuan Y, Duan L, Shi L, Chen F, et al.
+4. Xu J, Lu J, Yuan Y, Duan L, Shi L, Chen F, et al.
 \href{https://doi.org/10.1093/jac/dkad191}{Establishment and validation
 of a risk prediction model incorporating concentrations of linezolid and
 its metabolite {PNU142300} for linezolid-induced thrombocytopenia}. The
 Journal of Antimicrobial Chemotherapy. 2023;78:1974--81.
 
 \bibitem[\citeproctext]{ref-peduzzi1995}
-6. Peduzzi P, Concato J, Feinstein AR, Holford TR. Importance of events
+5. Peduzzi P, Concato J, Feinstein AR, Holford TR. Importance of events
 per independent variable in proportional hazards regression analysis II.
 Accuracy and precision of regression estimates. Journal of Clinical
 Epidemiology {[}Internet{]}. 1995;48:1503--10. Available from:
 \url{https://www.jclinepi.com/article/0895-4356(95)00048-8/abstract}
 
 \bibitem[\citeproctext]{ref-riley2019}
-7. Riley RD, Snell KI, Ensor J, Burke DL, Harrell Jr FE, Moons KG, et
+6. Riley RD, Snell KI, Ensor J, Burke DL, Harrell Jr FE, Moons KG, et
 al. Minimum sample size for developing a multivariable prediction model:
 PART II - binary and time-to-event outcomes. Statistics in Medicine
 {[}Internet{]}. 2019;38:1276--96. Available from:
 \url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.7992}
 
 \bibitem[\citeproctext]{ref-zhao_prediction_2024}
-8. Zhao X, Peng Q, Hu D, Li W, Ji Q, Dong Q, et al. Prediction of risk
+7. Zhao X, Peng Q, Hu D, Li W, Ji Q, Dong Q, et al. Prediction of risk
 factors for linezolid-induced thrombocytopenia based on neural network
 model. Frontiers in Pharmacology {[}Internet{]}. 2024 {[}cited 2024 Feb
 27{]};15. Available from:
 \url{https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2024.1292828}
 
 \bibitem[\citeproctext]{ref-zyvoxpr}
-9. Zyvox prescribing information {[}Internet{]}. Available from:
+8. Zyvox prescribing information {[}Internet{]}. Available from:
 \url{https://labeling.pfizer.com/showlabeling.aspx?id=649}
 
 \bibitem[\citeproctext]{ref-kawasuji_proposal_2021}
-10. Kawasuji H, Tsuji Y, Ogami C, Kimoto K, Ueno A, Miyajima Y, et al.
+9. Kawasuji H, Tsuji Y, Ogami C, Kimoto K, Ueno A, Miyajima Y, et al.
 Proposal of initial and maintenance dosing regimens with linezolid for
 renal impairment patients. BMC Pharmacology and Toxicology
 {[}Internet{]}. 2021 {[}cited 2024 Feb 26{]};22:13. Available from:
