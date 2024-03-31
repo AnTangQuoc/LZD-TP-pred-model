@@ -157,7 +157,7 @@ The value of max(R^2^~CS_app~) is based on the overall prevalence or overall rat
 The value of R^2^~CS_adj~ could be based on that for a previously published model in the same setting and population (with similar outcome definition). However, as previous studies does not provide any information to identify a sensible value of the minimum expected Cox-Snell R^2^, the value R^2^~CS_adj~ will be assumed to correspond to a R^2^~Nagelkerke~ of 0.50, as baseline platelet count, a "direct" measurement of the outcome, is likely to be a predictor.
 
 ```{r}
-calculate_R2_CS_adj <- function(n = 100, E, R2_N = 0.50) {
+calculate_R2_CS_adj <- function(n = 100, E, R2_N = 0.15) {
   ln_L_null <- E * log(E / n) + (n - E) * log(1 - E / n)
   max_R2_CS_app <- 1 - exp(2 * ln_L_null / n)
   R2_CS_adj <- R2_N / max_R2_CS_app
