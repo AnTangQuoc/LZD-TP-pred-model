@@ -100,17 +100,24 @@ Comment: Penalized likelihood methods have comparable predictive performance to 
 # image(multi_model, rotate = FALSE)
 # diagnostics(multi_model)
 
+library(tictoc)
+
+tic()
 multi_model_transformed <- data_patient_transformed |>
   select(all_of(predictor_transformed), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
-    include.always = ~ 1 + comed_heparin
+    include.always = ~ 1,
+    n.models = 2^15,
+    thin = 46,
+    update = 10000
   )
+toc()
 
 summary(multi_model_transformed)
 plot(multi_model_transformed)
 image(multi_model_transformed, rotate = FALSE)
-diagnostics(multi_model_transformed)
+# diagnostics(multi_model_transformed)
 
 multi_predict_HPM <- variable.names(predict(multi_model_transformed, estimator = "HPM"))[-1] |>
   str_extract(paste(predictor_transformed, collapse = "|")) # highest probability model
