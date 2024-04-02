@@ -23,7 +23,10 @@ extract_variable_names_cross <- function(sample) {
   model <- data |>
     run_bas_glm(
       formula = flag_ADR_TP_ID ~ .,
-      include.always = ~1 + comed_heparin
+      include.always = ~1,
+      n.models = 2^15,
+      thin = 46,
+      update = 10000
     )
   variable.names(predict(model, estimator = "HPM"))[-1] |>
     str_extract(paste(predictor_transformed, collapse = "|"))
