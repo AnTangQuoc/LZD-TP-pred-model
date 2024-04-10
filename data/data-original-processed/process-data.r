@@ -19,7 +19,7 @@ process_data_patient <- function(path) {
     select(
       starts_with("patient"), "site", "charlson",
       starts_with("dept"), starts_with("invasive"), starts_with("baseline"),
-      starts_with("LZD"), starts_with("comorb"),
+      starts_with("LZD"), starts_with("comorb"), disorder_out, hema_disorders,
       starts_with("comed"), starts_with("infect"),
       -c("patient_name") # patient_name is not used in the analysis
     ) |>
@@ -28,7 +28,7 @@ process_data_patient <- function(path) {
       across(
         c(
           "patient_sex", starts_with("dept_"), starts_with("invasive"),
-          starts_with("comorb") & -(c("comorb_K", "comorb_hematological", "comorb_hema")),
+          starts_with("comorb") & -(c("comorb_K", "comorb_hematological",  "comorb_SLE", "disorder_out", "hema_disorders")),
           starts_with("comed"), starts_with("infect")
         ), ~ as.logical(.x)
       ),
@@ -40,7 +40,7 @@ process_data_patient <- function(path) {
       ),
       across(c("baseline_date", "LZD_start", "LZD_end"), ~ as_date(.x)),
       across(
-        c("comorb_K", "comorb_hematological", "comorb_hema"),
+        c("comorb_K", "comorb_hematological", "comorb_SLE", "disorder_out", "hema_disorders"),
         ~ as.logical(if_else(.x == "0" | .x == 0 | is.na(.x), FALSE, TRUE))
       )
     )

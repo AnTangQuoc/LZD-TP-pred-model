@@ -27,14 +27,15 @@ data_patient_transformed <- data_patient_complete |>
     baseline_PLT_150 = baseline_PLT < 150,
     LZD_duration_7 = LZD_duration > 7,
     LZD_duration_10 = LZD_duration > 10,
-    LZD_duration_14 = LZD_duration > 14
+    LZD_duration_14 = LZD_duration > 14,
+    LZD_route_IV = LZD_route == "IV"
   )
 
 predictor_transformed <- data_patient_transformed |>
   select(
-    patient_age, patient_sex, patient_weight, baseline_CLCR_30, # note
+    patient_age, patient_sex, patient_weight, baseline_CLCR_30, baseline_CLCR_60, # note
     dept_ER, dept_ICU, baseline_HGB, baseline_WBC, baseline_PLT,
-    LZD_duration_14, LZD_route, starts_with("invasive"), starts_with("comorb"),
+    LZD_duration_14, LZD_route_IV, starts_with("invasive"), starts_with("comorb"),
     starts_with("infect"), comed_ibuprofen, comed_carbapenem,
     comed_vancomycin, comed_levofloxacin, comed_teicoplanin,
     comed_pyrazinamid, comed_rifampin, comed_heparin,

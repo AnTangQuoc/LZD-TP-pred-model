@@ -5,6 +5,8 @@ title: Internal-External Development and Cross-Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+
+load("data/results/variables-to-screen.rda")
 ```
 
 ```{r}
@@ -14,7 +16,7 @@ library(tidymodels)
 library(CalibrationCurves)
 
 data_patient_cross_prep <- data_patient_transformed |>
-  select(all_of(predictor_transformed), flag_ADR_TP_ID, site)
+  select(all_of(variables_to_screen), flag_ADR_TP_ID, site)
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep, group = "site")
 
@@ -25,11 +27,11 @@ extract_variable_names_cross <- function(sample) {
       formula = flag_ADR_TP_ID ~ .,
       include.always = ~1,
       n.models = 2^15,
-      thin = 46,
+      thin = length(variables_to_screen),
       update = 10000
     )
   variable.names(predict(model, estimator = "HPM"))[-1] |>
-    str_extract(paste(predictor_transformed, collapse = "|"))
+    str_extract(paste(variables_to_screen, collapse = "|"))
 }
 
 # Function to modify sample data and fit model
@@ -113,7 +115,6 @@ cross_C_index_meta <- metagen(
 
 forest_plot_C_index <- forest(
   cross_C_index_meta,
-  sortvar = TE,
   ref = NA,
   xlim = c(0.6, 0.9),
   layout = "RevMan5"
@@ -136,7 +137,6 @@ cross_calibration_intercept_meta <- metagen(
 
 forest_plot_calibration_intercept <- forest(
   cross_calibration_intercept_meta,
-  sortvar = TE,
   ref = 0,
   xlim = c(-0.8, 0.8),
   layout = "RevMan5"
@@ -159,7 +159,6 @@ cross_calibration_slope_meta <- metagen(
 
 forest_plot_calibration_slope <- forest(
   cross_calibration_slope_meta,
-  sortvar = TE,
   ref = 1,
   xlim = c(0.2, 1.7),
   layout = "RevMan5"
