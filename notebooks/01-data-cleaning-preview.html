@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.4.552">
+    <meta name="generator" content="quarto-1.4.553">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -191,7 +191,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Tuesday, April 2, 2024</p>
+              <p class="date">Wednesday, April 10, 2024</p>
             </div>
           </div>
           
@@ -289,7 +289,8 @@
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">between</span>(LZD_start, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)) <span class="sc">|</span></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(LZD_end, <span class="fu">as_date</span>(<span class="st">"2022-09-01"</span>), <span class="fu">as_date</span>(<span class="st">"2023-02-28"</span>)))</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(patient_ID, <span class="st">"_2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(patient_ID, <span class="st">"_2"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>comorb_hematological <span class="sc">&amp;</span> <span class="sc">!</span>comorb_SLE <span class="sc">&amp;</span> <span class="sc">!</span>disorder_out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p>This code filters the ‘inputs_labs_general’ data frame.</p>
 <ol type="1">
@@ -415,13 +416,13 @@ Caused by warning in `min()`:
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_CTCAE_max =</span> <span class="fu">na_if</span>(ADR_CTCAE_max, <span class="sc">-</span><span class="cn">Inf</span>)</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: There were 638 warnings in `mutate()`.
+<pre><code>Warning: There were 614 warnings in `mutate()`.
 The first warning was:
 ℹ In argument: `ADR_CTCAE_max = max(test_CTCAE, na.rm = TRUE)`.
 ℹ In group 1: `patient_ID = "000847"`.
 Caused by warning in `max()`:
 ! no non-missing arguments to max; returning -Inf
-ℹ Run `dplyr::last_dplyr_warnings()` to see the 637 remaining warnings.</code></pre>
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 613 remaining warnings.</code></pre>
 </div>
 </div></div>
 <p>This code adds a new column ‘test_onset’, which is the number of days from ‘LZD_start’ to the thrombocytopenia event.</p>

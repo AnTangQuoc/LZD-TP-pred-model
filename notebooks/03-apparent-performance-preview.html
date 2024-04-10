@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.4.552">
+    <meta name="generator" content="quarto-1.4.553">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -194,7 +194,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Tuesday, April 2, 2024</p>
+              <p class="date">Wednesday, April 10, 2024</p>
             </div>
           </div>
           
@@ -249,7 +249,9 @@
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"notebooks/BMA-model-no-initial-var.r"</span>) <span class="co"># run_bas_glm() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"notebooks/BMA-model-no-initial-var.r"</span>) <span class="co"># run_bas_glm() function</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/results/variables-to-screen.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <section id="penalized-likelihood-methods" class="level1">
 <h1>Penalized Likelihood Methods</h1>
@@ -295,7 +297,7 @@
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>stepwise_model<span class="sc">$</span>coefficients <span class="sc">|&gt;</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 23</code></pre>
+<pre><code>[1] 21</code></pre>
 </div>
 </div></div>
 <p>Results: Stepwise algorithm selected 17 predictors.</p>
@@ -394,128 +396,72 @@ Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</code></pre>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>multi_model_transformed <span class="ot">&lt;-</span> data_patient_transformed <span class="sc">|&gt;</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(predictor_transformed), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(variables_to_screen), flag_ADR_TP_ID) <span class="sc">|&gt;</span></span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run_bas_glm</span>(</span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> flag_ADR_TP_ID <span class="sc">~</span> .,</span>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">include.always =</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.models =</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">15</span>,</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">thin =</span> <span class="dv">46</span>,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">thin =</span> <span class="fu">length</span>(variables_to_screen),</span>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">update =</span> <span class="dv">10000</span></span>
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>169.513 sec elapsed</code></pre>
+<pre><code>96.77 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model_transformed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                         P(B != 0 | Y)      model 1      model 2       model 3
-Intercept                  1.000000000    1.0000000    1.0000000  1.000000e+00
-patient_age                0.760087061    1.0000000    1.0000000  0.000000e+00
-patient_sexTRUE            0.010001533    0.0000000    0.0000000  0.000000e+00
-patient_weight             0.009619914    0.0000000    0.0000000  0.000000e+00
-baseline_CLCR_30TRUE       0.949023815    1.0000000    1.0000000  1.000000e+00
-dept_ERTRUE                0.010025150    0.0000000    0.0000000  0.000000e+00
-dept_ICUTRUE               0.010444273    0.0000000    0.0000000  0.000000e+00
-baseline_HGB               0.054884731    0.0000000    0.0000000  0.000000e+00
-baseline_WBC               0.018359940    0.0000000    0.0000000  0.000000e+00
-baseline_PLT               1.000000000    1.0000000    1.0000000  1.000000e+00
-LZD_duration_14TRUE        0.973107836    1.0000000    1.0000000  1.000000e+00
-LZD_routeIV&amp;PO             0.011526103    0.0000000    0.0000000  0.000000e+00
-LZD_routePO                0.009418344    0.0000000    0.0000000  0.000000e+00
-invasive_ETITRUE           0.173070129    0.0000000    0.0000000  0.000000e+00
-invasive_CVCTRUE           0.836324885    1.0000000    1.0000000  1.000000e+00
-invasive_IHDTRUE           0.019737833    0.0000000    0.0000000  0.000000e+00
-invasive_CRRTTRUE          0.131250483    0.0000000    0.0000000  0.000000e+00
-comorb_HTNTRUE             0.010643206    0.0000000    0.0000000  0.000000e+00
-comorb_DMTRUE              0.018778965    0.0000000    0.0000000  0.000000e+00
-comorb_HFTRUE              0.033122727    0.0000000    0.0000000  0.000000e+00
-comorb_anginaTRUE          0.011668264    0.0000000    0.0000000  0.000000e+00
-comorb_cirrTRUE            0.535340485    1.0000000    0.0000000  0.000000e+00
-comorb_COPDTRUE            0.024563855    0.0000000    0.0000000  0.000000e+00
-comorb_CVATRUE             0.095264177    0.0000000    0.0000000  0.000000e+00
-comorb_MITRUE              0.017570941    0.0000000    0.0000000  0.000000e+00
-comorb_KTRUE               0.011553908    0.0000000    0.0000000  0.000000e+00
-comorb_hematologicalTRUE   0.023943113    0.0000000    0.0000000  0.000000e+00
-comorb_hemaTRUE            0.009684272    0.0000000    0.0000000  0.000000e+00
-infect_sepsisTRUE          0.118256488    0.0000000    0.0000000  0.000000e+00
-infect_CAPTRUE             0.014796954    0.0000000    0.0000000  0.000000e+00
-infect_HAPTRUE             0.039439097    0.0000000    0.0000000  0.000000e+00
-infect_SSTITRUE            0.021826753    0.0000000    0.0000000  0.000000e+00
-infect_CNSTRUE             0.009262614    0.0000000    0.0000000  0.000000e+00
-infect_IAITRUE             0.009903309    0.0000000    0.0000000  0.000000e+00
-infect_UTITRUE             0.014910692    0.0000000    0.0000000  0.000000e+00
-infect_BJITRUE             0.012269791    0.0000000    0.0000000  0.000000e+00
-infect_septicemiaTRUE      0.059965636    0.0000000    0.0000000  0.000000e+00
-comed_ibuprofenTRUE        0.147036018    0.0000000    0.0000000  0.000000e+00
-comed_carbapenemTRUE       0.013322547    0.0000000    0.0000000  0.000000e+00
-comed_vancomycinTRUE       0.069672312    0.0000000    0.0000000  0.000000e+00
-comed_levofloxacinTRUE     0.009845864    0.0000000    0.0000000  0.000000e+00
-comed_teicoplaninTRUE      0.029280174    0.0000000    0.0000000  0.000000e+00
-comed_pyrazinamidTRUE      0.016256405    0.0000000    0.0000000  0.000000e+00
-comed_rifampinTRUE         0.017273887    0.0000000    0.0000000  0.000000e+00
-comed_heparinTRUE          0.810910215    1.0000000    1.0000000  1.000000e+00
-comed_clopidogrelTRUE      0.021313669    0.0000000    0.0000000  0.000000e+00
-comed_enoxaparinTRUE       0.010530139    0.0000000    0.0000000  0.000000e+00
-comed_valproicTRUE         0.015079207    0.0000000    0.0000000  0.000000e+00
-BF                                  NA    0.7002699    0.1030374  6.954982e-03
-PostProbs                           NA    0.0568000    0.0490000  2.310000e-02
-R2                                  NA    0.1859000    0.1773000  1.669000e-01
-dim                                 NA    8.0000000    7.0000000  6.000000e+00
-logmarg                             NA -441.1606429 -443.0770172 -4.457727e+02
-                           model 4       model 5
-Intercept                   1.0000    1.00000000
-patient_age                 1.0000    0.00000000
-patient_sexTRUE             0.0000    0.00000000
-patient_weight              0.0000    0.00000000
-baseline_CLCR_30TRUE        1.0000    1.00000000
-dept_ERTRUE                 0.0000    0.00000000
-dept_ICUTRUE                0.0000    0.00000000
-baseline_HGB                0.0000    0.00000000
-baseline_WBC                0.0000    0.00000000
-baseline_PLT                1.0000    1.00000000
-LZD_duration_14TRUE         1.0000    1.00000000
-LZD_routeIV&amp;PO              0.0000    0.00000000
-LZD_routePO                 0.0000    0.00000000
-invasive_ETITRUE            0.0000    0.00000000
-invasive_CVCTRUE            1.0000    1.00000000
-invasive_IHDTRUE            0.0000    0.00000000
-invasive_CRRTTRUE           0.0000    0.00000000
-comorb_HTNTRUE              0.0000    0.00000000
-comorb_DMTRUE               0.0000    0.00000000
-comorb_HFTRUE               0.0000    0.00000000
-comorb_anginaTRUE           0.0000    0.00000000
-comorb_cirrTRUE             1.0000    1.00000000
-comorb_COPDTRUE             0.0000    0.00000000
-comorb_CVATRUE              0.0000    0.00000000
-comorb_MITRUE               0.0000    0.00000000
-comorb_KTRUE                0.0000    0.00000000
-comorb_hematologicalTRUE    0.0000    0.00000000
-comorb_hemaTRUE             0.0000    0.00000000
-infect_sepsisTRUE           0.0000    0.00000000
-infect_CAPTRUE              0.0000    0.00000000
-infect_HAPTRUE              0.0000    0.00000000
-infect_SSTITRUE             0.0000    0.00000000
-infect_CNSTRUE              0.0000    0.00000000
-infect_IAITRUE              0.0000    0.00000000
-infect_UTITRUE              0.0000    0.00000000
-infect_BJITRUE              0.0000    0.00000000
-infect_septicemiaTRUE       0.0000    0.00000000
-comed_ibuprofenTRUE         1.0000    0.00000000
-comed_carbapenemTRUE        0.0000    0.00000000
-comed_vancomycinTRUE        0.0000    0.00000000
-comed_levofloxacinTRUE      0.0000    0.00000000
-comed_teicoplaninTRUE       0.0000    0.00000000
-comed_pyrazinamidTRUE       0.0000    0.00000000
-comed_rifampinTRUE          0.0000    0.00000000
-comed_heparinTRUE           1.0000    1.00000000
-comed_clopidogrelTRUE       0.0000    0.00000000
-comed_enoxaparinTRUE        0.0000    0.00000000
-comed_valproicTRUE          0.0000    0.00000000
-BF                          1.0000    0.02979612
-PostProbs                   0.0162    0.01420000
-R2                          0.1914    0.17480000
-dim                         9.0000    7.00000000
-logmarg                  -440.8044 -444.31773060</code></pre>
+<pre><code>                         P(B != 0 | Y)      model 1      model 2      model 3
+Intercept                   1.00000000    1.0000000    1.0000000    1.0000000
+LZD_duration_14TRUE         0.51236403    0.0000000    0.0000000    0.0000000
+comed_heparinTRUE           0.99889060    1.0000000    1.0000000    1.0000000
+infect_sepsisTRUE           0.66629342    1.0000000    1.0000000    1.0000000
+dept_ICUTRUE                0.05817669    0.0000000    0.0000000    0.0000000
+baseline_CLCR_30TRUE        0.44672695    0.0000000    1.0000000    0.0000000
+patient_age_65TRUE          0.12215520    0.0000000    0.0000000    0.0000000
+baseline_PLT_150TRUE        0.10904160    0.0000000    0.0000000    0.0000000
+comorb_cirrTRUE             0.46113976    0.0000000    0.0000000    0.0000000
+invasive_CRRTTRUE           0.26574121    0.0000000    0.0000000    0.0000000
+comed_enoxaparinTRUE        0.07998353    0.0000000    0.0000000    0.0000000
+baseline_CLCR               0.12579880    0.0000000    0.0000000    0.0000000
+comorb_hematologicalTRUE    0.05250482    0.0000000    0.0000000    0.0000000
+LZD_duration_10TRUE         0.67355415    1.0000000    1.0000000    1.0000000
+patient_age                 0.81478375    1.0000000    1.0000000    1.0000000
+baseline_PLT                0.99999151    1.0000000    1.0000000    1.0000000
+LZD_route_IVTRUE            0.06076609    0.0000000    0.0000000    0.0000000
+infect_septicemiaTRUE       0.09255631    0.0000000    0.0000000    0.0000000
+invasive_IHDTRUE            0.07739943    0.0000000    0.0000000    0.0000000
+baseline_CLCR_60TRUE        0.42578114    0.0000000    0.0000000    1.0000000
+BF                                  NA    0.3043586    0.6998644    0.5433097
+PostProbs                           NA    0.0223000    0.0220000    0.0171000
+R2                                  NA    0.1766000    0.1836000    0.1831000
+dim                                 NA    6.0000000    7.0000000    7.0000000
+logmarg                             NA -417.4216045 -416.5889243 -416.8421315
+                           model 4      model 5
+Intercept                   1.0000    1.0000000
+LZD_duration_14TRUE         0.0000    1.0000000
+comed_heparinTRUE           1.0000    1.0000000
+infect_sepsisTRUE           1.0000    1.0000000
+dept_ICUTRUE                0.0000    0.0000000
+baseline_CLCR_30TRUE        1.0000    1.0000000
+patient_age_65TRUE          0.0000    0.0000000
+baseline_PLT_150TRUE        0.0000    0.0000000
+comorb_cirrTRUE             1.0000    1.0000000
+invasive_CRRTTRUE           0.0000    0.0000000
+comed_enoxaparinTRUE        0.0000    0.0000000
+baseline_CLCR               0.0000    0.0000000
+comorb_hematologicalTRUE    0.0000    0.0000000
+LZD_duration_10TRUE         1.0000    0.0000000
+patient_age                 1.0000    1.0000000
+baseline_PLT                1.0000    1.0000000
+LZD_route_IVTRUE            0.0000    0.0000000
+infect_septicemiaTRUE       0.0000    0.0000000
+invasive_IHDTRUE            0.0000    0.0000000
+baseline_CLCR_60TRUE        0.0000    0.0000000
+BF                          1.0000    0.8647884
+PostProbs                   0.0169    0.0146000
+R2                          0.1895    0.1892000
+dim                         8.0000    8.0000000
+logmarg                  -416.2321 -416.3773261</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi_model_transformed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -557,9 +503,9 @@ logmarg                  -440.8044 -444.31773060</code></pre>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># diagnostics(multi_model_transformed)</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>multi_predict_HPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model_transformed, <span class="at">estimator =</span> <span class="st">"HPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_transformed, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># highest probability model</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(variables_to_screen, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># highest probability model</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>multi_predict_BPM <span class="ot">&lt;-</span> <span class="fu">variable.names</span>(<span class="fu">predict</span>(multi_model_transformed, <span class="at">estimator =</span> <span class="st">"BPM"</span>))[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">|&gt;</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(predictor_transformed, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># best predictive model, this model is weird</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="fu">paste</span>(variables_to_screen, <span class="at">collapse =</span> <span class="st">"|"</span>)) <span class="co"># best predictive model, this model is weird</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -586,7 +532,7 @@ logmarg                  -440.8044 -444.31773060</code></pre>
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_patient_transformed_response_as_factor <span class="ot">&lt;-</span> data_patient_transformed <span class="sc">|&gt;</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -727,10 +673,8 @@ logmarg                  -440.8044 -444.31773060</code></pre>
 <div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model_full<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     patient_age baseline_CLCR_30     baseline_PLT  LZD_duration_14 
-        1.100520         1.102146         1.066868         1.051235 
-    invasive_CVC      comorb_cirr    comed_heparin 
-        1.054346         1.048491         1.067072 </code></pre>
+<pre><code>  comed_heparin   infect_sepsis LZD_duration_10     patient_age    baseline_PLT 
+       1.048964        1.038856        1.057554        1.039155        1.059743 </code></pre>
 </div>
 </div></div>
 <p>Result: VIFs are all less than 5 and close to 1.</p>
@@ -755,13 +699,12 @@ logmarg                  -440.8044 -444.31773060</code></pre>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      StudRes         Hat       CookD
-138 -1.773688 0.030772209 0.014562152
-303 -1.659886 0.034277783 0.012748528
-690 -1.408759 0.042381017 0.009262736
-724 -1.206746 0.048218399 0.006776105
-756  2.448129 0.002930855 0.006810961
-775  2.407672 0.005418555 0.011198709</code></pre>
+<pre><code>       StudRes         Hat       CookD
+119 -1.1941363 0.027524837 0.004904583
+171 -2.5044845 0.005568258 0.019444570
+423  2.4641409 0.002774941 0.008962242
+460 -0.9845288 0.027985222 0.003008503
+619  2.1684441 0.010374564 0.015911907</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
@@ -1370,7 +1313,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

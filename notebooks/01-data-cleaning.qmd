@@ -58,7 +58,8 @@ inputs_cleaned <- inputs_general |>
         (between(LZD_start, as_date("2022-09-01"), as_date("2023-02-28")) |
           between(LZD_end, as_date("2022-09-01"), as_date("2023-02-28")))
   ) |>
-  filter(!str_detect(patient_ID, "_2"))
+  filter(!str_detect(patient_ID, "_2")) |>
+  filter(!comorb_hematological & !comorb_SLE & !disorder_out)
 ```
 
 This code filters the 'inputs_labs_general' data frame.

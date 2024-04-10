@@ -5,6 +5,8 @@ title: Model Development and Apparent Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+
+load("data/results/variables-to-screen.rda")
 ```
 
 # Penalized Likelihood Methods
@@ -104,12 +106,12 @@ library(tictoc)
 
 tic()
 multi_model_transformed <- data_patient_transformed |>
-  select(all_of(predictor_transformed), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = ~ 1,
     n.models = 2^15,
-    thin = 46,
+    thin = length(variables_to_screen),
     update = 10000
   )
 toc()
@@ -120,9 +122,9 @@ image(multi_model_transformed, rotate = FALSE)
 # diagnostics(multi_model_transformed)
 
 multi_predict_HPM <- variable.names(predict(multi_model_transformed, estimator = "HPM"))[-1] |>
-  str_extract(paste(predictor_transformed, collapse = "|")) # highest probability model
+  str_extract(paste(variables_to_screen, collapse = "|")) # highest probability model
 multi_predict_BPM <- variable.names(predict(multi_model_transformed, estimator = "BPM"))[-1] |>
-  str_extract(paste(predictor_transformed, collapse = "|")) # best predictive model, this model is weird
+  str_extract(paste(variables_to_screen, collapse = "|")) # best predictive model, this model is weird
 ```
 
 ```{r}
