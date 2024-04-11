@@ -2883,17 +2883,18 @@ save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-c
 <sec id="nb-code-cell-2-nb-2" specific-use="notebook-code">
 <code language="r script">library(gtsummary)
 
-table_stats &lt;- data_patient_complete |&gt;
+table_stats &lt;- data_patient_transformed |&gt;
   select(
-    all_of(predictor_list), starts_with(&quot;comed&quot;), flag_ADR_TP_ID
+    all_of(predictor_transformed), starts_with(&quot;comed&quot;), flag_ADR_TP_ID
   ) |&gt;
+
   tbl_summary(
     by = flag_ADR_TP_ID,
     statistic = list(all_continuous() ~ &quot;{median} ({p25} - {p75})&quot;),
     missing = &quot;no&quot;
   ) |&gt;
-  add_overall() |&gt;
-  bold_labels()
+    add_overall() |&gt;
+    bold_labels()
 </code>
 </sec>
 <p>Univariate logistic regression, by thrombocytopenia status.</p>
@@ -2902,7 +2903,7 @@ table_stats &lt;- data_patient_complete |&gt;
 </code>
 <code language="r script">library(furrr)
 </code>
-<code language="r script">data_patient_complete_response_as_factor &lt;- data_patient_complete |&gt;
+<code language="r script">data_patient_transformed_response_as_factor &lt;- data_patient_transformed |&gt;
   mutate(
     flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID),
     LZD_route = as.factor(LZD_route)
@@ -2917,7 +2918,7 @@ fit_univariate_regression &lt;- function(predictor) {
         termlabels = predictor,
         response = &quot;flag_ADR_TP_ID&quot;
       ),
-      data = data_patient_complete_response_as_factor
+      data = data_patient_transformed_response_as_factor
     )
 }
 
@@ -2931,7 +2932,7 @@ arrange_univariate_regression &lt;- function(model) {
 }
 
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
-uni_model_list &lt;- future_map(predictor_list, fit_univariate_regression)
+uni_model_list &lt;- future_map(predictor_transformed, fit_univariate_regression)
 table_uni_list &lt;- future_map(uni_model_list, arrange_univariate_regression)
 </code>
 <code language="r script">plan(sequential)
@@ -2962,7 +2963,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</preformat>
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-2" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -2972,6 +2973,9 @@ table_uni &lt;- tbl_stack(table_uni_list)
 </sec>
 <sec id="nb-code-cell-3-output-5-nb-2" specific-use="notebook-output">
 <preformat>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
@@ -3009,10 +3013,16 @@ Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-7-nb-2" specific-use="notebook-output">
 <preformat>Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
+Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
 Extracting {parsnip} model fit with `tbl_regression(x = x$fit, ...)`
@@ -3101,6 +3111,24 @@ table_descriptive
         <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
+        <td headers="label" style="font-weight: bold">patient_age_60</td>
+        <td headers="stat_0_1">455 (59%)</td>
+        <td headers="stat_1_1">290 (55%)</td>
+        <td headers="stat_2_1">165 (67%)</td>
+        <td headers="estimate_2">1.66</td>
+        <td headers="ci_2">1.21, 2.28</td>
+        <td headers="p.value_2" style="font-weight: bold">0.002</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">patient_age_65</td>
+        <td headers="stat_0_1">351 (45%)</td>
+        <td headers="stat_1_1">228 (43%)</td>
+        <td headers="stat_2_1">123 (50%)</td>
+        <td headers="estimate_2">1.31</td>
+        <td headers="ci_2">0.97, 1.77</td>
+        <td headers="p.value_2">0.081</td>
+      </tr>
+      <tr>
         <td headers="label" style="font-weight: bold">patient_sex</td>
         <td headers="stat_0_1">288 (37%)</td>
         <td headers="stat_1_1">195 (37%)</td>
@@ -3119,12 +3147,39 @@ table_descriptive
         <td headers="p.value_2">0.8</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_CLCR</td>
-        <td headers="stat_0_1">49 (21 - 83)</td>
-        <td headers="stat_1_1">55 (26 - 88)</td>
-        <td headers="stat_2_1">33 (16 - 64)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.99, 0.99</td>
+        <td headers="label" style="font-weight: bold">patient_weight_50</td>
+        <td headers="stat_0_1">181 (23%)</td>
+        <td headers="stat_1_1">117 (22%)</td>
+        <td headers="stat_2_1">64 (26%)</td>
+        <td headers="estimate_2">1.23</td>
+        <td headers="ci_2">0.86, 1.74</td>
+        <td headers="p.value_2">0.2</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_per_10</td>
+        <td headers="stat_0_1">4.9 (2.1 - 8.3)</td>
+        <td headers="stat_1_1">5.5 (2.6 - 8.8)</td>
+        <td headers="stat_2_1">3.3 (1.6 - 6.4)</td>
+        <td headers="estimate_2">0.90</td>
+        <td headers="ci_2">0.86, 0.93</td>
+        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_60</td>
+        <td headers="stat_0_1">462 (60%)</td>
+        <td headers="stat_1_1">280 (53%)</td>
+        <td headers="stat_2_1">182 (74%)</td>
+        <td headers="estimate_2">2.49</td>
+        <td headers="ci_2">1.80, 3.48</td>
+        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_30</td>
+        <td headers="stat_0_1">272 (35%)</td>
+        <td headers="stat_1_1">153 (29%)</td>
+        <td headers="stat_2_1">119 (48%)</td>
+        <td headers="estimate_2">2.28</td>
+        <td headers="ci_2">1.67, 3.13</td>
         <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
@@ -3146,30 +3201,48 @@ table_descriptive
         <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_HGB</td>
-        <td headers="stat_0_1">103 (90 - 121)</td>
-        <td headers="stat_1_1">105 (92 - 122)</td>
-        <td headers="stat_2_1">98 (86 - 118)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.98, 1.0</td>
+        <td headers="label" style="font-weight: bold">baseline_HGB_per_10</td>
+        <td headers="stat_0_1">10.30 (9.00 - 12.10)</td>
+        <td headers="stat_1_1">10.50 (9.20 - 12.20)</td>
+        <td headers="stat_2_1">9.80 (8.60 - 11.80)</td>
+        <td headers="estimate_2">0.89</td>
+        <td headers="ci_2">0.83, 0.95</td>
         <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_WBC</td>
-        <td headers="stat_0_1">12 (8 - 17)</td>
-        <td headers="stat_1_1">12 (8 - 17)</td>
-        <td headers="stat_2_1">12 (8 - 18)</td>
-        <td headers="estimate_2">1.01</td>
-        <td headers="ci_2">0.99, 1.03</td>
+        <td headers="label" style="font-weight: bold">baseline_WBC_per_10</td>
+        <td headers="stat_0_1">1.22 (0.82 - 1.69)</td>
+        <td headers="stat_1_1">1.21 (0.83 - 1.67)</td>
+        <td headers="stat_2_1">1.25 (0.78 - 1.77)</td>
+        <td headers="estimate_2">1.09</td>
+        <td headers="ci_2">0.90, 1.31</td>
         <td headers="p.value_2">0.4</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_PLT</td>
-        <td headers="stat_0_1">210 (146 - 292)</td>
-        <td headers="stat_1_1">239 (171 - 310)</td>
-        <td headers="stat_2_1">157 (108 - 213)</td>
-        <td headers="estimate_2">0.99</td>
-        <td headers="ci_2">0.99, 0.99</td>
+        <td headers="label" style="font-weight: bold">baseline_PLT_per_10</td>
+        <td headers="stat_0_1">21 (15 - 29)</td>
+        <td headers="stat_1_1">24 (17 - 31)</td>
+        <td headers="stat_2_1">16 (11 - 21)</td>
+        <td headers="estimate_2">0.92</td>
+        <td headers="ci_2">0.90, 0.94</td>
+        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_PLT_200</td>
+        <td headers="stat_0_1">349 (45%)</td>
+        <td headers="stat_1_1">183 (35%)</td>
+        <td headers="stat_2_1">166 (67%)</td>
+        <td headers="estimate_2">3.87</td>
+        <td headers="ci_2">2.82, 5.36</td>
+        <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_PLT_150</td>
+        <td headers="stat_0_1">203 (26%)</td>
+        <td headers="stat_1_1">90 (17%)</td>
+        <td headers="stat_2_1">113 (46%)</td>
+        <td headers="estimate_2">4.11</td>
+        <td headers="ci_2">2.94, 5.78</td>
         <td headers="p.value_2" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
@@ -3180,6 +3253,33 @@ table_descriptive
         <td headers="estimate_2">1.03</td>
         <td headers="ci_2">1.00, 1.06</td>
         <td headers="p.value_2" style="font-weight: bold">0.020</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_7</td>
+        <td headers="stat_0_1">566 (73%)</td>
+        <td headers="stat_1_1">386 (73%)</td>
+        <td headers="stat_2_1">180 (73%)</td>
+        <td headers="estimate_2">1.00</td>
+        <td headers="ci_2">0.71, 1.40</td>
+        <td headers="p.value_2">&gt;0.9</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_10</td>
+        <td headers="stat_0_1">383 (49%)</td>
+        <td headers="stat_1_1">248 (47%)</td>
+        <td headers="stat_2_1">135 (55%)</td>
+        <td headers="estimate_2">1.37</td>
+        <td headers="ci_2">1.01, 1.85</td>
+        <td headers="p.value_2" style="font-weight: bold">0.044</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_14</td>
+        <td headers="stat_0_1">201 (26%)</td>
+        <td headers="stat_1_1">120 (23%)</td>
+        <td headers="stat_2_1">81 (33%)</td>
+        <td headers="estimate_2">1.66</td>
+        <td headers="ci_2">1.19, 2.32</td>
+        <td headers="p.value_2" style="font-weight: bold">0.003</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">LZD_route</td>
@@ -3333,15 +3433,6 @@ table_descriptive
         <td headers="estimate_2">1.34</td>
         <td headers="ci_2">0.76, 2.31</td>
         <td headers="p.value_2">0.3</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_hematological</td>
-        <td headers="stat_0_1">0 (0%)</td>
-        <td headers="stat_1_1">0 (0%)</td>
-        <td headers="stat_2_1">0 (0%)</td>
-        <td headers="estimate_2"><break/></td>
-        <td headers="ci_2"><break/></td>
-        <td headers="p.value_2"><break/></td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_SLE</td>
@@ -3882,9 +3973,9 @@ table_descriptive
 </sec>
 <p>Summary statistics, by site.</p>
 <sec id="nb-code-cell-5-nb-2" specific-use="notebook-code">
-<code language="r script">table_descriptive_site &lt;- data_patient_complete |&gt;
+<code language="r script">table_descriptive_site &lt;- data_patient_transformed |&gt;
   select(
-    all_of(predictor_list), starts_with(&quot;comed&quot;), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
+    all_of(predictor_transformed), starts_with(&quot;comed&quot;), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
   ) |&gt;
   tbl_summary(
     by = site,
@@ -3965,6 +4056,28 @@ table_descriptive
         <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
+        <td headers="label" style="font-weight: bold">patient_age_60</td>
+        <td headers="stat_0">455 (59%)</td>
+        <td headers="stat_1">54 (46%)</td>
+        <td headers="stat_2">36 (52%)</td>
+        <td headers="stat_3">86 (51%)</td>
+        <td headers="stat_4">53 (48%)</td>
+        <td headers="stat_5">75 (77%)</td>
+        <td headers="stat_6">151 (72%)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">patient_age_65</td>
+        <td headers="stat_0">351 (45%)</td>
+        <td headers="stat_1">41 (35%)</td>
+        <td headers="stat_2">26 (38%)</td>
+        <td headers="stat_3">64 (38%)</td>
+        <td headers="stat_4">41 (37%)</td>
+        <td headers="stat_5">59 (60%)</td>
+        <td headers="stat_6">120 (57%)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
         <td headers="label" style="font-weight: bold">patient_sex</td>
         <td headers="stat_0">288 (37%)</td>
         <td headers="stat_1">49 (42%)</td>
@@ -3987,14 +4100,47 @@ table_descriptive
         <td headers="p.value" style="font-weight: bold">0.008</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_CLCR</td>
-        <td headers="stat_0">49 (21 - 83)</td>
-        <td headers="stat_1">50 (24 - 80)</td>
-        <td headers="stat_2">40 (19 - 93)</td>
-        <td headers="stat_3">70 (41 - 108)</td>
-        <td headers="stat_4">60 (28 - 93)</td>
-        <td headers="stat_5">28 (14 - 53)</td>
-        <td headers="stat_6">35 (17 - 67)</td>
+        <td headers="label" style="font-weight: bold">patient_weight_50</td>
+        <td headers="stat_0">181 (23%)</td>
+        <td headers="stat_1">37 (32%)</td>
+        <td headers="stat_2">11 (16%)</td>
+        <td headers="stat_3">33 (19%)</td>
+        <td headers="stat_4">25 (23%)</td>
+        <td headers="stat_5">26 (27%)</td>
+        <td headers="stat_6">49 (23%)</td>
+        <td headers="p.value">0.12</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_per_10</td>
+        <td headers="stat_0">4.9 (2.1 - 8.3)</td>
+        <td headers="stat_1">5.0 (2.4 - 8.0)</td>
+        <td headers="stat_2">4.0 (1.9 - 9.3)</td>
+        <td headers="stat_3">7.0 (4.1 - 10.8)</td>
+        <td headers="stat_4">6.0 (2.8 - 9.3)</td>
+        <td headers="stat_5">2.8 (1.4 - 5.3)</td>
+        <td headers="stat_6">3.5 (1.7 - 6.7)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_60</td>
+        <td headers="stat_0">462 (60%)</td>
+        <td headers="stat_1">68 (58%)</td>
+        <td headers="stat_2">42 (61%)</td>
+        <td headers="stat_3">71 (42%)</td>
+        <td headers="stat_4">53 (48%)</td>
+        <td headers="stat_5">81 (83%)</td>
+        <td headers="stat_6">147 (70%)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_CLCR_30</td>
+        <td headers="stat_0">272 (35%)</td>
+        <td headers="stat_1">33 (28%)</td>
+        <td headers="stat_2">30 (43%)</td>
+        <td headers="stat_3">33 (19%)</td>
+        <td headers="stat_4">33 (30%)</td>
+        <td headers="stat_5">52 (53%)</td>
+        <td headers="stat_6">91 (43%)</td>
         <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
@@ -4020,36 +4166,58 @@ table_descriptive
         <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_HGB</td>
-        <td headers="stat_0">103 (90 - 121)</td>
-        <td headers="stat_1">107 (93 - 124)</td>
-        <td headers="stat_2">101 (84 - 119)</td>
-        <td headers="stat_3">106 (90 - 124)</td>
-        <td headers="stat_4">100 (90 - 119)</td>
-        <td headers="stat_5">99 (89 - 116)</td>
-        <td headers="stat_6">104 (91 - 120)</td>
+        <td headers="label" style="font-weight: bold">baseline_HGB_per_10</td>
+        <td headers="stat_0">10.30 (9.00 - 12.10)</td>
+        <td headers="stat_1">10.70 (9.30 - 12.40)</td>
+        <td headers="stat_2">10.10 (8.40 - 11.90)</td>
+        <td headers="stat_3">10.55 (9.03 - 12.38)</td>
+        <td headers="stat_4">10.00 (8.95 - 11.90)</td>
+        <td headers="stat_5">9.90 (8.93 - 11.60)</td>
+        <td headers="stat_6">10.40 (9.05 - 12.00)</td>
         <td headers="p.value">0.2</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_WBC</td>
-        <td headers="stat_0">12 (8 - 17)</td>
-        <td headers="stat_1">12 (8 - 16)</td>
-        <td headers="stat_2">11 (7 - 17)</td>
-        <td headers="stat_3">12 (8 - 18)</td>
-        <td headers="stat_4">11 (7 - 15)</td>
-        <td headers="stat_5">12 (8 - 18)</td>
-        <td headers="stat_6">13 (10 - 18)</td>
+        <td headers="label" style="font-weight: bold">baseline_WBC_per_10</td>
+        <td headers="stat_0">1.22 (0.82 - 1.69)</td>
+        <td headers="stat_1">1.21 (0.79 - 1.62)</td>
+        <td headers="stat_2">1.12 (0.73 - 1.65)</td>
+        <td headers="stat_3">1.20 (0.77 - 1.77)</td>
+        <td headers="stat_4">1.10 (0.71 - 1.48)</td>
+        <td headers="stat_5">1.19 (0.80 - 1.80)</td>
+        <td headers="stat_6">1.32 (0.97 - 1.78)</td>
         <td headers="p.value" style="font-weight: bold">0.013</td>
       </tr>
       <tr>
-        <td headers="label" style="font-weight: bold">baseline_PLT</td>
-        <td headers="stat_0">210 (146 - 292)</td>
-        <td headers="stat_1">199 (141 - 250)</td>
-        <td headers="stat_2">234 (166 - 318)</td>
-        <td headers="stat_3">212 (130 - 295)</td>
-        <td headers="stat_4">228 (138 - 311)</td>
-        <td headers="stat_5">172 (119 - 246)</td>
-        <td headers="stat_6">228 (168 - 302)</td>
+        <td headers="label" style="font-weight: bold">baseline_PLT_per_10</td>
+        <td headers="stat_0">21 (15 - 29)</td>
+        <td headers="stat_1">20 (14 - 25)</td>
+        <td headers="stat_2">23 (17 - 32)</td>
+        <td headers="stat_3">21 (13 - 29)</td>
+        <td headers="stat_4">23 (14 - 31)</td>
+        <td headers="stat_5">17 (12 - 25)</td>
+        <td headers="stat_6">23 (17 - 30)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_PLT_200</td>
+        <td headers="stat_0">349 (45%)</td>
+        <td headers="stat_1">59 (50%)</td>
+        <td headers="stat_2">26 (38%)</td>
+        <td headers="stat_3">77 (45%)</td>
+        <td headers="stat_4">41 (37%)</td>
+        <td headers="stat_5">65 (66%)</td>
+        <td headers="stat_6">81 (38%)</td>
+        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">baseline_PLT_150</td>
+        <td headers="stat_0">203 (26%)</td>
+        <td headers="stat_1">34 (29%)</td>
+        <td headers="stat_2">13 (19%)</td>
+        <td headers="stat_3">52 (31%)</td>
+        <td headers="stat_4">31 (28%)</td>
+        <td headers="stat_5">40 (41%)</td>
+        <td headers="stat_6">33 (16%)</td>
         <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
       </tr>
       <tr>
@@ -4062,6 +4230,39 @@ table_descriptive
         <td headers="stat_5">11.5 (6.0 - 15.0)</td>
         <td headers="stat_6">9.0 (6.0 - 12.0)</td>
         <td headers="p.value">0.4</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_7</td>
+        <td headers="stat_0">566 (73%)</td>
+        <td headers="stat_1">83 (71%)</td>
+        <td headers="stat_2">52 (75%)</td>
+        <td headers="stat_3">124 (73%)</td>
+        <td headers="stat_4">81 (73%)</td>
+        <td headers="stat_5">69 (70%)</td>
+        <td headers="stat_6">157 (74%)</td>
+        <td headers="p.value">&gt;0.9</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_10</td>
+        <td headers="stat_0">383 (49%)</td>
+        <td headers="stat_1">52 (44%)</td>
+        <td headers="stat_2">35 (51%)</td>
+        <td headers="stat_3">87 (51%)</td>
+        <td headers="stat_4">54 (49%)</td>
+        <td headers="stat_5">54 (55%)</td>
+        <td headers="stat_6">101 (48%)</td>
+        <td headers="p.value">0.7</td>
+      </tr>
+      <tr>
+        <td headers="label" style="font-weight: bold">LZD_duration_14</td>
+        <td headers="stat_0">201 (26%)</td>
+        <td headers="stat_1">29 (25%)</td>
+        <td headers="stat_2">20 (29%)</td>
+        <td headers="stat_3">56 (33%)</td>
+        <td headers="stat_4">19 (17%)</td>
+        <td headers="stat_5">36 (37%)</td>
+        <td headers="stat_6">41 (19%)</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">LZD_route</td>
@@ -4204,7 +4405,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.6%)</td>
-        <td headers="p.value">0.093</td>
+        <td headers="p.value">0.072</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -4249,17 +4450,6 @@ table_descriptive
         <td headers="stat_5">11 (11%)</td>
         <td headers="stat_6">29 (14%)</td>
         <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
-      </tr>
-      <tr>
-        <td headers="label" style="font-weight: bold">comorb_hematological</td>
-        <td headers="stat_0">0 (0%)</td>
-        <td headers="stat_1">0 (0%)</td>
-        <td headers="stat_2">0 (0%)</td>
-        <td headers="stat_3">0 (0%)</td>
-        <td headers="stat_4">0 (0%)</td>
-        <td headers="stat_5">0 (0%)</td>
-        <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value"><break/></td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_SLE</td>
@@ -4347,7 +4537,7 @@ table_descriptive
         <td headers="stat_4">2 (1.8%)</td>
         <td headers="stat_5">4 (4.1%)</td>
         <td headers="stat_6">20 (9.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.047</td>
+        <td headers="p.value">0.051</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">infect_BJI</td>
@@ -4501,7 +4691,7 @@ table_descriptive
         <td headers="stat_4">6 (5.4%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_pyrazinamid</td>
@@ -4578,7 +4768,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">4 (4.1%)</td>
         <td headers="stat_6">5 (2.4%)</td>
-        <td headers="p.value" style="font-weight: bold">0.023</td>
+        <td headers="p.value" style="font-weight: bold">0.020</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4600,7 +4790,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">5 (5.1%)</td>
         <td headers="stat_6">14 (6.6%)</td>
-        <td headers="p.value" style="font-weight: bold">0.023</td>
+        <td headers="p.value" style="font-weight: bold">0.028</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_valproic</td>
@@ -4611,7 +4801,7 @@ table_descriptive
         <td headers="stat_4">5 (4.5%)</td>
         <td headers="stat_5">3 (3.1%)</td>
         <td headers="stat_6">13 (6.2%)</td>
-        <td headers="p.value" style="font-weight: bold">0.037</td>
+        <td headers="p.value" style="font-weight: bold">0.030</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aceclofenac</td>
@@ -4655,7 +4845,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">6 (2.8%)</td>
-        <td headers="p.value" style="font-weight: bold">0.019</td>
+        <td headers="p.value" style="font-weight: bold">0.020</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_simvas</td>
@@ -4677,7 +4867,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.017</td>
+        <td headers="p.value" style="font-weight: bold">0.015</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4721,7 +4911,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.004</td>
+        <td headers="p.value" style="font-weight: bold">0.005</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4765,7 +4955,7 @@ table_descriptive
         <td headers="stat_4">3 (2.7%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.017</td>
+        <td headers="p.value" style="font-weight: bold">0.016</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4930,7 +5120,7 @@ table_descriptive
         <td headers="stat_4"><break/></td>
         <td headers="stat_5"><break/></td>
         <td headers="stat_6"><break/></td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label">    1</td>
@@ -5004,86 +5194,82 @@ table_descriptive
 <code language="r script">save(table_descriptive_site, file = &quot;data/results/table-descriptive-site.rda&quot;)
 </code>
 <sec id="nb-code-cell-5-output-0-nb-2" specific-use="notebook-output">
-<preformat>There was an error in 'add_p()/add_difference()' for variable 'comorb_hematological', p-value omitted:
-Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
-</sec>
-<sec id="nb-code-cell-5-output-1-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comorb_SLE', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-2-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-1-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_aceclofenac', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-3-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-2-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_naproxen', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-4-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-3-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_simvas', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-5-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-4-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_diltiazem', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-6-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-5-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_eptifibatid', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-7-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-6-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_quinidin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-8-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-7-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_phenytoin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-9-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-8-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_mirtazapin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-10-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-9-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_palonosetron', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-11-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-10-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_quinin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-12-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-11-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_pembrolizumab', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-13-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-12-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_trastuzumab', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-14-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-13-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_atezolizumab', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-15-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-14-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_durvalumab', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-16-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-15-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_IVIG', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-17-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-16-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_fluorouracil', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-18-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-17-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_irinotecan', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-19-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-18-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_leucovorin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
-<sec id="nb-code-cell-5-output-20-nb-2" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-19-nb-2" specific-use="notebook-output">
 <preformat>There was an error in 'add_p()/add_difference()' for variable 'comed_oxaliplatin', p-value omitted:
 Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x' and 'y' must have at least 2 levels</preformat>
 </sec>
@@ -5127,7 +5313,8 @@ library(gtsummary)
   </sec>
   </sec>
   <sec id="nb-code-cell-2-nb-3" specific-use="notebook-code">
-  <code language="r script">data_survey &lt;- read_csv(&quot;data/data-original-processed/survey_results.csv&quot;)
+  <code language="r script">data_survey &lt;- read_csv(&quot;data/data-original-processed/survey_results.csv&quot;) |&gt;
+  select(-comorb_hematological)
   </code>
   <sec id="nb-code-cell-2-output-0-nb-3" specific-use="notebook-output">
   <preformat>Rows: 16 Columns: 67
@@ -5400,61 +5587,59 @@ multi_predict_BPM &lt;- variable.names(predict(multi_model_transformed, estimato
   str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) # best predictive model, this model is weird
   </code>
   <sec id="nb-code-cell-5-output-0-nb-4" specific-use="notebook-output">
-  <preformat>95.569 sec elapsed</preformat>
+  <preformat>93.767 sec elapsed</preformat>
   </sec>
   <sec id="nb-code-cell-5-output-1-nb-4" specific-use="notebook-output">
-  <preformat>                         P(B != 0 | Y)      model 1      model 2      model 3
-Intercept                   1.00000000    1.0000000    1.0000000    1.0000000
-LZD_duration_14TRUE         0.51262872    0.0000000    0.0000000    0.0000000
-comed_heparinTRUE           0.99890078    1.0000000    1.0000000    1.0000000
-infect_sepsisTRUE           0.66662918    1.0000000    1.0000000    1.0000000
-dept_ICUTRUE                0.05825406    0.0000000    0.0000000    0.0000000
-baseline_CLCR_30TRUE        0.44651415    0.0000000    1.0000000    0.0000000
-patient_age_65TRUE          0.12203007    0.0000000    0.0000000    0.0000000
-baseline_PLT_150TRUE        0.10946507    0.0000000    0.0000000    0.0000000
-comorb_cirrTRUE             0.46142456    0.0000000    0.0000000    0.0000000
-invasive_CRRTTRUE           0.26576866    0.0000000    0.0000000    0.0000000
-comed_enoxaparinTRUE        0.08026284    0.0000000    0.0000000    0.0000000
-baseline_CLCR               0.12587991    0.0000000    0.0000000    0.0000000
-comorb_hematologicalTRUE    0.05270236    0.0000000    0.0000000    0.0000000
-LZD_duration_10TRUE         0.67360329    1.0000000    1.0000000    1.0000000
-patient_age                 0.81496061    1.0000000    1.0000000    1.0000000
-baseline_PLT                0.99999117    1.0000000    1.0000000    1.0000000
-LZD_route_IVTRUE            0.06138931    0.0000000    0.0000000    0.0000000
-infect_septicemiaTRUE       0.09284936    0.0000000    0.0000000    0.0000000
-invasive_IHDTRUE            0.07753307    0.0000000    0.0000000    0.0000000
-baseline_CLCR_60TRUE        0.42600934    0.0000000    0.0000000    1.0000000
-BF                                  NA    0.3043586    0.6998644    0.5433097
-PostProbs                           NA    0.0223000    0.0220000    0.0170000
-R2                                  NA    0.1766000    0.1836000    0.1831000
-dim                                 NA    6.0000000    7.0000000    7.0000000
-logmarg                             NA -417.4216045 -416.5889243 -416.8421315
+  <preformat>                      P(B != 0 | Y)   model 1      model 2      model 3
+Intercept                1.00000000    1.0000    1.0000000    1.0000000
+LZD_duration_14TRUE      0.99255964    1.0000    1.0000000    1.0000000
+comed_heparinTRUE        0.99932596    1.0000    1.0000000    1.0000000
+infect_sepsisTRUE        0.74830338    1.0000    1.0000000    1.0000000
+dept_ICUTRUE             0.07251304    0.0000    0.0000000    0.0000000
+baseline_CLCR_30TRUE     0.48187551    1.0000    1.0000000    0.0000000
+patient_age_65TRUE       0.15901800    0.0000    0.0000000    0.0000000
+baseline_PLT_150TRUE     0.11471242    0.0000    0.0000000    0.0000000
+comorb_cirrTRUE          0.53015977    1.0000    0.0000000    0.0000000
+invasive_CRRTTRUE        0.22599383    0.0000    0.0000000    0.0000000
+comed_enoxaparinTRUE     0.09243260    0.0000    0.0000000    0.0000000
+baseline_CLCR            0.13155749    0.0000    0.0000000    0.0000000
+LZD_duration_10TRUE      0.12966189    0.0000    0.0000000    0.0000000
+patient_age              0.87290050    1.0000    1.0000000    1.0000000
+baseline_PLT             0.99999393    1.0000    1.0000000    1.0000000
+LZD_route_IVTRUE         0.07053736    0.0000    0.0000000    0.0000000
+infect_septicemiaTRUE    0.12123049    0.0000    0.0000000    0.0000000
+invasive_IHDTRUE         0.09514697    0.0000    0.0000000    0.0000000
+baseline_CLCR_60TRUE     0.44002751    0.0000    0.0000000    1.0000000
+BF                               NA    1.0000    0.4814614    0.3621964
+PostProbs                        NA    0.0485    0.0401000    0.0301000
+R2                               NA    0.2000    0.1933000    0.1927000
+dim                              NA    8.0000    7.0000000    7.0000000
+logmarg                          NA -411.1614 -411.8922951 -412.1769346
                            model 4      model 5
-Intercept                   1.0000    1.0000000
-LZD_duration_14TRUE         0.0000    1.0000000
-comed_heparinTRUE           1.0000    1.0000000
-infect_sepsisTRUE           1.0000    1.0000000
-dept_ICUTRUE                0.0000    0.0000000
-baseline_CLCR_30TRUE        1.0000    1.0000000
-patient_age_65TRUE          0.0000    0.0000000
-baseline_PLT_150TRUE        0.0000    0.0000000
-comorb_cirrTRUE             1.0000    1.0000000
-invasive_CRRTTRUE           0.0000    0.0000000
-comed_enoxaparinTRUE        0.0000    0.0000000
-baseline_CLCR               0.0000    0.0000000
-comorb_hematologicalTRUE    0.0000    0.0000000
-LZD_duration_10TRUE         1.0000    0.0000000
-patient_age                 1.0000    1.0000000
-baseline_PLT                1.0000    1.0000000
-LZD_route_IVTRUE            0.0000    0.0000000
-infect_septicemiaTRUE       0.0000    0.0000000
-invasive_IHDTRUE            0.0000    0.0000000
-baseline_CLCR_60TRUE        0.0000    0.0000000
-BF                          1.0000    0.8647884
-PostProbs                   0.0169    0.0146000
-R2                          0.1895    0.1892000
-dim                         8.0000    8.0000000
-logmarg                  -416.2321 -416.3773261</preformat>
+Intercept                1.0000000    1.0000000
+LZD_duration_14TRUE      1.0000000    1.0000000
+comed_heparinTRUE        1.0000000    1.0000000
+infect_sepsisTRUE        1.0000000    1.0000000
+dept_ICUTRUE             0.0000000    0.0000000
+baseline_CLCR_30TRUE     0.0000000    0.0000000
+patient_age_65TRUE       0.0000000    0.0000000
+baseline_PLT_150TRUE     0.0000000    0.0000000
+comorb_cirrTRUE          1.0000000    0.0000000
+invasive_CRRTTRUE        0.0000000    0.0000000
+comed_enoxaparinTRUE     0.0000000    0.0000000
+baseline_CLCR            0.0000000    0.0000000
+LZD_duration_10TRUE      0.0000000    0.0000000
+patient_age              1.0000000    1.0000000
+baseline_PLT             1.0000000    1.0000000
+LZD_route_IVTRUE         0.0000000    0.0000000
+infect_septicemiaTRUE    0.0000000    0.0000000
+invasive_IHDTRUE         0.0000000    0.0000000
+baseline_CLCR_60TRUE     1.0000000    0.0000000
+BF                       0.5991919    0.1533019
+PostProbs                0.0291000    0.0276000
+R2                       0.1989000    0.1856000
+dim                      8.0000000    6.0000000
+logmarg               -411.6735392 -413.0367119</preformat>
   </sec>
   </sec>
   <sec id="nb-code-cell-6-nb-4" specific-use="notebook-code">
@@ -5471,6 +5656,17 @@ model_full &lt;- logistic_reg() |&gt;
   fit(
     reformulate(
       termlabels = multi_predict_HPM,
+      response = &quot;flag_ADR_TP_ID&quot;
+    ),
+    data = data_patient_transformed_response_as_factor
+  )
+
+model_full_BPM &lt;- logistic_reg() |&gt;
+  set_engine(&quot;glm&quot;) |&gt;
+  set_mode(&quot;classification&quot;) |&gt;
+  fit(
+    reformulate(
+      termlabels = multi_predict_BPM,
       response = &quot;flag_ADR_TP_ID&quot;
     ),
     data = data_patient_transformed_response_as_factor
@@ -5558,7 +5754,7 @@ model_full &lt;- logistic_reg() |&gt;
 ✖ recipes::step()   masks stats::step()
 ✖ Matrix::unpack()  masks tidyr::unpack()
 ✖ recipes::update() masks Matrix::update(), stats::update()
-• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
   </sec>
   </sec>
 </sec>
@@ -5579,6 +5775,12 @@ model_full &lt;- logistic_reg() |&gt;
     <code language="r script">car::crPlot(model_full$fit, variable = &quot;baseline_PLT&quot;)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-2.png" />
+    <code language="r script">car::crPlot(model_full_BPM$fit, variable = &quot;patient_age&quot;)
+    </code>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-3.png" />
+    <code language="r script">car::crPlot(model_full_BPM$fit, variable = &quot;baseline_PLT&quot;)
+    </code>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-7-4.png" />
     </sec>
     <p>Result: No obvious non-linearity in the partial-residual
     plots.</p>
@@ -5599,10 +5801,33 @@ ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
   geom_smooth(method = &quot;loess&quot;, color = &quot;red&quot;) +
   geom_smooth(method = &quot;lm&quot;, linetype = &quot;dashed&quot;, color = &quot;blue&quot;, se = FALSE) +
   theme_bw() +
-  facet_wrap(~predictors, scales = &quot;free_x&quot;)
+  facet_wrap(~predictors, scales = &quot;free_x&quot;) +
+  labs(title = &quot;Highest Probability Model&quot;, x = &quot;Predictor Value&quot;, y = &quot;Log Odds&quot;)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-1.png" />
+    <code language="r script">data_patient_linear_check_BPM &lt;- data_patient_transformed |&gt;
+  select(all_of(multi_predict_BPM)) |&gt;
+  mutate(
+    probabilities = predict(model_full_BPM$fit, data_patient_transformed, type = &quot;response&quot;),
+    log_odds = log(probabilities / (1 - probabilities))
+  ) |&gt;
+  select_if(is.numeric) |&gt;
+  gather(key = &quot;predictors&quot;, value = &quot;predictor_value&quot;, -log_odds, -probabilities)
+
+ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = &quot;loess&quot;, color = &quot;red&quot;) +
+  geom_smooth(method = &quot;lm&quot;, linetype = &quot;dashed&quot;, color = &quot;blue&quot;, se = FALSE) +
+  theme_bw() +
+  facet_wrap(~predictors, scales = &quot;free_x&quot;) +
+  labs(title = &quot;Best Predictive Model&quot;, x = &quot;Predictor Value&quot;, y = &quot;Log Odds&quot;)
+    </code>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-2.png" />
     <sec id="nb-code-cell-8-output-0-nb-4" specific-use="notebook-output">
+    <preformat>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</preformat>
+    </sec>
+    <sec id="nb-code-cell-8-output-1-nb-4" specific-use="notebook-output">
     <preformat>`geom_smooth()` using formula = 'y ~ x'
 `geom_smooth()` using formula = 'y ~ x'</preformat>
     </sec>
@@ -5616,8 +5841,10 @@ ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
     <code language="r script">car::vif(model_full$fit)
     </code>
     <sec id="nb-code-cell-9-output-0-nb-4" specific-use="notebook-output">
-    <preformat>  comed_heparin   infect_sepsis LZD_duration_10     patient_age    baseline_PLT 
-       1.048964        1.038856        1.057554        1.039155        1.059743 </preformat>
+    <preformat> LZD_duration_14    comed_heparin    infect_sepsis baseline_CLCR_30 
+        1.080807         1.081179         1.046386         1.125817 
+     comorb_cirr      patient_age     baseline_PLT 
+        1.052475         1.136010         1.095523 </preformat>
     </sec>
     </sec>
     <p>Result: VIFs are all less than 5 and close to 1.</p>
@@ -5643,15 +5870,28 @@ ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
     <code language="r script">car::influencePlot(model_full$fit)
     </code>
     <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-1.png" />
+    <code language="r script">car::influencePlot(model_full_BPM$fit)
+    </code>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-2.png" />
     <code language="r script"># influential_obs &lt;- influence.measures(model_full$fit)$is.inf |&gt; apply(1, any) |&gt; which() |&gt; unname()
     </code>
     <sec id="nb-code-cell-10-output-0-nb-4" specific-use="notebook-output">
+    <preformat>      StudRes         Hat       CookD
+130 -1.786728 0.029019458 0.014123617
+208  1.187215 0.050045767 0.006739247
+290 -1.719480 0.032446583 0.013687124
+423  2.517302 0.002455351 0.006825863
+687 -1.356400 0.050142516 0.009843650
+716  2.431187 0.003118051 0.006935726</preformat>
+    </sec>
+    <sec id="nb-code-cell-10-output-1-nb-4" specific-use="notebook-output">
     <preformat>       StudRes         Hat       CookD
-119 -1.1941363 0.027524837 0.004904583
-171 -2.5044845 0.005568258 0.019444570
-423  2.4641409 0.002774941 0.008962242
-460 -0.9845288 0.027985222 0.003008503
-619  2.1684441 0.010374564 0.015911907</preformat>
+281  0.8579670 0.053635912 0.002844809
+423  2.5167601 0.002470904 0.006096528
+454  1.8347387 0.037296768 0.017808519
+689 -0.6398632 0.061586002 0.001697151
+716  2.4294208 0.003403445 0.006686272
+735  2.4150666 0.019243219 0.033236367</preformat>
     </sec>
     </sec>
     <p>Result:</p>
@@ -5706,7 +5946,22 @@ Attaching package: 'Hmisc'</preformat>
   </sec>
   </sec>
   <sec id="nb-code-cell-13-nb-4" specific-use="notebook-code">
+  <code language="r script">pHat &lt;- predict(model_full_BPM$fit, data_patient_transformed, type = &quot;response&quot;)
+yTest &lt;- data_patient_transformed$flag_ADR_TP_ID
+calperf &lt;- valProbggplot(pHat, yTest)
+
+apparent_performance_metrics_BPM &lt;- tibble(
+  apparent_C_index = calperf$Cindex[[1]],
+  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+)
+
+save(apparent_performance_metrics_BPM, file = &quot;data/model-performance/apparent-performance-metrics-BPM.rda&quot;)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-14-nb-4" specific-use="notebook-code">
   <code language="r script">save(model_full, file = &quot;data/model-performance/model-full.rda&quot;)
+save(model_full_BPM, file = &quot;data/model-performance/model-full-BPM.rda&quot;)
   </code>
   </sec>
 </sec>
@@ -5771,8 +6026,11 @@ extract_variable_names_cross &lt;- function(sample) {
       thin = length(variables_to_screen),
       update = 10000
     )
-  variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
+  model_HPM &lt;- variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
     str_extract(paste(variables_to_screen, collapse = &quot;|&quot;))
+  model_BPM &lt;- variable.names(predict(model, estimator = &quot;BPM&quot;))[-1] |&gt;
+    str_extract(paste(variables_to_screen, collapse = &quot;|&quot;))
+  return(list(model_HPM, model_BPM))
 }
 
 # Function to modify sample data and fit model
@@ -5820,15 +6078,21 @@ plot_calibration_curve &lt;- function(sample, model) {
 # Set up future to use multiple cores
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
 
-cross_predict_HPM &lt;- cross_samples$splits |&gt;
+cross_predict &lt;- cross_samples$splits |&gt;
   future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
 
+cross_predict_HPM &lt;- map(cross_predict, 1)
+cross_predict_BPM &lt;- map(cross_predict, 2)
+
 # Fit model to each sample in parallel
-cross_full &lt;- future_map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
+cross_full_HPM &lt;- future_map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
+cross_full_BPM &lt;- future_map2(cross_samples$splits, cross_predict_BPM, fit_model_to_sample)
 
-cross_estimates &lt;- future_map2_dfr(cross_samples$splits, cross_full, calc_cross_performance)
+cross_estimates_HPM &lt;- future_map2_dfr(cross_samples$splits, cross_full_HPM, calc_cross_performance)
+cross_estimates_BPM &lt;- future_map2_dfr(cross_samples$splits, cross_full_BPM, calc_cross_performance)
 
-cross_plots &lt;- future_map2(cross_samples$splits, cross_full, plot_calibration_curve)
+cross_plots_HPM &lt;- future_map2(cross_samples$splits, cross_full_HPM, plot_calibration_curve)
+cross_plots_BPM &lt;- future_map2(cross_samples$splits, cross_full_BPM, plot_calibration_curve)
 
 plan(sequential)
 </code>
@@ -5853,7 +6117,7 @@ plan(sequential)
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-4-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: rms</preformat>
@@ -5882,7 +6146,7 @@ Attaching package: 'Hmisc'</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-3-nb-5" specific-use="notebook-code">
-<code language="r script">cross_plots
+<code language="r script">cross_plots_HPM
 </code>
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-1.png" />
 <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-2.png" />
@@ -5915,10 +6179,43 @@ Attaching package: 'Hmisc'</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-4-nb-5" specific-use="notebook-code">
+<code language="r script">cross_plots_BPM
+</code>
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-1.png" />
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-2.png" />
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-3.png" />
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-4.png" />
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-5.png" />
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-6.png" />
+<sec id="nb-code-cell-4-output-0-nb-5" specific-use="notebook-output">
+<preformat>[[1]]</preformat>
+</sec>
+<sec id="nb-code-cell-4-output-1-nb-5" specific-use="notebook-output">
+<preformat>
+[[2]]</preformat>
+</sec>
+<sec id="nb-code-cell-4-output-2-nb-5" specific-use="notebook-output">
+<preformat>
+[[3]]</preformat>
+</sec>
+<sec id="nb-code-cell-4-output-3-nb-5" specific-use="notebook-output">
+<preformat>
+[[4]]</preformat>
+</sec>
+<sec id="nb-code-cell-4-output-4-nb-5" specific-use="notebook-output">
+<preformat>
+[[5]]</preformat>
+</sec>
+<sec id="nb-code-cell-4-output-5-nb-5" specific-use="notebook-output">
+<preformat>
+[[6]]</preformat>
+</sec>
+</sec>
+<sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
 <code language="r script">library(meta)
 </code>
-<code language="r script">cross_C_index_meta &lt;- metagen(
-  data = cross_estimates,
+<code language="r script">cross_C_index_meta_HPM &lt;- metagen(
+  data = cross_estimates_HPM,
   studlab = site,
   TE = cross_C_index,
   lower = cross_C_index_lower,
@@ -5931,16 +6228,16 @@ Attaching package: 'Hmisc'</preformat>
   adhoc.hakn.ci = &quot;IQWiG6&quot;,
 )
 
-forest_plot_C_index &lt;- forest(
-  cross_C_index_meta,
+forest_plot_C_index_HPM &lt;- forest(
+  cross_C_index_meta_HPM,
   ref = NA,
   xlim = c(0.6, 0.9),
   layout = &quot;RevMan5&quot;
 )
 </code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-1.png" />
-<code language="r script">cross_calibration_intercept_meta &lt;- metagen(
-  data = cross_estimates,
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-5-1.png" />
+<code language="r script">cross_calibration_intercept_meta_HPM &lt;- metagen(
+  data = cross_estimates_HPM,
   studlab = site,
   TE = cross_calibration_intercept,
   lower = cross_calibration_intercept_lower,
@@ -5954,16 +6251,16 @@ forest_plot_C_index &lt;- forest(
   null.effect = 0
 )
 
-forest_plot_calibration_intercept &lt;- forest(
-  cross_calibration_intercept_meta,
+forest_plot_calibration_intercept_HPM &lt;- forest(
+  cross_calibration_intercept_meta_HPM,
   ref = 0,
   xlim = c(-0.8, 0.8),
   layout = &quot;RevMan5&quot;
 )
 </code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-2.png" />
-<code language="r script">cross_calibration_slope_meta &lt;- metagen(
-  data = cross_estimates,
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-5-2.png" />
+<code language="r script">cross_calibration_slope_meta_HPM &lt;- metagen(
+  data = cross_estimates_HPM,
   studlab = site,
   TE = cross_calibration_slope,
   lower = cross_calibration_slope_lower,
@@ -5977,42 +6274,129 @@ forest_plot_calibration_intercept &lt;- forest(
   null.effect = 1
 )
 
-forest_plot_calibration_slope &lt;- forest(
-  cross_calibration_slope_meta,
+forest_plot_calibration_slope_HPM &lt;- forest(
+  cross_calibration_slope_meta_HPM,
   ref = 1,
   xlim = c(0.2, 1.7),
   layout = &quot;RevMan5&quot;
 )
 </code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-3.png" />
-<code language="r script">cross_meta_performance &lt;- tibble(
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-5-3.png" />
+<code language="r script">cross_meta_performance_HPM &lt;- tibble(
   site = &quot;Total&quot;,
-  n = sum(cross_estimates$n),
-  cross_C_index = cross_C_index_meta$TE.random,
-  cross_C_index_lower = cross_C_index_meta$lower.random,
-  cross_C_index_upper = cross_C_index_meta$upper.random,
-  cross_calibration_intercept = cross_calibration_intercept_meta$TE.random,
-  cross_calibration_intercept_lower = cross_calibration_intercept_meta$lower.random,
-  cross_calibration_intercept_upper = cross_calibration_intercept_meta$upper.random,
-  cross_calibration_slope = cross_calibration_slope_meta$TE.random,
-  cross_calibration_slope_lower = cross_calibration_slope_meta$lower.random,
-  cross_calibration_slope_upper = cross_calibration_slope_meta$upper.random
+  n = sum(cross_estimates_HPM$n),
+  cross_C_index = cross_C_index_meta_HPM$TE.random,
+  cross_C_index_lower = cross_C_index_meta_HPM$lower.random,
+  cross_C_index_upper = cross_C_index_meta_HPM$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta_HPM$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta_HPM$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta_HPM$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta_HPM$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta_HPM$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta_HPM$upper.random
 )
 
-cross_performance_metrics &lt;- bind_rows(cross_estimates, cross_meta_performance)
+cross_performance_metrics_HPM &lt;- bind_rows(cross_estimates_HPM, cross_meta_performance_HPM)
 </code>
-<sec id="nb-code-cell-4-output-0-nb-5" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
 <preformat>Loading required package: metadat</preformat>
 </sec>
-<sec id="nb-code-cell-4-output-1-nb-5" specific-use="notebook-output">
+<sec id="nb-code-cell-5-output-1-nb-5" specific-use="notebook-output">
 <preformat>Loading 'meta' package (version 7.0-0).
 Type 'help(meta)' for a brief overview.
 Readers of 'Meta-Analysis with R (Use R!)' should install
 older version of 'meta' package: https://tinyurl.com/dt4y5drs</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
-<code language="r script">save(cross_performance_metrics, file = &quot;data/model-performance/cross-performance-metrics.rda&quot;)
+<sec id="nb-code-cell-6-nb-5" specific-use="notebook-code">
+<code language="r script">cross_C_index_meta_BPM &lt;- metagen(
+  data = cross_estimates_BPM,
+  studlab = site,
+  TE = cross_C_index,
+  lower = cross_C_index_lower,
+  upper = cross_C_index_upper,
+  sm = &quot;C_statistic&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+)
+
+forest_plot_C_index_BPM &lt;- forest(
+  cross_C_index_meta_BPM,
+  ref = NA,
+  xlim = c(0.6, 0.9),
+  layout = &quot;RevMan5&quot;
+)
+</code>
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-1.png" />
+<code language="r script">cross_calibration_intercept_meta_BPM &lt;- metagen(
+  data = cross_estimates_BPM,
+  studlab = site,
+  TE = cross_calibration_intercept,
+  lower = cross_calibration_intercept_lower,
+  upper = cross_calibration_intercept_upper,
+  sm = &quot;C_intercept&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+  null.effect = 0
+)
+
+forest_plot_calibration_intercept_BPM &lt;- forest(
+  cross_calibration_intercept_meta_BPM,
+  ref = 0,
+  xlim = c(-0.8, 0.8),
+  layout = &quot;RevMan5&quot;
+)
+</code>
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-2.png" />
+<code language="r script">cross_calibration_slope_meta_BPM &lt;- metagen(
+  data = cross_estimates_BPM,
+  studlab = site,
+  TE = cross_calibration_slope,
+  lower = cross_calibration_slope_lower,
+  upper = cross_calibration_slope_upper,
+  sm = &quot;C_slope&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+  null.effect = 1
+)
+
+forest_plot_calibration_slope_BPM &lt;- forest(
+  cross_calibration_slope_meta_BPM,
+  ref = 1,
+  xlim = c(0.2, 1.7),
+  layout = &quot;RevMan5&quot;
+)
+</code>
+<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-3.png" />
+<code language="r script">cross_meta_performance_BPM &lt;- tibble(
+  site = &quot;Total&quot;,
+  n = sum(cross_estimates_BPM$n),
+  cross_C_index = cross_C_index_meta_BPM$TE.random,
+  cross_C_index_lower = cross_C_index_meta_BPM$lower.random,
+  cross_C_index_upper = cross_C_index_meta_BPM$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta_BPM$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta_BPM$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta_BPM$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta_BPM$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta_BPM$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta_BPM$upper.random
+)
+
+cross_performance_metrics_BPM &lt;- bind_rows(cross_estimates_BPM, cross_meta_performance_BPM)
+</code>
+</sec>
+<sec id="nb-code-cell-7-nb-5" specific-use="notebook-code">
+<code language="r script">save(cross_performance_metrics_HPM, file = &quot;data/model-performance/cross-performance-metrics-HPM.rda&quot;)
+save(cross_performance_metrics_BPM, file = &quot;data/model-performance/cross-performance-metrics-BPM.rda&quot;)
 </code>
 </sec>
 </body>

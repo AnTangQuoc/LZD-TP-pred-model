@@ -10,7 +10,8 @@ library(gtsummary)
 ```
 
 ```{r}
-data_survey <- read_csv("data/data-original-processed/survey_results.csv")
+data_survey <- read_csv("data/data-original-processed/survey_results.csv") |>
+  select(-comorb_hematological)
 ```
 
 ```{r}
