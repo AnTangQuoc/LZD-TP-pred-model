@@ -85,8 +85,8 @@ plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
 cross_predict <- cross_samples$splits |>
   future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
 
-cross_predict_HPM <- cross_predict[[1]]
-cross_predict_BPM <- cross_predict[[2]]
+cross_predict_HPM <- map(cross_predict, 1)
+cross_predict_BPM <- map(cross_predict, 2)
 
 # Fit model to each sample in parallel
 cross_full_HPM <- future_map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
