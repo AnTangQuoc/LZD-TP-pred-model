@@ -11,17 +11,18 @@ Summary statistics, by thrombocytopenia status.
 ```{r}
 library(gtsummary)
 
-table_stats <- data_patient_complete |>
+table_stats <- data_patient_transformed |>
   select(
-    all_of(predictor_list), starts_with("comed"), flag_ADR_TP_ID
+    all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID
   ) |>
+
   tbl_summary(
     by = flag_ADR_TP_ID,
     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
     missing = "no"
   ) |>
-  add_overall() |>
-  bold_labels()
+    add_overall() |>
+    bold_labels()
 ```
 
 Univariate logistic regression, by thrombocytopenia status.
@@ -29,7 +30,7 @@ Univariate logistic regression, by thrombocytopenia status.
 library(tidymodels)
 library(furrr)
 
-data_patient_complete_response_as_factor <- data_patient_complete |>
+data_patient_transformed_response_as_factor <- data_patient_transformed |>
   mutate(
     flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID),
     LZD_route = as.factor(LZD_route)
@@ -44,7 +45,7 @@ fit_univariate_regression <- function(predictor) {
         termlabels = predictor,
         response = "flag_ADR_TP_ID"
       ),
-      data = data_patient_complete_response_as_factor
+      data = data_patient_transformed_response_as_factor
     )
 }
 
@@ -58,7 +59,7 @@ arrange_univariate_regression <- function(model) {
 }
 
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
-uni_model_list <- future_map(predictor_list, fit_univariate_regression)
+uni_model_list <- future_map(predictor_transformed, fit_univariate_regression)
 table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
 plan(sequential)
 
@@ -84,7 +85,7 @@ Summary statistics, by site.
 ```{r}
 table_descriptive_site <- data_patient_complete |>
   select(
-    all_of(predictor_list), starts_with("comed"), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
+    all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
   ) |>
   tbl_summary(
     by = site,

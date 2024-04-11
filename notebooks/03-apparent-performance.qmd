@@ -146,6 +146,17 @@ model_full <- logistic_reg() |>
     data = data_patient_transformed_response_as_factor
   )
 
+model_full_BPM <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification") |>
+  fit(
+    reformulate(
+      termlabels = multi_predict_BPM,
+      response = "flag_ADR_TP_ID"
+    ),
+    data = data_patient_transformed_response_as_factor
+  )
+
 # library(splines2)
 
 # library(rms)
@@ -221,6 +232,9 @@ The lines should be close together and the red line should be linear.
 ```{r}
 car::crPlot(model_full$fit, variable = "patient_age")
 car::crPlot(model_full$fit, variable = "baseline_PLT")
+
+car::crPlot(model_full_BPM$fit, variable = "patient_age")
+car::crPlot(model_full_BPM$fit, variable = "baseline_PLT")
 ```
 
 Result: No obvious non-linearity in the partial-residual plots.
@@ -241,7 +255,25 @@ ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
   geom_smooth(method = "loess", color = "red") +
   geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
   theme_bw() +
-  facet_wrap(~predictors, scales = "free_x")
+  facet_wrap(~predictors, scales = "free_x") +
+  labs(title = "Highest Probability Model", x = "Predictor Value", y = "Log Odds")
+
+data_patient_linear_check_BPM <- data_patient_transformed |>
+  select(all_of(multi_predict_BPM)) |>
+  mutate(
+    probabilities = predict(model_full_BPM$fit, data_patient_transformed, type = "response"),
+    log_odds = log(probabilities / (1 - probabilities))
+  ) |>
+  select_if(is.numeric) |>
+  gather(key = "predictors", value = "predictor_value", -log_odds, -probabilities)
+
+ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess", color = "red") +
+  geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
+  theme_bw() +
+  facet_wrap(~predictors, scales = "free_x") +
+  labs(title = "Best Predictive Model", x = "Predictor Value", y = "Log Odds")
 ```
 
 ## No Multicollinearity
@@ -268,6 +300,9 @@ Influence plot:
 
 ```{r}
 car::influencePlot(model_full$fit)
+
+car::influencePlot(model_full_BPM$fit)
+
 # influential_obs <- influence.measures(model_full$fit)$is.inf |> apply(1, any) |> which() |> unname()
 ```
 
@@ -295,5 +330,20 @@ save(apparent_performance_metrics, file = "data/model-performance/apparent-perfo
 ```
 
 ```{r}
+pHat <- predict(model_full_BPM$fit, data_patient_transformed, type = "response")
+yTest <- data_patient_transformed$flag_ADR_TP_ID
+calperf <- valProbggplot(pHat, yTest)
+
+apparent_performance_metrics_BPM <- tibble(
+  apparent_C_index = calperf$Cindex[[1]],
+  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+)
+
+save(apparent_performance_metrics_BPM, file = "data/model-performance/apparent-performance-metrics-BPM.rda")
+```
+
+```{r}
 save(model_full, file = "data/model-performance/model-full.rda")
+save(model_full_BPM, file = "data/model-performance/model-full-BPM.rda")
 ```
