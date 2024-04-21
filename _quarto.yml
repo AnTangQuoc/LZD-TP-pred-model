@@ -7,7 +7,7 @@ project:
     - notebooks/03A-expert-survey-processing.qmd
     - notebooks/03-apparent-performance.qmd
     - notebooks/04-internal-external-cross-performance.qmd
-    # - notebooks/05-risk-score.qmd
+    - notebooks/05-risk-score.qmd
     - index.qmd
 
 manuscript:

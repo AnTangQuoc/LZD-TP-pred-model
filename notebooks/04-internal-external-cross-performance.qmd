@@ -5,18 +5,22 @@ title: Internal-External Development and Cross-Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+source("notebooks/prob-cal_intercept.r") # valProbggplot() function
+source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
 ```
 
 ```{r}
 library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 library(tidymodels)
+library(workflowsets)
 library(CalibrationCurves)
 
 data_patient_cross_prep <- data_patient_transformed |>
-  select(all_of(variables_to_screen), flag_ADR_TP_ID, site)
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site)
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep, group = "site")
 
@@ -27,15 +31,51 @@ extract_variable_names_cross <- function(sample) {
       formula = flag_ADR_TP_ID ~ .,
       include.always = ~1,
       n.models = 2^15,
-      thin = length(variables_to_screen),
-      update = 10000
+      thin = ncol(data) - 1,
+      update = 1
     )
-  model_HPM <- variable.names(predict(model, estimator = "HPM"))[-1] |>
-    str_extract(paste(variables_to_screen, collapse = "|"))
+  # model_HPM <- variable.names(predict(model, estimator = "HPM"))[-1] |>
+  #   str_extract(paste(variables_to_screen, collapse = "|"))
   model_BPM <- variable.names(predict(model, estimator = "BPM"))[-1] |>
-    str_extract(paste(variables_to_screen, collapse = "|"))
-  return(list(model_HPM, model_BPM))
+    str_extract(paste(variables_to_screen_short, collapse = "|"))
+  site <- assessment(sample)$site[1]
+  return(list(model_HPM, model_BPM, site))
 }
+
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+
+cross_predict <- cross_samples$splits |>
+  future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
+
+plan(sequential)
+
+# cross_predict_HPM <- map(cross_predict, 1)
+cross_predict_BPM <- map(cross_predict, 2)
+cross_predict_site <- map(cross_predict, 3)
+
+run_workflow <- function(sample, variables) {
+  rec <- recipe(
+    formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID"),
+    data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+  )
+  trained <- workflow() |>
+    add_recipe(rec) |>
+    add_model(logistic_reg()) |>
+    fit(data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)))
+  validation <- predict(trained, assessment(sample), type = "prob") |>
+    mutate(truth = assessment(sample)$flag_ADR_TP_ID |> as.factor())
+
+  auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
+  intercept <- cal_intercept(validation, truth, .pred_FALSE)
+  slope <- cal_slope(validation, truth, .pred_FALSE)
+  bind_rows(auc, intercept, slope)
+}
+
+workflow_results <- map2(cross_samples$splits, cross_predict_BPM, run_workflow) |>
+  set_names(cross_predict_site) |>
+  bind_rows(.id = "site") |>
+  select(-.estimator) |>
+  pivot_wider(names_from = .metric, values_from = .estimate)
 
 # Function to modify sample data and fit model
 fit_model_to_sample <- function(sample, variables) {
@@ -79,30 +119,19 @@ plot_calibration_curve <- function(sample, model) {
   calperf$ggPlot + ggtitle(data$site[1])
 }
 
-# Set up future to use multiple cores
-plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+# Fit model to each sample
+# cross_full_HPM <- map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
+cross_full_BPM <- map2(cross_samples$splits, cross_predict_BPM, fit_model_to_sample)
 
-cross_predict <- cross_samples$splits |>
-  future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
+# cross_estimates_HPM <- map2_dfr(cross_samples$splits, cross_full_HPM, calc_cross_performance)
+cross_estimates_BPM <- map2_dfr(cross_samples$splits, cross_full_BPM, calc_cross_performance)
 
-cross_predict_HPM <- map(cross_predict, 1)
-cross_predict_BPM <- map(cross_predict, 2)
-
-# Fit model to each sample in parallel
-cross_full_HPM <- future_map2(cross_samples$splits, cross_predict_HPM, fit_model_to_sample)
-cross_full_BPM <- future_map2(cross_samples$splits, cross_predict_BPM, fit_model_to_sample)
-
-cross_estimates_HPM <- future_map2_dfr(cross_samples$splits, cross_full_HPM, calc_cross_performance)
-cross_estimates_BPM <- future_map2_dfr(cross_samples$splits, cross_full_BPM, calc_cross_performance)
-
-cross_plots_HPM <- future_map2(cross_samples$splits, cross_full_HPM, plot_calibration_curve)
-cross_plots_BPM <- future_map2(cross_samples$splits, cross_full_BPM, plot_calibration_curve)
-
-plan(sequential)
+# cross_plots_HPM <- map2(cross_samples$splits, cross_full_HPM, plot_calibration_curve)
+cross_plots_BPM <- map2(cross_samples$splits, cross_full_BPM, plot_calibration_curve)
 ```
 
 ```{r}
-cross_plots_HPM
+# cross_plots_HPM
 ```
 
 ```{r}
@@ -112,89 +141,94 @@ cross_plots_BPM
 ```{r}
 library(meta)
 
-cross_C_index_meta_HPM <- metagen(
-  data = cross_estimates_HPM,
-  studlab = site,
-  TE = cross_C_index,
-  lower = cross_C_index_lower,
-  upper = cross_C_index_upper,
-  sm = "C_statistic",
-  common = FALSE,
-  random = TRUE,
-  method.tau = "REML",
-  method.random.ci = "HK",
-  adhoc.hakn.ci = "IQWiG6",
-)
+# cross_C_index_meta_HPM <- metagen(
+#   data = cross_estimates_HPM,
+#   studlab = site,
+#   TE = cross_C_index,
+#   lower = cross_C_index_lower,
+#   upper = cross_C_index_upper,
+#   sm = "C_statistic",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+# )
 
-forest_plot_C_index_HPM <- forest(
-  cross_C_index_meta_HPM,
-  ref = NA,
-  xlim = c(0.6, 0.9),
-  layout = "RevMan5"
-)
+# forest_plot_C_index_HPM <- forest(
+#   cross_C_index_meta_HPM,
+#   sortvar = studlab,
+#   ref = NA,
+#   xlim = c(0.6, 0.9),
+#   layout = "RevMan5"
+# )
 
-cross_calibration_intercept_meta_HPM <- metagen(
-  data = cross_estimates_HPM,
-  studlab = site,
-  TE = cross_calibration_intercept,
-  lower = cross_calibration_intercept_lower,
-  upper = cross_calibration_intercept_upper,
-  sm = "C_intercept",
-  common = FALSE,
-  random = TRUE,
-  method.tau = "REML",
-  method.random.ci = "HK",
-  adhoc.hakn.ci = "IQWiG6",
-  null.effect = 0
-)
+# cross_calibration_intercept_meta_HPM <- metagen(
+#   data = cross_estimates_HPM,
+#   studlab = site,
+#   TE = cross_calibration_intercept,
+#   lower = cross_calibration_intercept_lower,
+#   upper = cross_calibration_intercept_upper,
+#   sm = "C_intercept",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 0
+# )
 
-forest_plot_calibration_intercept_HPM <- forest(
-  cross_calibration_intercept_meta_HPM,
-  ref = 0,
-  xlim = c(-0.8, 0.8),
-  layout = "RevMan5"
-)
+# forest_plot_calibration_intercept_HPM <- forest(
+#   cross_calibration_intercept_meta_HPM,
+#   sortvar = studlab,
+#   ref = 0,
+#   xlim = c(-0.8, 0.8),
+#   layout = "RevMan5"
+# )
 
-cross_calibration_slope_meta_HPM <- metagen(
-  data = cross_estimates_HPM,
-  studlab = site,
-  TE = cross_calibration_slope,
-  lower = cross_calibration_slope_lower,
-  upper = cross_calibration_slope_upper,
-  sm = "C_slope",
-  common = FALSE,
-  random = TRUE,
-  method.tau = "REML",
-  method.random.ci = "HK",
-  adhoc.hakn.ci = "IQWiG6",
-  null.effect = 1
-)
+# cross_calibration_slope_meta_HPM <- metagen(
+#   data = cross_estimates_HPM,
+#   studlab = site,
+#   TE = cross_calibration_slope,
+#   lower = cross_calibration_slope_lower,
+#   upper = cross_calibration_slope_upper,
+#   sm = "C_slope",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 1
+# )
 
-forest_plot_calibration_slope_HPM <- forest(
-  cross_calibration_slope_meta_HPM,
-  ref = 1,
-  xlim = c(0.2, 1.7),
-  layout = "RevMan5"
-)
+# forest_plot_calibration_slope_HPM <- forest(
+#   cross_calibration_slope_meta_HPM,
+#   sortvar = studlab,
+#   ref = 1,
+#   xlim = c(0.2, 1.7),
+#   layout = "RevMan5"
+# )
 
-cross_meta_performance_HPM <- tibble(
-  site = "Total",
-  n = sum(cross_estimates_HPM$n),
-  cross_C_index = cross_C_index_meta_HPM$TE.random,
-  cross_C_index_lower = cross_C_index_meta_HPM$lower.random,
-  cross_C_index_upper = cross_C_index_meta_HPM$upper.random,
-  cross_calibration_intercept = cross_calibration_intercept_meta_HPM$TE.random,
-  cross_calibration_intercept_lower = cross_calibration_intercept_meta_HPM$lower.random,
-  cross_calibration_intercept_upper = cross_calibration_intercept_meta_HPM$upper.random,
-  cross_calibration_slope = cross_calibration_slope_meta_HPM$TE.random,
-  cross_calibration_slope_lower = cross_calibration_slope_meta_HPM$lower.random,
-  cross_calibration_slope_upper = cross_calibration_slope_meta_HPM$upper.random
-)
+# cross_meta_performance_HPM <- tibble(
+#   site = "Total",
+#   n = sum(cross_estimates_HPM$n),
+#   cross_C_index = cross_C_index_meta_HPM$TE.random,
+#   cross_C_index_lower = cross_C_index_meta_HPM$lower.random,
+#   cross_C_index_upper = cross_C_index_meta_HPM$upper.random,
+#   cross_calibration_intercept = cross_calibration_intercept_meta_HPM$TE.random,
+#   cross_calibration_intercept_lower = cross_calibration_intercept_meta_HPM$lower.random,
+#   cross_calibration_intercept_upper = cross_calibration_intercept_meta_HPM$upper.random,
+#   cross_calibration_slope = cross_calibration_slope_meta_HPM$TE.random,
+#   cross_calibration_slope_lower = cross_calibration_slope_meta_HPM$lower.random,
+#   cross_calibration_slope_upper = cross_calibration_slope_meta_HPM$upper.random
+# )
 
-cross_performance_metrics_HPM <- bind_rows(cross_estimates_HPM, cross_meta_performance_HPM)
+# cross_performance_metrics_HPM <- bind_rows(cross_estimates_HPM, cross_meta_performance_HPM)
 ```
 
 ```{r}
+library(meta)
+
 cross_C_index_meta_BPM <- metagen(
   data = cross_estimates_BPM,
   studlab = site,
@@ -211,6 +245,7 @@ cross_C_index_meta_BPM <- metagen(
 
 forest_plot_C_index_BPM <- forest(
   cross_C_index_meta_BPM,
+  sortvar = studlab,
   ref = NA,
   xlim = c(0.6, 0.9),
   layout = "RevMan5"
@@ -233,6 +268,7 @@ cross_calibration_intercept_meta_BPM <- metagen(
 
 forest_plot_calibration_intercept_BPM <- forest(
   cross_calibration_intercept_meta_BPM,
+  sortvar = studlab,
   ref = 0,
   xlim = c(-0.8, 0.8),
   layout = "RevMan5"
@@ -255,6 +291,7 @@ cross_calibration_slope_meta_BPM <- metagen(
 
 forest_plot_calibration_slope_BPM <- forest(
   cross_calibration_slope_meta_BPM,
+  sortvar = studlab,
   ref = 1,
   xlim = c(0.2, 1.7),
   layout = "RevMan5"
@@ -278,6 +315,6 @@ cross_performance_metrics_BPM <- bind_rows(cross_estimates_BPM, cross_meta_perfo
 ```
 
 ```{r}
-save(cross_performance_metrics_HPM, file = "data/model-performance/cross-performance-metrics-HPM.rda")
+# save(cross_performance_metrics_HPM, file = "data/model-performance/cross-performance-metrics-HPM.rda")
 save(cross_performance_metrics_BPM, file = "data/model-performance/cross-performance-metrics-BPM.rda")
 ```

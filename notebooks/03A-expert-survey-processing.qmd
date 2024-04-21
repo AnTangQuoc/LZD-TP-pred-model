@@ -36,14 +36,40 @@ survey_summary <- data_survey |>
     names_pattern = "(mean|median|IQR|sd)\\.(.*)"
   )
 
-variables_to_screen <- survey_summary |>
+variables_consensus <- survey_summary |>
   filter((median >= 4 & IQR <= 1) | (mean >= 3.5 & sd <= 1)) |>
   arrange(desc(median), desc(mean)) |>
   pull(variable)
 
 data_survey_factor |>
-  select(all_of(variables_to_screen)) |>
+  select(all_of(variables_consensus)) |>
   gglikert(sort = "descending", sort_method = "mean")
+```
+
+```{r}
+variables_to_screen_short <- variables_consensus
+
+variables_to_screen_short[str_detect(variables_to_screen_short, "\\d")] <- str_remove(variables_to_screen_short[str_detect(variables_to_screen_short, "_\\d+")], "_\\d+")
+
+variables_to_screen_short[str_detect(variables_to_screen_short, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_short <- unique(variables_to_screen_short)
+```
+
+```{r}
+variables_to_screen <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen[str_detect(variables_to_screen, "\\d")] <- str_remove(variables_to_screen[str_detect(variables_to_screen, "_\\d+")], "_\\d+")
+
+variables_to_screen[str_detect(variables_to_screen, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen <- unique(variables_to_screen)
+
+variables_to_screen <- variables_to_screen[1:21]
+
+variables_to_force <- variables_to_screen[1:3]
 
 variables_out <- survey_summary |>
   filter(!variable %in% variables_to_screen)
@@ -51,4 +77,6 @@ variables_out <- survey_summary |>
 
 ```{r}
 save(variables_to_screen, file = "data/results/variables-to-screen.rda")
+save(variables_to_screen_short, file = "data/results/variables-to-screen-short.rda")
+save(variables_to_force, file = "data/results/variables-to-force.rda")
 ```
