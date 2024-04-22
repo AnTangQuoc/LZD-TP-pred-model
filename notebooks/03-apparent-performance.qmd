@@ -14,27 +14,27 @@ load("data/results/variables-to-force.rda")
 ```
 
 # Penalized Likelihood Methods
-## Backwards Stepwise Logistic Regression
+## Backwards Stepwise Logistic Regression (obsolete)
 ```{r}
-library(StepReg)
-run_stepwise_logit <- function(data, formula) {
-  stepwise(
-    formula,
-    data = data,
-    type = "logit",
-    include = NULL,
-    strategy = "backward",
-    metric = "AIC"
-  )
-}
+# library(StepReg)
+# run_stepwise_logit <- function(data, formula) {
+#   stepwise(
+#     formula,
+#     data = data,
+#     type = "logit",
+#     include = NULL,
+#     strategy = "backward",
+#     metric = "AIC"
+#   )
+# }
 
-stepwise_model <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
-  run_stepwise_logit(
-    formula = flag_ADR_TP_ID ~ .
-  )
+# stepwise_model <- data_patient_transformed |>
+#   select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+#   run_stepwise_logit(
+#     formula = flag_ADR_TP_ID ~ .
+#   )
 
-stepwise_model
+# stepwise_model
 ```
 
 ```{r}
@@ -127,8 +127,8 @@ model_workflow <- workflow() |>
 tune_params <- model_workflow |>
   extract_parameter_set_dials() |>
   update(
-    penalty = penalty(range = c(-1, 2)),
-    mixture = mixture()
+    penalty = penalty(range = c(-3, 0)),
+    mixture = mixture(range = c(0.5, 1))
   ) |>
   grid_latin_hypercube(size = 1000)
 
@@ -139,8 +139,7 @@ model_tune_results <- model_workflow |>
   tune_grid(
     resamples = cross_samples,
     grid = tune_params,
-    control = control_grid(save_pred = TRUE),
-    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope)
+    control = control_grid(save_pred = TRUE)
   )
 
 plan(sequential)
@@ -153,11 +152,16 @@ model_glmnet <- model_workflow |>
   finalize_workflow(model_accepted_flow) |>
   fit(data = data_patient_screen)
 
-model_glmnet |> tidy()
+model_workflow |>
+  finalize_workflow(model_accepted_flow) |>
+  fit_resamples(
+    resamples = cross_samples,
+    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope),
+    control = control_resamples(save_pred = TRUE)
+  ) |>
+  collect_metrics()
 
-model_tune_results |>
-  collect_metrics() |>
-  filter(.config == model_accepted_flow |> pull(.config))
+model_glmnet |> tidy()
 ```
 
 ```{r}
@@ -183,6 +187,8 @@ model_tune_results |>
 # Bayesian Methods
 
 ## Bayesian Model Selection
+
+### Strategy 1-A: Screen "consensus" variables, continuous variables only (13 parameters)
 ```{r}
 # multi_model <- data_patient_complete |>
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |>
@@ -241,24 +247,46 @@ model_full_BPM <- model_basic_flow |>
   update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
   fit(data = data_patient_screen)
 
-predict(model_full_BPM, new_data = data_patient_screen, type = "prob")
+# model_basic_performances <- workflow() |>
+#   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
+#   add_model(logistic_reg()) |>
+#   fit_resamples(
+#     resamples = cross_samples,
+#     metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope, sens, spec, ppv, npv),
+#     control = control_resamples(save_pred = TRUE)
+#   )
 
-model_basic_performances <- workflow() |>
-  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
-  add_model(logistic_reg()) |>
-  fit_resamples(
-    resamples = cross_samples,
-    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope, sens, spec, ppv, npv),
-    control = control_resamples(save_pred = TRUE)
-  )
-
-model_basic_performances |>
-  collect_metrics()
+# model_basic_performances |>
+#   collect_metrics()
 
 # model_basic_performances |>
 #   collect_predictions() |>
 #   threshold_perf(flag_ADR_TP_ID, .pred_TRUE, thresholds = seq(0.1, 0.9, by = 0.1))
+
+save(model_full_BPM, file = "data/model-performance/model-full-BPM-1-A.rda")
 ```
+
+### Strategy 1-B: Force top 5, screen "consensus", continuous only
+
+### Strategy 1-C: Force top 5 (allow categorical), screen "consensus", continuous only
+
+### Strategy 1-D: Force top 3, screen "consensus", continuous only
+
+### Strategy 2-A: Screen top 21 (by mean), continuous only
+
+### Strategy 2-B: Force top 5, screen top 21 (by mean), continuous only
+
+### Strategy 2-C: Force top 5 (allow categorical), screen top 21 (by mean), continuous only
+
+### Strategy 2-D: Force top 3, screen top 21 (by mean), continuous only
+
+### Strategy 3-A: Screen all, continuous only
+
+### Strategy 3-B: Force top 5, screen all, continuous only
+
+### Strategy 3-C: Force top 5 (allow categorical), screen all, continuous only
+
+### Strategy 3-D: Force top 3, screen all, continuous only
 
 ## Model Performance (completed in notebook 04, this will be removed)
 ```{r}
@@ -509,4 +537,5 @@ influence.measures(model_full_BPM |> extract_fit_engine())$is.inf |>
 ```{r}
 # save(model_full, file = "data/model-performance/model-full.rda")
 save(model_full_BPM, file = "data/model-performance/model-full-BPM.rda")
+save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
 ```
