@@ -107,6 +107,12 @@ data_patient_screen <- data_patient_transformed |>
     across(where(is.logical), as.factor)
   )
 
+data_patient_screen_binary <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
 cross_splits <- group_initial_split(data_patient_cross_prep_factor, group = "site")
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep_factor, group = "site")
@@ -228,6 +234,10 @@ multi_predict_HPM <- variable.names(predict(multi_model_transformed, estimator =
 multi_predict_BPM <- variable.names(predict(multi_model_transformed, estimator = "BPM"))[-1] |>
   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
   unique() # best predictive model, this model is weird
+
+model_black_box <- multi_model_transformed
+
+save(model_black_box, file = "data/results/model-black-box.rda")
 ```
 
 ```{r}
@@ -268,9 +278,141 @@ save(model_full_BPM, file = "data/model-performance/model-full-BPM-1-A.rda")
 
 ### Strategy 1-B: Force top 5, screen "consensus", continuous only
 
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_B <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short),
+    force.heredity = TRUE,
+    update = 1
+  )
+toc()
+
+summary(multi_model_1_B)
+plot(multi_model_1_B)
+image(multi_model_1_B, rotate = FALSE)
+
+multi_predict_HPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+library(discrim)
+
+model_basic_flow_1_B <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_B)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_B <- model_basic_flow_1_B |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_B)) |>
+  fit(data = data_patient_screen)
+
+save(model_full_BPM_1_B, file = "data/model-performance/model-full-BPM-1-B.rda")
+```
+
 ### Strategy 1-C: Force top 5 (allow categorical), screen "consensus", continuous only
 
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_C <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_binary),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short_binary),
+    force.heredity = TRUE,
+    update = 1
+  )
+toc()
+
+summary(multi_model_1_C)
+plot(multi_model_1_C)
+image(multi_model_1_C, rotate = FALSE)
+
+multi_predict_HPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+library(discrim)
+
+model_basic_flow_1_C <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_C)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_C <- model_basic_flow_1_C |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_C)) |>
+  fit(data = data_patient_screen_binary)
+
+save(model_full_BPM_1_C, file = "data/model-performance/model-full-BPM-1-C.rda")
+```
+
 ### Strategy 1-D: Force top 3, screen "consensus", continuous only
+
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_D <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_top_3),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short_binary),
+    force.heredity = TRUE,
+    update = 1
+  )
+toc()
+
+summary(multi_model_1_D)
+plot(multi_model_1_D)
+image(multi_model_1_D, rotate = FALSE)
+
+multi_predict_HPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+library(discrim)
+
+model_basic_flow_1_D <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_D)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_D <- model_basic_flow_1_D |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_D)) |>
+  fit(data = data_patient_screen_binary)
+
+save(model_full_BPM_1_D, file = "data/model-performance/model-full-BPM-1-D.rda")
+```
 
 ### Strategy 2-A: Screen top 21 (by mean), continuous only
 
