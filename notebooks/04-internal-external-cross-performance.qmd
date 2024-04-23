@@ -39,7 +39,7 @@ extract_variable_names_cross <- function(sample) {
   model_BPM <- variable.names(predict(model, estimator = "BPM"))[-1] |>
     str_extract(paste(variables_to_screen_short, collapse = "|"))
   site <- assessment(sample)$site[1]
-  return(list(model_HPM, model_BPM, site))
+  return(list(model_BPM, site))
 }
 
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
