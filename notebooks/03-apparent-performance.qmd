@@ -5,90 +5,198 @@ title: Model Development and Apparent Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
+source("notebooks/prob-cal_intercept.r") # valProbggplot() function
+source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-force.rda")
+load("data/results/variables-to-force-binary.rda")
+load("data/results/variables-to-force-top-3.rda")
 ```
 
 # Penalized Likelihood Methods
-## Backwards Stepwise Logistic Regression
+## Backwards Stepwise Logistic Regression (obsolete)
 ```{r}
 # library(StepReg)
 # run_stepwise_logit <- function(data, formula) {
-#   stepwiseLogit(
+#   stepwise(
 #     formula,
 #     data = data,
+#     type = "logit",
 #     include = NULL,
-#     selection = "backward",
-#     select = "AIC"
+#     strategy = "backward",
+#     metric = "AIC"
 #   )
 # }
 
-# stepwise_model <- data_patient_complete |>
-#   select(all_of(predictor_list), flag_ADR_TP_ID) |>
+# stepwise_model <- data_patient_transformed |>
+#   select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
 #   run_stepwise_logit(
 #     formula = flag_ADR_TP_ID ~ .
 #   )
 
-# stepwise_model |> summary()
+# stepwise_model
 ```
 
 ```{r}
-run_step_AIC <- function(data, formula) {
-  MASS::stepAIC(
-    glm(
-      formula = formula,
-      data = data
-    ),
-    direction = "backward",
-    trace = FALSE
-  )
-}
+# run_step_AIC <- function(data, formula) {
+#   MASS::stepAIC(
+#     glm(
+#       formula = formula,
+#       data = data
+#     ),
+#     direction = "backward",
+#     trace = FALSE
+#   )
+# }
 
-stepwise_model <- data_patient_complete |>
-  select(all_of(predictor_list), flag_ADR_TP_ID) |>
-  run_step_AIC(
-    formula = flag_ADR_TP_ID ~ .
-  )
+# stepwise_model_MASS <- data_patient_transformed |>
+#   select(all_of(predictor_transformed), flag_ADR_TP_ID) |>
+#   run_step_AIC(
+#     formula = flag_ADR_TP_ID ~ .
+#   )
 
-stepwise_model$coefficients |> length()
+# stepwise_model_MASS |> str()
 ```
 
-Results: Stepwise algorithm selected 17 predictors.
-
-## LASSO Variable Selection
+## LASSO Variable Selection (obsolete, see Elastic Net Regularization)
 
 ```{r}
-library(glmnet)
-predictor_matrix <- data_patient_complete |>
-  select(all_of(predictor_list)) |>
-  as.matrix()
-response_matrix <- data_patient_complete |>
-  select(flag_ADR_TP_ID) |>
-  pull()
+# library(glmnet)
+# predictor_matrix <- data_patient_complete |>
+#   select(all_of(predictor_list)) |>
+#   as.matrix()
+# response_matrix <- data_patient_complete |>
+#   select(flag_ADR_TP_ID) |>
+#   pull()
 
-lasso_fit <- glmnet(
-  x = predictor_matrix,
-  y = response_matrix,
-  family = "binomial",
-  alpha = 1
-)
+# lasso_fit <- glmnet(
+#   x = predictor_matrix,
+#   y = response_matrix,
+#   family = "binomial",
+#   alpha = 1
+# )
 
-cv_lasso_fit <- cv.glmnet(
-  x = predictor_matrix,
-  y = response_matrix,
-  family = "binomial",
-  alpha = 1,
-  nfolds = 5
-)
+# cv_lasso_fit <- cv.glmnet(
+#   x = predictor_matrix,
+#   y = response_matrix,
+#   family = "binomial",
+#   alpha = 1,
+#   nfolds = 5
+# )
 
-coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
+# coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
 ```
 
-Results: LASSO algorithm selected 22-25 predictors.
+## Elastic Net Regularization
 
-Comment: Penalized likelihood methods have comparable predictive performance to Bayesian methods [citation needed], but select many more predictors.
+```{r}
+library(tidymodels)
+library(future)
+library(tictoc)
 
-# Bayesian Model Selection
+data_patient_cross_prep_factor <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site) |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+data_patient_screen <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+data_patient_screen_binary <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+cross_splits <- group_initial_split(data_patient_cross_prep_factor, group = "site")
+
+cross_samples <- group_vfold_cv(data_patient_cross_prep_factor, group = "site")
+```
+
+```{r}
+rec <- recipe(flag_ADR_TP_ID ~ ., data = data_patient_screen) |>
+  step_dummy(all_nominal_predictors())
+
+model_elastic <- logistic_reg(penalty = tune(), mixture = tune()) |>
+  set_engine("glmnet") |>
+  set_mode("classification")
+
+model_workflow <- workflow() |>
+  add_model(model_elastic) |>
+  add_recipe(rec)
+
+tune_params <- model_workflow |>
+  extract_parameter_set_dials() |>
+  update(
+    penalty = penalty(range = c(-3, 0)),
+    mixture = mixture(range = c(0.5, 1))
+  ) |>
+  grid_latin_hypercube(size = 1000)
+
+tic()
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 12), 2))
+
+model_tune_results <- model_workflow |>
+  tune_grid(
+    resamples = cross_samples,
+    grid = tune_params,
+    control = control_grid(save_pred = TRUE)
+  )
+
+plan(sequential)
+toc()
+
+model_accepted_flow <- model_tune_results |>
+  select_by_one_std_err(desc(mixture), desc(penalty), metric = "roc_auc")
+
+model_glmnet <- model_workflow |>
+  finalize_workflow(model_accepted_flow) |>
+  fit(data = data_patient_screen)
+
+model_workflow |>
+  finalize_workflow(model_accepted_flow) |>
+  fit_resamples(
+    resamples = cross_samples,
+    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope),
+    control = control_resamples(save_pred = TRUE)
+  ) |>
+  collect_metrics()
+
+model_glmnet |> tidy()
+```
+
+```{r}
+# multi_glmnet <- model_glmnet |>
+#   tidy() |>
+#   filter(estimate > 0) |>
+#   pull(term) |>
+#   str_extract(paste(variables_to_screen, collapse = "|"))
+
+# model_glmnet_fit <-
+#   logistic_reg(
+#     penalty = model_accepted_flow$penalty,
+#     mixture = model_accepted_flow$mixture
+#   ) |>
+#   set_engine("glmnet") |>
+#   fit(
+#     flag_ADR_TP_ID ~ .,
+#     data = data_patient_screen
+#   ) |>
+#   tidy()
+```
+
+# Bayesian Methods
+
+## Bayesian Model Selection
+
+### Strategy 1-A: Screen "consensus" variables, continuous variables only (13 parameters)
 ```{r}
 # multi_model <- data_patient_complete |>
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |>
@@ -106,13 +214,14 @@ library(tictoc)
 
 tic()
 multi_model_transformed <- data_patient_transformed |>
-  select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
-    include.always = ~ 1,
+    include.always = ~1,
     n.models = 2^15,
-    thin = length(variables_to_screen),
-    update = 10000
+    thin = length(variables_to_screen_short),
+    force.heredity = TRUE,
+    update = 1
   )
 toc()
 
@@ -122,41 +231,291 @@ image(multi_model_transformed, rotate = FALSE)
 # diagnostics(multi_model_transformed)
 
 multi_predict_HPM <- variable.names(predict(multi_model_transformed, estimator = "HPM"))[-1] |>
-  str_extract(paste(variables_to_screen, collapse = "|")) # highest probability model
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # highest probability model
 multi_predict_BPM <- variable.names(predict(multi_model_transformed, estimator = "BPM"))[-1] |>
-  str_extract(paste(variables_to_screen, collapse = "|")) # best predictive model, this model is weird
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+
+model_black_box <- multi_model_transformed
+
+save(model_black_box, file = "data/results/model-black-box.rda")
 ```
 
 ```{r}
 library(tidymodels)
+library(probably)
 
-data_patient_transformed_response_as_factor <- data_patient_transformed |>
-  mutate(
-    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+model_basic_flow <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
+  add_model(logistic_reg())
+
+# model_full <- model_basic_flow |>
+#   update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_HPM)) |>
+#   fit(data = data_patient_screen)
+
+model_full_BPM <- model_basic_flow |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
+  fit(data = data_patient_screen)
+
+# model_basic_performances <- workflow() |>
+#   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
+#   add_model(logistic_reg()) |>
+#   fit_resamples(
+#     resamples = cross_samples,
+#     metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope, sens, spec, ppv, npv),
+#     control = control_resamples(save_pred = TRUE)
+#   )
+
+# model_basic_performances |>
+#   collect_metrics()
+
+# model_basic_performances |>
+#   collect_predictions() |>
+#   threshold_perf(flag_ADR_TP_ID, .pred_TRUE, thresholds = seq(0.1, 0.9, by = 0.1))
+
+save(model_full_BPM, file = "data/model-performance/model-full-BPM-1-A.rda")
+```
+
+### Strategy 1-B: Force top 5, screen "consensus", continuous only
+
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_B <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short),
+    force.heredity = TRUE,
+    update = 1
   )
+toc()
 
-model_full <- logistic_reg() |>
-  set_engine("glm") |>
-  set_mode("classification") |>
-  fit(
-    reformulate(
-      termlabels = multi_predict_HPM,
-      response = "flag_ADR_TP_ID"
-    ),
-    data = data_patient_transformed_response_as_factor
+summary(multi_model_1_B)
+plot(multi_model_1_B)
+image(multi_model_1_B, rotate = FALSE)
+
+multi_predict_HPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+
+model_basic_flow_1_B <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_B)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_B <- model_basic_flow_1_B |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_B)) |>
+  fit(data = data_patient_screen)
+
+save(model_full_BPM_1_B, file = "data/model-performance/model-full-BPM-1-B.rda")
+```
+
+### Strategy 1-C: Force top 5 (allow categorical), screen "consensus", continuous only
+
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_C <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_binary),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short_binary),
+    force.heredity = TRUE,
+    update = 1
   )
+toc()
 
-model_full_BPM <- logistic_reg() |>
-  set_engine("glm") |>
-  set_mode("classification") |>
-  fit(
-    reformulate(
-      termlabels = multi_predict_BPM,
-      response = "flag_ADR_TP_ID"
-    ),
-    data = data_patient_transformed_response_as_factor
+summary(multi_model_1_C)
+plot(multi_model_1_C)
+image(multi_model_1_C, rotate = FALSE)
+
+multi_predict_HPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+
+model_basic_flow_1_C <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_C)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_C <- model_basic_flow_1_C |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_C)) |>
+  fit(data = data_patient_screen_binary)
+
+save(model_full_BPM_1_C, file = "data/model-performance/model-full-BPM-1-C.rda")
+```
+
+### Strategy 1-D: Force top 3, screen "consensus", continuous only
+
+```{r}
+library(tictoc)
+
+tic()
+multi_model_1_D <- data_patient_transformed |>
+  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_top_3),
+    n.models = 2^15,
+    thin = length(variables_to_screen_short_binary),
+    force.heredity = TRUE,
+    update = 1
   )
+toc()
 
+summary(multi_model_1_D)
+plot(multi_model_1_D)
+image(multi_model_1_D, rotate = FALSE)
+
+multi_predict_HPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "HPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # highest probability model
+multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BPM"))[-1] |>
+  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  unique() # best predictive model, this model is weird
+```
+
+```{r}
+library(tidymodels)
+library(probably)
+
+model_basic_flow_1_D <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_D)) |>
+  add_model(logistic_reg())
+
+model_full_BPM_1_D <- model_basic_flow_1_D |>
+  update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_D)) |>
+  fit(data = data_patient_screen_binary)
+
+save(model_full_BPM_1_D, file = "data/model-performance/model-full-BPM-1-D.rda")
+```
+
+### Strategy 2-A: Screen top 21 (by mean), continuous only
+
+### Strategy 2-B: Force top 5, screen top 21 (by mean), continuous only
+
+### Strategy 2-C: Force top 5 (allow categorical), screen top 21 (by mean), continuous only
+
+### Strategy 2-D: Force top 3, screen top 21 (by mean), continuous only
+
+### Strategy 3-A: Screen all, continuous only
+
+### Strategy 3-B: Force top 5, screen all, continuous only
+
+### Strategy 3-C: Force top 5 (allow categorical), screen all, continuous only
+
+### Strategy 3-D: Force top 3, screen all, continuous only
+
+## Model Performance (completed in notebook 04, this will be removed)
+```{r}
+# library(CalibrationCurves)
+# pHat <- predict(model_full_BPM$fit$fit$fit, data_patient_screen, type = "response")
+# yTest <- data_patient_screen$flag_ADR_TP_ID |> as.logical()
+# calperf <- valProbggplot(pHat, yTest)
+
+# apparent_performance_metrics <- tibble(
+#   cross_C_index = calperf$Cindex[[1]],
+#   cross_C_index_lower = calperf$Cindex[[2]],
+#   cross_C_index_upper = calperf$Cindex[[3]],
+#   cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+#   cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+#   cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+#   cross_calibration_slope = calperf$Calibration$Slope[[1]],
+#   cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+#   cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+# ) |>
+#   mutate(
+#     cross_C_index_std_error = (cross_C_index_upper - cross_C_index_lower) / (2 * 1.96),
+#     cross_calibration_intercept_std_error = (cross_calibration_intercept_upper - cross_calibration_intercept_lower) / (2 * 1.96),
+#     cross_calibration_slope_std_error = (cross_calibration_slope_upper - cross_calibration_slope_lower) / (2 * 1.96)
+#   ) |>
+#   select(
+#     cross_calibration_intercept, cross_calibration_intercept_std_error, cross_calibration_slope, cross_calibration_slope_std_error
+#   ) |>
+#   rename(
+#     cal_in_the_large = cross_calibration_intercept, 
+#     cal_in_the_large_std_error = cross_calibration_intercept_std_error, 
+#     cal_slope = cross_calibration_slope, 
+#     cal_slope_std_error = cross_calibration_slope_std_error) |>
+#   pivot_longer(
+#     cols = everything(),
+#     names_to = c(".metric"),
+#     values_to = c("mean")
+#   ) |>
+#   mutate(std_err = if_else(str_detect(.metric, "std_error"), mean, lead(mean))) |>
+#   filter(!str_detect(.metric, "std_error")) |>
+#   bind_rows(model_basic_performances |> collect_metrics())
+
+# save(apparent_performance_metrics, file = "data/model-performance/apparent-performance-metrics.rda")
+```
+
+```{r}
+# pHat <- predict(model_full_BPM$fit, data_patient_transformed, type = "response")
+# yTest <- data_patient_transformed$flag_ADR_TP_ID
+# calperf <- valProbggplot(pHat, yTest)
+
+# apparent_performance_metrics_BPM <- tibble(
+#   apparent_C_index = calperf$Cindex[[1]],
+#   apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
+#   apparent_calibration_slope = calperf$Calibration$Slope[[1]]
+# )
+
+# save(apparent_performance_metrics_BPM, file = "data/model-performance/apparent-performance-metrics-BPM.rda")
+```
+
+## Bayesian Generalized Additive Model (WIP)
+
+```{r}
+# library(spikeSlabGAM)
+# run_spike_slab_GAM <- function(data, formula, ...) {
+#   spikeSlabGAM(formula, data = data, family = "binomial", ...)
+# }
+
+# data_model <- data_patient_transformed |>
+#   select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
+#   select(-c("baseline_CLCR_30", "baseline_CLCR_60", "LZD_duration_10", "baseline_PLT_150", "patient_age_65")) |>
+#   as.data.frame()
+
+# options(mc.cores = max(min(parallel::detectCores() - 1, 12), 2))
+
+# model_0 <-
+#   run_spike_slab_GAM(
+#     data = data_model,
+#     formula = reformulate(
+#       termlabels = colnames(data_model) |> setdiff(c("flag_ADR_TP_ID")),
+#       response = "flag_ADR_TP_ID"
+#     )
+#   )
+
+# summary(model_0)
+# plot(model_0)
+```
+
+## Nomogram with rms (WIP)
+
+```{r}
 # library(splines2)
 
 # library(rms)
@@ -230,38 +589,39 @@ Red line: smoothed conditional mean
 The lines should be close together and the red line should be linear. 
 
 ```{r}
-car::crPlot(model_full$fit, variable = "patient_age")
-car::crPlot(model_full$fit, variable = "baseline_PLT")
+# car::crPlot(model_full$fit, variable = "patient_age")
+# car::crPlot(model_full$fit, variable = "baseline_PLT")
 
-car::crPlot(model_full_BPM$fit, variable = "patient_age")
-car::crPlot(model_full_BPM$fit, variable = "baseline_PLT")
+car::crPlot(model_full_BPM |> extract_fit_engine(), variable = "patient_age")
+car::crPlot(model_full_BPM |> extract_fit_engine(), variable = "baseline_PLT")
+car::crPlot(model_full_BPM |> extract_fit_engine(), variable = "baseline_CLCR")
 ```
 
 Result: No obvious non-linearity in the partial-residual plots.
 
 Visual check of linearity assumption using logit of predicted probabilities vs. continuous predictors values.
 ```{r}
-data_patient_linear_check <- data_patient_transformed |>
-  select(all_of(multi_predict_HPM)) |>
-  mutate(
-    probabilities = predict(model_full$fit, data_patient_transformed, type = "response"),
-    log_odds = log(probabilities / (1 - probabilities))
-  ) |>
-  select_if(is.numeric) |>
-  gather(key = "predictors", value = "predictor_value", -log_odds, -probabilities)
+# data_patient_linear_check <- data_patient_transformed |>
+#   select(all_of(multi_predict_HPM)) |>
+#   mutate(
+#     probabilities = predict(model_full$fit, data_patient_transformed, type = "response"),
+#     log_odds = log(probabilities / (1 - probabilities))
+#   ) |>
+#   select_if(is.numeric) |>
+#   gather(key = "predictors", value = "predictor_value", -log_odds, -probabilities)
 
-ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
-  geom_point(size = 0.5, alpha = 0.5) +
-  geom_smooth(method = "loess", color = "red") +
-  geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
-  theme_bw() +
-  facet_wrap(~predictors, scales = "free_x") +
-  labs(title = "Highest Probability Model", x = "Predictor Value", y = "Log Odds")
+# ggplot(data_patient_linear_check, aes(y = log_odds, x = predictor_value)) +
+#   geom_point(size = 0.5, alpha = 0.5) +
+#   geom_smooth(method = "loess", color = "red") +
+#   geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
+#   theme_bw() +
+#   facet_wrap(~predictors, scales = "free_x") +
+#   labs(title = "Highest Probability Model", x = "Predictor Value", y = "Log Odds")
 
 data_patient_linear_check_BPM <- data_patient_transformed |>
   select(all_of(multi_predict_BPM)) |>
   mutate(
-    probabilities = predict(model_full_BPM$fit, data_patient_transformed, type = "response"),
+    probabilities = predict(model_full_BPM |> extract_fit_engine(), data_patient_screen, type = "response"),
     log_odds = log(probabilities / (1 - probabilities))
   ) |>
   select_if(is.numeric) |>
@@ -281,7 +641,7 @@ ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
 VIFs from the coefficient estimates should be less than 5 and as close to 1 as possible.
 
 ```{r}
-car::vif(model_full$fit)
+car::vif(model_full_BPM |> extract_fit_engine())
 ```
 
 Result: VIFs are all less than 5 and close to 1.
@@ -299,51 +659,23 @@ Influence plot:
 - Size of points: Cook's distance
 
 ```{r}
-car::influencePlot(model_full$fit)
+# car::influencePlot(model_full$fit)
 
-car::influencePlot(model_full_BPM$fit)
+car::influencePlot(model_full_BPM |> extract_fit_engine())
 
-# influential_obs <- influence.measures(model_full$fit)$is.inf |> apply(1, any) |> which() |> unname()
+influence.measures(model_full_BPM |> extract_fit_engine())$is.inf |>
+  apply(1, any) |>
+  which() |>
+  unname()
 ```
-
-Result: 
 
 ```{r}
 # data_patient_transformed |>
 #   slice(c(292, 301, 335, 364, 504, 634)) |> summary()
 ```
 
-# Model Performance
 ```{r}
-library(CalibrationCurves)
-pHat <- predict(model_full$fit, data_patient_transformed, type = "response")
-yTest <- data_patient_transformed$flag_ADR_TP_ID
-calperf <- valProbggplot(pHat, yTest)
-
-apparent_performance_metrics <- tibble(
-  apparent_C_index = calperf$Cindex[[1]],
-  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
-  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
-)
-
-save(apparent_performance_metrics, file = "data/model-performance/apparent-performance-metrics.rda")
-```
-
-```{r}
-pHat <- predict(model_full_BPM$fit, data_patient_transformed, type = "response")
-yTest <- data_patient_transformed$flag_ADR_TP_ID
-calperf <- valProbggplot(pHat, yTest)
-
-apparent_performance_metrics_BPM <- tibble(
-  apparent_C_index = calperf$Cindex[[1]],
-  apparent_calibration_intercept = calperf$Calibration$Intercept[[1]],
-  apparent_calibration_slope = calperf$Calibration$Slope[[1]]
-)
-
-save(apparent_performance_metrics_BPM, file = "data/model-performance/apparent-performance-metrics-BPM.rda")
-```
-
-```{r}
-save(model_full, file = "data/model-performance/model-full.rda")
+# save(model_full, file = "data/model-performance/model-full.rda")
 save(model_full_BPM, file = "data/model-performance/model-full-BPM.rda")
+save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
 ```

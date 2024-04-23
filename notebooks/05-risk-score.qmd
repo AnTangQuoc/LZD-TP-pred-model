@@ -1,0 +1,241 @@
+---
+title: Risk Score System and Algorithm
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r")
+load("data/model-performance/model-full-BPM-1-A.rda")
+
+load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+```
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+
+model_beta_estimates <- model_full_BPM |>
+  tidy() |>
+  select(term, estimate, p.value)
+
+model_odds_ratios <- model_full_BPM |>
+  tidy(conf.int = TRUE, exponentiate = TRUE) |>
+  select(term, estimate, conf.low, conf.high) |>
+  filter(term != "(Intercept)") |>
+  rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high)
+
+predictor_list_with_intercept <- c(variables_to_screen, "(Intercept)")
+
+parameter_estimates <- left_join(model_beta_estimates, model_odds_ratios, by = "term") |>
+  rename(risk_factor = term, beta = estimate, p_value = p.value) |>
+  mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept, collapse = "|")))
+
+# parameter_estimates |> 
+#   mutate(raw_score = beta / min(abs(beta)))
+```
+
+```{r}
+data_refit <- model_full_BPM |>
+  extract_mold() |>
+  _$predictors |>
+  mutate(across(where(is.numeric), ~ . / 10)) |>
+  rename_with(~ paste0(., "_per_10"), .cols = where(is.numeric)) |>
+  bind_cols(model_full_BPM |> extract_mold() |> _$outcomes)
+
+model_refit <- workflow() |>
+  add_variables(outcomes = "flag_ADR_TP_ID", predictors = everything()) |>
+  add_model(logistic_reg()) |>
+  fit(data = data_refit)
+
+model_refit_odds_ratios <- model_refit |>
+  tidy(conf.int = TRUE, exponentiate = TRUE) |>
+  select(term, estimate, conf.low, conf.high) |>
+  filter(term != "(Intercept)") |>
+  rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high) |>
+  mutate(term = str_replace_all(term, "TRUE", ""))
+
+model_full_BPM |>
+  extract_mold() |>
+  _$predictors |> pull(baseline_PLT) |> quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
+```
+
+## Risk Score System
+
+All code below is not automatic. Variables and ranges are manually defined. 
+
+Current model predictors: `patient_age`, `baseline_CLCR`, `baseline_PLT`, `LZD_duration`, `comed_heparin`, `infect_sepsis`, `comorb_cirr`
+
+```{r}
+risk_profile_1 <- tibble(
+  risk_factor = "patient_age",
+  min_range = c(18, 30, 40, 50, 60, 70, 80, 90), # minimum age is 18
+  max_range = lead(min_range, default = 101), # maximum age is 101, interval is 10
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_2 <- tibble(
+  risk_factor = "baseline_CLCR",
+  min_range = c(130, 90, 60, 30, 5), # 1% percentile is 5
+  max_range = lag(min_range, default = 191), # 99% percentile is 191
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = ifelse(min_range == 90, TRUE, flag_base_risk)
+  )
+
+risk_profile_3 <- tibble(
+  risk_factor = "baseline_PLT",
+  min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
+  max_range = lag(min_range, default = 434), # 99% percentile is 434
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_4 <- tibble(
+  risk_factor = "LZD_duration_14",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_5 <- tibble(
+  risk_factor = "comed_heparin",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_6 <- tibble(
+  risk_factor = "infect_sepsis",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_7 <- tibble(
+  risk_factor = "comorb_cirr",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile <- bind_rows(risk_profile_1, risk_profile_2, risk_profile_3, risk_profile_4, risk_profile_5, risk_profile_6, risk_profile_7)
+```
+
+```{r}
+B_constant <- parameter_estimates |>
+  filter(risk_factor == "patient_age") |>
+  pull(beta) * 10 # constant equivalent to 10-year increase in age
+
+points_system_full <- parameter_estimates |>
+  select(risk_factor, beta) |>
+  right_join(risk_profile, by = "risk_factor") |>
+  group_by(risk_factor) |>
+  mutate(
+    beta_sum = beta * (reference - reference[which.max(flag_base_risk)]),
+    points = round(beta_sum / B_constant, 0)
+  )
+
+points_system_factors <- points_system_full |>
+  select(risk_factor, min_range, max_range, points)
+
+min_points <- points_system_full |>
+  group_by(risk_factor) |>
+  summarise(min_points = min(points)) |>
+  summarise(total_min_points = sum(min_points)) |>
+  pull(total_min_points)
+
+max_points <- points_system_full |>
+  group_by(risk_factor) |>
+  summarise(max_points = max(points)) |>
+  summarise(total_max_points = sum(max_points)) |>
+  pull(total_max_points)
+
+risk_function <- function(points) {
+  intercept <- parameter_estimates |>
+    filter(risk_factor == "Intercept") |>
+    pull(beta)
+
+  beta_base <- points_system_full |>
+    filter(flag_base_risk == TRUE) |>
+    ungroup() |>
+    summarise(
+      beta_base = sum(beta * reference)
+    ) |>
+    pull(beta_base)
+
+  1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
+}
+
+points_system_risks <- tibble(
+  points_total = seq(min_points, max_points),
+  risk_estimate = risk_function(points_total)
+)
+```
+
+```{r}
+library(probably)
+predictive_values <- model_refit |>
+  predict(data_refit, type = "prob") |>
+  mutate(flag_ADR_TP_ID = data_refit$flag_ADR_TP_ID) |>
+  threshold_perf(
+    truth = flag_ADR_TP_ID,
+    estimate = .pred_FALSE,
+    thresholds = points_system_risks |> pull(risk_estimate),
+    metrics = metric_set(sensitivity, specificity, ppv, npv, j_index)
+  ) |>
+  select(-.estimator) |>
+  pivot_wider(names_from = .metric, values_from = .estimate) |>
+  mutate(score = points_system_risks |> pull(points_total))
+
+predictive_values |>
+  select(.threshold, sensitivity, specificity) |>
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_point() +
+  geom_path() +
+  geom_segment(
+    x = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    xend = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    y = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    yend = predictive_values |> filter(j_index == max(j_index)) |> pull(sensitivity),
+    linetype = 2
+  ) +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+```
+
+```{r}
+predictive_values |> knitr::kable()
+points_system_factors |> knitr::kable()
+points_system_risks |> knitr::kable()
+```

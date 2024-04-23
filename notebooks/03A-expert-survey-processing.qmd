@@ -36,19 +36,71 @@ survey_summary <- data_survey |>
     names_pattern = "(mean|median|IQR|sd)\\.(.*)"
   )
 
-variables_to_screen <- survey_summary |>
+variables_consensus <- survey_summary |>
   filter((median >= 4 & IQR <= 1) | (mean >= 3.5 & sd <= 1)) |>
   arrange(desc(median), desc(mean)) |>
   pull(variable)
 
 data_survey_factor |>
-  select(all_of(variables_to_screen)) |>
+  select(all_of(variables_consensus)) |>
   gglikert(sort = "descending", sort_method = "mean")
+```
+
+```{r}
+variables_to_screen_short <- variables_consensus
+
+variables_to_screen_short[str_detect(variables_to_screen_short, "\\d")] <- str_remove(variables_to_screen_short[str_detect(variables_to_screen_short, "_\\d+")], "_\\d+")
+
+variables_to_screen_short[str_detect(variables_to_screen_short, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_short <- unique(variables_to_screen_short)
+```
+
+```{r}
+variables_to_screen_short_binary <- variables_consensus
+
+variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "\\d")] <- str_remove(variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "_\\d+")], "_\\d+")
+
+variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
+
+variables_to_screen_short_binary <- unique(variables_to_screen_short_binary)
+```
+
+```{r}
+variables_to_screen <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen[str_detect(variables_to_screen, "\\d")] <- str_remove(variables_to_screen[str_detect(variables_to_screen, "_\\d+")], "_\\d+")
+
+variables_to_screen[str_detect(variables_to_screen, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen <- unique(variables_to_screen)
+
+variables_to_screen <- variables_to_screen[1:21]
+
+variables_to_force <- variables_to_screen[1:5]
+
+variables_to_force_top_3 <- variables_to_screen[1:3]
 
 variables_out <- survey_summary |>
   filter(!variable %in% variables_to_screen)
 ```
 
 ```{r}
+variables_to_force_binary <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable) |>
+  head(5)
+```
+
+```{r}
 save(variables_to_screen, file = "data/results/variables-to-screen.rda")
+save(variables_to_screen_short, file = "data/results/variables-to-screen-short.rda")
+save(variables_to_screen_short_binary, file = "data/results/variables-to-screen-short-binary.rda")
+save(variables_to_force, file = "data/results/variables-to-force.rda")
+save(variables_to_force_binary, file = "data/results/variables-to-force-binary.rda")
+save(variables_to_force_top_3, file = "data/results/variables-to-force-top-3.rda")
 ```
