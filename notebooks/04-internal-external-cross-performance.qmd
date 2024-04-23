@@ -10,13 +10,16 @@ source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-force.rda")
+load("data/results/variables-to-force-binary.rda")
+load("data/results/variables-to-force-top-3.rda")
 ```
 
 ```{r}
 library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 library(tidymodels)
-library(workflowsets)
 library(CalibrationCurves)
 
 data_patient_cross_prep <- data_patient_transformed |>
@@ -50,8 +53,8 @@ cross_predict <- cross_samples$splits |>
 plan(sequential)
 
 # cross_predict_HPM <- map(cross_predict, 1)
-cross_predict_BPM <- map(cross_predict, 2)
-cross_predict_site <- map(cross_predict, 3)
+cross_predict_BPM <- map(cross_predict, 1)
+cross_predict_site <- map(cross_predict, 2)
 
 run_workflow <- function(sample, variables) {
   rec <- recipe(

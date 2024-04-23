@@ -96,7 +96,6 @@ load("data/results/variables-to-force-top-3.rda")
 library(tidymodels)
 library(future)
 library(tictoc)
-library(splines2)
 
 data_patient_cross_prep_factor <- data_patient_transformed |>
   select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site) |>
@@ -246,7 +245,6 @@ save(model_black_box, file = "data/results/model-black-box.rda")
 ```{r}
 library(tidymodels)
 library(probably)
-library(discrim)
 
 model_basic_flow <- workflow() |>
   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM)) |>
@@ -312,7 +310,6 @@ multi_predict_BPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "BP
 ```{r}
 library(tidymodels)
 library(probably)
-library(discrim)
 
 model_basic_flow_1_B <- workflow() |>
   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_B)) |>
@@ -358,7 +355,6 @@ multi_predict_BPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "BP
 ```{r}
 library(tidymodels)
 library(probably)
-library(discrim)
 
 model_basic_flow_1_C <- workflow() |>
   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_C)) |>
@@ -404,7 +400,6 @@ multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BP
 ```{r}
 library(tidymodels)
 library(probably)
-library(discrim)
 
 model_basic_flow_1_D <- workflow() |>
   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_D)) |>
