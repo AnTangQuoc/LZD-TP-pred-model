@@ -251,6 +251,8 @@ forest_plot_C_index_BPM <- forest(
   sortvar = studlab,
   ref = NA,
   xlim = c(0.6, 0.9),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
   layout = "RevMan5"
 )
 
@@ -273,7 +275,9 @@ forest_plot_calibration_intercept_BPM <- forest(
   cross_calibration_intercept_meta_BPM,
   sortvar = studlab,
   ref = 0,
-  xlim = c(-0.8, 0.8),
+  xlim = c(-1, 1),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
   layout = "RevMan5"
 )
 
@@ -296,7 +300,9 @@ forest_plot_calibration_slope_BPM <- forest(
   cross_calibration_slope_meta_BPM,
   sortvar = studlab,
   ref = 1,
-  xlim = c(0.2, 1.7),
+  xlim = c(0, 2),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
   layout = "RevMan5"
 )
 
