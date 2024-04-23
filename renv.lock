@@ -208,20 +208,6 @@
       ],
       "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
     },
-    "RcppArmadillo": {
-      "Package": "RcppArmadillo",
-      "Version": "0.12.8.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "Rcpp",
-        "methods",
-        "stats",
-        "utils"
-      ],
-      "Hash": "e78bbbb81a5dcd71a4bd3268d6ede0b1"
-    },
     "RcppEigen": {
       "Package": "RcppEigen",
       "Version": "0.3.4.0.0",
@@ -835,22 +821,6 @@
         "utils"
       ],
       "Hash": "698ece7ba5a4fa4559e3d537e7ec3d31"
-    },
-    "discrim": {
-      "Package": "discrim",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "dials",
-        "parsnip",
-        "rlang",
-        "stats",
-        "tibble",
-        "withr"
-      ],
-      "Hash": "39ec49c8b8d3c0502ad7aba699ec798b"
     },
     "doFuture": {
       "Package": "doFuture",
@@ -2701,20 +2671,6 @@
         "warp"
       ],
       "Hash": "a584625e2b9e4fad4be135c8ea5c99aa"
-    },
-    "splines2": {
-      "Package": "splines2",
-      "Version": "0.5.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "Rcpp",
-        "RcppArmadillo",
-        "graphics",
-        "stats"
-      ],
-      "Hash": "12194b295d87fb2ade6d6f4cca7c6384"
     },
     "stringi": {
       "Package": "stringi",

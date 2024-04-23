@@ -4,7 +4,11 @@ title: Risk Score System and Algorithm
 
 ```{r}
 source("notebooks/initialize-data-analysis.r")
-load("data/model-performance/model-full-BPM.rda")
+load("data/model-performance/model-full-BPM-1-A.rda")
+
+load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
 ```
 
 ```{r}
@@ -199,8 +203,10 @@ points_system_risks <- tibble(
 ```
 
 ```{r}
-predictive_values <- model_basic_performances |>
-  collect_predictions() |>
+library(probably)
+predictive_values <- model_refit |>
+  predict(data_refit, type = "prob") |>
+  mutate(flag_ADR_TP_ID = data_refit$flag_ADR_TP_ID) |>
   threshold_perf(
     truth = flag_ADR_TP_ID,
     estimate = .pred_FALSE,
@@ -214,18 +220,18 @@ predictive_values <- model_basic_performances |>
 predictive_values |>
   select(.threshold, sensitivity, specificity) |>
   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
-    geom_point() +
-    geom_path() +
-    geom_segment(
-      x = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
-      xend = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
-      y = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
-      yend = predictive_values |> filter(j_index == max(j_index)) |> pull(sensitivity),
-      linetype = 2
-    ) +
-    geom_abline(lty = 3) +
-    coord_equal() +
-    theme_bw()
+  geom_point() +
+  geom_path() +
+  geom_segment(
+    x = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    xend = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    y = 1 - (predictive_values |> filter(j_index == max(j_index)) |> pull(specificity)),
+    yend = predictive_values |> filter(j_index == max(j_index)) |> pull(sensitivity),
+    linetype = 2
+  ) +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
 ```
 
 ```{r}
