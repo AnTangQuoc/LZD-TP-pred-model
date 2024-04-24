@@ -10,17 +10,20 @@ load("data/model-performance/model-black-box.rda")
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
 load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-screen-binary.rda")
+load("data/results/variables-to-screen-all.rda")
+load("data/results/variables-to-screen-all-binary.rda")
 ```
 
 ```{r}
 library(tidyverse)
 library(tidymodels)
 
-model_beta_estimates <- model_full_BPM |>
+model_beta_estimates <- model_full_BPM_1_A |>
   tidy() |>
   select(term, estimate, p.value)
 
-model_odds_ratios <- model_full_BPM |>
+model_odds_ratios <- model_full_BPM_1_A |>
   tidy(conf.int = TRUE, exponentiate = TRUE) |>
   select(term, estimate, conf.low, conf.high) |>
   filter(term != "(Intercept)") |>
@@ -32,17 +35,17 @@ parameter_estimates <- left_join(model_beta_estimates, model_odds_ratios, by = "
   rename(risk_factor = term, beta = estimate, p_value = p.value) |>
   mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept, collapse = "|")))
 
-# parameter_estimates |> 
+# parameter_estimates |>
 #   mutate(raw_score = beta / min(abs(beta)))
 ```
 
 ```{r}
-data_refit <- model_full_BPM |>
+data_refit <- model_full_BPM_1_A |>
   extract_mold() |>
   _$predictors |>
   mutate(across(where(is.numeric), ~ . / 10)) |>
   rename_with(~ paste0(., "_per_10"), .cols = where(is.numeric)) |>
-  bind_cols(model_full_BPM |> extract_mold() |> _$outcomes)
+  bind_cols(model_full_BPM_1_A |> extract_mold() |> _$outcomes)
 
 model_refit <- workflow() |>
   add_variables(outcomes = "flag_ADR_TP_ID", predictors = everything()) |>
@@ -56,7 +59,7 @@ model_refit_odds_ratios <- model_refit |>
   rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high) |>
   mutate(term = str_replace_all(term, "TRUE", ""))
 
-# model_full_BPM |>
+# model_full_BPM_1_A |>
 #   extract_mold() |>
 #   _$predictors |> pull(baseline_PLT) |> quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
 ```
