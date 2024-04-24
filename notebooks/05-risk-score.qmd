@@ -5,6 +5,7 @@ title: Risk Score System and Algorithm
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 load("data/model-performance/model-full-BPM-1-A.rda")
+load("data/model-performance/model-black-box.rda")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
@@ -55,9 +56,9 @@ model_refit_odds_ratios <- model_refit |>
   rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high) |>
   mutate(term = str_replace_all(term, "TRUE", ""))
 
-model_full_BPM |>
-  extract_mold() |>
-  _$predictors |> pull(baseline_PLT) |> quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
+# model_full_BPM |>
+#   extract_mold() |>
+#   _$predictors |> pull(baseline_PLT) |> quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
 ```
 
 ## Risk Score System
@@ -238,4 +239,282 @@ predictive_values |>
 predictive_values |> knitr::kable()
 points_system_factors |> knitr::kable()
 points_system_risks |> knitr::kable()
+```
+
+# BMA Black Box (13 variables)
+```{r}
+model_black_box_estimates <- coef(model_black_box) |>
+  confint(nsim = 2^20) |>
+  structure(class = c("confint.bas", "matrix")) |>
+  as_tibble() |>
+  mutate(
+    term = model_black_box$namesx |>
+      str_extract(paste(c(variables_to_screen_short, "Intercept"), collapse = "|")) |>
+      unique()
+  ) |>
+  relocate(c(term, beta)) |>
+  rename(
+    risk_factor = term,
+    lower = `2.5%`,
+    upper = `97.5%`
+  ) |>
+  mutate(across(c(lower, upper, beta), as.double))
+
+model_black_box_odds_ratio <- model_black_box_estimates |>
+  mutate(across(c(lower, upper, beta), exp)) |>
+  rename(
+    odds_ratio = beta
+  )
+```
+
+```{r}
+risk_profile_BMA_1 <- tibble(
+  risk_factor = "patient_age",
+  min_range = c(18, 30, 40, 50, 60, 70, 80, 90), # minimum age is 18
+  max_range = lead(min_range, default = 101), # maximum age is 101, interval is 10
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_2 <- tibble(
+  risk_factor = "baseline_CLCR",
+  min_range = c(130, 90, 60, 30, 5), # 1% percentile is 5
+  max_range = lag(min_range, default = 191), # 99% percentile is 191
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = ifelse(min_range == 90, TRUE, flag_base_risk)
+  )
+
+risk_profile_BMA_3 <- tibble(
+  risk_factor = "baseline_PLT",
+  min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
+  max_range = lag(min_range, default = 434), # 99% percentile is 434
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_4 <- tibble(
+  risk_factor = "LZD_duration_14",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_5 <- tibble(
+  risk_factor = "comed_heparin",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_6 <- tibble(
+  risk_factor = "infect_sepsis",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_7 <- tibble(
+  risk_factor = "dept_ICU",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_8 <- tibble(
+  risk_factor = "comorb_cirr",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_9 <- tibble(
+  risk_factor = "invasive_CRRT",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_10 <- tibble(
+  risk_factor = "comed_enoxaparin",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_11 <- tibble(
+  risk_factor = "LZD_route_IV",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_12 <- tibble(
+  risk_factor = "infect_septicemia",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_13 <- tibble(
+  risk_factor = "invasive_IHD",
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |>
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA <- paste0("risk_profile_BMA_", 1:13) |> mget() |> bind_rows()
+```
+
+```{r}
+B_constant <- model_black_box_estimates |>
+  filter(risk_factor == "patient_age") |>
+  pull(beta) * 10 # constant equivalent to 10-year increase in age
+
+points_system_full_BMA <- model_black_box_estimates |>
+  select(risk_factor, beta) |>
+  right_join(risk_profile_BMA, by = "risk_factor") |>
+  group_by(risk_factor) |>
+  mutate(
+    beta_sum = beta * (reference - reference[which.max(flag_base_risk)]),
+    points = round(beta_sum / B_constant, 0)
+  )
+
+points_system_factors_BMA <- points_system_full_BMA |>
+  select(risk_factor, min_range, max_range, points) |>
+  group_by(risk_factor) |>
+  mutate(flag_significant = any(points != 0)) |>
+  filter(flag_significant) |>
+  select(-flag_significant) |>
+  ungroup()
+
+min_points <- points_system_full_BMA |>
+  group_by(risk_factor) |>
+  summarise(min_points = min(points)) |>
+  summarise(total_min_points = sum(min_points)) |>
+  pull(total_min_points)
+
+max_points <- points_system_full_BMA |>
+  group_by(risk_factor) |>
+  summarise(max_points = max(points)) |>
+  summarise(total_max_points = sum(max_points)) |>
+  pull(total_max_points)
+
+risk_function_BMA <- function(points) {
+  intercept <- model_black_box_estimates |>
+    filter(risk_factor == "Intercept") |>
+    pull(beta)
+
+  beta_base <- points_system_full_BMA |>
+    filter(flag_base_risk == TRUE) |>
+    ungroup() |>
+    summarise(
+      beta_base = sum(beta * reference)
+    ) |>
+    pull(beta_base)
+
+  1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
+}
+
+points_system_risks_BMA <- tibble(
+  points_total = seq(min_points, max_points),
+  risk_estimate = risk_function_BMA(points_total)
+)
+```
+
+```{r}
+library(probably)
+
+BMA_pred <- predict(model_black_box, type = "response")
+
+predictive_values_BMA <- BMA_pred$fit |>
+  as_tibble() |>
+  rename(.pred_TRUE = value) |>
+  mutate(
+    .pred_FALSE = 1 - .pred_TRUE,
+    flag_ADR_TP_ID = data_patient_transformed$flag_ADR_TP_ID |> as_factor()
+  ) |>
+  threshold_perf(
+    truth = flag_ADR_TP_ID,
+    estimate = .pred_FALSE,
+    thresholds = points_system_risks_BMA |> pull(risk_estimate),
+    metrics = metric_set(sensitivity, specificity, ppv, npv, j_index)
+  ) |>
+  select(-.estimator) |>
+  pivot_wider(names_from = .metric, values_from = .estimate) |>
+  mutate(score = points_system_risks_BMA |> pull(points_total))
+
+predictive_values_BMA |>
+  select(.threshold, sensitivity, specificity) |>
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_point() +
+  geom_path() +
+  geom_segment(
+    x = 1 - (predictive_values_BMA |> filter(j_index == max(j_index)) |> pull(specificity)),
+    xend = 1 - (predictive_values_BMA |> filter(j_index == max(j_index)) |> pull(specificity)),
+    y = 1 - (predictive_values_BMA |> filter(j_index == max(j_index)) |> pull(specificity)),
+    yend = predictive_values_BMA |> filter(j_index == max(j_index)) |> pull(sensitivity),
+    linetype = 2
+  ) +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+```
+
+```{r}
+predictive_values_BMA |> knitr::kable()
+points_system_factors_BMA |> knitr::kable()
+points_system_risks_BMA |> knitr::kable()
 ```
