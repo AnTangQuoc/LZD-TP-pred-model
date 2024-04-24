@@ -12,9 +12,7 @@ project:
 
 manuscript:
   article: index.qmd
-  code-links: 
-    binder: default
-    github: default
+  code-links: repo
 
 number-sections: true
 
