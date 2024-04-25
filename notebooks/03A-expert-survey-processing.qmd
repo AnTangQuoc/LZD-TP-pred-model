@@ -2,7 +2,11 @@
 title: Expert Opinion Survey processing
 ---
 
-# Sample code
+```{r}
+source("notebooks/initialize-data-analysis.r")
+```
+
+# Spaghetti code warning
 ```{r}
 library(tidyverse)
 library(ggstats)
@@ -47,6 +51,34 @@ data_survey_factor |>
 ```
 
 ```{r}
+data_patient_screen_full <- data_patient_transformed |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+# Assuming `data_patient_screen_full` is your data frame
+single_level_factors <- data_patient_screen_full |>
+  purrr::map_lgl(~ is.factor(.x) && length(levels(.x)) == 1)
+
+# Print the names of the variables that are factors with only one level
+variables_to_remove <- names(single_level_factors)[single_level_factors]
+```
+
+```{r}
+data_patient_screen_full <- data_patient_transformed |>
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+# Assuming `data_patient_screen_full` is your data frame
+single_level_factors <- data_patient_screen_full |>
+  purrr::map_lgl(~ is.factor(.x) && length(levels(.x)) == 1)
+
+# Print the names of the variables that are factors with only one level
+variables_to_remove <- names(single_level_factors)[single_level_factors]
+```
+
+```{r}
 variables_to_screen_short <- variables_consensus
 
 variables_to_screen_short[str_detect(variables_to_screen_short, "\\d")] <- str_remove(variables_to_screen_short[str_detect(variables_to_screen_short, "_\\d+")], "_\\d+")
@@ -66,6 +98,38 @@ variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "L
 variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
 
 variables_to_screen_short_binary <- unique(variables_to_screen_short_binary)
+```
+
+```{r}
+variables_to_screen_binary <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "\\d")] <- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, "_\\d+")], "_\\d+")
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
+
+variables_to_screen_binary <- unique(variables_to_screen_binary)
+
+variables_to_screen_binary <- variables_to_screen_binary[1:21]
+```
+
+```{r}
+variables_to_screen_binary <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "\\d")] <- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, "_\\d+")], "_\\d+")
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
+
+variables_to_screen_binary <- unique(variables_to_screen_binary)
+
+variables_to_screen_binary <- variables_to_screen_binary[1:21]
 ```
 
 ```{r}
@@ -97,9 +161,77 @@ variables_to_force_binary <- survey_summary |>
 ```
 
 ```{r}
+variables_to_screen_all <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "\\d")] <- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, "_\\d+")], "_\\d+")
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_route")] <- "LZD_route_IV"
+
+variables_to_screen_all <- unique(variables_to_screen_all) |> setdiff(variables_to_remove)
+```
+
+```{r}
+variables_to_screen_all_binary <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "\\d")] <- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "_\\d+")], "_\\d+")
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_route")] <- "LZD_route_IV"
+
+variables_to_screen_all_binary <- unique(variables_to_screen_all_binary) |> setdiff(variables_to_remove)
+```
+
+```{r}
+variables_to_screen_all <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "\\d")] <- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, "_\\d+")], "_\\d+")
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_route")] <- "LZD_route_IV"
+
+variables_to_screen_all <- unique(variables_to_screen_all) |> setdiff(variables_to_remove)
+```
+
+```{r}
+variables_to_screen_all_binary <- survey_summary |>
+  arrange(desc(median), desc(mean)) |>
+  pull(variable)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "\\d")] <- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "_\\d+")], "_\\d+")
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_duration")] <- "LZD_duration_14"
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_route")] <- "LZD_route_IV"
+
+variables_to_screen_all_binary <- unique(variables_to_screen_all_binary) |> setdiff(variables_to_remove)
+```
+
+```{r}
 save(variables_to_screen, file = "data/results/variables-to-screen.rda")
 save(variables_to_screen_short, file = "data/results/variables-to-screen-short.rda")
 save(variables_to_screen_short_binary, file = "data/results/variables-to-screen-short-binary.rda")
+save(variables_to_screen_binary, file = "data/results/variables-to-screen-binary.rda")
+save(variables_to_screen_all, file = "data/results/variables-to-screen-all.rda")
+save(variables_to_screen_all_binary, file = "data/results/variables-to-screen-all-binary.rda")
+
+save(variables_to_screen_binary, file = "data/results/variables-to-screen-binary.rda")
+save(variables_to_screen_all, file = "data/results/variables-to-screen-all.rda")
+save(variables_to_screen_all_binary, file = "data/results/variables-to-screen-all-binary.rda")
+
 save(variables_to_force, file = "data/results/variables-to-force.rda")
 save(variables_to_force_binary, file = "data/results/variables-to-force-binary.rda")
 save(variables_to_force_top_3, file = "data/results/variables-to-force-top-3.rda")

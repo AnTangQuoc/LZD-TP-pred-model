@@ -2453,7 +2453,7 @@ sample_size &lt;- 816</code>
   <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -2870,7 +2870,7 @@ save(data_complete, data_patient_complete, file = &quot;data/data-cleaned/data-c
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -2940,14 +2940,14 @@ table_uni_list &lt;- future_map(uni_model_list, arrange_univariate_regression)
 table_uni &lt;- tbl_stack(table_uni_list)
 </code>
 <sec id="nb-code-cell-3-output-0-nb-2" specific-use="notebook-output">
-<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
+<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-1-nb-2" specific-use="notebook-output">
-<preformat>✔ broom        1.0.5      ✔ rsample      1.2.0 
-✔ dials        1.2.1      ✔ tune         1.2.0 
-✔ infer        1.0.6      ✔ workflows    1.1.4 
+<preformat>✔ broom        1.0.5      ✔ rsample      1.2.1 
+✔ dials        1.2.1      ✔ tune         1.2.1 
+✔ infer        1.0.7      ✔ workflows    1.1.4 
 ✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
-✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
+✔ parsnip      1.2.1      ✔ yardstick    1.3.1 
 ✔ recipes      1.0.10     </preformat>
 </sec>
 <sec id="nb-code-cell-3-output-2-nb-2" specific-use="notebook-output">
@@ -2963,7 +2963,7 @@ table_uni &lt;- tbl_stack(table_uni_list)
 ✖ dplyr::lag()           masks stats::lag()
 ✖ yardstick::spec()      masks readr::spec()
 ✖ recipes::step()        masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
 </sec>
 <sec id="nb-code-cell-3-output-3-nb-2" specific-use="notebook-output">
 <preformat>Loading required package: future</preformat>
@@ -4384,7 +4384,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">12 (12%)</td>
         <td headers="stat_6">14 (6.6%)</td>
-        <td headers="p.value">0.091</td>
+        <td headers="p.value">0.078</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_COPD</td>
@@ -4417,7 +4417,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">1 (1.0%)</td>
         <td headers="stat_6">4 (1.9%)</td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.002</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comorb_K</td>
@@ -4505,7 +4505,7 @@ table_descriptive
         <td headers="stat_4">2 (1.8%)</td>
         <td headers="stat_5">4 (4.1%)</td>
         <td headers="stat_6">20 (9.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.047</td>
+        <td headers="p.value" style="font-weight: bold">0.042</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">infect_BJI</td>
@@ -4648,7 +4648,7 @@ table_descriptive
         <td headers="stat_4">5 (4.5%)</td>
         <td headers="stat_5">3 (3.1%)</td>
         <td headers="stat_6">13 (6.2%)</td>
-        <td headers="p.value" style="font-weight: bold">0.034</td>
+        <td headers="p.value" style="font-weight: bold">0.029</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_aspirin</td>
@@ -4747,7 +4747,7 @@ table_descriptive
         <td headers="stat_4">1 (0.9%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.4</td>
+        <td headers="p.value">0.3</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_ethambutol</td>
@@ -4758,7 +4758,7 @@ table_descriptive
         <td headers="stat_4">6 (5.4%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">&lt;0.001</td>
+        <td headers="p.value" style="font-weight: bold">0.001</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_cetirizin</td>
@@ -4791,7 +4791,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">4 (4.1%)</td>
         <td headers="stat_6">5 (2.4%)</td>
-        <td headers="p.value" style="font-weight: bold">0.022</td>
+        <td headers="p.value" style="font-weight: bold">0.025</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_furosemid</td>
@@ -4824,7 +4824,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.010</td>
+        <td headers="p.value" style="font-weight: bold">0.014</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_diltiazem</td>
@@ -4868,7 +4868,7 @@ table_descriptive
         <td headers="stat_4">4 (3.6%)</td>
         <td headers="stat_5">5 (5.1%)</td>
         <td headers="stat_6">14 (6.6%)</td>
-        <td headers="p.value" style="font-weight: bold">0.021</td>
+        <td headers="p.value" style="font-weight: bold">0.028</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_carbamazepin</td>
@@ -4879,7 +4879,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">1 (0.5%)</td>
-        <td headers="p.value" style="font-weight: bold">0.005</td>
+        <td headers="p.value" style="font-weight: bold">0.002</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_phenytoin</td>
@@ -4923,7 +4923,7 @@ table_descriptive
         <td headers="stat_4">3 (2.7%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value" style="font-weight: bold">0.016</td>
+        <td headers="p.value" style="font-weight: bold">0.023</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_palonosetron</td>
@@ -4945,7 +4945,7 @@ table_descriptive
         <td headers="stat_4">0 (0%)</td>
         <td headers="stat_5">0 (0%)</td>
         <td headers="stat_6">0 (0%)</td>
-        <td headers="p.value">0.13</td>
+        <td headers="p.value">0.14</td>
       </tr>
       <tr>
         <td headers="label" style="font-weight: bold">comed_quinin</td>
@@ -5255,32 +5255,35 @@ Error in stats::chisq.test(x = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, : 'x'
 </front-stub>
 
 <body>
-<sec id="sample-code-nb-3">
-  <title>Sample code</title>
-  <sec id="nb-code-cell-1-nb-3" specific-use="notebook-code">
-  <code language="r script">library(tidyverse)
-  </code>
-  <code language="r script">library(ggstats)
-library(gtsummary)
-  </code>
-  <sec id="nb-code-cell-1-output-0-nb-3" specific-use="notebook-output">
-  <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+<sec id="nb-code-cell-1-nb-3" specific-use="notebook-code">
+<code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
+</code>
+<sec id="nb-code-cell-1-output-0-nb-3" specific-use="notebook-output">
+<preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</preformat>
-  </sec>
-  </sec>
+</sec>
+</sec>
+<sec id="spaghetti-code-warning-nb-3">
+  <title>Spaghetti code warning</title>
   <sec id="nb-code-cell-2-nb-3" specific-use="notebook-code">
+  <code language="r script">library(tidyverse)
+library(ggstats)
+library(gtsummary)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-3-nb-3" specific-use="notebook-code">
   <code language="r script">data_survey &lt;- read_csv(&quot;data/data-original-processed/survey_results.csv&quot;) |&gt;
   select(-comorb_hematological)
   </code>
-  <sec id="nb-code-cell-2-output-0-nb-3" specific-use="notebook-output">
+  <sec id="nb-code-cell-3-output-0-nb-3" specific-use="notebook-output">
   <preformat>Rows: 16 Columns: 67
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
@@ -5290,20 +5293,20 @@ dbl (67): patient_age, patient_age_65, patient_sex, patient_weight, patient_...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</preformat>
   </sec>
   </sec>
-  <sec id="nb-code-cell-3-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-4-nb-3" specific-use="notebook-code">
   <code language="r script">data_survey_factor &lt;- data_survey |&gt;
   mutate(across(everything(), ~ factor(.x, levels = c(1:5))))
   </code>
   </sec>
-  <sec id="nb-code-cell-4-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-5-nb-3" specific-use="notebook-code">
   <code language="r script">gglikert(data_survey_factor, sort = &quot;descending&quot;, sort_method = &quot;mean&quot;)
   </code>
-  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-4-1.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-5-1.png" />
   <code language="r script">gglikert_stacked(data_survey_factor, sort = &quot;descending&quot;, sort_method = &quot;mean&quot;, add_median_line = TRUE)
   </code>
-  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-4-2.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-5-2.png" />
   </sec>
-  <sec id="nb-code-cell-5-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-6-nb-3" specific-use="notebook-code">
   <code language="r script">table_survey_summary &lt;- data_survey |&gt;
   tbl_summary(type = ~&quot;continuous&quot;, statistic = list(all_continuous() ~ &quot;{mean} | {median} ({p25} - {p75})&quot;))
 
@@ -5324,9 +5327,37 @@ data_survey_factor |&gt;
   select(all_of(variables_consensus)) |&gt;
   gglikert(sort = &quot;descending&quot;, sort_method = &quot;mean&quot;)
   </code>
-  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-5-1.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="03A-expert-survey-processing_files/figure-jats/unnamed-chunk-6-1.png" />
   </sec>
-  <sec id="nb-code-cell-6-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-7-nb-3" specific-use="notebook-code">
+  <code language="r script">data_patient_screen_full &lt;- data_patient_transformed |&gt;
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+# Assuming `data_patient_screen_full` is your data frame
+single_level_factors &lt;- data_patient_screen_full |&gt;
+  purrr::map_lgl(~ is.factor(.x) &amp;&amp; length(levels(.x)) == 1)
+
+# Print the names of the variables that are factors with only one level
+variables_to_remove &lt;- names(single_level_factors)[single_level_factors]
+  </code>
+  </sec>
+  <sec id="nb-code-cell-8-nb-3" specific-use="notebook-code">
+  <code language="r script">data_patient_screen_full &lt;- data_patient_transformed |&gt;
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+
+# Assuming `data_patient_screen_full` is your data frame
+single_level_factors &lt;- data_patient_screen_full |&gt;
+  purrr::map_lgl(~ is.factor(.x) &amp;&amp; length(levels(.x)) == 1)
+
+# Print the names of the variables that are factors with only one level
+variables_to_remove &lt;- names(single_level_factors)[single_level_factors]
+  </code>
+  </sec>
+  <sec id="nb-code-cell-9-nb-3" specific-use="notebook-code">
   <code language="r script">variables_to_screen_short &lt;- variables_consensus
 
 variables_to_screen_short[str_detect(variables_to_screen_short, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_short[str_detect(variables_to_screen_short, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
@@ -5336,7 +5367,7 @@ variables_to_screen_short[str_detect(variables_to_screen_short, &quot;LZD_durati
 variables_to_screen_short &lt;- unique(variables_to_screen_short)
   </code>
   </sec>
-  <sec id="nb-code-cell-7-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-10-nb-3" specific-use="notebook-code">
   <code language="r script">variables_to_screen_short_binary &lt;- variables_consensus
 
 variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
@@ -5348,7 +5379,39 @@ variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, &q
 variables_to_screen_short_binary &lt;- unique(variables_to_screen_short_binary)
   </code>
   </sec>
-  <sec id="nb-code-cell-8-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-11-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_binary &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;baseline_CLCR&quot;)] &lt;- &quot;baseline_CLCR_30&quot;
+
+variables_to_screen_binary &lt;- unique(variables_to_screen_binary)
+
+variables_to_screen_binary &lt;- variables_to_screen_binary[1:21]
+  </code>
+  </sec>
+  <sec id="nb-code-cell-12-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_binary &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_binary[str_detect(variables_to_screen_binary, &quot;baseline_CLCR&quot;)] &lt;- &quot;baseline_CLCR_30&quot;
+
+variables_to_screen_binary &lt;- unique(variables_to_screen_binary)
+
+variables_to_screen_binary &lt;- variables_to_screen_binary[1:21]
+  </code>
+  </sec>
+  <sec id="nb-code-cell-13-nb-3" specific-use="notebook-code">
   <code language="r script">variables_to_screen &lt;- survey_summary |&gt;
   arrange(desc(median), desc(mean)) |&gt;
   pull(variable)
@@ -5369,17 +5432,85 @@ variables_out &lt;- survey_summary |&gt;
   filter(!variable %in% variables_to_screen)
   </code>
   </sec>
-  <sec id="nb-code-cell-9-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-14-nb-3" specific-use="notebook-code">
   <code language="r script">variables_to_force_binary &lt;- survey_summary |&gt;
   arrange(desc(median), desc(mean)) |&gt;
   pull(variable) |&gt;
   head(5)
   </code>
   </sec>
-  <sec id="nb-code-cell-10-nb-3" specific-use="notebook-code">
+  <sec id="nb-code-cell-15-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_all &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;LZD_route&quot;)] &lt;- &quot;LZD_route_IV&quot;
+
+variables_to_screen_all &lt;- unique(variables_to_screen_all) |&gt; setdiff(variables_to_remove)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-16-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_all_binary &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;baseline_CLCR&quot;)] &lt;- &quot;baseline_CLCR_30&quot;
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;LZD_route&quot;)] &lt;- &quot;LZD_route_IV&quot;
+
+variables_to_screen_all_binary &lt;- unique(variables_to_screen_all_binary) |&gt; setdiff(variables_to_remove)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-17-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_all &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_all[str_detect(variables_to_screen_all, &quot;LZD_route&quot;)] &lt;- &quot;LZD_route_IV&quot;
+
+variables_to_screen_all &lt;- unique(variables_to_screen_all) |&gt; setdiff(variables_to_remove)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-18-nb-3" specific-use="notebook-code">
+  <code language="r script">variables_to_screen_all_binary &lt;- survey_summary |&gt;
+  arrange(desc(median), desc(mean)) |&gt;
+  pull(variable)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;\\d&quot;)] &lt;- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;_\\d+&quot;)], &quot;_\\d+&quot;)
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;LZD_duration&quot;)] &lt;- &quot;LZD_duration_14&quot;
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;baseline_CLCR&quot;)] &lt;- &quot;baseline_CLCR_30&quot;
+
+variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, &quot;LZD_route&quot;)] &lt;- &quot;LZD_route_IV&quot;
+
+variables_to_screen_all_binary &lt;- unique(variables_to_screen_all_binary) |&gt; setdiff(variables_to_remove)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-19-nb-3" specific-use="notebook-code">
   <code language="r script">save(variables_to_screen, file = &quot;data/results/variables-to-screen.rda&quot;)
 save(variables_to_screen_short, file = &quot;data/results/variables-to-screen-short.rda&quot;)
 save(variables_to_screen_short_binary, file = &quot;data/results/variables-to-screen-short-binary.rda&quot;)
+save(variables_to_screen_binary, file = &quot;data/results/variables-to-screen-binary.rda&quot;)
+save(variables_to_screen_all, file = &quot;data/results/variables-to-screen-all.rda&quot;)
+save(variables_to_screen_all_binary, file = &quot;data/results/variables-to-screen-all-binary.rda&quot;)
+
+save(variables_to_screen_binary, file = &quot;data/results/variables-to-screen-binary.rda&quot;)
+save(variables_to_screen_all, file = &quot;data/results/variables-to-screen-all.rda&quot;)
+save(variables_to_screen_all_binary, file = &quot;data/results/variables-to-screen-all-binary.rda&quot;)
+
 save(variables_to_force, file = &quot;data/results/variables-to-force.rda&quot;)
 save(variables_to_force_binary, file = &quot;data/results/variables-to-force-binary.rda&quot;)
 save(variables_to_force_top_3, file = &quot;data/results/variables-to-force-top-3.rda&quot;)
@@ -5414,6 +5545,10 @@ source(&quot;notebooks/prob-cal_intercept.r&quot;) # valProbggplot() function
 load(&quot;data/results/variables-to-screen.rda&quot;)
 load(&quot;data/results/variables-to-screen-short.rda&quot;)
 load(&quot;data/results/variables-to-screen-short-binary.rda&quot;)
+load(&quot;data/results/variables-to-screen-binary.rda&quot;)
+load(&quot;data/results/variables-to-screen-all.rda&quot;)
+load(&quot;data/results/variables-to-screen-all-binary.rda&quot;)
+
 load(&quot;data/results/variables-to-force.rda&quot;)
 load(&quot;data/results/variables-to-force-binary.rda&quot;)
 load(&quot;data/results/variables-to-force-top-3.rda&quot;)
@@ -5422,7 +5557,7 @@ load(&quot;data/results/variables-to-force-top-3.rda&quot;)
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -5562,14 +5697,14 @@ cross_splits &lt;- group_initial_split(data_patient_cross_prep_factor, group = &
 cross_samples &lt;- group_vfold_cv(data_patient_cross_prep_factor, group = &quot;site&quot;)
     </code>
     <sec id="nb-code-cell-5-output-0-nb-4" specific-use="notebook-output">
-    <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
+    <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──</preformat>
     </sec>
     <sec id="nb-code-cell-5-output-1-nb-4" specific-use="notebook-output">
     <preformat>✔ broom        1.0.5      ✔ recipes      1.0.10
-✔ dials        1.2.1      ✔ rsample      1.2.0 
-✔ infer        1.0.6      ✔ tune         1.2.0 
+✔ dials        1.2.1      ✔ rsample      1.2.1 
+✔ infer        1.0.7      ✔ tune         1.2.1 
 ✔ modeldata    1.3.0      ✔ workflows    1.1.4 
-✔ parsnip      1.2.0      ✔ workflowsets 1.1.0 </preformat>
+✔ parsnip      1.2.1      ✔ workflowsets 1.1.0 </preformat>
     </sec>
     <sec id="nb-code-cell-5-output-2-nb-4" specific-use="notebook-output">
     <preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
@@ -5637,35 +5772,35 @@ model_workflow |&gt;
     <code language="r script">model_glmnet |&gt; tidy()
     </code>
     <sec id="nb-code-cell-6-output-0-nb-4" specific-use="notebook-output">
-    <preformat>388.701 sec elapsed</preformat>
+    <preformat>359.531 sec elapsed</preformat>
     </sec>
     <sec id="nb-code-cell-6-output-1-nb-4" specific-use="notebook-output">
     <preformat># A tibble: 4 × 6
   .metric       .estimator    mean     n std_err .config             
   &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
-1 brier_class   binary      0.173      6  0.0123 Preprocessor1_Model1
-2 cal_intercept binary     -0.0236     6  0.147  Preprocessor1_Model1
-3 cal_slope     binary      1.09       6  0.148  Preprocessor1_Model1
-4 roc_auc       binary      0.785      6  0.0198 Preprocessor1_Model1</preformat>
+1 brier_class   binary      0.180      6 0.00965 Preprocessor1_Model1
+2 cal_intercept binary     -0.0403     6 0.0743  Preprocessor1_Model1
+3 cal_slope     binary      1.91       6 0.325   Preprocessor1_Model1
+4 roc_auc       binary      0.775      6 0.0236  Preprocessor1_Model1</preformat>
     </sec>
     <sec id="nb-code-cell-6-output-2-nb-4" specific-use="notebook-output">
     <preformat># A tibble: 14 × 3
    term                    estimate penalty
    &lt;chr&gt;                      &lt;dbl&gt;   &lt;dbl&gt;
- 1 (Intercept)             -0.729   0.00268
- 2 baseline_CLCR           -0.00555 0.00268
- 3 patient_age              0.0160  0.00268
- 4 baseline_PLT            -0.00787 0.00268
- 5 LZD_duration_14_TRUE.    0.932   0.00268
- 6 comed_heparin_TRUE.      0.823   0.00268
- 7 infect_sepsis_TRUE.      0.576   0.00268
- 8 dept_ICU_TRUE.           0.0307  0.00268
- 9 comorb_cirr_TRUE.        0.762   0.00268
-10 invasive_CRRT_TRUE.      0.399   0.00268
-11 comed_enoxaparin_TRUE.   0.145   0.00268
-12 LZD_route_IV_TRUE.       0       0.00268
-13 infect_septicemia_TRUE.  0.200   0.00268
-14 invasive_IHD_TRUE.      -0.0468  0.00268</preformat>
+ 1 (Intercept)             -0.0693   0.0413
+ 2 baseline_CLCR           -0.00188  0.0413
+ 3 patient_age              0.00329  0.0413
+ 4 baseline_PLT            -0.00530  0.0413
+ 5 LZD_duration_14_TRUE.    0.283    0.0413
+ 6 comed_heparin_TRUE.      0.503    0.0413
+ 7 infect_sepsis_TRUE.      0.335    0.0413
+ 8 dept_ICU_TRUE.           0        0.0413
+ 9 comorb_cirr_TRUE.        0.0910   0.0413
+10 invasive_CRRT_TRUE.      0.150    0.0413
+11 comed_enoxaparin_TRUE.   0        0.0413
+12 LZD_route_IV_TRUE.       0        0.0413
+13 infect_septicemia_TRUE.  0        0.0413
+14 invasive_IHD_TRUE.       0        0.0413</preformat>
     </sec>
     </sec>
     <sec id="nb-code-cell-7-nb-4" specific-use="notebook-code">
@@ -5694,10 +5829,17 @@ model_workflow |&gt;
   <title>Bayesian Methods</title>
   <sec id="bayesian-model-selection-nb-4">
     <title>Bayesian Model Selection</title>
+    <sec id="nb-code-cell-8-nb-4" specific-use="notebook-code">
+    <code language="r script">data_patient_screen_full &lt;- data_patient_transformed |&gt;
+  mutate(
+    across(where(is.logical), as.factor)
+  )
+    </code>
+    </sec>
     <sec id="strategy-1-a-screen-consensus-variables-continuous-variables-only-13-parameters-nb-4">
       <title>Strategy 1-A: Screen “consensus” variables, continuous
       variables only (13 parameters)</title>
-      <sec id="nb-code-cell-8-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-9-nb-4" specific-use="notebook-code">
       <code language="r script"># multi_model &lt;- data_patient_complete |&gt;
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |&gt;
 #   run_bas_glm(
@@ -5713,7 +5855,7 @@ model_workflow |&gt;
 library(tictoc)
 
 tic()
-multi_model_transformed &lt;- data_patient_transformed |&gt;
+multi_model_1_A &lt;- data_patient_transformed |&gt;
   select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |&gt;
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
@@ -5721,95 +5863,44 @@ multi_model_transformed &lt;- data_patient_transformed |&gt;
     n.models = 2^15,
     thin = length(variables_to_screen_short),
     force.heredity = TRUE,
+    method = &quot;deterministic&quot;,
     update = 1
   )
 toc()
       </code>
-      <code language="r script">summary(multi_model_transformed)
-      </code>
-      <code language="r script">plot(multi_model_transformed)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-1.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-2.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-3.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-4.png" />
-      <code language="r script">image(multi_model_transformed, rotate = FALSE)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-8-5.png" />
-      <code language="r script"># diagnostics(multi_model_transformed)
+      <code language="r script"># summary(multi_model_1_A)
+# image(multi_model_1_A, rotate = FALSE)
 
-multi_predict_HPM &lt;- variable.names(predict(multi_model_transformed, estimator = &quot;HPM&quot;))[-1] |&gt;
+multi_predict_HPM_1_A &lt;- variable.names(predict(multi_model_1_A, estimator = &quot;HPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short, collapse = &quot;|&quot;)) |&gt;
   unique() # highest probability model
-multi_predict_BPM &lt;- variable.names(predict(multi_model_transformed, estimator = &quot;BPM&quot;))[-1] |&gt;
+multi_predict_BPM_1_A &lt;- variable.names(predict(multi_model_1_A, estimator = &quot;BPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short, collapse = &quot;|&quot;)) |&gt;
   unique() # best predictive model, this model is weird
 
-model_black_box &lt;- multi_model_transformed
+model_black_box &lt;- multi_model_1_A
 
-save(model_black_box, file = &quot;data/results/model-black-box.rda&quot;)
+save(model_black_box, file = &quot;data/model-performance/model-black-box.rda&quot;)
       </code>
-      <sec id="nb-code-cell-8-output-0-nb-4" specific-use="notebook-output">
-      <preformat>21.317 sec elapsed</preformat>
-      </sec>
-      <sec id="nb-code-cell-8-output-1-nb-4" specific-use="notebook-output">
-      <preformat>                      P(B != 0 | Y)      model 1   model 2      model 3
-Intercept                 1.0000000    1.0000000    1.0000    1.0000000
-LZD_duration_14TRUE       0.9999099    1.0000000    1.0000    1.0000000
-comed_heparinTRUE         0.9996198    1.0000000    1.0000    1.0000000
-infect_sepsisTRUE         0.8346716    1.0000000    1.0000    1.0000000
-dept_ICUTRUE              0.1173346    0.0000000    0.0000    0.0000000
-baseline_CLCR             0.5008370    0.0000000    0.0000    1.0000000
-patient_age               0.9362820    1.0000000    1.0000    1.0000000
-baseline_PLT              1.0000000    1.0000000    1.0000    1.0000000
-comorb_cirrTRUE           0.5782610    0.0000000    1.0000    1.0000000
-invasive_CRRTTRUE         0.3437708    0.0000000    0.0000    0.0000000
-comed_enoxaparinTRUE      0.1370004    0.0000000    0.0000    0.0000000
-LZD_route_IVTRUE          0.1130954    0.0000000    0.0000    0.0000000
-infect_septicemiaTRUE     0.1958495    0.0000000    0.0000    0.0000000
-invasive_IHDTRUE          0.1227289    0.0000000    0.0000    0.0000000
-BF                               NA    0.8636541    1.0000    0.7039779
-PostProbs                        NA    0.1022000    0.0888    0.0625000
-R2                               NA    0.1856000    0.1913    0.1957000
-dim                              NA    6.0000000    7.0000    8.0000000
-logmarg                          NA -413.0367119 -412.8901 -413.2411373
-                           model 4      model 5
-Intercept                1.0000000    1.0000000
-LZD_duration_14TRUE      1.0000000    1.0000000
-comed_heparinTRUE        1.0000000    1.0000000
-infect_sepsisTRUE        1.0000000    1.0000000
-dept_ICUTRUE             0.0000000    0.0000000
-baseline_CLCR            1.0000000    0.0000000
-patient_age              1.0000000    1.0000000
-baseline_PLT             1.0000000    1.0000000
-comorb_cirrTRUE          0.0000000    1.0000000
-invasive_CRRTTRUE        0.0000000    1.0000000
-comed_enoxaparinTRUE     0.0000000    0.0000000
-LZD_route_IVTRUE         0.0000000    0.0000000
-infect_septicemiaTRUE    0.0000000    0.0000000
-invasive_IHDTRUE         0.0000000    0.0000000
-BF                       0.5222631    0.3496116
-PostProbs                0.0464000    0.0310000
-R2                       0.1899000    0.1943000
-dim                      7.0000000    8.0000000
-logmarg               -413.5397127 -413.9410616</preformat>
+      <sec id="nb-code-cell-9-output-0-nb-4" specific-use="notebook-output">
+      <preformat>3.306 sec elapsed</preformat>
       </sec>
       </sec>
-      <sec id="nb-code-cell-9-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-10-nb-4" specific-use="notebook-code">
       <code language="r script">library(tidymodels)
-library(probably)
-      </code>
-      <code language="r script">model_basic_flow &lt;- workflow() |&gt;
-  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM)) |&gt;
+# library(probably)
+
+model_basic_flow_1_A &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_A)) |&gt;
   add_model(logistic_reg())
 
 # model_full &lt;- model_basic_flow |&gt;
 #   update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_HPM)) |&gt;
 #   fit(data = data_patient_screen)
 
-model_full_BPM &lt;- model_basic_flow |&gt;
-  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM)) |&gt;
-  fit(data = data_patient_screen)
+model_full_BPM_1_A &lt;- model_basic_flow_1_A |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_A)) |&gt;
+  fit(data = data_patient_screen_full)
 
 # model_basic_performances &lt;- workflow() |&gt;
 #   add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM)) |&gt;
@@ -5827,23 +5918,14 @@ model_full_BPM &lt;- model_basic_flow |&gt;
 #   collect_predictions() |&gt;
 #   threshold_perf(flag_ADR_TP_ID, .pred_TRUE, thresholds = seq(0.1, 0.9, by = 0.1))
 
-save(model_full_BPM, file = &quot;data/model-performance/model-full-BPM-1-A.rda&quot;)
+save(model_full_BPM_1_A, file = &quot;data/model-performance/model-full-BPM-1-A.rda&quot;)
       </code>
-      <sec id="nb-code-cell-9-output-0-nb-4" specific-use="notebook-output">
-      <preformat>
-Attaching package: 'probably'</preformat>
-      </sec>
-      <sec id="nb-code-cell-9-output-1-nb-4" specific-use="notebook-output">
-      <preformat>The following objects are masked from 'package:base':
-
-    as.factor, as.ordered</preformat>
-      </sec>
       </sec>
     </sec>
     <sec id="strategy-1-b-force-top-5-screen-consensus-continuous-only-nb-4">
       <title>Strategy 1-B: Force top 5, screen “consensus”, continuous
       only</title>
-      <sec id="nb-code-cell-10-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-11-nb-4" specific-use="notebook-code">
       <code language="r script">library(tictoc)
 
 tic()
@@ -5855,77 +5937,28 @@ multi_model_1_B &lt;- data_patient_transformed |&gt;
     n.models = 2^15,
     thin = length(variables_to_screen_short),
     force.heredity = TRUE,
+    method = &quot;deterministic&quot;,
     update = 1
   )
 toc()
       </code>
-      <code language="r script">summary(multi_model_1_B)
-      </code>
-      <code language="r script">plot(multi_model_1_B)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-1.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-2.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-3.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-4.png" />
-      <code language="r script">image(multi_model_1_B, rotate = FALSE)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-10-5.png" />
-      <code language="r script">multi_predict_HPM_1_B &lt;- variable.names(predict(multi_model_1_B, estimator = &quot;HPM&quot;))[-1] |&gt;
+      <code language="r script"># summary(multi_model_1_B)
+# plot(multi_model_1_B)
+# image(multi_model_1_B, rotate = FALSE)
+
+multi_predict_HPM_1_B &lt;- variable.names(predict(multi_model_1_B, estimator = &quot;HPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short, collapse = &quot;|&quot;)) |&gt;
   unique() # highest probability model
 multi_predict_BPM_1_B &lt;- variable.names(predict(multi_model_1_B, estimator = &quot;BPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short, collapse = &quot;|&quot;)) |&gt;
   unique() # best predictive model, this model is weird
       </code>
-      <sec id="nb-code-cell-10-output-0-nb-4" specific-use="notebook-output">
-      <preformat>1.865 sec elapsed</preformat>
-      </sec>
-      <sec id="nb-code-cell-10-output-1-nb-4" specific-use="notebook-output">
-      <preformat>                      P(B != 0 | Y)      model 1      model 2   model 3
-Intercept                1.00000000    1.0000000    1.0000000    1.0000
-LZD_duration_14TRUE      1.00000000    1.0000000    1.0000000    1.0000
-comed_heparinTRUE        1.00000000    1.0000000    1.0000000    1.0000
-infect_sepsisTRUE        1.00000000    1.0000000    1.0000000    1.0000
-dept_ICUTRUE             1.00000000    1.0000000    1.0000000    1.0000
-baseline_CLCR            1.00000000    1.0000000    1.0000000    1.0000
-patient_age              0.67588493    1.0000000    0.0000000    1.0000
-baseline_PLT             1.00000000    1.0000000    1.0000000    1.0000
-comorb_cirrTRUE          0.40132373    0.0000000    0.0000000    1.0000
-invasive_CRRTTRUE        0.19497164    0.0000000    0.0000000    0.0000
-comed_enoxaparinTRUE     0.09157389    0.0000000    0.0000000    0.0000
-LZD_route_IVTRUE         0.06822507    0.0000000    0.0000000    0.0000
-infect_septicemiaTRUE    0.12508348    0.0000000    0.0000000    0.0000
-invasive_IHDTRUE         0.08538050    0.0000000    0.0000000    0.0000
-BF                               NA    0.7185165    0.1849116    1.0000
-PostProbs                        NA    0.2160000    0.1946000    0.1503
-R2                               NA           NA           NA        NA
-dim                              NA    8.0000000    7.0000000    9.0000
-logmarg                          NA -415.9572522 -417.3145630 -415.6267
-                          model 4      model 5
-Intercept                1.000000    1.0000000
-LZD_duration_14TRUE      1.000000    1.0000000
-comed_heparinTRUE        1.000000    1.0000000
-infect_sepsisTRUE        1.000000    1.0000000
-dept_ICUTRUE             1.000000    1.0000000
-baseline_CLCR            1.000000    1.0000000
-patient_age              1.000000    0.0000000
-baseline_PLT             1.000000    1.0000000
-comorb_cirrTRUE          1.000000    1.0000000
-invasive_CRRTTRUE        1.000000    0.0000000
-comed_enoxaparinTRUE     0.000000    0.0000000
-LZD_route_IVTRUE         0.000000    0.0000000
-infect_septicemiaTRUE    0.000000    0.0000000
-invasive_IHDTRUE         0.000000    0.0000000
-BF                       0.378256    0.1448988
-PostProbs                0.045500    0.0436000
-R2                             NA           NA
-dim                     10.000000    8.0000000
-logmarg               -416.598870 -417.5584051</preformat>
+      <sec id="nb-code-cell-11-output-0-nb-4" specific-use="notebook-output">
+      <preformat>0.192 sec elapsed</preformat>
       </sec>
       </sec>
-      <sec id="nb-code-cell-11-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-12-nb-4" specific-use="notebook-code">
       <code language="r script">library(tidymodels)
-library(probably)
 
 model_basic_flow_1_B &lt;- workflow() |&gt;
   add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_B)) |&gt;
@@ -5933,7 +5966,7 @@ model_basic_flow_1_B &lt;- workflow() |&gt;
 
 model_full_BPM_1_B &lt;- model_basic_flow_1_B |&gt;
   update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_B)) |&gt;
-  fit(data = data_patient_screen)
+  fit(data = data_patient_screen_full)
 
 save(model_full_BPM_1_B, file = &quot;data/model-performance/model-full-BPM-1-B.rda&quot;)
       </code>
@@ -5942,7 +5975,7 @@ save(model_full_BPM_1_B, file = &quot;data/model-performance/model-full-BPM-1-B.
     <sec id="strategy-1-c-force-top-5-allow-categorical-screen-consensus-continuous-only-nb-4">
       <title>Strategy 1-C: Force top 5 (allow categorical), screen
       “consensus”, continuous only</title>
-      <sec id="nb-code-cell-12-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-13-nb-4" specific-use="notebook-code">
       <code language="r script">library(tictoc)
 
 tic()
@@ -5954,77 +5987,28 @@ multi_model_1_C &lt;- data_patient_transformed |&gt;
     n.models = 2^15,
     thin = length(variables_to_screen_short_binary),
     force.heredity = TRUE,
+    method = &quot;deterministic&quot;,
     update = 1
   )
 toc()
       </code>
-      <code language="r script">summary(multi_model_1_C)
-      </code>
-      <code language="r script">plot(multi_model_1_C)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-12-1.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-12-2.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-12-3.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-12-4.png" />
-      <code language="r script">image(multi_model_1_C, rotate = FALSE)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-12-5.png" />
-      <code language="r script">multi_predict_HPM_1_C &lt;- variable.names(predict(multi_model_1_C, estimator = &quot;HPM&quot;))[-1] |&gt;
+      <code language="r script"># summary(multi_model_1_C)
+# plot(multi_model_1_C)
+# image(multi_model_1_C, rotate = FALSE)
+
+multi_predict_HPM_1_C &lt;- variable.names(predict(multi_model_1_C, estimator = &quot;HPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short_binary, collapse = &quot;|&quot;)) |&gt;
   unique() # highest probability model
 multi_predict_BPM_1_C &lt;- variable.names(predict(multi_model_1_C, estimator = &quot;BPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short_binary, collapse = &quot;|&quot;)) |&gt;
   unique() # best predictive model, this model is weird
       </code>
-      <sec id="nb-code-cell-12-output-0-nb-4" specific-use="notebook-output">
-      <preformat>1.918 sec elapsed</preformat>
-      </sec>
-      <sec id="nb-code-cell-12-output-1-nb-4" specific-use="notebook-output">
-      <preformat>                      P(B != 0 | Y)   model 1      model 2       model 3
-Intercept                1.00000000    1.0000    1.0000000    1.00000000
-LZD_duration_14TRUE      1.00000000    1.0000    1.0000000    1.00000000
-comed_heparinTRUE        1.00000000    1.0000    1.0000000    1.00000000
-infect_sepsisTRUE        1.00000000    1.0000    1.0000000    1.00000000
-dept_ICUTRUE             1.00000000    1.0000    1.0000000    1.00000000
-baseline_CLCR_30TRUE     1.00000000    1.0000    1.0000000    1.00000000
-patient_age              0.89358660    1.0000    1.0000000    0.00000000
-baseline_PLT             1.00000000    1.0000    1.0000000    1.00000000
-comorb_cirrTRUE          0.55551716    1.0000    0.0000000    0.00000000
-invasive_CRRTTRUE        0.17014946    0.0000    0.0000000    0.00000000
-comed_enoxaparinTRUE     0.11162734    0.0000    0.0000000    0.00000000
-LZD_route_IVTRUE         0.08423358    0.0000    0.0000000    0.00000000
-infect_septicemiaTRUE    0.14024898    0.0000    0.0000000    0.00000000
-invasive_IHDTRUE         0.13180911    0.0000    0.0000000    0.00000000
-BF                               NA    1.0000    0.4668824    0.03306299
-PostProbs                        NA    0.2524    0.2357000    0.05840000
-R2                               NA        NA           NA            NA
-dim                              NA    9.0000    8.0000000    7.00000000
-logmarg                          NA -413.5514 -414.3130615 -416.96072449
-                           model 4      model 5
-Intercept                1.0000000    1.0000000
-LZD_duration_14TRUE      1.0000000    1.0000000
-comed_heparinTRUE        1.0000000    1.0000000
-infect_sepsisTRUE        1.0000000    1.0000000
-dept_ICUTRUE             1.0000000    1.0000000
-baseline_CLCR_30TRUE     1.0000000    1.0000000
-patient_age              1.0000000    1.0000000
-baseline_PLT             1.0000000    1.0000000
-comorb_cirrTRUE          1.0000000    1.0000000
-invasive_CRRTTRUE        1.0000000    0.0000000
-comed_enoxaparinTRUE     0.0000000    0.0000000
-LZD_route_IVTRUE         0.0000000    0.0000000
-infect_septicemiaTRUE    0.0000000    0.0000000
-invasive_IHDTRUE         0.0000000    1.0000000
-BF                       0.2478646    0.1624946
-PostProbs                0.0500000    0.0328000
-R2                              NA           NA
-dim                     10.0000000   10.0000000
-logmarg               -414.9462564 -415.3684940</preformat>
+      <sec id="nb-code-cell-13-output-0-nb-4" specific-use="notebook-output">
+      <preformat>0.185 sec elapsed</preformat>
       </sec>
       </sec>
-      <sec id="nb-code-cell-13-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-14-nb-4" specific-use="notebook-code">
       <code language="r script">library(tidymodels)
-library(probably)
 
 model_basic_flow_1_C &lt;- workflow() |&gt;
   add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_C)) |&gt;
@@ -6032,7 +6016,7 @@ model_basic_flow_1_C &lt;- workflow() |&gt;
 
 model_full_BPM_1_C &lt;- model_basic_flow_1_C |&gt;
   update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_C)) |&gt;
-  fit(data = data_patient_screen_binary)
+  fit(data = data_patient_screen_full)
 
 save(model_full_BPM_1_C, file = &quot;data/model-performance/model-full-BPM-1-C.rda&quot;)
       </code>
@@ -6041,7 +6025,7 @@ save(model_full_BPM_1_C, file = &quot;data/model-performance/model-full-BPM-1-C.
     <sec id="strategy-1-d-force-top-3-screen-consensus-continuous-only-nb-4">
       <title>Strategy 1-D: Force top 3, screen “consensus”, continuous
       only</title>
-      <sec id="nb-code-cell-14-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-15-nb-4" specific-use="notebook-code">
       <code language="r script">library(tictoc)
 
 tic()
@@ -6053,77 +6037,28 @@ multi_model_1_D &lt;- data_patient_transformed |&gt;
     n.models = 2^15,
     thin = length(variables_to_screen_short_binary),
     force.heredity = TRUE,
+    method = &quot;deterministic&quot;,
     update = 1
   )
 toc()
       </code>
-      <code language="r script">summary(multi_model_1_D)
-      </code>
-      <code language="r script">plot(multi_model_1_D)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-14-1.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-14-2.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-14-3.png" />
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-14-4.png" />
-      <code language="r script">image(multi_model_1_D, rotate = FALSE)
-      </code>
-      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-14-5.png" />
-      <code language="r script">multi_predict_HPM_1_D &lt;- variable.names(predict(multi_model_1_D, estimator = &quot;HPM&quot;))[-1] |&gt;
+      <code language="r script"># summary(multi_model_1_D)
+# plot(multi_model_1_D)
+# image(multi_model_1_D, rotate = FALSE)
+
+multi_predict_HPM_1_D &lt;- variable.names(predict(multi_model_1_D, estimator = &quot;HPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short_binary, collapse = &quot;|&quot;)) |&gt;
   unique() # highest probability model
 multi_predict_BPM_1_D &lt;- variable.names(predict(multi_model_1_D, estimator = &quot;BPM&quot;))[-1] |&gt;
   str_extract(paste(variables_to_screen_short_binary, collapse = &quot;|&quot;)) |&gt;
   unique() # best predictive model, this model is weird
       </code>
-      <sec id="nb-code-cell-14-output-0-nb-4" specific-use="notebook-output">
-      <preformat>2.407 sec elapsed</preformat>
-      </sec>
-      <sec id="nb-code-cell-14-output-1-nb-4" specific-use="notebook-output">
-      <preformat>                      P(B != 0 | Y)   model 1      model 2      model 3
-Intercept                1.00000000    1.0000    1.0000000    1.0000000
-LZD_duration_14TRUE      1.00000000    1.0000    1.0000000    1.0000000
-comed_heparinTRUE        1.00000000    1.0000    1.0000000    1.0000000
-infect_sepsisTRUE        1.00000000    1.0000    1.0000000    1.0000000
-dept_ICUTRUE             0.07352734    0.0000    0.0000000    0.0000000
-baseline_CLCR_30TRUE     0.72120196    1.0000    1.0000000    0.0000000
-patient_age              0.94083778    1.0000    1.0000000    1.0000000
-baseline_PLT             1.00000000    1.0000    1.0000000    1.0000000
-comorb_cirrTRUE          0.51914312    1.0000    0.0000000    0.0000000
-invasive_CRRTTRUE        0.16957570    0.0000    0.0000000    0.0000000
-comed_enoxaparinTRUE     0.09582222    0.0000    0.0000000    0.0000000
-LZD_route_IVTRUE         0.07354823    0.0000    0.0000000    0.0000000
-infect_septicemiaTRUE    0.12300798    0.0000    0.0000000    0.0000000
-invasive_IHDTRUE         0.10522981    0.0000    0.0000000    0.0000000
-BF                               NA    1.0000    0.4814614    0.1533019
-PostProbs                        NA    0.1828    0.1540000    0.1308000
-R2                               NA        NA           NA           NA
-dim                              NA    8.0000    7.0000000    6.0000000
-logmarg                          NA -411.1614 -411.8922951 -413.0367119
-                           model 4     model 5
-Intercept                1.0000000    1.000000
-LZD_duration_14TRUE      1.0000000    1.000000
-comed_heparinTRUE        1.0000000    1.000000
-infect_sepsisTRUE        1.0000000    1.000000
-dept_ICUTRUE             0.0000000    0.000000
-baseline_CLCR_30TRUE     0.0000000    1.000000
-patient_age              1.0000000    1.000000
-baseline_PLT             1.0000000    1.000000
-comorb_cirrTRUE          1.0000000    1.000000
-invasive_CRRTTRUE        0.0000000    1.000000
-comed_enoxaparinTRUE     0.0000000    0.000000
-LZD_route_IVTRUE         0.0000000    0.000000
-infect_septicemiaTRUE    0.0000000    0.000000
-invasive_IHDTRUE         0.0000000    0.000000
-BF                       0.1775038    0.238176
-PostProbs                0.0568000    0.036300
-R2                              NA          NA
-dim                      7.0000000    9.000000
-logmarg               -412.8901290 -412.596111</preformat>
+      <sec id="nb-code-cell-15-output-0-nb-4" specific-use="notebook-output">
+      <preformat>0.63 sec elapsed</preformat>
       </sec>
       </sec>
-      <sec id="nb-code-cell-15-nb-4" specific-use="notebook-code">
+      <sec id="nb-code-cell-16-nb-4" specific-use="notebook-code">
       <code language="r script">library(tidymodels)
-library(probably)
 
 model_basic_flow_1_D &lt;- workflow() |&gt;
   add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_D)) |&gt;
@@ -6131,7 +6066,7 @@ model_basic_flow_1_D &lt;- workflow() |&gt;
 
 model_full_BPM_1_D &lt;- model_basic_flow_1_D |&gt;
   update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_1_D)) |&gt;
-  fit(data = data_patient_screen_binary)
+  fit(data = data_patient_screen_full)
 
 save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.rda&quot;)
       </code>
@@ -6140,39 +6075,851 @@ save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.
     <sec id="strategy-2-a-screen-top-21-by-mean-continuous-only-nb-4">
       <title>Strategy 2-A: Screen top 21 (by mean), continuous
       only</title>
+      <sec id="nb-code-cell-17-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_2_A &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = ~1,
+    n.models = 2^15,
+    thin = length(variables_to_screen),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_2_A)
+# plot(multi_model_2_A)
+# image(multi_model_2_A, rotate = FALSE)
+
+multi_predict_HPM_2_A &lt;- variable.names(predict(multi_model_2_A, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_2_A &lt;- variable.names(predict(multi_model_2_A, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-17-output-0-nb-4" specific-use="notebook-output">
+      <preformat>89.714 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-18-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_2_A &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_A)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_2_A &lt;- model_basic_flow_2_A |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_A)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_2_A, file = &quot;data/model-performance/model-full-BPM-2-A.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-2-b-force-top-5-screen-top-21-by-mean-continuous-only-nb-4">
       <title>Strategy 2-B: Force top 5, screen top 21 (by mean),
       continuous only</title>
+      <sec id="nb-code-cell-19-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_2_B &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force),
+    n.models = 2^15,
+    thin = length(variables_to_screen),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_2_B)
+# plot(multi_model_2_B)
+# image(multi_model_2_B, rotate = FALSE)
+
+multi_predict_HPM_2_B &lt;- variable.names(predict(multi_model_2_B, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_2_B &lt;- variable.names(predict(multi_model_2_B, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-19-output-0-nb-4" specific-use="notebook-output">
+      <preformat>83.148 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-20-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_2_B &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_B)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_2_B &lt;- model_basic_flow_2_B |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_B)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_2_B, file = &quot;data/model-performance/model-full-BPM-2-B.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-2-c-force-top-5-allow-categorical-screen-top-21-by-mean-continuous-only-nb-4">
       <title>Strategy 2-C: Force top 5 (allow categorical), screen top
       21 (by mean), continuous only</title>
+      <sec id="nb-code-cell-21-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_2_C &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen_binary), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_binary),
+    n.models = 2^15,
+    thin = length(variables_to_screen_binary),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_2_C)
+# plot(multi_model_2_C)
+# image(multi_model_2_C, rotate = FALSE)
+
+multi_predict_HPM_2_C &lt;- variable.names(predict(multi_model_2_C, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_binary, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_2_C &lt;- variable.names(predict(multi_model_2_C, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_binary, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-21-output-0-nb-4" specific-use="notebook-output">
+      <preformat>78.268 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-22-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_2_C &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_C)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_2_C &lt;- model_basic_flow_2_C |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_C)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_2_C, file = &quot;data/model-performance/model-full-BPM-2-C.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-2-d-force-top-3-screen-top-21-by-mean-continuous-only-nb-4">
       <title>Strategy 2-D: Force top 3, screen top 21 (by mean),
       continuous only</title>
+      <sec id="nb-code-cell-23-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_2_D &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_top_3),
+    n.models = 2^15,
+    thin = length(variables_to_screen),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_2_D)
+# plot(multi_model_2_D)
+# image(multi_model_2_D, rotate = FALSE)
+
+multi_predict_HPM_2_D &lt;- variable.names(predict(multi_model_2_D, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_2_D &lt;- variable.names(predict(multi_model_2_D, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-23-output-0-nb-4" specific-use="notebook-output">
+      <preformat>64.51 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-24-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_2_D &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_D)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_2_D &lt;- model_basic_flow_2_D |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_2_D)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_2_D, file = &quot;data/model-performance/model-full-BPM-2-D.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-3-a-screen-all-continuous-only-nb-4">
       <title>Strategy 3-A: Screen all, continuous only</title>
+      <sec id="nb-code-cell-25-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_3_A &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = ~1,
+    n.models = 2^15, # runtime ~450s, not enough (60% cumulative probability)
+    thin = length(variables_to_screen_all),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_3_A)
+# plot(multi_model_3_A)
+# image(multi_model_3_A, rotate = FALSE)
+
+multi_predict_HPM_3_A &lt;- variable.names(predict(multi_model_3_A, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_3_A &lt;- variable.names(predict(multi_model_3_A, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-25-output-0-nb-4" specific-use="notebook-output">
+      <preformat>270.197 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-26-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_3_A &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_A)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_3_A &lt;- model_basic_flow_3_A |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_A)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_3_A, file = &quot;data/model-performance/model-full-BPM-3-A.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-3-b-force-top-5-screen-all-continuous-only-nb-4">
       <title>Strategy 3-B: Force top 5, screen all, continuous
       only</title>
+      <sec id="nb-code-cell-27-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_3_B &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force),
+    n.models = 2^15, # runtime 300s, acceptable (85%)
+    thin = length(variables_to_screen_all),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script"># summary(multi_model_3_B)
+# plot(multi_model_3_B)
+# image(multi_model_3_B, rotate = FALSE)
+
+multi_predict_HPM_3_B &lt;- variable.names(predict(multi_model_3_B, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_3_B &lt;- variable.names(predict(multi_model_3_B, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-27-output-0-nb-4" specific-use="notebook-output">
+      <preformat>172.681 sec elapsed</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-28-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_3_B &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_B)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_3_B &lt;- model_basic_flow_3_B |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_B)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_3_B, file = &quot;data/model-performance/model-full-BPM-3-B.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-3-c-force-top-5-allow-categorical-screen-all-continuous-only-nb-4">
       <title>Strategy 3-C: Force top 5 (allow categorical), screen all,
       continuous only</title>
+      <sec id="nb-code-cell-29-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_3_C &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen_all_binary), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_binary),
+    n.models = 2^15, # runtime 350s, acceptable (85%)
+    thin = length(variables_to_screen_all_binary),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script">summary(multi_model_3_C)
+      </code>
+      <code language="r script">plot(multi_model_3_C)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-29-1.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-29-2.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-29-3.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-29-4.png" />
+      <code language="r script">image(multi_model_3_C, rotate = FALSE)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-29-5.png" />
+      <code language="r script">multi_predict_HPM_3_C &lt;- variable.names(predict(multi_model_3_C, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all_binary, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_3_C &lt;- variable.names(predict(multi_model_3_C, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all_binary, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-29-output-0-nb-4" specific-use="notebook-output">
+      <preformat>216.264 sec elapsed</preformat>
+      </sec>
+      <sec id="nb-code-cell-29-output-1-nb-4" specific-use="notebook-output">
+      <preformat>                       P(B != 0 | Y)       model 1       model 2      model 3
+Intercept                1.000000000  1.000000e+00    1.00000000    1.0000000
+LZD_duration_14TRUE      1.000000000  1.000000e+00    1.00000000    1.0000000
+comed_heparinTRUE        1.000000000  1.000000e+00    1.00000000    1.0000000
+infect_sepsisTRUE        1.000000000  1.000000e+00    1.00000000    1.0000000
+dept_ICUTRUE             1.000000000  1.000000e+00    1.00000000    1.0000000
+baseline_CLCR_30TRUE     1.000000000  1.000000e+00    1.00000000    1.0000000
+patient_age              0.579138235  0.000000e+00    1.00000000    1.0000000
+baseline_PLT             1.000000000  1.000000e+00    1.00000000    1.0000000
+comorb_cirrTRUE          0.226410410  0.000000e+00    0.00000000    0.0000000
+invasive_CRRTTRUE        0.013145776  0.000000e+00    0.00000000    0.0000000
+comed_enoxaparinTRUE     0.008652905  0.000000e+00    0.00000000    0.0000000
+LZD_route_IVTRUE         0.007422356  0.000000e+00    0.00000000    0.0000000
+comorb_KTRUE             0.007586291  0.000000e+00    0.00000000    0.0000000
+infect_septicemiaTRUE    0.020357516  0.000000e+00    0.00000000    0.0000000
+invasive_IHDTRUE         0.017614636  0.000000e+00    0.00000000    0.0000000
+dept_ERTRUE              0.008867205  0.000000e+00    0.00000000    0.0000000
+baseline_WBC             0.011983833  0.000000e+00    0.00000000    0.0000000
+comed_carbapenemTRUE     0.007654153  0.000000e+00    0.00000000    0.0000000
+comed_clopidogrelTRUE    0.017442991  0.000000e+00    0.00000000    0.0000000
+LZD_dose_per_weight      0.007732295  0.000000e+00    0.00000000    0.0000000
+baseline_HGB             0.016797833  0.000000e+00    0.00000000    0.0000000
+comorb_DMTRUE            0.011180702  0.000000e+00    0.00000000    0.0000000
+comed_ibuprofenTRUE      0.085203924  0.000000e+00    0.00000000    0.0000000
+patient_weight           0.007113617  0.000000e+00    0.00000000    0.0000000
+infect_IAITRUE           0.007280066  0.000000e+00    0.00000000    0.0000000
+comed_tacrolimusTRUE     0.020518529  0.000000e+00    0.00000000    0.0000000
+comorb_HFTRUE            0.057303812  0.000000e+00    0.00000000    0.0000000
+comorb_MITRUE            0.009444177  0.000000e+00    0.00000000    0.0000000
+infect_HAPTRUE           0.090100840  0.000000e+00    0.00000000    0.0000000
+comed_daptomycinTRUE     0.011196478  0.000000e+00    0.00000000    0.0000000
+comed_teicoplaninTRUE    0.030663972  0.000000e+00    0.00000000    0.0000000
+comed_levofloxacinTRUE   0.007100281  0.000000e+00    0.00000000    0.0000000
+comed_valproicTRUE       0.012844317  0.000000e+00    0.00000000    0.0000000
+comed_rifampinTRUE       0.031067595  0.000000e+00    0.00000000    0.0000000
+infect_SSTITRUE          0.008632275  0.000000e+00    0.00000000    0.0000000
+infect_CNSTRUE           0.007589634  0.000000e+00    0.00000000    0.0000000
+infect_UTITRUE           0.009650859  0.000000e+00    0.00000000    0.0000000
+comed_carbamazepinTRUE   0.096631582  0.000000e+00    0.00000000    0.0000000
+comed_quetiapinTRUE      0.012755080  0.000000e+00    0.00000000    0.0000000
+comed_pyrazinamidTRUE    0.069831636  0.000000e+00    0.00000000    0.0000000
+infect_BJITRUE           0.010330499  0.000000e+00    0.00000000    0.0000000
+invasive_ETITRUE         0.112539525  0.000000e+00    0.00000000    0.0000000
+invasive_CVCTRUE         0.337817113  0.000000e+00    0.00000000    1.0000000
+patient_sexTRUE          0.007596166  0.000000e+00    0.00000000    0.0000000
+comorb_CVATRUE           0.019262752  0.000000e+00    0.00000000    0.0000000
+infect_CAPTRUE           0.011991761  0.000000e+00    0.00000000    0.0000000
+comorb_COPDTRUE          0.022448973  0.000000e+00    0.00000000    0.0000000
+comorb_HTNTRUE           0.007891176  0.000000e+00    0.00000000    0.0000000
+comorb_anginaTRUE        0.008209985  0.000000e+00    0.00000000    0.0000000
+BF                                NA  2.201085e-03    0.03108152    0.1889893
+PostProbs                         NA  1.571000e-01    0.10560000    0.0470000
+R2                                NA            NA            NA           NA
+dim                               NA  7.000000e+00    8.00000000    9.0000000
+logmarg                           NA -4.169607e+02 -414.31306153 -412.5079848
+                             model 4   model 5
+Intercept                 1.00000000    1.0000
+LZD_duration_14TRUE       1.00000000    1.0000
+comed_heparinTRUE         1.00000000    1.0000
+infect_sepsisTRUE         1.00000000    1.0000
+dept_ICUTRUE              1.00000000    1.0000
+baseline_CLCR_30TRUE      1.00000000    1.0000
+patient_age               0.00000000    1.0000
+baseline_PLT              1.00000000    1.0000
+comorb_cirrTRUE           0.00000000    1.0000
+invasive_CRRTTRUE         0.00000000    0.0000
+comed_enoxaparinTRUE      0.00000000    0.0000
+LZD_route_IVTRUE          0.00000000    0.0000
+comorb_KTRUE              0.00000000    0.0000
+infect_septicemiaTRUE     0.00000000    0.0000
+invasive_IHDTRUE          0.00000000    0.0000
+dept_ERTRUE               0.00000000    0.0000
+baseline_WBC              0.00000000    0.0000
+comed_carbapenemTRUE      0.00000000    0.0000
+comed_clopidogrelTRUE     0.00000000    0.0000
+LZD_dose_per_weight       0.00000000    0.0000
+baseline_HGB              0.00000000    0.0000
+comorb_DMTRUE             0.00000000    0.0000
+comed_ibuprofenTRUE       0.00000000    0.0000
+patient_weight            0.00000000    0.0000
+infect_IAITRUE            0.00000000    0.0000
+comed_tacrolimusTRUE      0.00000000    0.0000
+comorb_HFTRUE             0.00000000    0.0000
+comorb_MITRUE             0.00000000    0.0000
+infect_HAPTRUE            0.00000000    0.0000
+comed_daptomycinTRUE      0.00000000    0.0000
+comed_teicoplaninTRUE     0.00000000    0.0000
+comed_levofloxacinTRUE    0.00000000    0.0000
+comed_valproicTRUE        0.00000000    0.0000
+comed_rifampinTRUE        0.00000000    0.0000
+infect_SSTITRUE           0.00000000    0.0000
+infect_CNSTRUE            0.00000000    0.0000
+infect_UTITRUE            0.00000000    0.0000
+comed_carbamazepinTRUE    0.00000000    0.0000
+comed_quetiapinTRUE       0.00000000    0.0000
+comed_pyrazinamidTRUE     0.00000000    0.0000
+infect_BJITRUE            0.00000000    0.0000
+invasive_ETITRUE          0.00000000    0.0000
+invasive_CVCTRUE          1.00000000    1.0000
+patient_sexTRUE           0.00000000    0.0000
+comorb_CVATRUE            0.00000000    0.0000
+infect_CAPTRUE            0.00000000    0.0000
+comorb_COPDTRUE           0.00000000    0.0000
+comorb_HTNTRUE            0.00000000    0.0000
+comorb_anginaTRUE         0.00000000    0.0000
+BF                        0.01241817    1.0000
+PostProbs                 0.04220000    0.0249
+R2                                NA        NA
+dim                       8.00000000   10.0000
+logmarg                -415.23051459 -410.8419</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-30-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_3_C &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_C)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_3_C &lt;- model_basic_flow_3_C |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_C)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_3_C, file = &quot;data/model-performance/model-full-BPM-3-C.rda&quot;)
+      </code>
+      </sec>
     </sec>
     <sec id="strategy-3-d-force-top-3-screen-all-continuous-only-nb-4">
       <title>Strategy 3-D: Force top 3, screen all, continuous
       only</title>
+      <sec id="nb-code-cell-31-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tictoc)
+
+tic()
+multi_model_3_D &lt;- data_patient_transformed |&gt;
+  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |&gt;
+  run_bas_glm(
+    formula = flag_ADR_TP_ID ~ .,
+    include.always = reformulate(variables_to_force_top_3),
+    n.models = 2^15,
+    thin = length(variables_to_screen_all),
+    force.heredity = TRUE,
+    method = &quot;MCMC+BAS&quot;,
+    update = 2^10
+  )
+toc()
+      </code>
+      <code language="r script">summary(multi_model_3_D)
+      </code>
+      <code language="r script">plot(multi_model_3_D)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-31-1.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-31-2.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-31-3.png" />
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-31-4.png" />
+      <code language="r script">image(multi_model_3_D, rotate = FALSE)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-31-5.png" />
+      <code language="r script">multi_predict_HPM_3_D &lt;- variable.names(predict(multi_model_3_D, estimator = &quot;HPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # highest probability model
+multi_predict_BPM_3_D &lt;- variable.names(predict(multi_model_3_D, estimator = &quot;BPM&quot;))[-1] |&gt;
+  str_extract(paste(variables_to_screen_all, collapse = &quot;|&quot;)) |&gt;
+  unique() # best predictive model, this model is weird
+      </code>
+      <sec id="nb-code-cell-31-output-0-nb-4" specific-use="notebook-output">
+      <preformat>147.779 sec elapsed</preformat>
+      </sec>
+      <sec id="nb-code-cell-31-output-1-nb-4" specific-use="notebook-output">
+      <preformat>                       P(B != 0 | Y)       model 1      model 2       model 3
+Intercept                1.000000000    1.00000000    1.0000000    1.00000000
+LZD_duration_14TRUE      1.000000000    1.00000000    1.0000000    1.00000000
+comed_heparinTRUE        1.000000000    1.00000000    1.0000000    1.00000000
+infect_sepsisTRUE        1.000000000    1.00000000    1.0000000    1.00000000
+dept_ICUTRUE             0.007010462    0.00000000    0.0000000    0.00000000
+baseline_CLCR            0.161985619    0.00000000    0.0000000    1.00000000
+patient_age              0.865805791    1.00000000    1.0000000    0.00000000
+baseline_PLT             1.000000000    1.00000000    1.0000000    1.00000000
+comorb_cirrTRUE          0.136632046    0.00000000    0.0000000    0.00000000
+invasive_CRRTTRUE        0.021604754    0.00000000    0.0000000    0.00000000
+comed_enoxaparinTRUE     0.007219339    0.00000000    0.0000000    0.00000000
+LZD_route_IVTRUE         0.006723923    0.00000000    0.0000000    0.00000000
+comorb_KTRUE             0.006786282    0.00000000    0.0000000    0.00000000
+infect_septicemiaTRUE    0.022437740    0.00000000    0.0000000    0.00000000
+invasive_IHDTRUE         0.007497224    0.00000000    0.0000000    0.00000000
+dept_ERTRUE              0.007447539    0.00000000    0.0000000    0.00000000
+baseline_WBC             0.008105658    0.00000000    0.0000000    0.00000000
+comed_carbapenemTRUE     0.007268928    0.00000000    0.0000000    0.00000000
+comed_clopidogrelTRUE    0.014923598    0.00000000    0.0000000    0.00000000
+LZD_dose_per_weight      0.007003983    0.00000000    0.0000000    0.00000000
+baseline_HGB             0.061109621    0.00000000    0.0000000    0.00000000
+comorb_DMTRUE            0.008888650    0.00000000    0.0000000    0.00000000
+comed_ibuprofenTRUE      0.061551731    0.00000000    0.0000000    0.00000000
+patient_weight           0.006479278    0.00000000    0.0000000    0.00000000
+infect_IAITRUE           0.006920192    0.00000000    0.0000000    0.00000000
+comed_tacrolimusTRUE     0.018419390    0.00000000    0.0000000    0.00000000
+comorb_HFTRUE            0.082252194    0.00000000    0.0000000    0.00000000
+comorb_MITRUE            0.008516819    0.00000000    0.0000000    0.00000000
+infect_HAPTRUE           0.066292275    0.00000000    0.0000000    0.00000000
+comed_daptomycinTRUE     0.010873639    0.00000000    0.0000000    0.00000000
+comed_teicoplaninTRUE    0.024189774    0.00000000    0.0000000    0.00000000
+comed_levofloxacinTRUE   0.006516409    0.00000000    0.0000000    0.00000000
+comed_valproicTRUE       0.013146786    0.00000000    0.0000000    0.00000000
+comed_rifampinTRUE       0.026957090    0.00000000    0.0000000    0.00000000
+infect_SSTITRUE          0.007378180    0.00000000    0.0000000    0.00000000
+infect_CNSTRUE           0.006857190    0.00000000    0.0000000    0.00000000
+infect_UTITRUE           0.009041505    0.00000000    0.0000000    0.00000000
+comed_carbamazepinTRUE   0.084422675    0.00000000    0.0000000    0.00000000
+comed_quetiapinTRUE      0.012481913    0.00000000    0.0000000    0.00000000
+comed_pyrazinamidTRUE    0.057733499    0.00000000    0.0000000    0.00000000
+infect_BJITRUE           0.010704069    0.00000000    0.0000000    0.00000000
+invasive_ETITRUE         0.042063758    0.00000000    0.0000000    0.00000000
+invasive_CVCTRUE         0.326841987    0.00000000    1.0000000    0.00000000
+patient_sexTRUE          0.007052830    0.00000000    0.0000000    0.00000000
+comorb_CVATRUE           0.015272580    0.00000000    0.0000000    0.00000000
+infect_CAPTRUE           0.014940225    0.00000000    0.0000000    0.00000000
+comorb_COPDTRUE          0.011397102    0.00000000    0.0000000    0.00000000
+comorb_HTNTRUE           0.007390949    0.00000000    0.0000000    0.00000000
+comorb_anginaTRUE        0.007934340    0.00000000    0.0000000    0.00000000
+BF                                NA    0.08158264    0.4001108    0.01179389
+PostProbs                         NA    0.24090000    0.0824000    0.03480000
+R2                                NA            NA           NA            NA
+dim                               NA    6.00000000    7.0000000    6.00000000
+logmarg                           NA -413.03671193 -411.4465869 -414.97074649
+                         model 4       model 5
+Intercept                 1.0000    1.00000000
+LZD_duration_14TRUE       1.0000    1.00000000
+comed_heparinTRUE         1.0000    1.00000000
+infect_sepsisTRUE         1.0000    1.00000000
+dept_ICUTRUE              0.0000    0.00000000
+baseline_CLCR             0.0000    0.00000000
+patient_age               1.0000    1.00000000
+baseline_PLT              1.0000    1.00000000
+comorb_cirrTRUE           1.0000    1.00000000
+invasive_CRRTTRUE         0.0000    0.00000000
+comed_enoxaparinTRUE      0.0000    0.00000000
+LZD_route_IVTRUE          0.0000    0.00000000
+comorb_KTRUE              0.0000    0.00000000
+infect_septicemiaTRUE     0.0000    0.00000000
+invasive_IHDTRUE          0.0000    0.00000000
+dept_ERTRUE               0.0000    0.00000000
+baseline_WBC              0.0000    0.00000000
+comed_carbapenemTRUE      0.0000    0.00000000
+comed_clopidogrelTRUE     0.0000    0.00000000
+LZD_dose_per_weight       0.0000    0.00000000
+baseline_HGB              0.0000    0.00000000
+comorb_DMTRUE             0.0000    0.00000000
+comed_ibuprofenTRUE       0.0000    0.00000000
+patient_weight            0.0000    0.00000000
+infect_IAITRUE            0.0000    0.00000000
+comed_tacrolimusTRUE      0.0000    0.00000000
+comorb_HFTRUE             0.0000    0.00000000
+comorb_MITRUE             0.0000    0.00000000
+infect_HAPTRUE            0.0000    0.00000000
+comed_daptomycinTRUE      0.0000    0.00000000
+comed_teicoplaninTRUE     0.0000    0.00000000
+comed_levofloxacinTRUE    0.0000    0.00000000
+comed_valproicTRUE        0.0000    0.00000000
+comed_rifampinTRUE        0.0000    0.00000000
+infect_SSTITRUE           0.0000    0.00000000
+infect_CNSTRUE            0.0000    0.00000000
+infect_UTITRUE            0.0000    0.00000000
+comed_carbamazepinTRUE    0.0000    0.00000000
+comed_quetiapinTRUE       0.0000    0.00000000
+comed_pyrazinamidTRUE     0.0000    0.00000000
+infect_BJITRUE            0.0000    0.00000000
+invasive_ETITRUE          0.0000    0.00000000
+invasive_CVCTRUE          1.0000    0.00000000
+patient_sexTRUE           0.0000    0.00000000
+comorb_CVATRUE            0.0000    0.00000000
+infect_CAPTRUE            0.0000    0.00000000
+comorb_COPDTRUE           0.0000    0.00000000
+comorb_HTNTRUE            0.0000    0.00000000
+comorb_anginaTRUE         0.0000    0.00000000
+BF                        1.0000    0.09446217
+PostProbs                 0.0196    0.01950000
+R2                            NA            NA
+dim                       8.0000    7.00000000
+logmarg                -410.5306 -412.89012898</preformat>
+      </sec>
+      </sec>
+      <sec id="nb-code-cell-32-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_basic_flow_3_D &lt;- workflow() |&gt;
+  add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_D)) |&gt;
+  add_model(logistic_reg())
+
+model_full_BPM_3_D &lt;- model_basic_flow_3_D |&gt;
+  update_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = all_of(multi_predict_BPM_3_D)) |&gt;
+  fit(data = data_patient_screen_full)
+
+save(model_full_BPM_3_D, file = &quot;data/model-performance/model-full-BPM-3-D.rda&quot;)
+      </code>
+      </sec>
+    </sec>
+    <sec id="summary-nb-4">
+      <title>Summary</title>
+      <sec id="nb-code-cell-33-nb-4" specific-use="notebook-code">
+      <code language="r script">strategy_combos &lt;- expand_grid(numbers = 1:3, chars = LETTERS[1:4])
+
+model_file_list &lt;- paste0(
+  &quot;data/model-performance/model-full-BPM-&quot;, 
+  strategy_combos$numbers, &quot;-&quot;, strategy_combos$chars, &quot;.rda&quot;
+)
+
+for (i in seq_along(model_file_list)) {
+  model_file_list[i] |&gt; load()
+}
+      </code>
+      </sec>
+      <sec id="nb-code-cell-34-nb-4" specific-use="notebook-code">
+      <code language="r script">library(tidymodels)
+
+model_strategy_list &lt;- paste0(
+  &quot;model_full_BPM_&quot;, strategy_combos$numbers, &quot;_&quot;, strategy_combos$chars
+) |&gt; mget()
+
+retrieve_terms &lt;- function(model) {
+  model |&gt;
+    tidy() |&gt;
+    filter(term != &quot;(Intercept)&quot;) |&gt;
+    pull(term) |&gt;
+    str_remove(&quot;TRUE&quot;)
+}
+
+max_length &lt;- map(model_strategy_list, retrieve_terms) |&gt;
+  map_int(length) |&gt;
+  max()
+
+term_summary &lt;- map(model_strategy_list, retrieve_terms) |&gt;
+  map(~ `length&lt;-`(.x, max_length)) |&gt;
+  as_tibble()
+      </code>
+      </sec>
+      <sec id="nb-code-cell-35-nb-4" specific-use="notebook-code">
+      <code language="r script">term_summary |&gt; knitr::kable()
+      </code>
+      <table-wrap>
+        <table>
+          <colgroup>
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th align="left">model_full_BPM_1_A</th>
+              <th align="left">model_full_BPM_1_B</th>
+              <th align="left">model_full_BPM_1_C</th>
+              <th align="left">model_full_BPM_1_D</th>
+              <th align="left">model_full_BPM_2_A</th>
+              <th align="left">model_full_BPM_2_B</th>
+              <th align="left">model_full_BPM_2_C</th>
+              <th align="left">model_full_BPM_2_D</th>
+              <th align="left">model_full_BPM_3_A</th>
+              <th align="left">model_full_BPM_3_B</th>
+              <th align="left">model_full_BPM_3_C</th>
+              <th align="left">model_full_BPM_3_D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+              <td align="left">LZD_duration_14</td>
+            </tr>
+            <tr>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+              <td align="left">comed_heparin</td>
+            </tr>
+            <tr>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">patient_age</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+              <td align="left">infect_sepsis</td>
+            </tr>
+            <tr>
+              <td align="left">baseline_CLCR</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">baseline_CLCR_30</td>
+              <td align="left">patient_age</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">patient_age</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">dept_ICU</td>
+              <td align="left">patient_age</td>
+            </tr>
+            <tr>
+              <td align="left">patient_age</td>
+              <td align="left">baseline_CLCR</td>
+              <td align="left">baseline_CLCR_30</td>
+              <td align="left">patient_age</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">baseline_CLCR</td>
+              <td align="left">baseline_CLCR_30</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">comed_enoxaparin</td>
+              <td align="left">baseline_CLCR</td>
+              <td align="left">baseline_CLCR_30</td>
+              <td align="left">baseline_PLT</td>
+            </tr>
+            <tr>
+              <td align="left">baseline_PLT</td>
+              <td align="left">patient_age</td>
+              <td align="left">patient_age</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">invasive_IHD</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">patient_age</td>
+              <td align="left">invasive_IHD</td>
+              <td align="left">patient_weight</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">patient_age</td>
+              <td align="left">invasive_IHD</td>
+            </tr>
+            <tr>
+              <td align="left">comorb_cirr</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">comorb_cirr</td>
+              <td align="left">NA</td>
+              <td align="left">comed_carbapenem</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">NA</td>
+              <td align="left">infect_IAI</td>
+              <td align="left">comed_carbapenem</td>
+              <td align="left">baseline_PLT</td>
+              <td align="left">comed_levofloxacin</td>
+            </tr>
+            <tr>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">comorb_cirr</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">invasive_CVC</td>
+              <td align="left">comed_levofloxacin</td>
+              <td align="left">patient_weight</td>
+              <td align="left">NA</td>
+            </tr>
+            <tr>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">NA</td>
+              <td align="left">comed_levofloxacin</td>
+              <td align="left">NA</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
+      </sec>
     </sec>
   </sec>
   <sec id="model-performance-completed-in-notebook-04-this-will-be-removed-nb-4">
     <title>Model Performance (completed in notebook 04, this will be
     removed)</title>
-    <sec id="nb-code-cell-16-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-36-nb-4" specific-use="notebook-code">
     <code language="r script"># library(CalibrationCurves)
 # pHat &lt;- predict(model_full_BPM$fit$fit$fit, data_patient_screen, type = &quot;response&quot;)
 # yTest &lt;- data_patient_screen$flag_ADR_TP_ID |&gt; as.logical()
@@ -6214,7 +6961,7 @@ save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.
 # save(apparent_performance_metrics, file = &quot;data/model-performance/apparent-performance-metrics.rda&quot;)
     </code>
     </sec>
-    <sec id="nb-code-cell-17-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-37-nb-4" specific-use="notebook-code">
     <code language="r script"># pHat &lt;- predict(model_full_BPM$fit, data_patient_transformed, type = &quot;response&quot;)
 # yTest &lt;- data_patient_transformed$flag_ADR_TP_ID
 # calperf &lt;- valProbggplot(pHat, yTest)
@@ -6231,7 +6978,7 @@ save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.
   </sec>
   <sec id="bayesian-generalized-additive-model-wip-nb-4">
     <title>Bayesian Generalized Additive Model (WIP)</title>
-    <sec id="nb-code-cell-18-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-38-nb-4" specific-use="notebook-code">
     <code language="r script"># library(spikeSlabGAM)
 # run_spike_slab_GAM &lt;- function(data, formula, ...) {
 #   spikeSlabGAM(formula, data = data, family = &quot;binomial&quot;, ...)
@@ -6260,7 +7007,7 @@ save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.
   </sec>
   <sec id="nomogram-with-rms-wip-nb-4">
     <title>Nomogram with rms (WIP)</title>
-    <sec id="nb-code-cell-19-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-39-nb-4" specific-use="notebook-code">
     <code language="r script"># library(splines2)
 
 # library(rms)
@@ -6333,25 +7080,25 @@ save(model_full_BPM_1_D, file = &quot;data/model-performance/model-full-BPM-1-D.
     <p>Red line: smoothed conditional mean</p>
     <p>The lines should be close together and the red line should be
     linear.</p>
-    <sec id="nb-code-cell-20-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-40-nb-4" specific-use="notebook-code">
     <code language="r script"># car::crPlot(model_full$fit, variable = &quot;patient_age&quot;)
 # car::crPlot(model_full$fit, variable = &quot;baseline_PLT&quot;)
 
-car::crPlot(model_full_BPM |&gt; extract_fit_engine(), variable = &quot;patient_age&quot;)
+car::crPlot(model_full_BPM_1_A |&gt; extract_fit_engine(), variable = &quot;patient_age&quot;)
     </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-20-1.png" />
-    <code language="r script">car::crPlot(model_full_BPM |&gt; extract_fit_engine(), variable = &quot;baseline_PLT&quot;)
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-40-1.png" />
+    <code language="r script">car::crPlot(model_full_BPM_1_A |&gt; extract_fit_engine(), variable = &quot;baseline_PLT&quot;)
     </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-20-2.png" />
-    <code language="r script">car::crPlot(model_full_BPM |&gt; extract_fit_engine(), variable = &quot;baseline_CLCR&quot;)
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-40-2.png" />
+    <code language="r script">car::crPlot(model_full_BPM_1_A |&gt; extract_fit_engine(), variable = &quot;baseline_CLCR&quot;)
     </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-20-3.png" />
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-40-3.png" />
     </sec>
     <p>Result: No obvious non-linearity in the partial-residual
     plots.</p>
     <p>Visual check of linearity assumption using logit of predicted
     probabilities vs. continuous predictors values.</p>
-    <sec id="nb-code-cell-21-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-41-nb-4" specific-use="notebook-code">
     <code language="r script"># data_patient_linear_check &lt;- data_patient_transformed |&gt;
 #   select(all_of(multi_predict_HPM)) |&gt;
 #   mutate(
@@ -6370,9 +7117,9 @@ car::crPlot(model_full_BPM |&gt; extract_fit_engine(), variable = &quot;patient_
 #   labs(title = &quot;Highest Probability Model&quot;, x = &quot;Predictor Value&quot;, y = &quot;Log Odds&quot;)
 
 data_patient_linear_check_BPM &lt;- data_patient_transformed |&gt;
-  select(all_of(multi_predict_BPM)) |&gt;
+  select(all_of(multi_predict_BPM_1_A)) |&gt;
   mutate(
-    probabilities = predict(model_full_BPM |&gt; extract_fit_engine(), data_patient_screen, type = &quot;response&quot;),
+    probabilities = predict(model_full_BPM_1_A |&gt; extract_fit_engine(), data_patient_screen, type = &quot;response&quot;),
     log_odds = log(probabilities / (1 - probabilities))
   ) |&gt;
   select_if(is.numeric) |&gt;
@@ -6384,10 +7131,10 @@ ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
   geom_smooth(method = &quot;lm&quot;, linetype = &quot;dashed&quot;, color = &quot;blue&quot;, se = FALSE) +
   theme_bw() +
   facet_wrap(~predictors, scales = &quot;free_x&quot;) +
-  labs(title = &quot;Best Predictive Model&quot;, x = &quot;Predictor Value&quot;, y = &quot;Log Odds&quot;)
+  labs(title = &quot;Best Predictive Model 1-A&quot;, x = &quot;Predictor Value&quot;, y = &quot;Log Odds&quot;)
     </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-21-1.png" />
-    <sec id="nb-code-cell-21-output-0-nb-4" specific-use="notebook-output">
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-41-1.png" />
+    <sec id="nb-code-cell-41-output-0-nb-4" specific-use="notebook-output">
     <preformat>`geom_smooth()` using formula = 'y ~ x'
 `geom_smooth()` using formula = 'y ~ x'</preformat>
     </sec>
@@ -6397,10 +7144,10 @@ ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
     <title>No Multicollinearity</title>
     <p>VIFs from the coefficient estimates should be less than 5 and as
     close to 1 as possible.</p>
-    <sec id="nb-code-cell-22-nb-4" specific-use="notebook-code">
-    <code language="r script">car::vif(model_full_BPM |&gt; extract_fit_engine())
+    <sec id="nb-code-cell-42-nb-4" specific-use="notebook-code">
+    <code language="r script">car::vif(model_full_BPM_1_A |&gt; extract_fit_engine())
     </code>
-    <sec id="nb-code-cell-22-output-0-nb-4" specific-use="notebook-output">
+    <sec id="nb-code-cell-42-output-0-nb-4" specific-use="notebook-output">
     <preformat>LZD_duration_14   comed_heparin   infect_sepsis   baseline_CLCR     patient_age 
        1.080494        1.068738        1.048423        1.248118        1.278326 
    baseline_PLT     comorb_cirr 
@@ -6426,18 +7173,18 @@ ggplot(data_patient_linear_check_BPM, aes(y = log_odds, x = predictor_value)) +
         <p>Size of points: Cook’s distance</p>
       </list-item>
     </list>
-    <sec id="nb-code-cell-23-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-43-nb-4" specific-use="notebook-code">
     <code language="r script"># car::influencePlot(model_full$fit)
 
-car::influencePlot(model_full_BPM |&gt; extract_fit_engine())
+car::influencePlot(model_full_BPM_1_A |&gt; extract_fit_engine())
     </code>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-23-1.png" />
-    <code language="r script">influence.measures(model_full_BPM |&gt; extract_fit_engine())$is.inf |&gt;
+    <graphic mimetype="image" mime-subtype="png" xlink:href="03-apparent-performance_files/figure-jats/unnamed-chunk-43-1.png" />
+    <code language="r script">influence.measures(model_full_BPM_1_A |&gt; extract_fit_engine())$is.inf |&gt;
   apply(1, any) |&gt;
   which() |&gt;
   unname()
     </code>
-    <sec id="nb-code-cell-23-output-0-nb-4" specific-use="notebook-output">
+    <sec id="nb-code-cell-43-output-0-nb-4" specific-use="notebook-output">
     <preformat>      StudRes         Hat       CookD
 281  1.040040 0.051977028 0.004955398
 423  2.486394 0.002580423 0.006622933
@@ -6445,19 +7192,18 @@ car::influencePlot(model_full_BPM |&gt; extract_fit_engine())
 687 -1.312956 0.052357529 0.009365878
 735  2.665976 0.007352118 0.028204915</preformat>
     </sec>
-    <sec id="nb-code-cell-23-output-1-nb-4" specific-use="notebook-output">
+    <sec id="nb-code-cell-43-output-1-nb-4" specific-use="notebook-output">
     <preformat> [1]   6  14  69  99 119 132 146 148 208 213 251 281 290 305 312 320 323 325 332
 [20] 349 364 379 409 423 460 483 552 572 598 642 653 687 716 735</preformat>
     </sec>
     </sec>
-    <sec id="nb-code-cell-24-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-44-nb-4" specific-use="notebook-code">
     <code language="r script"># data_patient_transformed |&gt;
 #   slice(c(292, 301, 335, 364, 504, 634)) |&gt; summary()
     </code>
     </sec>
-    <sec id="nb-code-cell-25-nb-4" specific-use="notebook-code">
+    <sec id="nb-code-cell-45-nb-4" specific-use="notebook-code">
     <code language="r script"># save(model_full, file = &quot;data/model-performance/model-full.rda&quot;)
-save(model_full_BPM, file = &quot;data/model-performance/model-full-BPM.rda&quot;)
 save(model_glmnet, file = &quot;data/model-performance/model-glmnet.rda&quot;)
     </code>
     </sec>
@@ -6500,7 +7246,7 @@ load(&quot;data/results/variables-to-force-top-3.rda&quot;)
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -6530,13 +7276,15 @@ The following objects are masked from 'package:base':
     format.pval, units</preformat>
 </sec>
 </sec>
-<sec id="nb-code-cell-2-nb-5" specific-use="notebook-code">
-<code language="r script">library(rsample) # for group_vfold_cv()
+<sec id="logistic-model-nb-5">
+  <title>Logistic Model</title>
+  <sec id="nb-code-cell-2-nb-5" specific-use="notebook-code">
+  <code language="r script">library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
-</code>
-<code language="r script">library(tidymodels)
-</code>
-<code language="r script">library(CalibrationCurves)
+  </code>
+  <code language="r script">library(tidymodels)
+  </code>
+  <code language="r script">library(CalibrationCurves)
 
 data_patient_cross_prep &lt;- data_patient_transformed |&gt;
   select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site)
@@ -6551,6 +7299,7 @@ extract_variable_names_cross &lt;- function(sample) {
       include.always = ~1,
       n.models = 2^15,
       thin = ncol(data) - 1,
+      method = &quot;deterministic&quot;,
       update = 1
     )
   # model_HPM &lt;- variable.names(predict(model, estimator = &quot;HPM&quot;))[-1] |&gt;
@@ -6558,7 +7307,7 @@ extract_variable_names_cross &lt;- function(sample) {
   model_BPM &lt;- variable.names(predict(model, estimator = &quot;BPM&quot;))[-1] |&gt;
     str_extract(paste(variables_to_screen_short, collapse = &quot;|&quot;))
   site &lt;- assessment(sample)$site[1]
-  return(list(model_BPM, site))
+  return(list(model_BPM, site, model))
 }
 
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
@@ -6568,9 +7317,9 @@ cross_predict &lt;- cross_samples$splits |&gt;
 
 plan(sequential)
 
-# cross_predict_HPM &lt;- map(cross_predict, 1)
 cross_predict_BPM &lt;- map(cross_predict, 1)
 cross_predict_site &lt;- map(cross_predict, 2)
+cross_black_box &lt;- map(cross_predict, 3)
 
 run_workflow &lt;- function(sample, variables) {
   rec &lt;- recipe(
@@ -6647,22 +7396,22 @@ cross_estimates_BPM &lt;- map2_dfr(cross_samples$splits, cross_full_BPM, calc_cr
 
 # cross_plots_HPM &lt;- map2(cross_samples$splits, cross_full_HPM, plot_calibration_curve)
 cross_plots_BPM &lt;- map2(cross_samples$splits, cross_full_BPM, plot_calibration_curve)
-</code>
-<sec id="nb-code-cell-2-output-0-nb-5" specific-use="notebook-output">
-<preformat>Loading required package: future</preformat>
-</sec>
-<sec id="nb-code-cell-2-output-1-nb-5" specific-use="notebook-output">
-<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
-</sec>
-<sec id="nb-code-cell-2-output-2-nb-5" specific-use="notebook-output">
-<preformat>✔ broom        1.0.5      ✔ recipes      1.0.10
-✔ dials        1.2.1      ✔ tune         1.2.0 
-✔ infer        1.0.6      ✔ workflows    1.1.4 
+  </code>
+  <sec id="nb-code-cell-2-output-0-nb-5" specific-use="notebook-output">
+  <preformat>Loading required package: future</preformat>
+  </sec>
+  <sec id="nb-code-cell-2-output-1-nb-5" specific-use="notebook-output">
+  <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──</preformat>
+  </sec>
+  <sec id="nb-code-cell-2-output-2-nb-5" specific-use="notebook-output">
+  <preformat>✔ broom        1.0.5      ✔ recipes      1.0.10
+✔ dials        1.2.1      ✔ tune         1.2.1 
+✔ infer        1.0.7      ✔ workflows    1.1.4 
 ✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
-✔ parsnip      1.2.0      </preformat>
-</sec>
-<sec id="nb-code-cell-2-output-3-nb-5" specific-use="notebook-output">
-<preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✔ parsnip      1.2.1      </preformat>
+  </sec>
+  <sec id="nb-code-cell-2-output-3-nb-5" specific-use="notebook-output">
+  <preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 ✖ scales::discard()    masks purrr::discard()
 ✖ dplyr::filter()      masks stats::filter()
 ✖ recipes::fixed()     masks stringr::fixed()
@@ -6672,50 +7421,50 @@ cross_plots_BPM &lt;- map2(cross_samples$splits, cross_full_BPM, plot_calibratio
 ✖ recipes::step()      masks stats::step()
 ✖ Hmisc::summarize()   masks dplyr::summarize()
 ✖ parsnip::translate() masks Hmisc::translate()
-• Search for functions across packages at https://www.tidymodels.org/find/</preformat>
-</sec>
-</sec>
-<sec id="nb-code-cell-3-nb-5" specific-use="notebook-code">
-<code language="r script"># cross_plots_HPM
-</code>
-</sec>
-<sec id="nb-code-cell-4-nb-5" specific-use="notebook-code">
-<code language="r script">cross_plots_BPM
-</code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-1.png" />
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-2.png" />
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-3.png" />
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-4.png" />
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-5.png" />
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-4-6.png" />
-<sec id="nb-code-cell-4-output-0-nb-5" specific-use="notebook-output">
-<preformat>[[1]]</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-1-nb-5" specific-use="notebook-output">
-<preformat>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</preformat>
+  </sec>
+  </sec>
+  <sec id="nb-code-cell-3-nb-5" specific-use="notebook-code">
+  <code language="r script">cross_plots_BPM
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-1.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-2.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-3.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-4.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-5.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-3-6.png" />
+  <sec id="nb-code-cell-3-output-0-nb-5" specific-use="notebook-output">
+  <preformat>[[1]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-3-output-1-nb-5" specific-use="notebook-output">
+  <preformat>
 [[2]]</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-2-nb-5" specific-use="notebook-output">
-<preformat>
+  </sec>
+  <sec id="nb-code-cell-3-output-2-nb-5" specific-use="notebook-output">
+  <preformat>
 [[3]]</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-3-nb-5" specific-use="notebook-output">
-<preformat>
+  </sec>
+  <sec id="nb-code-cell-3-output-3-nb-5" specific-use="notebook-output">
+  <preformat>
 [[4]]</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-4-nb-5" specific-use="notebook-output">
-<preformat>
+  </sec>
+  <sec id="nb-code-cell-3-output-4-nb-5" specific-use="notebook-output">
+  <preformat>
 [[5]]</preformat>
-</sec>
-<sec id="nb-code-cell-4-output-5-nb-5" specific-use="notebook-output">
-<preformat>
+  </sec>
+  <sec id="nb-code-cell-3-output-5-nb-5" specific-use="notebook-output">
+  <preformat>
 [[6]]</preformat>
-</sec>
-</sec>
-<sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
-<code language="r script">library(meta)
-</code>
-<code language="r script"># cross_C_index_meta_HPM &lt;- metagen(
+  </sec>
+  </sec>
+  <sec id="nb-code-cell-4-nb-5" specific-use="notebook-code">
+  <code language="r script"># cross_plots_HPM
+  </code>
+  </sec>
+  <sec id="nb-code-cell-5-nb-5" specific-use="notebook-code">
+  <code language="r script">library(meta)
+  </code>
+  <code language="r script"># cross_C_index_meta_HPM &lt;- metagen(
 #   data = cross_estimates_HPM,
 #   studlab = site,
 #   TE = cross_C_index,
@@ -6798,19 +7547,19 @@ cross_plots_BPM &lt;- map2(cross_samples$splits, cross_full_BPM, plot_calibratio
 # )
 
 # cross_performance_metrics_HPM &lt;- bind_rows(cross_estimates_HPM, cross_meta_performance_HPM)
-</code>
-<sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
-<preformat>Loading required package: metadat</preformat>
-</sec>
-<sec id="nb-code-cell-5-output-1-nb-5" specific-use="notebook-output">
-<preformat>Loading 'meta' package (version 7.0-0).
+  </code>
+  <sec id="nb-code-cell-5-output-0-nb-5" specific-use="notebook-output">
+  <preformat>Loading required package: metadat</preformat>
+  </sec>
+  <sec id="nb-code-cell-5-output-1-nb-5" specific-use="notebook-output">
+  <preformat>Loading 'meta' package (version 7.0-0).
 Type 'help(meta)' for a brief overview.
 Readers of 'Meta-Analysis with R (Use R!)' should install
 older version of 'meta' package: https://tinyurl.com/dt4y5drs</preformat>
-</sec>
-</sec>
-<sec id="nb-code-cell-6-nb-5" specific-use="notebook-code">
-<code language="r script">library(meta)
+  </sec>
+  </sec>
+  <sec id="nb-code-cell-6-nb-5" specific-use="notebook-code">
+  <code language="r script">library(meta)
 
 cross_C_index_meta_BPM &lt;- metagen(
   data = cross_estimates_BPM,
@@ -6831,11 +7580,13 @@ forest_plot_C_index_BPM &lt;- forest(
   sortvar = studlab,
   ref = NA,
   xlim = c(0.6, 0.9),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
   layout = &quot;RevMan5&quot;
 )
-</code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-1.png" />
-<code language="r script">cross_calibration_intercept_meta_BPM &lt;- metagen(
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-1.png" />
+  <code language="r script">cross_calibration_intercept_meta_BPM &lt;- metagen(
   data = cross_estimates_BPM,
   studlab = site,
   TE = cross_calibration_intercept,
@@ -6854,12 +7605,14 @@ forest_plot_calibration_intercept_BPM &lt;- forest(
   cross_calibration_intercept_meta_BPM,
   sortvar = studlab,
   ref = 0,
-  xlim = c(-0.8, 0.8),
+  xlim = c(-1, 1),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
   layout = &quot;RevMan5&quot;
 )
-</code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-2.png" />
-<code language="r script">cross_calibration_slope_meta_BPM &lt;- metagen(
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-2.png" />
+  <code language="r script">cross_calibration_slope_meta_BPM &lt;- metagen(
   data = cross_estimates_BPM,
   studlab = site,
   TE = cross_calibration_slope,
@@ -6878,12 +7631,14 @@ forest_plot_calibration_slope_BPM &lt;- forest(
   cross_calibration_slope_meta_BPM,
   sortvar = studlab,
   ref = 1,
-  xlim = c(0.2, 1.7),
+  xlim = c(0, 2),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
   layout = &quot;RevMan5&quot;
 )
-</code>
-<graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-3.png" />
-<code language="r script">cross_meta_performance_BPM &lt;- tibble(
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-6-3.png" />
+  <code language="r script">cross_meta_performance_BPM &lt;- tibble(
   site = &quot;Total&quot;,
   n = sum(cross_estimates_BPM$n),
   cross_C_index = cross_C_index_meta_BPM$TE.random,
@@ -6898,12 +7653,206 @@ forest_plot_calibration_slope_BPM &lt;- forest(
 )
 
 cross_performance_metrics_BPM &lt;- bind_rows(cross_estimates_BPM, cross_meta_performance_BPM)
-</code>
-</sec>
-<sec id="nb-code-cell-7-nb-5" specific-use="notebook-code">
-<code language="r script"># save(cross_performance_metrics_HPM, file = &quot;data/model-performance/cross-performance-metrics-HPM.rda&quot;)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-7-nb-5" specific-use="notebook-code">
+  <code language="r script"># save(cross_performance_metrics_HPM, file = &quot;data/model-performance/cross-performance-metrics-HPM.rda&quot;)
 save(cross_performance_metrics_BPM, file = &quot;data/model-performance/cross-performance-metrics-BPM.rda&quot;)
-</code>
+  </code>
+  </sec>
+</sec>
+<sec id="bma-black-box-from-consensus-variables-nb-5">
+  <title>BMA Black Box (from “consensus” variables)</title>
+  <sec id="nb-code-cell-8-nb-5" specific-use="notebook-code">
+  <code language="r script">run_workflow_black_box &lt;- function(sample, model) {
+  validation &lt;- predict(model, newdata = assessment(sample), type = &quot;response&quot;) |&gt;
+    _$fit |&gt;
+    as_tibble() |&gt;
+    rename(.pred_TRUE = value) |&gt;
+    mutate(
+      .pred_FALSE = 1 - .pred_TRUE,
+      truth = assessment(sample)$flag_ADR_TP_ID |&gt; as.factor()
+    ) |&gt;
+    relocate(.pred_FALSE)
+
+  auc &lt;- roc_auc(validation, truth, .pred_TRUE, event_level = &quot;second&quot;)
+  intercept &lt;- cal_intercept(validation, truth, .pred_FALSE)
+  slope &lt;- cal_slope(validation, truth, .pred_FALSE)
+  bind_rows(auc, intercept, slope)
+}
+
+workflow_results_BMA &lt;- map2(cross_samples$splits, cross_black_box, run_workflow_black_box) |&gt;
+  set_names(cross_predict_site) |&gt;
+  bind_rows(.id = &quot;site&quot;) |&gt;
+  select(-.estimator) |&gt;
+  pivot_wider(names_from = .metric, values_from = .estimate)
+
+calc_cross_performance_black_box &lt;- function(sample, model) {
+  data &lt;- assessment(sample)
+  pHat &lt;- predict(model, data, type = &quot;response&quot;) |&gt; _$fit
+  yTest &lt;- data$flag_ADR_TP_ID
+  calperf &lt;- valProbggplot(pHat, yTest, smooth = &quot;none&quot;)
+
+  tibble(
+    site = data$site[1],
+    n = nrow(data),
+    cross_C_index = calperf$Cindex[[1]],
+    cross_C_index_lower = calperf$Cindex[[2]],
+    cross_C_index_upper = calperf$Cindex[[3]],
+    cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+    cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+    cross_calibration_slope = calperf$Calibration$Slope[[1]],
+    cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+    cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+  )
+}
+
+cross_estimates_BMA &lt;- map2_dfr(cross_samples$splits, cross_black_box, calc_cross_performance_black_box)
+
+plot_calibration_curve_black_box &lt;- function(sample, model) {
+  data &lt;- assessment(sample)
+  pHat &lt;- predict(model, data, type = &quot;response&quot;) |&gt; _$fit
+  yTest &lt;- data$flag_ADR_TP_ID
+  calperf &lt;- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = &quot;blue&quot;, smooth = &quot;none&quot;)
+  calperf$ggPlot + ggtitle(data$site[1])
+}
+
+cross_plots_BMA &lt;- map2(cross_samples$splits, cross_black_box, plot_calibration_curve_black_box)
+
+cross_plots_BMA
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-1.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-2.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-3.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-4.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-5.png" />
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-8-6.png" />
+  <sec id="nb-code-cell-8-output-0-nb-5" specific-use="notebook-output">
+  <preformat>[[1]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-8-output-1-nb-5" specific-use="notebook-output">
+  <preformat>
+[[2]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-8-output-2-nb-5" specific-use="notebook-output">
+  <preformat>
+[[3]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-8-output-3-nb-5" specific-use="notebook-output">
+  <preformat>
+[[4]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-8-output-4-nb-5" specific-use="notebook-output">
+  <preformat>
+[[5]]</preformat>
+  </sec>
+  <sec id="nb-code-cell-8-output-5-nb-5" specific-use="notebook-output">
+  <preformat>
+[[6]]</preformat>
+  </sec>
+  </sec>
+  <sec id="nb-code-cell-9-nb-5" specific-use="notebook-code">
+  <code language="r script">library(meta)
+
+cross_C_index_meta_BMA &lt;- metagen(
+  data = cross_estimates_BMA,
+  studlab = site,
+  TE = cross_C_index,
+  lower = cross_C_index_lower,
+  upper = cross_C_index_upper,
+  sm = &quot;C_statistic&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+)
+
+forest_plot_C_index_BMA &lt;- forest(
+  cross_C_index_meta_BMA,
+  sortvar = studlab,
+  ref = NA,
+  xlim = c(0.6, 0.9),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
+  layout = &quot;RevMan5&quot;
+)
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-9-1.png" />
+  <code language="r script">cross_calibration_intercept_meta_BMA &lt;- metagen(
+  data = cross_estimates_BMA,
+  studlab = site,
+  TE = cross_calibration_intercept,
+  lower = cross_calibration_intercept_lower,
+  upper = cross_calibration_intercept_upper,
+  sm = &quot;C_intercept&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+  null.effect = 0
+)
+
+forest_plot_calibration_intercept_BMA &lt;- forest(
+  cross_calibration_intercept_meta_BMA,
+  sortvar = studlab,
+  ref = 0,
+  xlim = c(-1, 1),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
+  layout = &quot;RevMan5&quot;
+)
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-9-2.png" />
+  <code language="r script">cross_calibration_slope_meta_BMA &lt;- metagen(
+  data = cross_estimates_BMA,
+  studlab = site,
+  TE = cross_calibration_slope,
+  lower = cross_calibration_slope_lower,
+  upper = cross_calibration_slope_upper,
+  sm = &quot;C_slope&quot;,
+  common = FALSE,
+  random = TRUE,
+  method.tau = &quot;REML&quot;,
+  method.random.ci = &quot;HK&quot;,
+  adhoc.hakn.ci = &quot;IQWiG6&quot;,
+  null.effect = 1
+)
+
+forest_plot_calibration_slope_BMA &lt;- forest(
+  cross_calibration_slope_meta_BMA,
+  sortvar = studlab,
+  ref = 1,
+  xlim = c(0, 2),
+  leftcols = c(&quot;studlab&quot;, &quot;n&quot;, &quot;effect.ci&quot;),
+  addrows.below.overall = 2,
+  layout = &quot;RevMan5&quot;
+)
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="04-internal-external-cross-performance_files/figure-jats/unnamed-chunk-9-3.png" />
+  <code language="r script">cross_meta_performance_BMA &lt;- tibble(
+  site = &quot;Total&quot;,
+  n = sum(cross_estimates_BMA$n),
+  cross_C_index = cross_C_index_meta_BMA$TE.random,
+  cross_C_index_lower = cross_C_index_meta_BMA$lower.random,
+  cross_C_index_upper = cross_C_index_meta_BMA$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta_BMA$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta_BMA$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta_BMA$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta_BMA$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta_BMA$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta_BMA$upper.random
+)
+
+cross_performance_metrics_BMA &lt;- bind_rows(cross_estimates_BMA, cross_meta_performance_BMA)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-10-nb-5" specific-use="notebook-code">
+  <code language="r script">save(cross_performance_metrics_BPM, file = &quot;data/model-performance/cross-performance-metrics-BPM.rda&quot;)
+  </code>
+  </sec>
 </sec>
 </body>
 
@@ -6925,17 +7874,22 @@ save(cross_performance_metrics_BPM, file = &quot;data/model-performance/cross-pe
 <sec id="nb-code-cell-1-nb-6" specific-use="notebook-code">
 <code language="r script">source(&quot;notebooks/initialize-data-analysis.r&quot;)
 </code>
-<code language="r script">load(&quot;data/model-performance/model-full-BPM-1-A.rda&quot;)
+<code language="r script">source(&quot;notebooks/BMA-model-no-initial-var.r&quot;)
+load(&quot;data/model-performance/model-full-BPM-1-A.rda&quot;)
+load(&quot;data/model-performance/model-black-box.rda&quot;)
 
 load(&quot;data/results/variables-to-screen.rda&quot;)
 load(&quot;data/results/variables-to-screen-short.rda&quot;)
 load(&quot;data/results/variables-to-screen-short-binary.rda&quot;)
+load(&quot;data/results/variables-to-screen-binary.rda&quot;)
+load(&quot;data/results/variables-to-screen-all.rda&quot;)
+load(&quot;data/results/variables-to-screen-all-binary.rda&quot;)
 </code>
 <sec id="nb-code-cell-1-output-0-nb-6" specific-use="notebook-output">
 <preformat>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -6948,11 +7902,11 @@ load(&quot;data/results/variables-to-screen-short-binary.rda&quot;)
 <code language="r script">library(tidyverse)
 library(tidymodels)
 </code>
-<code language="r script">model_beta_estimates &lt;- model_full_BPM |&gt;
+<code language="r script">model_beta_estimates &lt;- model_full_BPM_1_A |&gt;
   tidy() |&gt;
   select(term, estimate, p.value)
 
-model_odds_ratios &lt;- model_full_BPM |&gt;
+model_odds_ratios &lt;- model_full_BPM_1_A |&gt;
   tidy(conf.int = TRUE, exponentiate = TRUE) |&gt;
   select(term, estimate, conf.low, conf.high) |&gt;
   filter(term != &quot;(Intercept)&quot;) |&gt;
@@ -6964,18 +7918,18 @@ parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by 
   rename(risk_factor = term, beta = estimate, p_value = p.value) |&gt;
   mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept, collapse = &quot;|&quot;)))
 
-# parameter_estimates |&gt; 
+# parameter_estimates |&gt;
 #   mutate(raw_score = beta / min(abs(beta)))
 </code>
 <sec id="nb-code-cell-2-output-0-nb-6" specific-use="notebook-output">
-<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</preformat>
+<preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──</preformat>
 </sec>
 <sec id="nb-code-cell-2-output-1-nb-6" specific-use="notebook-output">
-<preformat>✔ broom        1.0.5      ✔ rsample      1.2.0 
-✔ dials        1.2.1      ✔ tune         1.2.0 
-✔ infer        1.0.6      ✔ workflows    1.1.4 
+<preformat>✔ broom        1.0.5      ✔ rsample      1.2.1 
+✔ dials        1.2.1      ✔ tune         1.2.1 
+✔ infer        1.0.7      ✔ workflows    1.1.4 
 ✔ modeldata    1.3.0      ✔ workflowsets 1.1.0 
-✔ parsnip      1.2.0      ✔ yardstick    1.3.0 
+✔ parsnip      1.2.1      ✔ yardstick    1.3.1 
 ✔ recipes      1.0.10     </preformat>
 </sec>
 <sec id="nb-code-cell-2-output-2-nb-6" specific-use="notebook-output">
@@ -6986,16 +7940,16 @@ parameter_estimates &lt;- left_join(model_beta_estimates, model_odds_ratios, by 
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</preformat>
+• Use tidymodels_prefer() to resolve common conflicts.</preformat>
 </sec>
 </sec>
 <sec id="nb-code-cell-3-nb-6" specific-use="notebook-code">
-<code language="r script">data_refit &lt;- model_full_BPM |&gt;
+<code language="r script">data_refit &lt;- model_full_BPM_1_A |&gt;
   extract_mold() |&gt;
   _$predictors |&gt;
   mutate(across(where(is.numeric), ~ . / 10)) |&gt;
   rename_with(~ paste0(., &quot;_per_10&quot;), .cols = where(is.numeric)) |&gt;
-  bind_cols(model_full_BPM |&gt; extract_mold() |&gt; _$outcomes)
+  bind_cols(model_full_BPM_1_A |&gt; extract_mold() |&gt; _$outcomes)
 
 model_refit &lt;- workflow() |&gt;
   add_variables(outcomes = &quot;flag_ADR_TP_ID&quot;, predictors = everything()) |&gt;
@@ -7009,14 +7963,10 @@ model_refit_odds_ratios &lt;- model_refit |&gt;
   rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high) |&gt;
   mutate(term = str_replace_all(term, &quot;TRUE&quot;, &quot;&quot;))
 
-model_full_BPM |&gt;
-  extract_mold() |&gt;
-  _$predictors |&gt; pull(baseline_PLT) |&gt; quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
+# model_full_BPM_1_A |&gt;
+#   extract_mold() |&gt;
+#   _$predictors |&gt; pull(baseline_PLT) |&gt; quantile(c(0, 0.01, 0.99, 1), na.rm = TRUE)
 </code>
-<sec id="nb-code-cell-3-output-0-nb-6" specific-use="notebook-output">
-<preformat>  0%   1%  99% 100% 
-   3   18  434  450 </preformat>
-</sec>
 </sec>
 <sec id="risk-score-system-nb-6">
   <title>Risk Score System</title>
@@ -8017,6 +8967,1004 @@ Attaching package: 'probably'</preformat>
         <tr>
           <td align="right">43</td>
           <td align="right">0.9884009</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  </sec>
+</sec>
+<sec id="bma-black-box-13-variables-nb-6">
+  <title>BMA Black Box (13 variables)</title>
+  <sec id="nb-code-cell-8-nb-6" specific-use="notebook-code">
+  <code language="r script">library(BAS)
+model_black_box_estimates &lt;- coef(model_black_box) |&gt;
+  confint(nsim = 2^20) |&gt;
+  structure(class = c(&quot;confint.bas&quot;, &quot;matrix&quot;)) |&gt;
+  as_tibble() |&gt;
+  mutate(
+    term = model_black_box$namesx |&gt;
+      str_extract(paste(c(variables_to_screen_short, &quot;Intercept&quot;), collapse = &quot;|&quot;)) |&gt;
+      unique()
+  ) |&gt;
+  relocate(c(term, beta)) |&gt;
+  rename(
+    risk_factor = term,
+    lower = `2.5%`,
+    upper = `97.5%`
+  ) |&gt;
+  mutate(across(c(lower, upper, beta), as.double))
+
+model_black_box_odds_ratio &lt;- model_black_box_estimates |&gt;
+  mutate(across(c(lower, upper, beta), exp)) |&gt;
+  rename(
+    odds_ratio = beta
+  )
+  </code>
+  </sec>
+  <sec id="nb-code-cell-9-nb-6" specific-use="notebook-code">
+  <code language="r script">risk_profile_BMA_1 &lt;- tibble(
+  risk_factor = &quot;patient_age&quot;,
+  min_range = c(18, 30, 40, 50, 60, 70, 80, 90), # minimum age is 18
+  max_range = lead(min_range, default = 101), # maximum age is 101, interval is 10
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_2 &lt;- tibble(
+  risk_factor = &quot;baseline_CLCR&quot;,
+  min_range = c(130, 90, 60, 30, 5), # 1% percentile is 5
+  max_range = lag(min_range, default = 191), # 99% percentile is 191
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = ifelse(min_range == 90, TRUE, flag_base_risk)
+  )
+
+risk_profile_BMA_3 &lt;- tibble(
+  risk_factor = &quot;baseline_PLT&quot;,
+  min_range = c(150, 75, 50, 25, 18), # 1% percentile is 18
+  max_range = lag(min_range, default = 434), # 99% percentile is 434
+  reference = (min_range + max_range) / 2,
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    min_range = replace(min_range, n(), -Inf),
+    max_range = replace(max_range, 1, Inf),
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_4 &lt;- tibble(
+  risk_factor = &quot;LZD_duration_14&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_5 &lt;- tibble(
+  risk_factor = &quot;comed_heparin&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_6 &lt;- tibble(
+  risk_factor = &quot;infect_sepsis&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_7 &lt;- tibble(
+  risk_factor = &quot;dept_ICU&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_8 &lt;- tibble(
+  risk_factor = &quot;comorb_cirr&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_9 &lt;- tibble(
+  risk_factor = &quot;invasive_CRRT&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_10 &lt;- tibble(
+  risk_factor = &quot;comed_enoxaparin&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_11 &lt;- tibble(
+  risk_factor = &quot;LZD_route_IV&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_12 &lt;- tibble(
+  risk_factor = &quot;infect_septicemia&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA_13 &lt;- tibble(
+  risk_factor = &quot;invasive_IHD&quot;,
+  min_range = c(0, 1), # 0 or 1
+  max_range = c(0, 1), # 0 or 1
+  reference = c(0, 1),
+  flag_base_risk = FALSE
+) |&gt;
+  mutate(
+    flag_base_risk = replace(flag_base_risk, 1, TRUE)
+  )
+
+risk_profile_BMA &lt;- paste0(&quot;risk_profile_BMA_&quot;, 1:13) |&gt; mget() |&gt; bind_rows()
+  </code>
+  </sec>
+  <sec id="nb-code-cell-10-nb-6" specific-use="notebook-code">
+  <code language="r script">B_constant &lt;- model_black_box_estimates |&gt;
+  filter(risk_factor == &quot;patient_age&quot;) |&gt;
+  pull(beta) * 10 # constant equivalent to 10-year increase in age
+
+points_system_full_BMA &lt;- model_black_box_estimates |&gt;
+  select(risk_factor, beta) |&gt;
+  right_join(risk_profile_BMA, by = &quot;risk_factor&quot;) |&gt;
+  group_by(risk_factor) |&gt;
+  mutate(
+    beta_sum = beta * (reference - reference[which.max(flag_base_risk)]),
+    points = round(beta_sum / B_constant, 0)
+  )
+
+points_system_factors_BMA &lt;- points_system_full_BMA |&gt;
+  select(risk_factor, min_range, max_range, points) |&gt;
+  group_by(risk_factor) |&gt;
+  mutate(flag_significant = any(points != 0)) |&gt;
+  filter(flag_significant) |&gt;
+  select(-flag_significant) |&gt;
+  ungroup()
+
+min_points &lt;- points_system_full_BMA |&gt;
+  group_by(risk_factor) |&gt;
+  summarise(min_points = min(points)) |&gt;
+  summarise(total_min_points = sum(min_points)) |&gt;
+  pull(total_min_points)
+
+max_points &lt;- points_system_full_BMA |&gt;
+  group_by(risk_factor) |&gt;
+  summarise(max_points = max(points)) |&gt;
+  summarise(total_max_points = sum(max_points)) |&gt;
+  pull(total_max_points)
+
+risk_function_BMA &lt;- function(points) {
+  intercept &lt;- model_black_box_estimates |&gt;
+    filter(risk_factor == &quot;Intercept&quot;) |&gt;
+    pull(beta)
+
+  beta_base &lt;- points_system_full_BMA |&gt;
+    filter(flag_base_risk == TRUE) |&gt;
+    ungroup() |&gt;
+    summarise(
+      beta_base = sum(beta * reference)
+    ) |&gt;
+    pull(beta_base)
+
+  1 / (1 + exp(-(intercept + beta_base + B_constant * points)))
+}
+
+points_system_risks_BMA &lt;- tibble(
+  points_total = seq(min_points, max_points),
+  risk_estimate = risk_function_BMA(points_total)
+)
+  </code>
+  </sec>
+  <sec id="nb-code-cell-11-nb-6" specific-use="notebook-code">
+  <code language="r script">library(probably)
+
+BMA_pred &lt;- predict(model_black_box, type = &quot;response&quot;)
+
+predictive_values_BMA &lt;- BMA_pred$fit |&gt;
+  as_tibble() |&gt;
+  rename(.pred_TRUE = value) |&gt;
+  mutate(
+    .pred_FALSE = 1 - .pred_TRUE,
+    flag_ADR_TP_ID = data_patient_transformed$flag_ADR_TP_ID |&gt; as_factor()
+  ) |&gt;
+  threshold_perf(
+    truth = flag_ADR_TP_ID,
+    estimate = .pred_FALSE,
+    thresholds = points_system_risks_BMA |&gt; pull(risk_estimate),
+    metrics = metric_set(sensitivity, specificity, ppv, npv, j_index)
+  ) |&gt;
+  select(-.estimator) |&gt;
+  pivot_wider(names_from = .metric, values_from = .estimate) |&gt;
+  mutate(score = points_system_risks_BMA |&gt; pull(points_total))
+
+predictive_values_BMA |&gt;
+  select(.threshold, sensitivity, specificity) |&gt;
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_point() +
+  geom_path() +
+  geom_segment(
+    x = 1 - (predictive_values_BMA |&gt; filter(j_index == max(j_index)) |&gt; pull(specificity)),
+    xend = 1 - (predictive_values_BMA |&gt; filter(j_index == max(j_index)) |&gt; pull(specificity)),
+    y = 1 - (predictive_values_BMA |&gt; filter(j_index == max(j_index)) |&gt; pull(specificity)),
+    yend = predictive_values_BMA |&gt; filter(j_index == max(j_index)) |&gt; pull(sensitivity),
+    linetype = 2
+  ) +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+  </code>
+  <graphic mimetype="image" mime-subtype="png" xlink:href="05-risk-score_files/figure-jats/unnamed-chunk-11-1.png" />
+  </sec>
+  <sec id="nb-code-cell-12-nb-6" specific-use="notebook-code">
+  <code language="r script">predictive_values_BMA |&gt; knitr::kable()
+  </code>
+  <table-wrap>
+    <table>
+      <colgroup>
+        <col width="15%" />
+        <col width="17%" />
+        <col width="17%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="8%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th align="right">.threshold</th>
+          <th align="right">sensitivity</th>
+          <th align="right">specificity</th>
+          <th align="right">ppv</th>
+          <th align="right">npv</th>
+          <th align="right">j_index</th>
+          <th align="right">score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="right">0.0337956</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">-1</td>
+        </tr>
+        <tr>
+          <td align="right">0.0405833</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="right">0.0486657</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="right">0.0582599</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">2</td>
+        </tr>
+        <tr>
+          <td align="right">0.0696072</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">3</td>
+        </tr>
+        <tr>
+          <td align="right">0.0829698</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0000000</td>
+          <td align="right">0.6817010</td>
+          <td align="right">NaN</td>
+          <td align="right">0.0000000</td>
+          <td align="right">4</td>
+        </tr>
+        <tr>
+          <td align="right">0.0986258</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0040486</td>
+          <td align="right">0.6825806</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.0040486</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="right">0.1168596</td>
+          <td align="right">0.9981096</td>
+          <td align="right">0.0121457</td>
+          <td align="right">0.6839378</td>
+          <td align="right">0.7500000</td>
+          <td align="right">0.0102554</td>
+          <td align="right">6</td>
+        </tr>
+        <tr>
+          <td align="right">0.1379484</td>
+          <td align="right">0.9981096</td>
+          <td align="right">0.0242915</td>
+          <td align="right">0.6866060</td>
+          <td align="right">0.8571429</td>
+          <td align="right">0.0224011</td>
+          <td align="right">7</td>
+        </tr>
+        <tr>
+          <td align="right">0.1621443</td>
+          <td align="right">0.9962193</td>
+          <td align="right">0.0364372</td>
+          <td align="right">0.6888889</td>
+          <td align="right">0.8181818</td>
+          <td align="right">0.0326565</td>
+          <td align="right">8</td>
+        </tr>
+        <tr>
+          <td align="right">0.1896505</td>
+          <td align="right">0.9962193</td>
+          <td align="right">0.0566802</td>
+          <td align="right">0.6934211</td>
+          <td align="right">0.8750000</td>
+          <td align="right">0.0528994</td>
+          <td align="right">9</td>
+        </tr>
+        <tr>
+          <td align="right">0.2205942</td>
+          <td align="right">0.9886578</td>
+          <td align="right">0.0890688</td>
+          <td align="right">0.6991979</td>
+          <td align="right">0.7857143</td>
+          <td align="right">0.0777267</td>
+          <td align="right">10</td>
+        </tr>
+        <tr>
+          <td align="right">0.2549981</td>
+          <td align="right">0.9829868</td>
+          <td align="right">0.1376518</td>
+          <td align="right">0.7094134</td>
+          <td align="right">0.7906977</td>
+          <td align="right">0.1206386</td>
+          <td align="right">11</td>
+        </tr>
+        <tr>
+          <td align="right">0.2927522</td>
+          <td align="right">0.9754253</td>
+          <td align="right">0.1619433</td>
+          <td align="right">0.7136929</td>
+          <td align="right">0.7547170</td>
+          <td align="right">0.1373687</td>
+          <td align="right">12</td>
+        </tr>
+        <tr>
+          <td align="right">0.3335931</td>
+          <td align="right">0.9640832</td>
+          <td align="right">0.2267206</td>
+          <td align="right">0.7275321</td>
+          <td align="right">0.7466667</td>
+          <td align="right">0.1908038</td>
+          <td align="right">13</td>
+        </tr>
+        <tr>
+          <td align="right">0.3770937</td>
+          <td align="right">0.9546314</td>
+          <td align="right">0.2591093</td>
+          <td align="right">0.7340116</td>
+          <td align="right">0.7272727</td>
+          <td align="right">0.2137407</td>
+          <td align="right">14</td>
+        </tr>
+        <tr>
+          <td align="right">0.4226690</td>
+          <td align="right">0.9319471</td>
+          <td align="right">0.2995951</td>
+          <td align="right">0.7402402</td>
+          <td align="right">0.6727273</td>
+          <td align="right">0.2315422</td>
+          <td align="right">15</td>
+        </tr>
+        <tr>
+          <td align="right">0.4695999</td>
+          <td align="right">0.9092628</td>
+          <td align="right">0.3846154</td>
+          <td align="right">0.7598736</td>
+          <td align="right">0.6643357</td>
+          <td align="right">0.2938781</td>
+          <td align="right">16</td>
+        </tr>
+        <tr>
+          <td align="right">0.5170748</td>
+          <td align="right">0.8846881</td>
+          <td align="right">0.4453441</td>
+          <td align="right">0.7735537</td>
+          <td align="right">0.6432749</td>
+          <td align="right">0.3300322</td>
+          <td align="right">17</td>
+        </tr>
+        <tr>
+          <td align="right">0.5642434</td>
+          <td align="right">0.8431002</td>
+          <td align="right">0.5465587</td>
+          <td align="right">0.7992832</td>
+          <td align="right">0.6192661</td>
+          <td align="right">0.3896589</td>
+          <td align="right">18</td>
+        </tr>
+        <tr>
+          <td align="right">0.6102773</td>
+          <td align="right">0.8015123</td>
+          <td align="right">0.6234818</td>
+          <td align="right">0.8201161</td>
+          <td align="right">0.5945946</td>
+          <td align="right">0.4249941</td>
+          <td align="right">19</td>
+        </tr>
+        <tr>
+          <td align="right">0.6544265</td>
+          <td align="right">0.7334594</td>
+          <td align="right">0.6923077</td>
+          <td align="right">0.8362069</td>
+          <td align="right">0.5480769</td>
+          <td align="right">0.4257670</td>
+          <td align="right">20</td>
+        </tr>
+        <tr>
+          <td align="right">0.6960652</td>
+          <td align="right">0.6843100</td>
+          <td align="right">0.7489879</td>
+          <td align="right">0.8537736</td>
+          <td align="right">0.5255682</td>
+          <td align="right">0.4332979</td>
+          <td align="right">21</td>
+        </tr>
+        <tr>
+          <td align="right">0.7347205</td>
+          <td align="right">0.6275992</td>
+          <td align="right">0.8016194</td>
+          <td align="right">0.8713911</td>
+          <td align="right">0.5012658</td>
+          <td align="right">0.4292187</td>
+          <td align="right">22</td>
+        </tr>
+        <tr>
+          <td align="right">0.7700834</td>
+          <td align="right">0.5595463</td>
+          <td align="right">0.8461538</td>
+          <td align="right">0.8862275</td>
+          <td align="right">0.4728507</td>
+          <td align="right">0.4057002</td>
+          <td align="right">23</td>
+        </tr>
+        <tr>
+          <td align="right">0.8020026</td>
+          <td align="right">0.4877127</td>
+          <td align="right">0.8866397</td>
+          <td align="right">0.9020979</td>
+          <td align="right">0.4469388</td>
+          <td align="right">0.3743523</td>
+          <td align="right">24</td>
+        </tr>
+        <tr>
+          <td align="right">0.8304661</td>
+          <td align="right">0.4253308</td>
+          <td align="right">0.9392713</td>
+          <td align="right">0.9375000</td>
+          <td align="right">0.4328358</td>
+          <td align="right">0.3646021</td>
+          <td align="right">25</td>
+        </tr>
+        <tr>
+          <td align="right">0.8555746</td>
+          <td align="right">0.3686200</td>
+          <td align="right">0.9514170</td>
+          <td align="right">0.9420290</td>
+          <td align="right">0.4130053</td>
+          <td align="right">0.3200370</td>
+          <td align="right">26</td>
+        </tr>
+        <tr>
+          <td align="right">0.8775130</td>
+          <td align="right">0.2948960</td>
+          <td align="right">0.9676113</td>
+          <td align="right">0.9512195</td>
+          <td align="right">0.3905229</td>
+          <td align="right">0.2625074</td>
+          <td align="right">27</td>
+        </tr>
+        <tr>
+          <td align="right">0.8965219</td>
+          <td align="right">0.2438563</td>
+          <td align="right">0.9797571</td>
+          <td align="right">0.9626866</td>
+          <td align="right">0.3769470</td>
+          <td align="right">0.2236134</td>
+          <td align="right">28</td>
+        </tr>
+        <tr>
+          <td align="right">0.9128737</td>
+          <td align="right">0.2041588</td>
+          <td align="right">0.9838057</td>
+          <td align="right">0.9642857</td>
+          <td align="right">0.3659639</td>
+          <td align="right">0.1879645</td>
+          <td align="right">29</td>
+        </tr>
+        <tr>
+          <td align="right">0.9268524</td>
+          <td align="right">0.1512287</td>
+          <td align="right">0.9878543</td>
+          <td align="right">0.9638554</td>
+          <td align="right">0.3520924</td>
+          <td align="right">0.1390830</td>
+          <td align="right">30</td>
+        </tr>
+        <tr>
+          <td align="right">0.9387388</td>
+          <td align="right">0.1172023</td>
+          <td align="right">0.9919028</td>
+          <td align="right">0.9687500</td>
+          <td align="right">0.3441011</td>
+          <td align="right">0.1091051</td>
+          <td align="right">31</td>
+        </tr>
+        <tr>
+          <td align="right">0.9488004</td>
+          <td align="right">0.0869565</td>
+          <td align="right">0.9919028</td>
+          <td align="right">0.9583333</td>
+          <td align="right">0.3365385</td>
+          <td align="right">0.0788594</td>
+          <td align="right">32</td>
+        </tr>
+        <tr>
+          <td align="right">0.9572847</td>
+          <td align="right">0.0604915</td>
+          <td align="right">1.0000000</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.3319892</td>
+          <td align="right">0.0604915</td>
+          <td align="right">33</td>
+        </tr>
+        <tr>
+          <td align="right">0.9644157</td>
+          <td align="right">0.0434783</td>
+          <td align="right">1.0000000</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.3280212</td>
+          <td align="right">0.0434783</td>
+          <td align="right">34</td>
+        </tr>
+        <tr>
+          <td align="right">0.9703931</td>
+          <td align="right">0.0340265</td>
+          <td align="right">1.0000000</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.3258575</td>
+          <td align="right">0.0340265</td>
+          <td align="right">35</td>
+        </tr>
+        <tr>
+          <td align="right">0.9753921</td>
+          <td align="right">0.0245747</td>
+          <td align="right">1.0000000</td>
+          <td align="right">1.0000000</td>
+          <td align="right">0.3237221</td>
+          <td align="right">0.0245747</td>
+          <td align="right">36</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  <code language="r script">points_system_factors_BMA |&gt; knitr::kable()
+  </code>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="left">risk_factor</th>
+          <th align="right">min_range</th>
+          <th align="right">max_range</th>
+          <th align="right">points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="left">LZD_duration_14</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">LZD_duration_14</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">comed_heparin</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">comed_heparin</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">infect_sepsis</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">infect_sepsis</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">3</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR</td>
+          <td align="right">130</td>
+          <td align="right">Inf</td>
+          <td align="right">-1</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR</td>
+          <td align="right">90</td>
+          <td align="right">130</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR</td>
+          <td align="right">60</td>
+          <td align="right">90</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR</td>
+          <td align="right">30</td>
+          <td align="right">60</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_CLCR</td>
+          <td align="right">-Inf</td>
+          <td align="right">30</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">18</td>
+          <td align="right">30</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">30</td>
+          <td align="right">40</td>
+          <td align="right">1</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">40</td>
+          <td align="right">50</td>
+          <td align="right">2</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">50</td>
+          <td align="right">60</td>
+          <td align="right">3</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">60</td>
+          <td align="right">70</td>
+          <td align="right">4</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">70</td>
+          <td align="right">80</td>
+          <td align="right">5</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">80</td>
+          <td align="right">90</td>
+          <td align="right">6</td>
+        </tr>
+        <tr>
+          <td align="left">patient_age</td>
+          <td align="right">90</td>
+          <td align="right">101</td>
+          <td align="right">7</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">150</td>
+          <td align="right">Inf</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">75</td>
+          <td align="right">150</td>
+          <td align="right">8</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">50</td>
+          <td align="right">75</td>
+          <td align="right">10</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">25</td>
+          <td align="right">50</td>
+          <td align="right">11</td>
+        </tr>
+        <tr>
+          <td align="left">baseline_PLT</td>
+          <td align="right">-Inf</td>
+          <td align="right">25</td>
+          <td align="right">12</td>
+        </tr>
+        <tr>
+          <td align="left">comorb_cirr</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">comorb_cirr</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">2</td>
+        </tr>
+        <tr>
+          <td align="left">invasive_CRRT</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+          <td align="right">0</td>
+        </tr>
+        <tr>
+          <td align="left">invasive_CRRT</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+          <td align="right">1</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-wrap>
+  <code language="r script">points_system_risks_BMA |&gt; knitr::kable()
+  </code>
+  <table-wrap>
+    <table>
+      <thead>
+        <tr>
+          <th align="right">points_total</th>
+          <th align="right">risk_estimate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="right">-1</td>
+          <td align="right">0.0337956</td>
+        </tr>
+        <tr>
+          <td align="right">0</td>
+          <td align="right">0.0405833</td>
+        </tr>
+        <tr>
+          <td align="right">1</td>
+          <td align="right">0.0486657</td>
+        </tr>
+        <tr>
+          <td align="right">2</td>
+          <td align="right">0.0582599</td>
+        </tr>
+        <tr>
+          <td align="right">3</td>
+          <td align="right">0.0696072</td>
+        </tr>
+        <tr>
+          <td align="right">4</td>
+          <td align="right">0.0829698</td>
+        </tr>
+        <tr>
+          <td align="right">5</td>
+          <td align="right">0.0986258</td>
+        </tr>
+        <tr>
+          <td align="right">6</td>
+          <td align="right">0.1168596</td>
+        </tr>
+        <tr>
+          <td align="right">7</td>
+          <td align="right">0.1379484</td>
+        </tr>
+        <tr>
+          <td align="right">8</td>
+          <td align="right">0.1621443</td>
+        </tr>
+        <tr>
+          <td align="right">9</td>
+          <td align="right">0.1896505</td>
+        </tr>
+        <tr>
+          <td align="right">10</td>
+          <td align="right">0.2205942</td>
+        </tr>
+        <tr>
+          <td align="right">11</td>
+          <td align="right">0.2549981</td>
+        </tr>
+        <tr>
+          <td align="right">12</td>
+          <td align="right">0.2927522</td>
+        </tr>
+        <tr>
+          <td align="right">13</td>
+          <td align="right">0.3335931</td>
+        </tr>
+        <tr>
+          <td align="right">14</td>
+          <td align="right">0.3770937</td>
+        </tr>
+        <tr>
+          <td align="right">15</td>
+          <td align="right">0.4226690</td>
+        </tr>
+        <tr>
+          <td align="right">16</td>
+          <td align="right">0.4695999</td>
+        </tr>
+        <tr>
+          <td align="right">17</td>
+          <td align="right">0.5170748</td>
+        </tr>
+        <tr>
+          <td align="right">18</td>
+          <td align="right">0.5642434</td>
+        </tr>
+        <tr>
+          <td align="right">19</td>
+          <td align="right">0.6102773</td>
+        </tr>
+        <tr>
+          <td align="right">20</td>
+          <td align="right">0.6544265</td>
+        </tr>
+        <tr>
+          <td align="right">21</td>
+          <td align="right">0.6960652</td>
+        </tr>
+        <tr>
+          <td align="right">22</td>
+          <td align="right">0.7347205</td>
+        </tr>
+        <tr>
+          <td align="right">23</td>
+          <td align="right">0.7700834</td>
+        </tr>
+        <tr>
+          <td align="right">24</td>
+          <td align="right">0.8020026</td>
+        </tr>
+        <tr>
+          <td align="right">25</td>
+          <td align="right">0.8304661</td>
+        </tr>
+        <tr>
+          <td align="right">26</td>
+          <td align="right">0.8555746</td>
+        </tr>
+        <tr>
+          <td align="right">27</td>
+          <td align="right">0.8775130</td>
+        </tr>
+        <tr>
+          <td align="right">28</td>
+          <td align="right">0.8965219</td>
+        </tr>
+        <tr>
+          <td align="right">29</td>
+          <td align="right">0.9128737</td>
+        </tr>
+        <tr>
+          <td align="right">30</td>
+          <td align="right">0.9268524</td>
+        </tr>
+        <tr>
+          <td align="right">31</td>
+          <td align="right">0.9387388</td>
+        </tr>
+        <tr>
+          <td align="right">32</td>
+          <td align="right">0.9488004</td>
+        </tr>
+        <tr>
+          <td align="right">33</td>
+          <td align="right">0.9572847</td>
+        </tr>
+        <tr>
+          <td align="right">34</td>
+          <td align="right">0.9644157</td>
+        </tr>
+        <tr>
+          <td align="right">35</td>
+          <td align="right">0.9703931</td>
+        </tr>
+        <tr>
+          <td align="right">36</td>
+          <td align="right">0.9753921</td>
         </tr>
       </tbody>
     </table>
