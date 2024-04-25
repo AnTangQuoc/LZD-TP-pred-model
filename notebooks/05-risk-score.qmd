@@ -4,6 +4,7 @@ title: Risk Score System and Algorithm
 
 ```{r}
 source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r")
 load("data/model-performance/model-full-BPM-1-A.rda")
 load("data/model-performance/model-black-box.rda")
 
@@ -246,6 +247,7 @@ points_system_risks |> knitr::kable()
 
 # BMA Black Box (13 variables)
 ```{r}
+library(BAS)
 model_black_box_estimates <- coef(model_black_box) |>
   confint(nsim = 2^20) |>
   structure(class = c("confint.bas", "matrix")) |>
