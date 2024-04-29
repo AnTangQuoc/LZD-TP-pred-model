@@ -711,9 +711,9 @@ multi_model_3_C <- data_patient_transformed |>
   )
 toc()
 
-summary(multi_model_3_C)
-plot(multi_model_3_C)
-image(multi_model_3_C, rotate = FALSE)
+# summary(multi_model_3_C)
+# plot(multi_model_3_C)
+# image(multi_model_3_C, rotate = FALSE)
 
 multi_predict_HPM_3_C <- variable.names(predict(multi_model_3_C, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all_binary, collapse = "|")) |>
@@ -756,9 +756,9 @@ multi_model_3_D <- data_patient_transformed |>
   )
 toc()
 
-summary(multi_model_3_D)
-plot(multi_model_3_D)
-image(multi_model_3_D, rotate = FALSE)
+# summary(multi_model_3_D)
+# plot(multi_model_3_D)
+# image(multi_model_3_D, rotate = FALSE)
 
 multi_predict_HPM_3_D <- variable.names(predict(multi_model_3_D, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
