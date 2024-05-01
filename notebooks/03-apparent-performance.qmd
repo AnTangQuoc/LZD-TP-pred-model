@@ -5,8 +5,6 @@ title: Model Development and Apparent Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
-source("notebooks/prob-cal_intercept.r") # valProbggplot() function
-source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
@@ -18,6 +16,8 @@ load("data/results/variables-to-screen-all-binary.rda")
 load("data/results/variables-to-force.rda")
 load("data/results/variables-to-force-binary.rda")
 load("data/results/variables-to-force-top-3.rda")
+
+devtools::install_github("AnTangQuoc/calibrationHelper") # helper metrics for calibration
 ```
 
 # Penalized Likelihood Methods
@@ -102,19 +102,19 @@ library(future)
 library(tictoc)
 
 data_patient_cross_prep_factor <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site) |>
+  select(all_of(variables_to_screen_short), patient_sex, flag_ADR_TP_ID, site) |>
   mutate(
     across(where(is.logical), as.factor)
   )
 
 data_patient_screen <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short), patient_sex, flag_ADR_TP_ID) |>
   mutate(
     across(where(is.logical), as.factor)
   )
 
 data_patient_screen_binary <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short_binary), patient_sex, flag_ADR_TP_ID) |>
   mutate(
     across(where(is.logical), as.factor)
   )
@@ -125,7 +125,10 @@ cross_samples <- group_vfold_cv(data_patient_cross_prep_factor, group = "site")
 ```
 
 ```{r}
+library(calibrationHelper)
+
 rec <- recipe(flag_ADR_TP_ID ~ ., data = data_patient_screen) |>
+  step_rm(patient_sex) |> # check for model fairness, not used in the model
   step_dummy(all_nominal_predictors())
 
 model_elastic <- logistic_reg(penalty = tune(), mixture = tune()) |>
@@ -151,14 +154,15 @@ model_tune_results <- model_workflow |>
   tune_grid(
     resamples = cross_samples,
     grid = tune_params,
-    control = control_grid(save_pred = TRUE)
+    control = control_grid(save_pred = TRUE, pkgs = "calibrationHelper"),
+    metrics = metric_set(mcc, roc_auc, brier_class, cal_intercept, cal_slope)
   )
 
 plan(sequential)
 toc()
 
 model_accepted_flow <- model_tune_results |>
-  select_by_one_std_err(desc(mixture), desc(penalty), metric = "roc_auc")
+  select_by_pct_loss(desc(penalty), metric = "cal_slope", limit = 5)
 
 model_glmnet <- model_workflow |>
   finalize_workflow(model_accepted_flow) |>
@@ -168,12 +172,28 @@ model_workflow |>
   finalize_workflow(model_accepted_flow) |>
   fit_resamples(
     resamples = cross_samples,
-    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope),
+    metrics = metric_set(mcc, roc_auc, brier_class, cal_intercept, cal_slope),
     control = control_resamples(save_pred = TRUE)
   ) |>
-  collect_metrics()
+  collect_metrics() |>
+  mutate(
+    mean = if_else(.metric == "cal_slope", mean + 1, mean) # workaround
+  )
 
 model_glmnet |> tidy()
+```
+
+```{r}
+# model_workflow |>
+#   finalize_workflow(model_accepted_flow) |>
+#   fit_resamples(
+#     resamples = cross_samples_grouped,
+#     control = control_resamples(save_pred = TRUE)
+#   ) |>
+#   collect_predictions() |>
+#   mutate(patient_age_group = data_patient_transformed$patient_age_group) |>
+#   group_by(patient_age_group) |>
+#   roc_auc(flag_ADR_TP_ID, .pred_TRUE, event_level = "second")
 ```
 
 ```{r}
@@ -194,6 +214,10 @@ model_glmnet |> tidy()
 #     data = data_patient_screen
 #   ) |>
 #   tidy()
+```
+
+```{r}
+save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
 ```
 
 # Bayesian Methods
@@ -1076,5 +1100,4 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 
 ```{r}
 # save(model_full, file = "data/model-performance/model-full.rda")
-save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
 ```

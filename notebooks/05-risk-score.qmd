@@ -216,7 +216,7 @@ predictive_values <- model_refit |>
     truth = flag_ADR_TP_ID,
     estimate = .pred_FALSE,
     thresholds = points_system_risks |> pull(risk_estimate),
-    metrics = metric_set(sensitivity, specificity, ppv, npv, j_index)
+    metrics = metric_set(mcc, sensitivity, specificity, ppv, npv, j_index)
   ) |>
   select(-.estimator) |>
   pivot_wider(names_from = .metric, values_from = .estimate) |>
@@ -495,7 +495,7 @@ predictive_values_BMA <- BMA_pred$fit |>
     truth = flag_ADR_TP_ID,
     estimate = .pred_FALSE,
     thresholds = points_system_risks_BMA |> pull(risk_estimate),
-    metrics = metric_set(sensitivity, specificity, ppv, npv, j_index)
+    metrics = metric_set(mcc, sensitivity, specificity, ppv, npv, j_index)
   ) |>
   select(-.estimator) |>
   pivot_wider(names_from = .metric, values_from = .estimate) |>

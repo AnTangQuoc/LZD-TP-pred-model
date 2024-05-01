@@ -5,8 +5,6 @@ title: Internal-External Development and Cross-Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
-source("notebooks/prob-cal_intercept.r") # valProbggplot() function
-source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
@@ -23,6 +21,7 @@ library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 library(tidymodels)
 library(CalibrationCurves)
+library(calibrationHelper)
 
 data_patient_cross_prep <- data_patient_transformed |>
   select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site)
@@ -73,7 +72,7 @@ run_workflow <- function(sample, variables) {
 
   auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
   intercept <- cal_intercept(validation, truth, .pred_FALSE)
-  slope <- cal_slope(validation, truth, .pred_FALSE)
+  slope <- cal_slope(validation, truth, .pred_FALSE) + 1 # workaround for issue with cal_slope()
   bind_rows(auc, intercept, slope)
 }
 

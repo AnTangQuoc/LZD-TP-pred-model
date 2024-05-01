@@ -1,0 +1,33 @@
+---
+title: Model Fairness Assessment
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r")
+load("data/model-performance/model-full-BPM-1-A.rda")
+load("data/model-performance/model-black-box.rda")
+
+load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-screen-binary.rda")
+load("data/results/variables-to-screen-all.rda")
+load("data/results/variables-to-screen-all-binary.rda")
+```
+
+```{r}
+data_patient_fairness <- data_patient_transformed |>
+  mutate(
+    patient_age_group = case_when(
+      patient_age < 18 ~ "0-17",
+      patient_age >= 18 & patient_age < 25 ~ "18-24",
+      patient_age >= 25 & patient_age < 35 ~ "25-34",
+      patient_age >= 35 & patient_age < 45 ~ "35-44",
+      patient_age >= 45 & patient_age < 55 ~ "45-54",
+      patient_age >= 55 & patient_age < 65 ~ "55-64",
+      patient_age >= 65 & patient_age < 75 ~ "65-74",
+      patient_age >= 75 ~ "75+"
+    )
+  )
+```

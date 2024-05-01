@@ -6,7 +6,7 @@ cal_slope <- function(data, ...) {
 }
 cal_slope <- new_prob_metric(
   cal_slope,
-  direction = "maximize"
+  direction <- "zero"
 )
 
 cal_slope.data.frame <- function(data,
@@ -71,13 +71,11 @@ cal_slope_binary <- function(truth, estimate, event_level, case_weights) {
 
   if (compute_n_occurrences(truth, event) == 0L) {
     # Warn here and return `NA`.
-    # The curve computation would error and we can be slightly more forgiving.
     warn_cal_truth_no_event(event)
     return(NA_real_)
   }
   if (compute_n_occurrences(truth, control) == 0L) {
     # Warn here and return `NA`.
-    # The curve computation would error and we can be slightly more forgiving.
     warn_cal_truth_no_control(control)
     return(NA_real_)
   }
@@ -90,7 +88,7 @@ cal_slope_binary <- function(truth, estimate, event_level, case_weights) {
 
   calperf <- valProbggplot(estimate, truth)
 
-  calperf$Calibration$Slope[[1]]
+  calperf$Calibration$Slope[[1]] - 1 # remember to re-add 1 in post-processing
 }
 
 finalize_estimator_internal.cal_slope <- function(metric_dispatcher, x, estimator, call) {

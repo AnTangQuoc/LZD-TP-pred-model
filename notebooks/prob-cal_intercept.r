@@ -71,13 +71,11 @@ cal_intercept_binary <- function(truth, estimate, event_level, case_weights) {
 
   if (compute_n_occurrences(truth, event) == 0L) {
     # Warn here and return `NA`.
-    # The curve computation would error and we can be slightly more forgiving.
     warn_cal_truth_no_event(event)
     return(NA_real_)
   }
   if (compute_n_occurrences(truth, control) == 0L) {
     # Warn here and return `NA`.
-    # The curve computation would error and we can be slightly more forgiving.
     warn_cal_truth_no_control(control)
     return(NA_real_)
   }

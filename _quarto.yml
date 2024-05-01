@@ -8,13 +8,14 @@ project:
     - notebooks/03-apparent-performance.qmd
     - notebooks/04-internal-external-cross-performance.qmd
     - notebooks/05-risk-score.qmd
+    - notebooks/06-model-fairness.qmd
     - index.qmd
 
 manuscript:
   article: index.qmd
   code-links: repo
 
-number-sections: true
+number-sections: false
 
 date: last-modified
 date-format: full
@@ -27,7 +28,6 @@ format:
       light: flatly
       dark: darkly
   docx: default
-  jats: default
   pdf: default
 
 bibliography: references.bib

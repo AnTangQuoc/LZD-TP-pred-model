@@ -42,6 +42,13 @@ data_patient_transformed <- data_patient_complete |>
     LZD_duration_10 = LZD_duration >= 10,
     LZD_duration_14 = LZD_duration >= 14,
     LZD_route_IV = LZD_route == "IV"
+  ) |>
+  mutate(
+    patient_age_group = case_when(
+      patient_age >= 18 & patient_age <= 44 ~ "18-44",
+      patient_age >= 45 & patient_age <= 64 ~ "45-64",
+      patient_age >= 65 ~ "> 65"
+    )
   )
 
 predictor_transformed <- data_patient_transformed |>
