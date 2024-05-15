@@ -238,6 +238,7 @@ inputs_analyze_5 <- inputs_analyze_4 |>
     baseline_HGB = test_HGB[which.max(flag_post_baseline)],
     baseline_WBC = test_WBC[which.max(flag_post_baseline)],
     ADR_PLT_min = min(test_PLT[which.max(flag_post_baseline) + 1:max(which(flag_post_baseline))], na.rm = TRUE),
+    dept_ICU_ER = if_else(dept_ICU | dept_ER, TRUE, FALSE)
   ) 
 ```
 
