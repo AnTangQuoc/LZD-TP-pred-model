@@ -24,30 +24,34 @@ data_survey_factor <- data_survey |>
 ```
 
 ```{r}
-gglikert(data_survey_factor, sort = "descending", sort_method = "mean")
-gglikert_stacked(data_survey_factor, sort = "descending", sort_method = "mean", add_median_line = TRUE)
+# gglikert(data_survey_factor, sort = "descending", sort_method = "mean")
+# gglikert_stacked(data_survey_factor, sort = "descending", sort_method = "mean", add_median_line = TRUE)
 ```
 
 ```{r}
-table_survey_summary <- data_survey |>
-  tbl_summary(type = ~"continuous", statistic = list(all_continuous() ~ "{mean} | {median} ({p25} - {p75})"))
+# table_survey_summary <- data_survey |>
+#   tbl_summary(type = ~"continuous", statistic = list(all_continuous() ~ "{mean} | {median} ({p25} - {p75})"))
+
+calculate_prop <- function(x) {
+  sum(x == 4 | x == 5) / length(x)
+}
 
 survey_summary <- data_survey |>
-  summarise(across(everything(), list(median = median, IQR = IQR, mean = mean, sd = sd), .names = "{.fn}.{.col}")) |>
+  summarise(across(everything(), list(prop = calculate_prop, median = median, IQR = IQR, mean = mean, sd = sd), .names = "{.fn}.{.col}")) |>
   pivot_longer(
     cols = everything(),
     names_to = c(".value", "variable"),
-    names_pattern = "(mean|median|IQR|sd)\\.(.*)"
+    names_pattern = "(prop|mean|median|IQR|sd)\\.(.*)"
   )
 
 variables_consensus <- survey_summary |>
-  filter((median >= 4 & IQR <= 1) | (mean >= 3.5 & sd <= 1)) |>
-  arrange(desc(median), desc(mean)) |>
+  filter(prop >= 0.7) |>
+  arrange(desc(prop), desc(mean)) |>
   pull(variable)
 
 data_survey_factor |>
-  select(all_of(variables_consensus)) |>
-  gglikert(sort = "descending", sort_method = "mean")
+  select(any_of(variables_consensus)) |>
+  gglikert(sort = "descending", sort_method = "prop")
 ```
 
 ```{r}
@@ -65,85 +69,43 @@ variables_to_remove <- names(single_level_factors)[single_level_factors]
 ```
 
 ```{r}
-data_patient_screen_full <- data_patient_transformed |>
-  mutate(
-    across(where(is.logical), as.factor)
-  )
-
-# Assuming `data_patient_screen_full` is your data frame
-single_level_factors <- data_patient_screen_full |>
-  purrr::map_lgl(~ is.factor(.x) && length(levels(.x)) == 1)
-
-# Print the names of the variables that are factors with only one level
-variables_to_remove <- names(single_level_factors)[single_level_factors]
+variables_to_screen_short <- variables_consensus |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique()
 ```
 
 ```{r}
-variables_to_screen_short <- variables_consensus
-
-variables_to_screen_short[str_detect(variables_to_screen_short, "\\d")] <- str_remove(variables_to_screen_short[str_detect(variables_to_screen_short, "_\\d+")], "_\\d+")
-
-variables_to_screen_short[str_detect(variables_to_screen_short, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_short <- unique(variables_to_screen_short)
-```
-
-```{r}
-variables_to_screen_short_binary <- variables_consensus
-
-variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "\\d")] <- str_remove(variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "_\\d+")], "_\\d+")
-
-variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_short_binary[str_detect(variables_to_screen_short_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
-
-variables_to_screen_short_binary <- unique(variables_to_screen_short_binary)
+variables_to_screen_short_binary <- variables_consensus |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("baseline_CLCR", "baseline_CLCR_30") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique()
 ```
 
 ```{r}
 variables_to_screen_binary <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "\\d")] <- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, "_\\d+")], "_\\d+")
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
-
-variables_to_screen_binary <- unique(variables_to_screen_binary)
-
-variables_to_screen_binary <- variables_to_screen_binary[1:21]
-```
-
-```{r}
-variables_to_screen_binary <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "\\d")] <- str_remove(variables_to_screen_binary[str_detect(variables_to_screen_binary, "_\\d+")], "_\\d+")
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_binary[str_detect(variables_to_screen_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
-
-variables_to_screen_binary <- unique(variables_to_screen_binary)
-
-variables_to_screen_binary <- variables_to_screen_binary[1:21]
+  arrange(desc(prop), desc(mean)) |>
+  pull(variable) |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("baseline_CLCR", "baseline_CLCR_30") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique() |>
+  head(21)
 ```
 
 ```{r}
 variables_to_screen <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen[str_detect(variables_to_screen, "\\d")] <- str_remove(variables_to_screen[str_detect(variables_to_screen, "_\\d+")], "_\\d+")
-
-variables_to_screen[str_detect(variables_to_screen, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen <- unique(variables_to_screen)
-
-variables_to_screen <- variables_to_screen[1:21]
+  arrange(desc(prop), desc(mean)) |>
+  pull(variable) |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique() |>
+  head(21)
 
 variables_to_force <- variables_to_screen[1:5]
 
@@ -155,78 +117,38 @@ variables_out <- survey_summary |>
 
 ```{r}
 variables_to_force_binary <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
+  arrange(desc(prop), desc(mean)) |>
   pull(variable) |>
   head(5)
 ```
 
 ```{r}
 variables_to_screen_all <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "\\d")] <- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, "_\\d+")], "_\\d+")
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_route")] <- "LZD_route_IV"
-
-variables_to_screen_all <- unique(variables_to_screen_all) |> setdiff(variables_to_remove)
+  arrange(desc(prop), desc(mean)) |>
+  pull(variable) |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique() |>
+  setdiff(variables_to_remove)
 ```
 
 ```{r}
 variables_to_screen_all_binary <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "\\d")] <- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "_\\d+")], "_\\d+")
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_route")] <- "LZD_route_IV"
-
-variables_to_screen_all_binary <- unique(variables_to_screen_all_binary) |> setdiff(variables_to_remove)
-```
-
-```{r}
-variables_to_screen_all <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "\\d")] <- str_remove(variables_to_screen_all[str_detect(variables_to_screen_all, "_\\d+")], "_\\d+")
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_all[str_detect(variables_to_screen_all, "LZD_route")] <- "LZD_route_IV"
-
-variables_to_screen_all <- unique(variables_to_screen_all) |> setdiff(variables_to_remove)
-```
-
-```{r}
-variables_to_screen_all_binary <- survey_summary |>
-  arrange(desc(median), desc(mean)) |>
-  pull(variable)
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "\\d")] <- str_remove(variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "_\\d+")], "_\\d+")
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_duration")] <- "LZD_duration_14"
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "baseline_CLCR")] <- "baseline_CLCR_30"
-
-variables_to_screen_all_binary[str_detect(variables_to_screen_all_binary, "LZD_route")] <- "LZD_route_IV"
-
-variables_to_screen_all_binary <- unique(variables_to_screen_all_binary) |> setdiff(variables_to_remove)
+  arrange(desc(prop), desc(mean)) |>
+  pull(variable) |>
+  str_replace_all("_\\d+", "") |>
+  str_replace("LZD_duration", "LZD_duration_14") |>
+  str_replace("baseline_CLCR", "baseline_CLCR_30") |>
+  str_replace("dept_ICU|dept_ER", "dept_ICU_ER") |>
+  unique() |>
+  setdiff(variables_to_remove)
 ```
 
 ```{r}
 save(variables_to_screen, file = "data/results/variables-to-screen.rda")
 save(variables_to_screen_short, file = "data/results/variables-to-screen-short.rda")
 save(variables_to_screen_short_binary, file = "data/results/variables-to-screen-short-binary.rda")
-save(variables_to_screen_binary, file = "data/results/variables-to-screen-binary.rda")
-save(variables_to_screen_all, file = "data/results/variables-to-screen-all.rda")
-save(variables_to_screen_all_binary, file = "data/results/variables-to-screen-all-binary.rda")
 
 save(variables_to_screen_binary, file = "data/results/variables-to-screen-binary.rda")
 save(variables_to_screen_all, file = "data/results/variables-to-screen-all.rda")

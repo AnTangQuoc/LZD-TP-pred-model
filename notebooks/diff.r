@@ -22,4 +22,4 @@ df2 <- data_patient_complete |>
   ungroup() |>
   mutate(patient_ID = str_replace(patient_ID, "_1", ""))
 
-(compare_results <- waldo::compare(df1[36:44], df2[36:44], max_diffs = Inf))
+(compare_results <- waldo::compare(df1[1], df2[1], max_diffs = Inf))

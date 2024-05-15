@@ -5,7 +5,7 @@ load("data/data-cleaned/data-cleaned.rda")
 predictor_list <- data_patient_complete |>
   select(
     patient_age, patient_sex, patient_weight, baseline_CLCR,
-    dept_ER, dept_ICU, baseline_HGB, baseline_WBC, baseline_PLT,
+    dept_ICU_ER, baseline_HGB, baseline_WBC, baseline_PLT,
     LZD_duration, LZD_route, starts_with("invasive"),
     starts_with("comorb") & -c(comorb_hematological, comorb_SLE),
     starts_with("infect"), comed_aspirin, comed_diclofenac, comed_ibuprofen,
@@ -70,7 +70,7 @@ predictor_transformed <- data_patient_transformed |>
 predictor_list_short <- data_patient_complete |>
   select(
     patient_age, patient_sex, patient_weight, baseline_CLCR,
-    dept_ER, dept_ICU, baseline_HGB, baseline_WBC, baseline_PLT,
+    dept_ICU_ER, baseline_HGB, baseline_WBC, baseline_PLT,
     LZD_duration, LZD_route, starts_with("invasive"), starts_with("comorb") & -comorb_hematological,
     starts_with("infect"), comed_ibuprofen, comed_carbapenem,
     comed_vancomycin, comed_levofloxacin, comed_teicoplanin,

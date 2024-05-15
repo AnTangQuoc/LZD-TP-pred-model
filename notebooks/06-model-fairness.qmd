@@ -16,18 +16,48 @@ load("data/results/variables-to-screen-all.rda")
 load("data/results/variables-to-screen-all-binary.rda")
 ```
 
+# WIP
+
 ```{r}
-data_patient_fairness <- data_patient_transformed |>
+fairness_metrics_patient_sex |>
+  select(.threshold, sensitivity, specificity, patient_sex) |>
+  ggplot(aes(x = 1 - specificity, y = sensitivity, color = patient_sex, fill = patient_sex)) +
+  geom_point() +
+  geom_path() +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+
+model_full_BPM_1_A |>
+  predict(data_patient_screen_full, type = "prob") |>
   mutate(
-    patient_age_group = case_when(
-      patient_age < 18 ~ "0-17",
-      patient_age >= 18 & patient_age < 25 ~ "18-24",
-      patient_age >= 25 & patient_age < 35 ~ "25-34",
-      patient_age >= 35 & patient_age < 45 ~ "35-44",
-      patient_age >= 45 & patient_age < 55 ~ "45-54",
-      patient_age >= 55 & patient_age < 65 ~ "55-64",
-      patient_age >= 65 & patient_age < 75 ~ "65-74",
-      patient_age >= 75 ~ "75+"
-    )
-  )
+    flag_ADR_TP_ID = data_patient_screen_full$flag_ADR_TP_ID,
+    patient_sex = data_patient_screen_full$patient_sex,
+    patient_age_group = data_patient_screen_full$patient_age_group
+  ) |>
+  ggplot(aes(x = .pred_TRUE, fill = patient_sex)) +
+  geom_density(alpha = 0.5) +
+  theme_bw()
+
+model_full_BPM_1_A |>
+  predict(data_patient_screen_full, type = "prob") |>
+  mutate(
+    flag_ADR_TP_ID = data_patient_screen_full$flag_ADR_TP_ID,
+    patient_sex = data_patient_screen_full$patient_sex,
+    patienual() +
+  theme_bw()
+
+model_full_BPM_1_A |>
+  predict(data_patient_screen_full, type = "prob") |>
+  mutate(
+    flag_ADR_TP_ID = data_patient_screen_ftll$flag_ADR_TP_ID,
+    p_tient_sex = data_patient_screen_full$patient_sex,
+    patient_age_group = data_patient_screen_full$patient_age_group
+  ) |>
+  ggplot(aes(x = .pred_TRUE, fial = patient_sex)) +
+  geom_densitygalpha = 0.5e_group = data_patient_screen_full$patient_age_group
+  ) |>
+  ggplot(aes(x = .pred_TRUE, fill = patient_age_group)) +
+  geom_density(alpha = 0.5) +
+  theme_bw()
 ```
