@@ -41,7 +41,7 @@
 \makeatother
 \usepackage{xcolor}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 % Make \paragraph and \subparagraph free-standing
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
@@ -190,7 +190,7 @@ linezolid-induced thrombocytopenia}
 \author{Nhi Nguyen Ha \and An Tang Quoc \and Ha Tran Ngan \and Hang
 Nguyen Thi Thu \and Hoa Vu Dinh \and Nhung TH Trinh \and Anh Nguyen
 Hoang}
-\date{Thursday, April 25, 2024}
+\date{Thursday, May 16, 2024}
 
 \begin{document}
 \maketitle
@@ -201,18 +201,17 @@ Write abstract here, note the indentation
 \section{Checklist}\label{checklist}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2466}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2466}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2603}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2466}}@{}}
-\caption{TRIPOD-Cluster checklist of items to include when reporting a
-study developing or validating a multivariable prediction model using
-clustered data}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0928}}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0176}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.8528}}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0336}}@{}}
+\caption{TRIPOD+AI guidance for reporting clinical prediction models
+that use regression or machine learning methods}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Section/topic}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Item No}
+\textbf{Item}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Description}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -224,7 +223,7 @@ clustered data}\tabularnewline
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Section/topic}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-\textbf{Item No}
+\textbf{Item}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Description}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -234,113 +233,1092 @@ clustered data}\tabularnewline
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\textbf{Title and abstract} & & & \\
-Title & 1 & Identify the study as developing and/or validating a
-multivariable prediction model, the target population, and the outcome
-to be predicted & \\
-Abstract & 2 & Provide a summary of research objectives, setting,
-participants, data source, sample size, predictors, outcome, statistical
-analysis, results, and conclusions* & \\
-\textbf{Introduction} & & & \\
-Background and objectives & 3a & Explain the medical context (including
-whether diagnostic or prognostic) and rationale for developing or
-validating the prediction model, including references to existing
-models, and the advantages of the study design* & \\
-& 3b & Specify the objectives, including whether the study describes the
-development or validation of the model* & \\
-\textbf{Methods} & & & \\
-Participants and data & 4a & Describe eligibility criteria for
-participants and datasets* & \\
-& 4b & Describe the origin of the data, and how the data were
-identified, requested, and collected & \\
-Sample size & 5 & Explain how the sample size was arrived at* & Mar
-21 \\
-Outcomes and predictors & 6a & Define the outcome that is predicted by
-the model, including how and when assessed* & Mar 21 \\
-& 6b & Define all predictors used in developing or validating the model,
-including how and when measured* & \\
-Data preparation & 7a & Describe how the data were prepared for
-analysis, including any cleaning, harmonisation, linkage, and quality
-checks & \\
-& 7b & Describe the method for assessing risk of bias and applicability
-in the individual clusters (eg, using PROBAST) & \\
-& 7c & For validation, identify any differences in definition and
-measurement from the development data (eg, setting, eligibility
-criteria, outcome, predictors)* & \\
-& 7d & Describe how missing data were handled* & \\
-Data analysis & 8a & Describe how predictors were handled in the
-analyses & \\
-& 8b & Specify the type of model, all model building procedures (eg, any
-predictor selection and penalisation), and method for validation* & \\
-& 8c & Describe how any heterogeneity across clusters (eg, studies or
-settings) in model parameter values was handled & \\
-& 8d & For validation, describe how the predictions were calculated & \\
-& 8e & Specify all measures used to assess model performance (eg,
-calibration, discrimination, and decision curve analysis) and, if
-relevant, to compare multiple models & \\
-& 8f & Describe how any heterogeneity across clusters (eg, studies or
-settings) in model performance was handled and quantified & \\
-& 8g & Describe any model updating (eg, recalibration) arising from the
-validation, either overall or for particular populations or settings*
-& \\
-Sensitivity analysis & 9 & Describe any planned subgroup or sensitivity
-analysis---eg, assessing performance according to sources of bias,
-participant characteristics, setting & \\
-\textbf{Results} & & & \\
-Participants and datasets & 10a & Describe the number of clusters and
-participants from data identified through to data analysed; a flowchart
-might be helpful* & \\
-& 10b & Report the characteristics overall and where applicable for each
-data source or setting, including the key dates, predictors, treatments
-received, sample size, number of outcome events, follow-up time, and
-amount of missing data* & \\
-& 10c & For validation, show a comparison with the development data of
-the distribution of important variables (demographics, predictors, and
-outcome) & \\
-Risk of bias & 11 & Report the results of the risk-of-bias assessment in
-the individual clusters & \\
-Model development and specification & 12a & Report the results of any
-assessments of heterogeneity across clusters that led to subsequent
-actions during the model's development (eg, inclusion or exclusion of
-particular predictors or clusters) & \\
-& 12b & Present the final prediction model (ie, all regression
-coefficients, and model intercept or baseline estimate of the outcome at
-a given time point) and explain how to use it for predictions in new
-individuals* & \\
-Model performance & 13a & Report performance measures (with uncertainty
-intervals) for the prediction model, overall and for each cluster & \\
-& 13b & Report results of any heterogeneity across clusters in model
-performance & \\
-Model updating & 14 & Report the results from any model updating
-(including the updated model equation and subsequent performance),
-overall and for each cluster* & \\
-Sensitivity analysis & 15 & Report results from any subgroup or
-sensitivity analysis & \\
-\textbf{Discussion} & & & \\
-Interpretation & 16a & Give an overall interpretation of the main
-results, including heterogeneity across clusters in model performance,
-in the context of the objectives and previous studies* & \\
-& 16b & For validation, discuss the results with reference to the model
-performance in the development data, and in any previous validations
-& \\
-& 16c & Discuss the strengths of the study and any limitations (eg,
-missing or incomplete data, non-representativeness, data harmonisation
-problems) & \\
-Implications & 17 & Discuss the potential use of the model and
-implications for future research, with specific view to generalisability
-and applicability of the model across different settings or
-(sub)populations & \\
-\textbf{Other information} & & & \\
-Supplementary information & 18 & Provide information about the
-availability of supplementary resources (eg, study protocol, analysis
-code, datasets)* & \\
-Funding & 19 & Give the source of funding and the role of the funders
-for the present study & \\
+\textbf{TITLE} & & & \\
+\emph{Title} & 1 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Identify the study as developing or evaluating the performance
+of a multivariable prediction model, the target population, and the
+outcome to be predicted}
+
+\begin{itemize}
+\item
+  \emph{Informative titles aid the identification of prediction model
+  studies by potential readers and also systematic reviewers}
+\item
+  \emph{Report an informative title that provides key information about
+  the target population and the outcome being predicted by the model}
+\end{itemize}
+\end{minipage} & \\
+\textbf{ABSTRACT} & & & \\
+\emph{Abstract} & 2 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{See TRIPOD+AI for Abstracts checklist}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Report an abstract addressing each item in the TRIPOD+AI for
+  Abstracts checklist}
+\end{itemize}
+\end{minipage} & \\
+\textbf{INTRODUCTION} & & & \\
+\emph{Background} & 3a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Explain the healthcare context (including whether diagnostic or
+prognostic) and rationale for developing or evaluating the prediction
+model, including references to existing models}
+
+\begin{itemize}
+\item
+  \emph{Describe the healthcare setting where the model is intended to
+  be used or needed}
+\item
+  \emph{Where an existing prediction model is available, provide a clear
+  justification for developing a new model}
+\item
+  \emph{For studies evaluating an existing model, provide the rationale
+  for the evaluation, and provide references to all models being
+  evaluated}
+\end{itemize}
+\end{minipage} & \\
+& 3b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe the target population and the intended purpose of the
+prediction model in the context of the care pathway, including its
+intended users (e.g., healthcare professionals, patients, public)}
+
+\begin{itemize}
+\item
+  \emph{Describe who is the target population for the developed or
+  evaluated model, e.g., people of a certain age, in a specific country,
+  or with a specific disease}
+\item
+  \emph{Describe the intended purpose of the model, including the
+  clinical decision or guidance the model is intended used to support
+  (e.g., referral for further testing or hospital admission, triage,
+  starting a treatment, or changing a lifestyle) and the point in the
+  care pathway the model is to be intended used}
+\item
+  \emph{Describe who the intended users of the model are, and if the
+  model is for healthcare professionals, patients, public or other}
+\end{itemize}
+\end{minipage} & \\
+& 3c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe any known health inequalities between sociodemographic
+groups}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{In the context of the healthcare setting where the model is
+  intended to be used, describe any known health inequalities between
+  sociodemographic groups in the target population (along with citations
+  to support the health inequalities)}
+\end{itemize}
+\end{minipage} & \\
+\emph{Objectives} & 4 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify the study objectives, including whether the study
+describes the development or validation of a prediction model (or both)}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Provide an explicit statement of all objectives of the study,
+  describing whether the study is developing a prediction model,
+  evaluating the performance of a prediction model, or both}
+\end{itemize}
+\end{minipage} & \\
+\textbf{METHODS} & & & \\
+\emph{Data} & 5a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe the sources of data separately for the development and
+evaluation datasets (e.g., randomised trial, cohort, routine care or
+registry data), the rationale for using these data, and
+representativeness of the data}
+
+\begin{itemize}
+\item
+  \emph{Provide a description of the source of the data used for model
+  development and evaluation of model performance, including whether the
+  data are (for example) from a randomised trial, a cohort, a registry
+  or from electronic routine healthcare records}
+\item
+  \emph{Specify whether the study is using existing data or is
+  prospectively collecting new data for the purpose of the prediction
+  model study}
+\item
+  \emph{Where existing data are being used (i.e., they were originally
+  collected for a different purpose), provide the rationale for using
+  these data, and comment on the suitability (particularly if data are
+  being used from a different setting or country to the intended target
+  population) and representativeness of these data with respect to the
+  intended target population and context}
+\item
+  \emph{A description of the data sources should be provided for all
+  data sets, and separately for development and evaluation}
+\item
+  \emph{If any synthetic data have been used, then provide reasons as to
+  why, and provide all details on how the synthetic data have been
+  created (and code, see item 18f) and used in the study}
+\end{itemize}
+\end{minipage} & \\
+& 5b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify the dates of the collected participant data, including
+start and end of participant accrual; and, if applicable, end of
+follow-up}
+
+\begin{itemize}
+\item
+  \emph{Specify the start and end dates of the period for which the
+  participants or the used data were selected}
+\item
+  \emph{For models predicting prognosis, the duration of follow-up is
+  important so report the date of end of follow-up}
+\end{itemize}
+\end{minipage} & \\
+\emph{Participants} & 6a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify key elements of the study setting (e.g., primary care,
+secondary care, general population) including the number and location of
+centres}
+
+\begin{itemize}
+\item
+  \emph{Describe the healthcare setting, and where the participants in
+  the study were recruited from}
+\item
+  \emph{Report the geographical location (at a minimum, the country) and
+  centres (including the number of centres) of the study}
+\end{itemize}
+\end{minipage} & \\
+& 6b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe the eligibility criteria for study participants}
+
+\begin{itemize}
+\item
+  \emph{The eligibility criteria for participants should be reported to
+  understand the potential applicability and generalisability of the
+  prediction model}
+\item
+  \emph{This includes reporting any restrictions of continuous
+  variables, e.g., age range used to define the eligibility of the
+  included participants}
+\end{itemize}
+\end{minipage} & \\
+& 6c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Give details of any treatments received, and how they were
+handled during model development or evaluation, if relevant}
+
+\begin{itemize}
+\item
+  \emph{Any treatments received before or at the start of follow-up
+  should be reported, and whether and how this was handled during the
+  development or evaluation of the prediction model (if relevant)}
+\item
+  \emph{Any treatments received between the moment the prediction model
+  is used and the measurement of the outcome, that could modify the
+  probability of the outcome, should be reported (if relevant)}
+\end{itemize}
+\end{minipage} & \\
+\emph{Data preparation} & 7 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe any data pre-processing and quality checking, including
+whether this was similar across relevant sociodemographic groups}
+
+\begin{itemize}
+\item
+  \emph{Describe any data cleaning steps, this includes any feature
+  engineering, transformation of raw data, feature reduction and data
+  quality checks. All code used for data cleaning should be made
+  available (see item 18f)}
+\item
+  \emph{For analyses using data from multiple sources (e.g., data from
+  different studies, cohorts, or registries), describe any harmonisation
+  (e.g., of outcome and predictors)}
+\item
+  \emph{Confirm whether all data pre-processing/data cleaning steps were
+  similar across key sociodemographic groups, if relevant}
+\item
+  \emph{If the data pre-processing/data cleaning steps are extensive,
+  consider reporting this information in the supplementary material}
+\end{itemize}
+\end{minipage} & \\
+& C-7b & \textbf{Describe the method for assessing risk of bias and
+applicability in the individual clusters (eg, using PROBAST)} & \\
+\emph{Outcomes} & 8a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Clearly define the outcome that is being predicted and the time
+horizon, including how and when assessed, the rationale for choosing
+this outcome, and whether the method of outcome assessment is consistent
+across sociodemographic groups}
+
+\begin{itemize}
+\item
+  \emph{For diagnostic prediction models, the outcome should be clearly
+  defined, including whether a (widely accepted) reference standard
+  (ground truth) was used to determine the presence or absence of the
+  outcome}
+\item
+  \emph{For prognostic models, i.e., models predicting an outcome in the
+  future, authors should report the time-horizon of the outcome
+  prediction. For example, predicting the 28-day risk of mortality
+  following cardiothoracic surgery, or the 10-year risk of fractures in
+  patients with osteoporosis. Also, the frequency of outcome assessment
+  during follow-up should be reported}
+\item
+  \emph{If standard definitions are used, e.g., using ICD codes, this
+  should be stated and referenced}
+\item
+  \emph{Any discrepancies in the outcome assessment across
+  socio-demographic groups should be reported}
+\item
+  \emph{In some instances, it may be necessary to confirm that no
+  predictors were used to define the outcome or are a proxy for the
+  outcome}
+\end{itemize}
+\end{minipage} & \\
+& 8b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{If outcome assessment requires subjective interpretation,
+describe the qualifications and demographic characteristics of the
+outcome assessors}
+
+\begin{itemize}
+\item
+  \emph{For outcomes that require a subjective interpretation (e.g.,
+  interpreting the results from an imaging test, describe the number,
+  qualification, and demographic characteristics of the outcome
+  assessors)}
+\item
+  \emph{If the measurement and interpretation of the outcome require
+  (additional) training or specific instructions, these should be
+  reported.}
+\item
+  \emph{If extensive, consider reporting this information in the
+  supplementary material}
+\end{itemize}
+\end{minipage} & \\
+& 8c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Report any actions to blind assessment of the outcome to be
+predicted}
+
+\begin{itemize}
+\item
+  \emph{The outcome being predicted should be assessed blind to
+  information about the predictors -- particularly relevant for outcomes
+  requiring a subjective interpretation thereby avoiding data (label)
+  leakage}
+\item
+  \emph{If appropriate, authors should describe which information was
+  available to the outcome assessors and report any specific actions to
+  blinding the outcome assessment}
+\end{itemize}
+\end{minipage} & \\
+\emph{Predictors} & 9a & \begin{minipage}[t]{\linewidth}\raggedright
+Describe the choice of initial predictors (e.g., literature, previous
+models, all available predictors) and any pre-selection of predictors
+before model building
+
+\begin{itemize}
+\item
+  Provide details on how the initial list of predictors were considered
+  for inclusion in the model building, and whether they were chosen
+  based on a (systematic) review of the literature, clinical input
+  (domain experts), or simply whether using all predictors in the
+  available data
+\item
+  If any pre-selection of predictors, before model building, was carried
+  out, then provide details how this was done. For example, were
+  predictors omitted for model building due to high amounts of missing
+  data, or predictors not considered plausibly (clinically) related to
+  the outcome being predicted
+\item
+  The list of initial predictors may be extensive, in these instances
+  reporting these in the supplementary material is advisable
+\end{itemize}
+\end{minipage} & \\
+& 9b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Clearly define all predictors, including how and when they were
+measured (and any actions to blind assessment of predictors for the
+outcome and other predictors)}
+
+\begin{itemize}
+\item
+  \emph{All predictors included in the modelling should be clearly
+  defined, along with units of measurement, and all categories for
+  categorical predictors, so that readers and others can replicate,
+  implement, or evaluate the performance of the model}
+\item
+  \emph{Details on how and when the predictor values were measured. Note
+  that predictors should be measured before or at the time the model is
+  intended to be used}
+\item
+  \emph{For predictors requiring subjective interpretation, it may be
+  important to interpret this blind to the values of other predictors
+  considered in the modelling (e.g., avoiding data leakage). Authors
+  should report any actions to blind the assessment of the predictor
+  measurement to other predictors}
+\item
+  \emph{Specifically for diagnostic models, the measurement of the
+  predictors should be done without knowledge of the outcome of the
+  individual as this could artificially inflate the association between
+  the predictors and the outcome. Authors should report any actions to
+  blind the assessment of the predictor measurements to the outcome
+  value}
+\item
+  \emph{In some instances, the number of predictors can be very large
+  and thus reporting them all in the main manuscript is unhelpful, in
+  these instances, it is still important to clearly define all the
+  predictors, and reporting this in the supplementary material should be
+  considered}
+\end{itemize}
+\end{minipage} & \\
+& 9c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{If predictor measurement requires subjective interpretation,
+describe the qualifications and demographic characteristics of the
+predictor assessors}
+
+\begin{itemize}
+\item
+  \emph{For predictors that require a subjective interpretation (e.g.,
+  interpreting the results from an imaging test), the qualifications and
+  demographic characteristics of the predictor assessors should be
+  reported}
+\item
+  \emph{If the measurement and interpretation require (additional)
+  training or specific instructions, then these should be reported. This
+  could be reported in the supplementary material}
+\end{itemize}
+\end{minipage} & \\
+\emph{Sample size} & 10 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Explain how the study size was arrived at (separately for
+development and evaluation), and justify that the study size was
+sufficient to answer the research question. Include details of any
+sample size calculation}
+
+\begin{itemize}
+\item
+  \emph{Describe how the sample size was determined -- this should be
+  done separately for determining the sample size needed for model
+  development and the sample size needed to evaluate the performance of
+  the model irrespective of whether data are being prospectively
+  collected or using existing data}
+\item
+  \emph{Provide details and all estimates used in any sample size
+  calculation}
+\item
+  \emph{If no formal sample size calculation was done, e.g., all
+  available data were used, provide a justification whether the size of
+  the data was sufficient to answer the research question}
+\end{itemize}
+\end{minipage} & \\
+\emph{Missing data} & 11 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe how missing data were handled. Provide reasons for
+omitting any data}
+
+\begin{itemize}
+\item
+  \emph{Missing data is an omnipresent problem. Authors should report
+  for each predictor being considered for inclusion in the model the
+  number of missing values}
+\item
+  \emph{The handling of missing values should be reported, including any
+  assumptions for the reason of the missingness}
+\item
+  \emph{If individuals (or predictors) have been omitted due to the
+  missing values, this should be reported, and reasons given}
+\item
+  \emph{If missing values have been imputed, then full details of the
+  method for imputing any missing values should be reported}
+\item
+  \emph{If missing values have been imputed confirm it was done
+  separately for the training and any test data (i.e., avoiding
+  leakage)}
+\end{itemize}
+\end{minipage} & \\
+\emph{Analytical methods} & 12a &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe how the data were used (e.g., for development and
+evaluation of model performance) in the analysis, including whether the
+data were partitioned, considering any sample size requirements}
+
+\begin{itemize}
+\item
+  \emph{Describe how the available data were used to develop the model
+  and to evaluate model performance, including whether and how the data
+  were partitioned, and the reasons for partitioning the data (e.g.,
+  model development, hyperparameter tuning, evaluating model
+  performance, internal-external cross-validation)}
+\item
+  \emph{If the data has been partitioned, report whether sample size
+  requirements (see item 10) were considered during the partitioning,
+  and whether the size of the partitioned data are sufficient to carry
+  out the analyses and answer the research question}
+\item
+  \emph{If the data has been partitioned into training (including any
+  hyperparameter tuning data) and test data, confirm that there has been
+  no data leakage}
+\item
+  \emph{If the data contain multiple records or samples from the same
+  individual, and if the data has been partitioned into training
+  (including any hyperparameter tuning data) and test data, confirm
+  there has been no leakage of individuals across any of the partitioned
+  data or if not, how describe how this was handled in the analysis (see
+  item 12c)}
+\end{itemize}
+\end{minipage} & \\
+& 12b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Depending on the type of model, describe how predictors were
+handled in the analyses (functional form, rescaling, transformation, or
+any standardisation)}
+
+\begin{itemize}
+\item
+  \emph{For any predictors that have been transformed during the
+  analysis, i.e., rescaled, or standardised, describe how this was done}
+\item
+  \emph{For any categorical predictors, where collapsing of categories
+  has been carried out, e.g., due to small sample size/too few outcome
+  events, provide the details and reasons}
+\end{itemize}
+\end{minipage} & \\
+& 12c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify the type of model, rationale (separately for all model
+buiding approaches), all model-building steps, including any
+hyperparameter tuning, and method for internal validation}
+
+\begin{itemize}
+\item
+  \emph{Clearly specify the type of model (or models) being developed
+  (e.g., logistic regression, Cox regression, random forest, neural
+  network) and provide a rationale for using each model building method
+  -- consider the type of outcome being predicted and how the prediction
+  model will be implemented in practice}
+\item
+  \emph{For each model, clearly describe all the steps in the model
+  building, including any hyperparameter tuning, what hyperparameters
+  have been tuned and how this was done. If many model building
+  approaches are being applied and word limits prohibit a full
+  description, then use supplementary material to provide the details}
+\item
+  \emph{For studies that are developing more than one model (e.g., using
+  different model building methods), clearly describe the criteria to
+  choose which is the model being put forward (if any), see item 12e and
+  item 23 on model performance)}
+\item
+  \emph{The internal validation approach (to evaluate model performance)
+  during model development should be clearly described, e.g., was k-fold
+  cross validation or bootstrapping used. Clarify whether all model
+  building steps (including hyperparameter tuning) was replayed during
+  the method of internal evaluation}
+\item
+  \emph{Clearly describe any methods (e.g., bootstrapping) used to
+  examine model stability (e.g., in terms of predictor selection,
+  predictive performance and individual predictions) (Riley \& Collins,
+  Biom J 2023; 65: 2200302 {[}DOI: 10.1002/bimj.202200302{]})}
+\item
+  \emph{If the data contain multiple records or samples from the same
+  individual, describe how this was handled in the model building and
+  internal validation (e.g., if k-fold cross-validation was used,
+  confirm if all records/samples for an individual were included in the
+  same fold (e.g., avoiding data leakage)}
+\end{itemize}
+\end{minipage} & \\
+& 12d & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe if and how any heterogeneity in estimates of model
+parameter values and model performance was handled and quantified across
+clusters (e.g., hospitals, countries). See TRIPOD-Cluster for additional
+considerations}
+
+\begin{itemize}
+\item
+  \emph{If the analysis has accounted for any clustering in the data
+  (e.g., from combining individual participant data from multiple
+  studies, or data clustered by medical centre/hospital, or country)
+  during the model development or evaluation of model performance, the
+  rationale and methods used to account for clustering should be clearly
+  described}
+\item
+  \emph{For specific reporting recommendations for prediction model
+  studies that have accounted for clustering and heterogeneity in model
+  parameter values and performance, authors should consult the
+  TRIPOD-Cluster checklist (Debray et al, BMJ 2023; 380: e071018 {[}DOI:
+  10.1136/bmj-2022-071018{]})}
+\end{itemize}
+\end{minipage} & \\
+& 12e & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify all measures and plots used (and their rationale) to
+evaluate model performance (e.g., discrimination, calibration, clinical
+utility) and, if relevant, to compare multiple models}
+
+\begin{itemize}
+\item
+  \emph{Report all the measures used to evaluate model performance. It
+  is generally expected that as a minimum, model discrimination and
+  calibration (including calibration plots) are presented}
+\item
+  \emph{If the prediction model is predicting a time-to-event outcome,
+  then clearly describe the measures and methods that have been used to
+  account for the time-to-event nature (i.e., censoring). Similarly, the
+  handling of any competing risks should also be stated (if applicable)}
+\item
+  \emph{For prognostic models, report all time-points at which the
+  model's predictive performance was evaluated}
+\item
+  \emph{Report the methods used for graphical displays of model
+  performance, such as calibration plots (with smooth calibration
+  curves) and decision curves}
+\item
+  \emph{If multiple models are being compared, i.e., comparing against
+  an existing model or comparing multiple modelling approaches, then the
+  methods used for comparing these models, and the criteria for making
+  any judgements on superior performance should be clearly explained}
+\end{itemize}
+\end{minipage} & \\
+& 12f & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe any model updating (e.g., recalibration) arising from
+the model evaluation, either overall or for particular sociodemographic
+groups or settings}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{If the model is updated following the validation, such as
+  recalibration or refitting -- whether in the entire cohort or in a
+  specific sociodemographic group, then provide details on the methods
+  used to update the model}
+\end{itemize}
+\end{minipage} & Inapplicable \\
+& 12g & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{For model evaluation, describe how the model predictions were
+calculated (e.g., formula, code, object, application programming
+interface)}
+
+\begin{itemize}
+\item
+  \emph{For studies evaluating an existing model in a separate data set
+  (i.e., an external validation study), provide details on how the
+  individual predictions from the model were calculated. If a model is
+  not freely/publicly available, explain how the predictions were
+  obtained}
+\item
+  \emph{If a regression model equation was being evaluated, provide
+  details of this equation (e.g., consider presenting this equation,
+  provide a citation to the original study that developed the equation)}
+\item
+  \emph{For studies evaluating a prediction model where there is no
+  equation (e.g., a neural network, random forest), provide details on
+  how the predictions were made, e.g., code, software object, API, and
+  where can this be found (i.e., URL, DOI)}
+\item
+  \emph{If individual predictions from the model were used to create
+  risk groups or classifications (that were not specified in the model
+  development) then details on how and why this was done should be
+  reported (see item 15)}
+\end{itemize}
+\end{minipage} & Inapplicable \\
+\emph{Class imbalance} & 13 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{If class imbalance methods were used, state why and how this was
+done, and any subsequent methods to recalibrate the model or the model
+predictions}
+
+\begin{itemize}
+\item
+  \emph{If class imbalance methods (e.g., under/over sampling, SMOTE6)
+  have been used, then provide a rationale for doing so, and how this
+  was done -- considering any impact on sample size (e.g., for
+  undersampling methods)}
+\item
+  \emph{Imbalance corrections have an impact on model calibration (van
+  den Goorbergh et al, J Am Med Inform Assoc 2022; 29: 1525--1534
+  {[}DOI: 10.1093/jamia/ocac093{]}), yielding probability estimates that
+  are too high (which also has an impact on defining any risk groups),
+  describe the methods used to recalibrate the model or the model
+  predictions}
+\end{itemize}
+\end{minipage} & Inapplicable \\
+\emph{Fairness} & 14 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe any approaches that were used to address model fairness
+and their rationale}
+
+\begin{itemize}
+\item
+  \emph{Fairness refers to ensuring that a prediction model does not
+  discriminate against individuals or groups, for example based on
+  personal attributes such as race, gender, age and all approaches used
+  to address fairness should be clearly explained along with their
+  rationale}
+\item
+  \emph{It is important to ensure the data contains representative
+  groups (of the target population) when developing the model and
+  evaluating its performance and researchers should attempt to
+  demonstrate this}
+\item
+  \emph{If the prediction model is developed using data with
+  underrepresented groups or particular groups not included, then
+  evaluation in these groups in representative data is needed to
+  evaluate the model in these groups, as to increase generalisability to
+  more groups of individuals beyond those in the development and
+  evaluation data}
+\end{itemize}
+\end{minipage} & \\
+\emph{Model output} & 15 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify the output of the prediction model (e.g., probabilities,
+classification). Provide details and rationale for any classification
+and how the thresholds were identified}
+
+\begin{itemize}
+\item
+  \emph{Most models output a probability estimate for an individual,
+  whilst some models turn the output into a classification (e.g., into
+  low or high-risk groups), this should be clearly stated. If
+  classification or risk groups have been created, then the rationale
+  for doing so in the context of the care pathway and how these risk
+  groups inform any clinical decisions should be made}
+\item
+  \emph{For models producing a classification or risk groups, this
+  should be clearly reported, and any thresholds (e.g., range of
+  estimated probabilities defining the groups) should be specified
+  (whether these are based on the literature, clinical guidelines,
+  statistical considerations or ad-hoc)}
+\item
+  \emph{If uncertainty intervals for individual prediction model outputs
+  have been presented then provide details on how this was done (e.g.,
+  using the variance-covariance matrix of parameter estimates or
+  conformal prediction)}
+\end{itemize}
+\end{minipage} & \\
+\emph{Development versus evaluation} & 16 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Identify any differences between the development and evaluation
+data in healthcare setting, eligibility criteria, outcome, and
+predictors}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Prediction models developed in one setting, centre or country
+  are not necessarily useful in a different setting, centre, or country.
+  Eligibility criteria, outcome and predictors definitions might
+  (intentionally) differ between data from different sources. Describing
+  any differences between the development data and data used to evaluate
+  model performance is useful to understand and interpret the
+  performance and generalisability of the model in the context of the
+  original model development data}
+\end{itemize}
+\end{minipage} & Inapplicable (yet) \\
+\emph{Ethical approval} & 17 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Name the institutional research board or ethics committee that
+approved the study and describe the participant-informed consent or the
+ethics committee waiver of informed consent}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{If the study has no institutional research board or ethics
+  approval, then clearly state so, with reasons}
+\end{itemize}
+\end{minipage} & \\
+\textbf{OPEN SCIENCE} & & & \\
+\emph{Funding} & 18a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Give the source of funding and the role of the funders for the
+present study}
+
+\begin{itemize}
+\item
+  \emph{Provide details on whether the study was funded and provide any
+  details on the role the funder had in the study.}
+\item
+  \emph{Provide any additional funding sources of all authors}
+\end{itemize}
+\end{minipage} & \\
+\emph{Conflicts of interest} & 18b &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Declare any conflicts of interest and financial disclosures for
+all authors}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Disclose any of the authors' relationships or activities that
+  readers could consider pertinent or that may have influenced the study
+  design, conduct, interpretation, or reporting}
+\end{itemize}
+\end{minipage} & \\
+\emph{Protocol} & 18c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Indicate where the study protocol can be accessed or state that
+a protocol was not prepared}
+
+\begin{itemize}
+\item
+  \emph{Provide all details on the availability of the study protocol,
+  including where the study protocol can be found (e.g., publication
+  details, in supplementary material, publicly available in a repository
+  such as on the Open Science Framework), including a URL or DOI}
+\item
+  \emph{Clearly state if no study protocol was developed or publicly
+  available (and reasons)}
+\item
+  \emph{If there are any notable deviations from what was specified in
+  the study protocol, provide a summary and reasons for the deviation}
+\end{itemize}
+\end{minipage} & \\
+\emph{Registration} & 18d & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Provide registration information for the study, including
+register name and registration number, or state that the study was not
+registered}
+
+\begin{itemize}
+\item
+  \emph{If the study has been registered (e.g., on clinicaltrials.gov,
+  Open Science Framework), then provide details on the registration
+  number, the name of the register and a link to the registration
+  (including any DOI)}
+\item
+  \emph{Clearly state if the study has not been registered}
+\end{itemize}
+\end{minipage} & \\
+\emph{Data sharing} & 18e & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Provide details of the availability of the study data}
+
+\begin{itemize}
+\item
+  \emph{Provide details on the availability of the study data, including
+  where the data can be found (e.g., public repository, URL, DOI), how
+  it can be retrieved, any conditions or restrictions on obtaining and
+  using the data. A data dictionary should accompany any shared data.}
+\item
+  \emph{If data cannot be shared, provide reasons as to why}
+\item
+  \emph{Avoid platitudes such as `Data available upon reasonable
+  request' without specifying conditions for what constitutes a
+  reasonable request}
+\end{itemize}
+\end{minipage} & \\
+\emph{Code sharing} & 18f & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Provide details of the availability of the analytical code
+(e.g., any data cleaning, feature engineering, model building,
+evaluation)}
+
+\begin{itemize}
+\item
+  \emph{Provide all details on the availability of the analytical code
+  (and documentation on how to run the code), including where the code
+  can be found (e.g., code repository, DOI, link), how it can be
+  retrieved, any conditions or licences to obtain and use the code
+  should be reported (and version)}
+\item
+  \emph{The analytical code is all code needed to replicate (in
+  principle) all the reported results and findings of the study
+  (including any code for data cleaning). The software and any packages
+  needed to reproduce (in principle) the study findings should be
+  reported (including any version numbers). In some instances, more
+  details on the computing environment may need to be reported (e.g.,
+  hardware, operating system, CPU, RAM)}
+\end{itemize}
+\end{minipage} & \\
+\textbf{PATIENT \& PUBLIC INVOLVEMENT} & & & \\
+\emph{Patient \& Public Involvement} & 19 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Provide details of any patient and public involvement during the
+design, conduct, reporting, interpretation, or dissemination of the
+study or state no involvement}
+
+\begin{itemize}
+\item
+  \emph{Describe how patients or public were involved in the planning,
+  design, conduct, reporting or dissemination of the study and its
+  findings.}
+\item
+  \emph{Were the findings of the study presented to patients or the
+  public?}
+\item
+  \emph{Consider using the GRIPP2 statement to report patient and public
+  involvement in the research (Staniszewska et al, BMJ 2017; j3453
+  {[}DOI: 10.1136/bmj.j3453{]})}
+\item
+  \emph{If no patients or public were involved in any aspect of the
+  study, then clearly state so}
+\end{itemize}
+\end{minipage} & \\
+\textbf{RESULTS} & & & \\
+\emph{Participants} & 20a & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe the flow of participants through the study, including
+the number of participants with and without the outcome and, if
+applicable, a summary of the follow-up time. A diagram may be helpful}
+
+\begin{itemize}
+\item
+  \emph{A flow diagram can be useful to describe the flow of
+  participants through a study, where the entry point to the flow
+  diagram is the source of participants, and then successive steps can
+  relate to eligibility criteria, follow-up (if applicable). and data
+  availability}
+\item
+  \emph{Other useful information to present in the flow diagram include
+  the number of participants with missing values, and the number of
+  outcome events}
+\item
+  \emph{For studies of prognosis or diagnosis with delayed reference
+  testing, a summary of the follow-up time should be reported (e.g.,
+  median follow-up, and range)}
+\end{itemize}
+\end{minipage} & \\
+& 20b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Report the characteristics overall and, where applicable, for
+each data source or setting, including the key dates, key predictors
+(including demographics), treatments received, sample size, number of
+outcome events, follow-up time, and amount of missing data. A table may
+be helpful. Report any differences across key demographic groups}
+
+\begin{itemize}
+\item
+  \emph{Report, possibly using a table, a summary of all data sets used,
+  including the distribution of outcomes, predictors (e.g., mean/median,
+  standard deviation/interquartile range, frequency), any treatments
+  received, the sample size (and number of outcome events, summary of
+  the follow-up time, and for each predictor, the number and proportion
+  of missing values}
+\item
+  \emph{If relevant, it may be useful to report any differences across
+  key demographic groups of interest}
+\end{itemize}
+\end{minipage} & \\
+& 20c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{For model evaluation, show a comparison with the development
+data of the distribution of important predictors (demographics,
+predictors, and outcome).}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{For studies evaluating the performance of an existing model
+  (including those within a model development study) provide a
+  comparison of the distribution of important variables (e.g.,
+  mean/median, standard deviation/interquartile range, frequency), such
+  as demographics, predictors in the model, and outcome, including
+  proportion of missing values. This is probably best presented in a
+  table and consider reporting this by outcome status}
+\end{itemize}
+\end{minipage} & Inapplicable \\
+\emph{Risk of bias} & C-11 & \textbf{Report the results of the
+risk-of-bias assessment in the individual clusters} & \\
+\emph{Model development} & 21 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Specify the number of participants and outcome events in each
+analysis (e.g., for model development, hyperparameter tuning, model
+evaluation)}
+
+\begin{itemize}
+\item
+  \emph{The sample size (including the number of outcome events) should
+  be reported for each analysis (i.e., each model development, each
+  model evaluation), as they can often vary across different analyses in
+  a prediction model study (e.g., after data partitioning, model
+  hyperparameter tuning), and particularly in the presence of missing
+  data}
+\item
+  \emph{If the data contain multiple samples or records for an
+  individual report also report the number of individuals}
+\end{itemize}
+\end{minipage} & \\
+\emph{Model specification} & 22 &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Provide details of the full prediction model (e.g., formula,
+code, object, API) to allow predictions in new individuals and to enable
+third-party evaluation and implementation, including any restrictions to
+access or re-use (e.g., freely available, proprietary)}
+
+\begin{itemize}
+\item
+  \emph{The `product' of a prediction model development study is the
+  prediction model. It is therefore important to provide details on the
+  model, and how it can be used to allow predictions for new individuals
+  to be made. For example, provide the equation for a regression model,
+  for models developed using methods where the model cannot be `written
+  down' as an equation, provide details on the availability of code,
+  software objects or API so that others can evaluate this model in
+  their own data, or implement it in daily practice}
+\item
+  \emph{If multiple models have been developed, then provide details on
+  the availability of all models}
+\item
+  \emph{Explain how to use the model to allow others to make predictions
+  in new individuals.}
+\item
+  \emph{Provide details of any hardware requirements, and software (and
+  packages) to enable third-party testing, implementation and
+  monitoring}
+\item
+  \emph{If a model cannot be made publicly available (e.g., for
+  commercial reasons), this should be clearly reported, and any
+  conditions on gaining access to the model to enable predictions to be
+  calculated for new individuals and third-party evaluation should be
+  reported}
+\end{itemize}
+\end{minipage} & \\
+\emph{Model performance} & 23a &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Report model performance estimates with confidence intervals,
+including for any key subgroups (e.g., sociodemographic). Consider plots
+to aid presentation}
+
+\begin{itemize}
+\item
+  \emph{Estimates of all model performance measures described in item
+  12e should be presented along with confidence intervals.}
+\item
+  \emph{Report model performance estimates for the overall population
+  and for any key groups (e.g., sex, ethnicity) of interest (e.g., as
+  part of fairness checks) with confidence intervals}
+\item
+  \emph{Use plots to present and aid evaluation, such as calibration
+  plots (with smooth calibration curves and distributions of predicted
+  values) and decision curves}
+\item
+  \emph{Report performance estimates for all evaluations undertaken
+  (e.g., in development data; in evaluation data; from internal
+  validation process, etc), including at each time-point examined (for
+  prognostic models)}
+\item
+  \emph{Report any examinations of model stability, e.g., in terms of
+  performance estimates and variability of individual predictions across
+  models developed in bootstrap samples (Riley \& Collins, Biom J 2023;
+  65: 2200302 {[}DOI: 10.1002/bimj.202200302{]})}
+\item
+  \emph{Clearly indicate which data have been used to present each
+  performance estimate}
+\end{itemize}
+\end{minipage} & \\
+& 23b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{If examined, report results of any heterogeneity in model
+performance across clusters. See TRIPOD Cluster for additional details}
+
+\begin{itemize}
+\item
+  \emph{If the evaluation of model performance has accounted for any
+  clustering in the data (e.g., from combining individual participant
+  data from multiple studies, or data clustered by centre/hospital, or
+  country), the results should be reported, along with confidence
+  intervals (see item 23a)}
+\item
+  \emph{For specific reporting recommendations for prediction model
+  studies that have accounted for clustering and heterogeneity in model
+  performance, authors should consult the TRIPOD-Cluster checklist
+  (Debray et al, BMJ 2023; 380: e071018 {[}DOI: 10.1136/bmj-
+  2022-071018{]})}
+\end{itemize}
+\end{minipage} & \\
+\emph{Model updating} & 24 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Report the results from any model updating, including the
+updated model and subsequent performance}
+
+\begin{itemize}
+\item
+  \emph{If the prediction model has been updated (e.g., recalibrated,
+  re-fit) following the validation, details of the updated prediction
+  model to enable third-party evaluation and implementation, including
+  any restrictions to access or re-use should be reported (see item 22)}
+\item
+  \emph{The performance of the updated model should be reported (see
+  items 23a, potentially 23b)}
+\end{itemize}
+\end{minipage} & Inapplicable \\
+\textbf{DISCUSSION} & & & \\
+\emph{Interpretation} & 25 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Give an overall interpretation of the main results, including
+issues of fairness in the context of the objectives and previous
+studies}
+
+\begin{itemize}
+\item
+  \emph{Interpretation of the study results places the findings in
+  context of other evidence. If there are existing models, then discuss
+  the findings in the context of these existing studies}
+\item
+  \emph{For studies evaluating the performance of an existing prediction
+  model, if existing studies have evaluated the performance of the
+  model, then it's important to discuss and summarise these findings and
+  place them in context}
+\item
+  \emph{Ensure the interpretation of the findings do not go beyond the
+  findings reported from the development and evaluation of the model to
+  prevent overinterpretation or `spin'}
+\item
+  \emph{It is useful for the reader to understand how performance of the
+  model in the evaluation data compares to the performance of the model
+  in any other evaluation studies of that model. When the results
+  diverge, possible reasons for the difference in model performance
+  should be discussed}
+\end{itemize}
+\end{minipage} & \\
+\emph{Limitations} & 26 & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Discuss any limitations of the study (such as a
+non-representative sample, sample size, overfitting, missing data) and
+their effects on any biases, statistical uncertainty, and
+generalizability}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Acknowledgement of limitations is an important aspect of any
+  scientific paper -- and can refer to any aspect of the study design,
+  conduct or analysis. Provide a meaningful discussion of the study
+  limitations factoring in any concerns related to representativeness of
+  the data used in the analysis, sample size, overfitting and missing
+  data/data quality}
+\end{itemize}
+\end{minipage} & \\
+\emph{Usability of the model in the context of current care} & 27a &
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Describe how poor quality or unavailable input data (e.g.,
+predictor values) should be assessed and handled when implementing the
+prediction model}
+
+\begin{itemize}
+\item
+  \emph{Authors should comment on how to handle unavailable predictor
+  values at the moment the model is intended to be used as part of the
+  care pathway in daily practice. Any strategies to impute missing
+  values at the moment the model is intended to be used should also be
+  evaluated (and thus mentioned in the Methods and Results)}
+\item
+  \emph{Similarly, at the point of implementation, authors should
+  discuss (if relevant) the handling of poor quality input data (e.g.,
+  image resolution, data format)}
+\end{itemize}
+\end{minipage} & \\
+& 27b & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Discuss whether users will be required to interact in the
+handling of the input data or use of the model, and what level of
+expertise is required of users}
+
+\begin{itemize}
+\item
+  \emph{Provide details on how users are expected or required to
+  interact with the prediction model for the model to be used as
+  intended, for example any considerations for handling the input data}
+\item
+  \emph{Is any expertise or training needed or required to use the
+  model, handle or collect the input data, and if so, provide details}
+\end{itemize}
+\end{minipage} & \\
+& 27c & \begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Discuss any next steps for future research, with a specific view
+to applicability and generalizability of the model}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Are further evaluations of the model needed, e.g., in different
+  populations or subgroups, or is the model ready for evaluation in
+  clinical trials, or implementation as part of the care pathway}
+\end{itemize}
+\end{minipage} & \\
 \end{longtable}
 
 \section{Introduction}\label{introduction}
 
-\subsection{Background and objectives}\label{background-and-objectives}
+\subsection{Background}\label{background}
+
+\subsubsection{3a. Explain the healthcare context (including whether
+diagnostic or prognostic) and rationale for developing or evaluating the
+prediction model, including references to existing
+models}\label{a.-explain-the-healthcare-context-including-whether-diagnostic-or-prognostic-and-rationale-for-developing-or-evaluating-the-prediction-model-including-references-to-existing-models}
 
 \textbf{First paragraph:} introduction about linezolid and associated
 ADR including thrombocytopenia
@@ -357,12 +1335,30 @@ linezolid-induced thrombocytopenia adapted to Vietnamese setting. In
 addition, we constructed a simplified risk score using this model to
 enhance the applicability of the prediction rule in clinical practice.
 
+\subsubsection{3b. Describe the target population and the intended
+purpose of the prediction model in the context of the care pathway,
+including its intended users (e.g., healthcare professionals, patients,
+public)}\label{b.-describe-the-target-population-and-the-intended-purpose-of-the-prediction-model-in-the-context-of-the-care-pathway-including-its-intended-users-e.g.-healthcare-professionals-patients-public}
+
+\subsubsection{3c. Describe any known health inequalities between
+sociodemographic
+groups}\label{c.-describe-any-known-health-inequalities-between-sociodemographic-groups}
+
+\subsection{Objectives}\label{objectives}
+
+\subsubsection{4. Specify the study objectives, including whether the
+study describes the development or validation of a prediction model (or
+both)}\label{specify-the-study-objectives-including-whether-the-study-describes-the-development-or-validation-of-a-prediction-model-or-both}
+
 \section{Methods}\label{methods}
 
-\subsection{Participants and data}\label{participants-and-data}
+\subsection{Data}\label{data}
 
-\subsubsection{4a: Describe eligibility criteria for participants and
-datasets}\label{a-describe-eligibility-criteria-for-participants-and-datasets}
+\subsubsection{5a. Describe the sources of data separately for the
+development and evaluation datasets (e.g., randomised trial, cohort,
+routine care or registry data), the rationale for using these data, and
+representativeness of the
+data}\label{a.-describe-the-sources-of-data-separately-for-the-development-and-evaluation-datasets-e.g.-randomised-trial-cohort-routine-care-or-registry-data-the-rationale-for-using-these-data-and-representativeness-of-the-data}
 
 This study used data from three tertiary hospitals in Northern Vietnam:
 Thanh Nhan Hospital, Bach Mai Hospital, and the National Hospital of
@@ -378,9 +1374,10 @@ course was evaluated. Included patients were followed up until the end
 of the linezolid treatment course or discharge date whichever comes
 first.
 
-\subsubsection{4b: Describe the origin of the data, and how the data
-were identified, requested, and
-collected}\label{b-describe-the-origin-of-the-data-and-how-the-data-were-identified-requested-and-collected}
+\subsubsection{5b. Specify the dates of the collected participant data,
+including start and end of participant accrual; and, if applicable, end
+of
+follow-up}\label{b.-specify-the-dates-of-the-collected-participant-data-including-start-and-end-of-participant-accrual-and-if-applicable-end-of-follow-up}
 
 The data was collected from each hospital in two phases: a pilot phase
 and an extension phase. In the pilot phase, we requested existing
@@ -408,201 +1405,44 @@ hospital admission.
 
 Ethical approval was obtained from\ldots.
 
-\subsection{Sample size}\label{sample-size}
+\subsection{Participants}\label{participants}
 
-Previous studies developing logistic regression models for LI-TP risk
-predictions have included 4-6 predictors in their final models
-{[}1--4{]}. We expect to include about as many candidate predictors,
-based on results from the expert opinion survey and the Bayesian Model
-Selection algorithm see~\ref{sec-outcomes-and-predictors}. Some of the
-candidate predictors might be continuous, which may potentially require
-non-linear modelling and therefore slightly increase the number of
-variables.
+\subsubsection{6a. Specify key elements of the study setting (e.g.,
+primary care, secondary care, general population) including the number
+and location of
+centres}\label{a.-specify-key-elements-of-the-study-setting-e.g.-primary-care-secondary-care-general-population-including-the-number-and-location-of-centres}
 
-A general rule of thumb is for at least 10 events be available for each
-candidate predictor considered in a prediction model {[}5{]}. We have a
-total of 816 eligible patients and 264 of those have experienced the
-outcome. If the number of candidate predictors is 7, we would have 37
-events per candidate predictor, which is considerably greater than the
-minimum number required. Even if the number of parameters screened is
-20, we would still have 13 events per candidate predictor.
+\subsubsection{6b. Describe the eligibility criteria for study
+participants}\label{b.-describe-the-eligibility-criteria-for-study-participants}
 
-However, the aforementioned rule of thumb have generated some debate in
-the literature, with recent results suggesting that event per variable
-criterion is too simplistic and has no strong relation to the predictive
-performance of a model. Riley et al {[}6{]} proposed a different set of
-criteria to estimate minimum sample size for models developed using
-logistic regression, which are the following:
+\subsubsection{6c. Give details of any treatments received, and how they
+were handled during model development or evaluation, if
+relevant}\label{c.-give-details-of-any-treatments-received-and-how-they-were-handled-during-model-development-or-evaluation-if-relevant}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Small optimism in predictor effect estimates, defined as a global
-  shrinkage factor of \textgreater= 0.9.
-\item
-  Small absolute difference of \textless= 0.05 in the model's apparent
-  and adjusted Nagelkerke's R-squared.
-\item
-  Precise estimation of the overall risk in the population.
-\end{enumerate}
+\subsection{Data preparation}\label{data-preparation}
 
-Criteria 1 and 2 aims to reduce the potential of overfitting. Criteria 3
-aims to ensure the overall risk is estimated precisely.
+\subsubsection{7. Describe any data pre-processing and quality checking,
+including whether this was similar across relevant sociodemographic
+groups}\label{describe-any-data-pre-processing-and-quality-checking-including-whether-this-was-similar-across-relevant-sociodemographic-groups}
 
-\subsubsection{Step 1: Choose the number of candidate predictors of
-interest for inclusion in the model, and calculate the corresponding
-number of predictor parameters
-(p)}\label{step-1-choose-the-number-of-candidate-predictors-of-interest-for-inclusion-in-the-model-and-calculate-the-corresponding-number-of-predictor-parameters-p}
+\subsubsection{C-7b. Describe the method for assessing risk of bias and
+applicability in the individual clusters (eg, using
+PROBAST)}\label{c-7b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast}
 
-Note that one predictor may require two or more parameters. For example,
-a k-category predictor requires k-1 parameters and a continuous
-predictor model with a non-linear trend requires more than one parameter
-to be estimated. Also include any potential interaction terms towards
-the total p.
+\subsection{Outcome}\label{outcome}
 
-When using a predictor selection method, p should be defined as the
-total number of parameters screened, and not just the subset that are
-included in the final model.
-
-Assuming maximum total p to be 20.
-
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, arc=.35mm, colback=white, titlerule=0mm, toptitle=1mm, colframe=quarto-callout-note-color-frame, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toprule=.15mm, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomtitle=1mm]
-
-The value of p is assumed to be no larger than 20 because univariate
-regression shows there are 20 variables that are significantly
-correlated with the outcome.
-
-\end{tcolorbox}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-\subsubsection{\texorpdfstring{Step 2: Choose sensible values for
-R\textsuperscript{2}\textsubscript{CS\_adj} and
-max(R\textsuperscript{2}\textsubscript{CS\_app}) based on previous
-studies where R\textsuperscript{2}\textsubscript{CS} is the Cox-Snell
-R\textsuperscript{2}
-statistic.}{Step 2: Choose sensible values for R2CS\_adj and max(R2CS\_app) based on previous studies where R2CS is the Cox-Snell R2 statistic.}}\label{step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic.}
-
-The value of max(R\textsuperscript{2}\textsubscript{CS\_app}) is based
-on the overall prevalence or overall rate of the outcome in the
-population of interest. The incidence of LI-TP in patients treated with
-linezolid was estimated to be 37\% in a meta-analysis by Zhao et al
-{[}7{]}.
-
-The value of R\textsuperscript{2}\textsubscript{CS\_adj} could be based
-on that for a previously published model in the same setting and
-population (with similar outcome definition). However, as previous
-studies does not provide any information to identify a sensible value of
-the minimum expected Cox-Snell R\textsuperscript{2}, the value
-R\textsuperscript{2}\textsubscript{CS\_adj} will be assumed to
-correspond to a R\textsuperscript{2}\textsubscript{Nagelkerke} of 0.50,
-as baseline platelet count, a ``direct'' measurement of the outcome, is
-likely to be a predictor.
-
-\begin{verbatim}
-[1] 0.2048324
-\end{verbatim}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-\subsubsection{Step 3: Criterion 1}\label{step-3-criterion-1}
-
-Calculate the sample size required to ensure Van Houwelingen's global
-shrinkage factor (S\textsubscript{VH}) is close to 1. A value of
-S\textsubscript{VH} \textgreater= 0.90 is generally recommended, which
-reflects a small amount of overfitting during model development.
-
-\begin{verbatim}
-[1] 775
-\end{verbatim}
-
-\begin{verbatim}
-[1] 21
-\end{verbatim}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-We see that 775 participants are required to meet criterion 1.
-
-\subsubsection{Step 4: Criterion 2}\label{step-4-criterion-2}
-
-Calculate the shrinkage factor (S\textsubscript{VH}) required to ensure
-a small absolute difference of \textless= 0.05 in the developed model's
-apparent and adjusted Nagelkerke's R\textsuperscript{2}. Then derive the
-required sample size conditional on this value of S\textsubscript{VH}.
-
-\begin{verbatim}
-[1] 478
-\end{verbatim}
-
-\begin{verbatim}
-[1] 34
-\end{verbatim}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-We see that 478 participants are required to meet criterion 2.
-
-\subsubsection{Step 5: Criterion 3}\label{step-5-criterion-3}
-
-Calculate the sample size required to ensure a precise estimate of the
-overall risk in the population. The suggested absolute margin of error
-is \textless= 0.05.
-
-\begin{verbatim}
-[1] 359
-\end{verbatim}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-We see that 359 participants are required to meet criterion 3.
-
-\subsubsection{Step 6: Final sample
-size}\label{step-6-final-sample-size}
-
-The required minimum sample size is the maximum value from steps 3 to 5,
-to ensure that each of criteria 1 to 3 are met.
-
-\begin{verbatim}
-[1] 775
-\end{verbatim}
-
-\begin{verbatim}
-[1] 21
-\end{verbatim}
-
-\textsubscript{Source:
-\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
-Notebook}}
-
-The final estimate of minimum sample size is 775, therefore our data is
-sufficient for model development with 20 parameters.
-
-The maximum number of parameters that can be screened is 21.
-
-\subsection{Outcomes and predictors}\label{sec-outcomes-and-predictors}
-
-\subsubsection{6a. Define the outcome that is predicted by the model,
-including how and when
-assessed}\label{a.-define-the-outcome-that-is-predicted-by-the-model-including-how-and-when-assessed}
+\subsubsection{8a. Clearly define the outcome that is being predicted
+and the time horizon, including how and when assessed, the rationale for
+choosing this outcome, and whether the method of outcome assessment is
+consistent across sociodemographic
+groups}\label{a.-clearly-define-the-outcome-that-is-being-predicted-and-the-time-horizon-including-how-and-when-assessed-the-rationale-for-choosing-this-outcome-and-whether-the-method-of-outcome-assessment-is-consistent-across-sociodemographic-groups}
 
 The outcome of interest is linezolid-induced thrombocytopenia, defined
 as (i) a platelet count of \textless{} 112.5 x 10\textsuperscript{9}
 cells/L (75\% of the lower limit of normal) for patients with a baseline
 platelet count in the normal range; (ii) A reduction in platelet count
 of ≥ 25\% from the baseline value for patients with a baseline platelet
-count of \textless{} 150 x 10\textsuperscript{9} cells/L {[}4,8,9{]}.
+count of \textless{} 150 x 10\textsuperscript{9} cells/L {[}1--3{]}.
 
 Normal platelet count is defined as 150-450 x 10\textsuperscript{9}
 cells/L. Baseline platelet count is defined as the last recorded PLT
@@ -611,7 +1451,7 @@ to have met the outcome if their platelet count value meets the above
 criteria at any time during linezolid therapy or within 5 days after the
 end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, arc=.35mm, colback=white, titlerule=0mm, toptitle=1mm, colframe=quarto-callout-warning-color-frame, opacityback=0, colbacktitle=quarto-callout-warning-color!10!white, bottomrule=.15mm, toprule=.15mm, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, coltitle=black, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, bottomtitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, breakable, bottomtitle=1mm, coltitle=black, colframe=quarto-callout-warning-color-frame, colbacktitle=quarto-callout-warning-color!10!white, toprule=.15mm, bottomrule=.15mm, colback=white, toptitle=1mm, titlerule=0mm, leftrule=.75mm, opacityback=0, rightrule=.15mm, arc=.35mm, opacitybacktitle=0.6]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -633,9 +1473,26 @@ LZD has been eliminated from the system would not be related to LZD use.
 
 \end{tcolorbox}
 
-\subsubsection{6b. Define all predictors used in developing or
-validating the model, including how and when
-measured}\label{b.-define-all-predictors-used-in-developing-or-validating-the-model-including-how-and-when-measured}
+\subsubsection{8b. If outcome assessment requires subjective
+interpretation, describe the qualifications and demographic
+characteristics of the outcome
+assessors}\label{b.-if-outcome-assessment-requires-subjective-interpretation-describe-the-qualifications-and-demographic-characteristics-of-the-outcome-assessors}
+
+\subsubsection{8c. Report any actions to blind assessment of the outcome
+to be
+predicted}\label{c.-report-any-actions-to-blind-assessment-of-the-outcome-to-be-predicted}
+
+\subsection{Predictors}\label{predictors}
+
+\subsubsection{9a. Describe the choice of initial predictors (e.g.,
+literature, previous models, all available predictors) and any
+pre-selection of predictors before model
+building}\label{a.-describe-the-choice-of-initial-predictors-e.g.-literature-previous-models-all-available-predictors-and-any-pre-selection-of-predictors-before-model-building}
+
+\subsubsection{9b. Clearly define all predictors, including how and when
+they were measured (and any actions to blind assessment of predictors
+for the outcome and other
+predictors)}\label{b.-clearly-define-all-predictors-including-how-and-when-they-were-measured-and-any-actions-to-blind-assessment-of-predictors-for-the-outcome-and-other-predictors}
 
 Predictors will be screened for inclusion in the model if they meet all
 of the following criteria: (i) has been identified as a risk factor of
@@ -673,11 +1530,225 @@ The following information was extracted from all records:
   Concomitant medications during linezolid therapy
 \end{itemize}
 
-\subsection{Data preparation}\label{data-preparation}
+\subsubsection{9c. If predictor measurement requires subjective
+interpretation, describe the qualifications and demographic
+characteristics of the predictor
+assessors}\label{c.-if-predictor-measurement-requires-subjective-interpretation-describe-the-qualifications-and-demographic-characteristics-of-the-predictor-assessors}
 
-\subsubsection{7a. Describe how the data were prepared for analysis,
-including any cleaning, harmonisation, linkage, and quality
-checks}\label{a.-describe-how-the-data-were-prepared-for-analysis-including-any-cleaning-harmonisation-linkage-and-quality-checks}
+\subsection{Sample size}\label{sample-size}
+
+\subsubsection{10. Explain how the study size was arrived at (separately
+for development and evaluation), and justify that the study size was
+sufficient to answer the research question. Include details of any
+sample size
+calculation}\label{explain-how-the-study-size-was-arrived-at-separately-for-development-and-evaluation-and-justify-that-the-study-size-was-sufficient-to-answer-the-research-question.-include-details-of-any-sample-size-calculation}
+
+Previous studies developing logistic regression models for LI-TP risk
+predictions have included 4-6 predictors in their final models
+{[}2,4--6{]}. We expect to include about as many candidate predictors,
+based on results from the expert opinion survey and the Bayesian Model
+Selection algorithm. Some of the candidate predictors might be
+continuous, which may potentially require non-linear modelling and
+therefore slightly increase the number of variables.
+
+A general rule of thumb is for at least 10 events be available for each
+candidate predictor considered in a prediction model {[}7{]}. We have a
+total of 816 eligible patients and 264 of those have experienced the
+outcome. If the number of candidate predictors is 7, we would have 37
+events per candidate predictor, which is considerably greater than the
+minimum number required. Even if the number of parameters screened is
+20, we would still have 13 events per candidate predictor.
+
+However, the aforementioned rule of thumb have generated some debate in
+the literature, with recent results suggesting that event per variable
+criterion is too simplistic and has no strong relation to the predictive
+performance of a model. Riley et al {[}8{]} proposed a different set of
+criteria to estimate minimum sample size for models developed using
+logistic regression, which are the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Small optimism in predictor effect estimates, defined as a global
+  shrinkage factor of \textgreater= 0.9.
+\item
+  Small absolute difference of \textless= 0.05 in the model's apparent
+  and adjusted Nagelkerke's R-squared.
+\item
+  Precise estimation of the overall risk in the population.
+\end{enumerate}
+
+Criteria 1 and 2 aims to reduce the potential of overfitting. Criteria 3
+aims to ensure the overall risk is estimated precisely.
+
+\paragraph{Step 1: Choose the number of candidate predictors of interest
+for inclusion in the model, and calculate the corresponding number of
+predictor parameters
+(p)}\label{step-1-choose-the-number-of-candidate-predictors-of-interest-for-inclusion-in-the-model-and-calculate-the-corresponding-number-of-predictor-parameters-p}
+
+Note that one predictor may require two or more parameters. For example,
+a k-category predictor requires k-1 parameters and a continuous
+predictor model with a non-linear trend requires more than one parameter
+to be estimated. Also include any potential interaction terms towards
+the total p.
+
+When using a predictor selection method, p should be defined as the
+total number of parameters screened, and not just the subset that are
+included in the final model.
+
+Assuming maximum total p to be 20.
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, breakable, bottomtitle=1mm, coltitle=black, colframe=quarto-callout-note-color-frame, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, bottomrule=.15mm, colback=white, toptitle=1mm, titlerule=0mm, leftrule=.75mm, opacityback=0, rightrule=.15mm, arc=.35mm, opacitybacktitle=0.6]
+
+The value of p is assumed to be no larger than 20 because univariate
+regression shows there are 20 variables that are significantly
+correlated with the outcome.
+
+\end{tcolorbox}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\paragraph{\texorpdfstring{Step 2: Choose sensible values for
+R\textsuperscript{2}\textsubscript{CS\_adj} and
+max(R\textsuperscript{2}\textsubscript{CS\_app}) based on previous
+studies where R\textsuperscript{2}\textsubscript{CS} is the Cox-Snell
+R\textsuperscript{2}
+statistic.}{Step 2: Choose sensible values for R2CS\_adj and max(R2CS\_app) based on previous studies where R2CS is the Cox-Snell R2 statistic.}}\label{step-2-choose-sensible-values-for-r2cs_adj-and-maxr2cs_app-based-on-previous-studies-where-r2cs-is-the-cox-snell-r2-statistic.}
+
+The value of max(R\textsuperscript{2}\textsubscript{CS\_app}) is based
+on the overall prevalence or overall rate of the outcome in the
+population of interest. The incidence of LI-TP in patients treated with
+linezolid was estimated to be 37\% in a meta-analysis by Zhao et al
+{[}9{]}.
+
+The value of R\textsuperscript{2}\textsubscript{CS\_adj} could be based
+on that for a previously published model in the same setting and
+population (with similar outcome definition). However, as previous
+studies does not provide any information to identify a sensible value of
+the minimum expected Cox-Snell R\textsuperscript{2}, the value
+R\textsuperscript{2}\textsubscript{CS\_adj} will be assumed to
+correspond to a R\textsuperscript{2}\textsubscript{Nagelkerke} of 0.50,
+as baseline platelet count, a ``direct'' measurement of the outcome, is
+likely to be a predictor.
+
+\begin{verbatim}
+[1] 0.2048324
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+\paragraph{Step 3: Criterion 1}\label{step-3-criterion-1}
+
+Calculate the sample size required to ensure Van Houwelingen's global
+shrinkage factor (S\textsubscript{VH}) is close to 1. A value of
+S\textsubscript{VH} \textgreater= 0.90 is generally recommended, which
+reflects a small amount of overfitting during model development.
+
+\begin{verbatim}
+[1] 775
+\end{verbatim}
+
+\begin{verbatim}
+[1] 21
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 775 participants are required to meet criterion 1.
+
+\paragraph{Step 4: Criterion 2}\label{step-4-criterion-2}
+
+Calculate the shrinkage factor (S\textsubscript{VH}) required to ensure
+a small absolute difference of \textless= 0.05 in the developed model's
+apparent and adjusted Nagelkerke's R\textsuperscript{2}. Then derive the
+required sample size conditional on this value of S\textsubscript{VH}.
+
+\begin{verbatim}
+[1] 478
+\end{verbatim}
+
+\begin{verbatim}
+[1] 34
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 478 participants are required to meet criterion 2.
+
+\paragraph{Step 5: Criterion 3}\label{step-5-criterion-3}
+
+Calculate the sample size required to ensure a precise estimate of the
+overall risk in the population. The suggested absolute margin of error
+is \textless= 0.05.
+
+\begin{verbatim}
+[1] 359
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+We see that 359 participants are required to meet criterion 3.
+
+\paragraph{Step 6: Final sample size}\label{step-6-final-sample-size}
+
+The required minimum sample size is the maximum value from steps 3 to 5,
+to ensure that each of criteria 1 to 3 are met.
+
+\begin{verbatim}
+[1] 775
+\end{verbatim}
+
+\begin{verbatim}
+[1] 21
+\end{verbatim}
+
+\textsubscript{Source:
+\href{https://AnTangQuoc.github.io/LZD-TP-pred-model/index.qmd.html}{Article
+Notebook}}
+
+The final estimate of minimum sample size is 775, therefore our data is
+sufficient for model development with 20 parameters.
+
+The maximum number of parameters that can be screened is 21.
+
+\subsection{Missing data}\label{missing-data}
+
+\subsubsection{11. Describe how missing data were handled. Provide
+reasons for omitting any
+data}\label{describe-how-missing-data-were-handled.-provide-reasons-for-omitting-any-data}
+
+\subsection{Analytical methods}\label{analytical-methods}
+
+\subsubsection{12a. Describe how the data were used (e.g., for
+development and evaluation of model performance) in the analysis,
+including whether the data were partitioned, considering any sample size
+requirements}\label{a.-describe-how-the-data-were-used-e.g.-for-development-and-evaluation-of-model-performance-in-the-analysis-including-whether-the-data-were-partitioned-considering-any-sample-size-requirements}
+
+\subsubsection{12b. Depending on the type of model, describe how
+predictors were handled in the analyses (functional form, rescaling,
+transformation, or any
+standardisation)}\label{b.-depending-on-the-type-of-model-describe-how-predictors-were-handled-in-the-analyses-functional-form-rescaling-transformation-or-any-standardisation}
+
+\subsubsection{12c. Specify the type of model, rationale2, all
+model-building steps, including any hyperparameter tuning, and method
+for internal
+validation}\label{c.-specify-the-type-of-model-rationale2-all-model-building-steps-including-any-hyperparameter-tuning-and-method-for-internal-validation}
+
+\subsubsection{12d. Describe if and how any heterogeneity in estimates
+of model parameter values and model performance was handled and
+quantified across clusters (e.g., hospitals,
+countries).}\label{d.-describe-if-and-how-any-heterogeneity-in-estimates-of-model-parameter-values-and-model-performance-was-handled-and-quantified-across-clusters-e.g.-hospitals-countries.}
 
 Harmonisation between datasets was mainly done via manually recording
 data to a standardized form. Data was then entered into an Excel
@@ -734,158 +1805,269 @@ criteria (i) to (iii) in the previous section:
   rifampin.
 \end{itemize}
 
-\subsubsection{7b. Describe the method for assessing risk of bias and
-applicability in the individual clusters (eg, using
-PROBAST)}\label{b.-describe-the-method-for-assessing-risk-of-bias-and-applicability-in-the-individual-clusters-eg-using-probast}
+\subsubsection{12e. Specify all measures and plots used (and their
+rationale) to evaluate model performance (e.g., discrimination,
+calibration, clinical utility) and, if relevant, to compare multiple
+models}\label{e.-specify-all-measures-and-plots-used-and-their-rationale-to-evaluate-model-performance-e.g.-discrimination-calibration-clinical-utility-and-if-relevant-to-compare-multiple-models}
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, arc=.35mm, colback=white, titlerule=0mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, toprule=.15mm, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm]
+\subsubsection{12f. Describe any model updating (e.g., recalibration)
+arising from the model evaluation, either overall or for particular
+sociodemographic groups or
+settings}\label{f.-describe-any-model-updating-e.g.-recalibration-arising-from-the-model-evaluation-either-overall-or-for-particular-sociodemographic-groups-or-settings}
 
-Is this even possible for this study?
+Inapplicable for a development study.
 
-\end{tcolorbox}
+\subsubsection{12g. For model evaluation, describe how the model
+predictions were calculated (e.g., formula, code, object, application
+programming
+interface)}\label{g.-for-model-evaluation-describe-how-the-model-predictions-were-calculated-e.g.-formula-code-object-application-programming-interface}
 
-\subsubsection{7c. For validation, identify any differences in
-definition and measurement from the development data (eg, setting,
-eligibility criteria, outcome,
-predictors)}\label{c.-for-validation-identify-any-differences-in-definition-and-measurement-from-the-development-data-eg-setting-eligibility-criteria-outcome-predictors}
+Inapplicable for a development study.
 
-\subsubsection{7d. Describe how missing data were
-handled}\label{d.-describe-how-missing-data-were-handled}
+\subsection{Class imbalance}\label{class-imbalance}
 
-Any subsequent analyses were conducted on the complete case dataset.
-There are \textasciitilde5\% of observations with missing values in the
-dataset, which is considered low. The missing data mechanism is assumed
-to be missing completely at random.
+\subsubsection{13. If class imbalance methods were used, state why and
+how this was done, and any subsequent methods to recalibrate the model
+or the model
+predictions}\label{if-class-imbalance-methods-were-used-state-why-and-how-this-was-done-and-any-subsequent-methods-to-recalibrate-the-model-or-the-model-predictions}
 
-\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, arc=.35mm, colback=white, titlerule=0mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, toprule=.15mm, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm]
+\subsection{Fairness}\label{fairness}
 
-What is a possible reason for missing data?
+\subsubsection{14. Describe any approaches that were used to address
+model fairness and their
+rationale}\label{describe-any-approaches-that-were-used-to-address-model-fairness-and-their-rationale}
 
-\end{tcolorbox}
+\subsection{Model output}\label{model-output}
 
-\subsection{Data analysis}\label{data-analysis}
+\subsubsection{15. Specify the output of the prediction model (e.g.,
+probabilities, classification). Provide details and rationale for any
+classification and how the thresholds were
+identified}\label{specify-the-output-of-the-prediction-model-e.g.-probabilities-classification.-provide-details-and-rationale-for-any-classification-and-how-the-thresholds-were-identified}
 
-\subsubsection{8a. Describe how predictors were handled in the
-analyses}\label{a.-describe-how-predictors-were-handled-in-the-analyses}
+\subsection{Development versus
+evaluation}\label{development-versus-evaluation}
 
-\subsubsection{8b. Specify the type of model, all model building
-procedures (eg, any predictor selection and penalisation), and method
-for
-validation}\label{b.-specify-the-type-of-model-all-model-building-procedures-eg-any-predictor-selection-and-penalisation-and-method-for-validation}
+\subsubsection{16. Identify any differences between the development and
+evaluation data in healthcare setting, eligibility criteria, outcome,
+and
+predictors}\label{identify-any-differences-between-the-development-and-evaluation-data-in-healthcare-setting-eligibility-criteria-outcome-and-predictors}
 
-\subsubsection{8c. Describe how any heterogeneity across clusters (eg,
-studies or settings) in model parameter values was
-handled}\label{c.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-parameter-values-was-handled}
+\subsection{Ethical approval}\label{ethical-approval}
 
-\subsubsection{8d. For validation, describe how the predictions were
-calculated}\label{d.-for-validation-describe-how-the-predictions-were-calculated}
+\subsubsection{17. Name the institutional research board or ethics
+committee that approved the study and describe the participant-informed
+consent or the ethics committee waiver of informed
+consent}\label{name-the-institutional-research-board-or-ethics-committee-that-approved-the-study-and-describe-the-participant-informed-consent-or-the-ethics-committee-waiver-of-informed-consent}
 
-\subsubsection{8e. Specify all measures used to assess model performance
-(eg, calibration, discrimination, and decision curve analysis) and, if
-relevant, to compare multiple
-models}\label{e.-specify-all-measures-used-to-assess-model-performance-eg-calibration-discrimination-and-decision-curve-analysis-and-if-relevant-to-compare-multiple-models}
+\section{Open Science}\label{open-science}
 
-\subsubsection{8f. Describe how any heterogeneity across clusters (eg,
-studies or settings) in model performance was handled and
-quantified}\label{f.-describe-how-any-heterogeneity-across-clusters-eg-studies-or-settings-in-model-performance-was-handled-and-quantified}
+\subsection{Funding}\label{funding}
 
-\subsubsection{8g. Describe any model updating (eg, recalibration)
-arising from the validation, either overall or for particular
-populations or
-settings}\label{g.-describe-any-model-updating-eg-recalibration-arising-from-the-validation-either-overall-or-for-particular-populations-or-settings}
+\subsubsection{18a. Give the source of funding and the role of the
+funders for the present
+study}\label{a.-give-the-source-of-funding-and-the-role-of-the-funders-for-the-present-study}
 
-\subsection{Sensitivity analysis}\label{sensitivity-analysis}
+\subsection{Conflicts of interest}\label{conflicts-of-interest}
+
+\subsubsection{18b. Declare any conflicts of interest and financial
+disclosures for all
+authors}\label{b.-declare-any-conflicts-of-interest-and-financial-disclosures-for-all-authors}
+
+\subsection{Protocol}\label{protocol}
+
+\subsubsection{18c. Indicate where the study protocol can be accessed or
+state that a protocol was not
+prepared}\label{c.-indicate-where-the-study-protocol-can-be-accessed-or-state-that-a-protocol-was-not-prepared}
+
+\subsection{Registration}\label{registration}
+
+\subsubsection{18d. Provide registration information for the study,
+including register name and registration number, or state that the study
+was not
+registered}\label{d.-provide-registration-information-for-the-study-including-register-name-and-registration-number-or-state-that-the-study-was-not-registered}
+
+\subsection{Data sharing}\label{data-sharing}
+
+\subsubsection{18e. Provide details of the availability of the study
+data}\label{e.-provide-details-of-the-availability-of-the-study-data}
+
+\subsection{Code sharing}\label{code-sharing}
+
+\subsubsection{18f. Provide details of the availability of the
+analytical
+code}\label{f.-provide-details-of-the-availability-of-the-analytical-code}
+
+\section{Patient \& Public
+Involvement}\label{patient-public-involvement}
+
+\subsection{Patient \& Public
+Involvement}\label{patient-public-involvement-1}
+
+\subsubsection{19. Provide details of any patient and public involvement
+during the design, conduct, reporting, interpretation, or dissemination
+of the study or state no
+involvement}\label{provide-details-of-any-patient-and-public-involvement-during-the-design-conduct-reporting-interpretation-or-dissemination-of-the-study-or-state-no-involvement}
 
 \section{Results}\label{results}
 
-\subsection{Participants and datasets}\label{participants-and-datasets}
+\subsection{Participants}\label{participants-1}
+
+\subsubsection{20a. Describe the flow of participants through the study,
+including the number of participants with and without the outcome and,
+if applicable, a summary of the follow-up time. A diagram may be
+helpful}\label{a.-describe-the-flow-of-participants-through-the-study-including-the-number-of-participants-with-and-without-the-outcome-and-if-applicable-a-summary-of-the-follow-up-time.-a-diagram-may-be-helpful}
+
+\subsubsection{20b. Report the characteristics overall and, where
+applicable, for each data source or setting, including the key dates,
+key predictors (including demographics), treatments received, sample
+size, number of outcome events, follow-up time, and amount of missing
+data. A table may be helpful. Report any differences across key
+demographic
+groups}\label{b.-report-the-characteristics-overall-and-where-applicable-for-each-data-source-or-setting-including-the-key-dates-key-predictors-including-demographics-treatments-received-sample-size-number-of-outcome-events-follow-up-time-and-amount-of-missing-data.-a-table-may-be-helpful.-report-any-differences-across-key-demographic-groups}
+
+\subsubsection{20c. For model evaluation, show a comparison with the
+development data of the distribution of important predictors
+(demographics, predictors, and
+outcome).}\label{c.-for-model-evaluation-show-a-comparison-with-the-development-data-of-the-distribution-of-important-predictors-demographics-predictors-and-outcome.}
+
+Inapplicable for this study.
 
 \subsection{Risk of bias}\label{risk-of-bias}
 
-\subsection{Model development and
-specification}\label{model-development-and-specification}
+\subsubsection{C-11. Report the results of the risk-of-bias assessment
+in the individual
+clusters}\label{c-11.-report-the-results-of-the-risk-of-bias-assessment-in-the-individual-clusters}
+
+\subsection{Model development}\label{model-development}
+
+\subsubsection{21. Specify the number of participants and outcome events
+in each analysis (e.g., for model development, hyperparameter tuning,
+model
+evaluation)}\label{specify-the-number-of-participants-and-outcome-events-in-each-analysis-e.g.-for-model-development-hyperparameter-tuning-model-evaluation}
+
+\subsection{Model specification}\label{model-specification}
+
+\subsubsection{22. Provide details of the full prediction model (e.g.,
+formula, code, object, API) to allow predictions in new individuals and
+to enable third-party evaluation and implementation, including any
+restrictions to access or re-use (e.g., freely available,
+proprietary)}\label{provide-details-of-the-full-prediction-model-e.g.-formula-code-object-api-to-allow-predictions-in-new-individuals-and-to-enable-third-party-evaluation-and-implementation-including-any-restrictions-to-access-or-re-use-e.g.-freely-available-proprietary}
 
 \subsection{Model performance}\label{model-performance}
 
+\subsubsection{23a. Report model performance estimates with confidence
+intervals, including for any key subgroups (e.g., sociodemographic).
+Consider plots to aid
+presentation}\label{a.-report-model-performance-estimates-with-confidence-intervals-including-for-any-key-subgroups-e.g.-sociodemographic.-consider-plots-to-aid-presentation}
+
+\subsubsection{23b. If examined, report results of any heterogeneity in
+model performance across clusters. See TRIPOD Cluster for additional
+details}\label{b.-if-examined-report-results-of-any-heterogeneity-in-model-performance-across-clusters.-see-tripod-cluster-for-additional-details}
+
 \subsection{Model updating}\label{model-updating}
 
-\subsection{Sensitivity analysis}\label{sensitivity-analysis-1}
+\subsubsection{24. Report the results from any model updating, including
+the updated model and subsequent
+performance}\label{report-the-results-from-any-model-updating-including-the-updated-model-and-subsequent-performance}
+
+Inapplicable for development studies.
 
 \section{Discussion}\label{discussion}
 
 \subsection{Interpretation}\label{interpretation}
 
-\subsection{Implications}\label{implications}
+\subsubsection{25. Give an overall interpretation of the main results,
+including issues of fairness in the context of the objectives and
+previous
+studies}\label{give-an-overall-interpretation-of-the-main-results-including-issues-of-fairness-in-the-context-of-the-objectives-and-previous-studies}
 
-\section{Other information}\label{other-information}
+\subsection{Limitations}\label{limitations}
 
-\subsection{Supplementary information}\label{supplementary-information}
+\subsubsection{26. Discuss any limitations of the study (such as a
+non-representative sample, sample size, overfitting, missing data) and
+their effects on any biases, statistical uncertainty, and
+generalizability}\label{discuss-any-limitations-of-the-study-such-as-a-non-representative-sample-sample-size-overfitting-missing-data-and-their-effects-on-any-biases-statistical-uncertainty-and-generalizability}
 
-\subsection{Funding}\label{funding}
+\subsection{Usability of the model in the context of current
+care}\label{usability-of-the-model-in-the-context-of-current-care}
 
-\subsection{References}\label{references}
+\subsubsection{27a. Describe how poor quality or unavailable input data
+(e.g., predictor values) should be assessed and handled when
+implementing the prediction
+model}\label{a.-describe-how-poor-quality-or-unavailable-input-data-e.g.-predictor-values-should-be-assessed-and-handled-when-implementing-the-prediction-model}
+
+\subsubsection{27b. Discuss whether users will be required to interact
+in the handling of the input data or use of the model, and what level of
+expertise is required of
+users}\label{b.-discuss-whether-users-will-be-required-to-interact-in-the-handling-of-the-input-data-or-use-of-the-model-and-what-level-of-expertise-is-required-of-users}
+
+\subsubsection{27c. Discuss any next steps for future research, with a
+specific view to applicability and generalizability of the
+model}\label{c.-discuss-any-next-steps-for-future-research-with-a-specific-view-to-applicability-and-generalizability-of-the-model}
+
+\section{References}\label{references}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{0}{1}
+\bibitem[\citeproctext]{ref-zyvoxpr}
+1. Zyvox prescribing information {[}Internet{]}. Available from:
+\url{https://labeling.pfizer.com/showlabeling.aspx?id=649}
+
+\bibitem[\citeproctext]{ref-xu_establishment_2023}
+2. Xu J, Lu J, Yuan Y, Duan L, Shi L, Chen F, et al.
+\href{https://doi.org/10.1093/jac/dkad191}{Establishment and validation
+of a risk prediction model incorporating concentrations of linezolid and
+its metabolite {PNU142300} for linezolid-induced thrombocytopenia}. The
+Journal of Antimicrobial Chemotherapy. 2023;78:1974--81.
+
+\bibitem[\citeproctext]{ref-kawasuji_proposal_2021}
+3. Kawasuji H, Tsuji Y, Ogami C, Kimoto K, Ueno A, Miyajima Y, et al.
+Proposal of initial and maintenance dosing regimens with linezolid for
+renal impairment patients. BMC Pharmacology and Toxicology
+{[}Internet{]}. 2021 {[}cited 2024 Feb 26{]};22:13. Available from:
+\url{https://doi.org/10.1186/s40360-021-00479-w}
+
 \bibitem[\citeproctext]{ref-liu_analysis_2021}
-1. Liu Y, Liu T, Wei G, Yan P, Fang X, Xie L. Analysis of risk factors
+4. Liu Y, Liu T, Wei G, Yan P, Fang X, Xie L. Analysis of risk factors
 and establishment of risk prediction model for linezolid-associated
 thrombocytopenia. Medical Journal of Chinese People's Liberation Army
 {[}Internet{]}. 2021;46. Available from:
 \url{https://d.wanfangdata.com.cn/periodical/jfjyxzz202108006}
 
 \bibitem[\citeproctext]{ref-duan_regression_2022}
-2. Duan L, Zhou Q, Feng Z, Zhu C, Cai Y, Wang S, et al. A {Regression}
+5. Duan L, Zhou Q, Feng Z, Zhu C, Cai Y, Wang S, et al. A {Regression}
 {Model} to {Predict} {Linezolid} {Induced} {Thrombocytopenia} in
 {Neonatal} {Sepsis} {Patients}: {A} {Ten}-{Year} {Retrospective}
 {Cohort} {Study}. Front Pharmacol {[}Internet{]}. 2022;13:710099.
 Available from: \url{https://www.ncbi.nlm.nih.gov/pubmed/35185555}
 
 \bibitem[\citeproctext]{ref-qin_development_2021}
-3. Qin Y, Chen Z, Gao S, Pan MK, Li YX, Lv ZQ, et al. Development and
+6. Qin Y, Chen Z, Gao S, Pan MK, Li YX, Lv ZQ, et al. Development and
 {Validation} of a {Risk} {Prediction} {Model} of {Linezolid}-induced
 {Thrombocytopenia} in {Elderly} {Patients} {[}Internet{]}. In Review;
 2021 Jun. Available from:
 \url{https://www.researchsquare.com/article/rs-582799/v1}
 
-\bibitem[\citeproctext]{ref-xu_establishment_2023}
-4. Xu J, Lu J, Yuan Y, Duan L, Shi L, Chen F, et al.
-\href{https://doi.org/10.1093/jac/dkad191}{Establishment and validation
-of a risk prediction model incorporating concentrations of linezolid and
-its metabolite {PNU142300} for linezolid-induced thrombocytopenia}. The
-Journal of Antimicrobial Chemotherapy. 2023;78:1974--81.
-
 \bibitem[\citeproctext]{ref-peduzzi1995}
-5. Peduzzi P, Concato J, Feinstein AR, Holford TR. Importance of events
+7. Peduzzi P, Concato J, Feinstein AR, Holford TR. Importance of events
 per independent variable in proportional hazards regression analysis II.
 Accuracy and precision of regression estimates. Journal of Clinical
 Epidemiology {[}Internet{]}. 1995;48:1503--10. Available from:
 \url{https://www.jclinepi.com/article/0895-4356(95)00048-8/abstract}
 
 \bibitem[\citeproctext]{ref-riley2019}
-6. Riley RD, Snell KI, Ensor J, Burke DL, Harrell Jr FE, Moons KG, et
+8. Riley RD, Snell KI, Ensor J, Burke DL, Harrell Jr FE, Moons KG, et
 al. Minimum sample size for developing a multivariable prediction model:
 PART II - binary and time-to-event outcomes. Statistics in Medicine
 {[}Internet{]}. 2019;38:1276--96. Available from:
 \url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.7992}
 
 \bibitem[\citeproctext]{ref-zhao_prediction_2024}
-7. Zhao X, Peng Q, Hu D, Li W, Ji Q, Dong Q, et al. Prediction of risk
+9. Zhao X, Peng Q, Hu D, Li W, Ji Q, Dong Q, et al. Prediction of risk
 factors for linezolid-induced thrombocytopenia based on neural network
 model. Frontiers in Pharmacology {[}Internet{]}. 2024 {[}cited 2024 Feb
 27{]};15. Available from:
 \url{https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2024.1292828}
-
-\bibitem[\citeproctext]{ref-zyvoxpr}
-8. Zyvox prescribing information {[}Internet{]}. Available from:
-\url{https://labeling.pfizer.com/showlabeling.aspx?id=649}
-
-\bibitem[\citeproctext]{ref-kawasuji_proposal_2021}
-9. Kawasuji H, Tsuji Y, Ogami C, Kimoto K, Ueno A, Miyajima Y, et al.
-Proposal of initial and maintenance dosing regimens with linezolid for
-renal impairment patients. BMC Pharmacology and Toxicology
-{[}Internet{]}. 2021 {[}cited 2024 Feb 26{]};22:13. Available from:
-\url{https://doi.org/10.1186/s40360-021-00479-w}
 
 \end{CSLReferences}
 

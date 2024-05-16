@@ -5,8 +5,6 @@ title: Internal-External Development and Cross-Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
-source("notebooks/prob-cal_intercept.r") # valProbggplot() function
-source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
@@ -23,26 +21,28 @@ library(rsample) # for group_vfold_cv()
 library(furrr) # for future_map()
 library(tidymodels)
 library(CalibrationCurves)
+library(calibrationHelper)
 
 data_patient_cross_prep <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site)
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site, patient_ID)
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep, group = "site")
 
 extract_variable_names_cross <- function(sample) {
-  data <- analysis(sample) |> select(-site)
+  data <- analysis(sample)
   model <- data |>
     run_bas_glm(
-      formula = flag_ADR_TP_ID ~ .,
+      formula = reformulate(termlabels = variables_to_screen_short, response = "flag_ADR_TP_ID"),
       include.always = ~1,
       n.models = 2^15,
-      thin = ncol(data) - 1,
+      thin = length(variables_to_screen_short),
       method = "deterministic",
       update = 1
     )
+  top_index <- which(cumsum(model$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
   # model_HPM <- variable.names(predict(model, estimator = "HPM"))[-1] |>
   #   str_extract(paste(variables_to_screen, collapse = "|"))
-  model_BPM <- variable.names(predict(model, estimator = "BPM"))[-1] |>
+  model_BPM <- variable.names(predict(model, estimator = "BPM", top = top_index))[-1] |>
     str_extract(paste(variables_to_screen_short, collapse = "|"))
   site <- assessment(sample)$site[1]
   return(list(model_BPM, site, model))
@@ -50,8 +50,7 @@ extract_variable_names_cross <- function(sample) {
 
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
 
-cross_predict <- cross_samples$splits |>
-  future_map(extract_variable_names_cross, .options = furrr_options(seed = TRUE))
+cross_predict <- future_map(cross_samples$splits, extract_variable_names_cross, .options = furrr_options(seed = TRUE))
 
 plan(sequential)
 
@@ -69,20 +68,38 @@ run_workflow <- function(sample, variables) {
     add_model(logistic_reg()) |>
     fit(data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)))
   validation <- predict(trained, assessment(sample), type = "prob") |>
-    mutate(truth = assessment(sample)$flag_ADR_TP_ID |> as.factor())
+    mutate(
+      truth = assessment(sample)$flag_ADR_TP_ID |> as.factor(),
+      patient_ID = assessment(sample)$patient_ID,
+      site = assessment(sample)$site
+    )
 
   auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
   intercept <- cal_intercept(validation, truth, .pred_FALSE)
-  slope <- cal_slope(validation, truth, .pred_FALSE)
-  bind_rows(auc, intercept, slope)
+  slope <- cal_slope(validation, truth, .pred_FALSE) |> mutate(.estimate = .estimate + 1) # workaround for issue with cal_slope()
+
+  performance <- bind_rows(auc, intercept, slope) |>
+    select(-.estimator) |>
+    pivot_wider(names_from = .metric, values_from = .estimate) |>
+    mutate(site = assessment(sample)$site[1])
+
+  list(predictions = validation, performance = performance)
 }
 
-workflow_results <- map2(cross_samples$splits, cross_predict_BPM, run_workflow) |>
-  set_names(cross_predict_site) |>
-  bind_rows(.id = "site") |>
-  select(-.estimator) |>
-  pivot_wider(names_from = .metric, values_from = .estimate)
+workflow_results <- map2(cross_samples$splits, cross_predict_BPM, run_workflow)
+predictions_full <- map(workflow_results, "predictions") |> bind_rows()
+performance_full <- map(workflow_results, "performance") |> bind_rows()
+```
 
+```{r}
+# library(probably)
+
+# perf_test <- valProbggplot(predictions_full$.pred_TRUE, predictions_full$truth |> as.logical(), logistic.cal = TRUE, smooth = "none")
+
+# predictions_full |> cal_plot_logistic(truth = truth, estimate = starts_with(".pred"), event_level = "first")
+```
+
+```{r}
 # Function to modify sample data and fit model
 fit_model_to_sample <- function(sample, variables) {
   data <- analysis(sample) |>

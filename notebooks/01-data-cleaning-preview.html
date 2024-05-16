@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.4.553">
+    <meta name="generator" content="quarto-1.4.554">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -191,7 +191,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Thursday, April 25, 2024</p>
+              <p class="date">Thursday, May 16, 2024</p>
             </div>
           </div>
           
@@ -465,7 +465,8 @@ Caused by warning in `max()`:
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_HGB =</span> test_HGB[<span class="fu">which.max</span>(flag_post_baseline)],</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseline_WBC =</span> test_WBC[<span class="fu">which.max</span>(flag_post_baseline)],</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADR_PLT_min =</span> <span class="fu">min</span>(test_PLT[<span class="fu">which.max</span>(flag_post_baseline) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(flag_post_baseline))], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">dept_ICU_ER =</span> <span class="fu">if_else</span>(dept_ICU <span class="sc">|</span> dept_ER, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 </section>
 <section id="outputs" class="level2">

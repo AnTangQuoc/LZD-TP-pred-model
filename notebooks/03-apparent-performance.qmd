@@ -5,8 +5,6 @@ title: Model Development and Apparent Validation
 ```{r}
 source("notebooks/initialize-data-analysis.r")
 source("notebooks/BMA-model-no-initial-var.r") # run_bas_glm() function
-source("notebooks/prob-cal_intercept.r") # valProbggplot() function
-source("notebooks/prob-cal_slope.r")
 
 load("data/results/variables-to-screen.rda")
 load("data/results/variables-to-screen-short.rda")
@@ -18,6 +16,9 @@ load("data/results/variables-to-screen-all-binary.rda")
 load("data/results/variables-to-force.rda")
 load("data/results/variables-to-force-binary.rda")
 load("data/results/variables-to-force-top-3.rda")
+
+library(gitcreds) # for authentication, just to keep package in lockfile
+devtools::install_github("AnTangQuoc/calibrationHelper") # helper metrics for calibration
 ```
 
 # Penalized Likelihood Methods
@@ -94,27 +95,25 @@ load("data/results/variables-to-force-top-3.rda")
 # coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
 ```
 
-## Elastic Net Regularization
-
 ```{r}
 library(tidymodels)
 library(future)
 library(tictoc)
 
 data_patient_cross_prep_factor <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID, site) |>
+  select(all_of(variables_to_screen_short), patient_sex, flag_ADR_TP_ID, site) |>
   mutate(
     across(where(is.logical), as.factor)
   )
 
 data_patient_screen <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short), patient_sex, flag_ADR_TP_ID) |>
   mutate(
     across(where(is.logical), as.factor)
   )
 
 data_patient_screen_binary <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short_binary), patient_sex, flag_ADR_TP_ID) |>
   mutate(
     across(where(is.logical), as.factor)
   )
@@ -124,8 +123,13 @@ cross_splits <- group_initial_split(data_patient_cross_prep_factor, group = "sit
 cross_samples <- group_vfold_cv(data_patient_cross_prep_factor, group = "site")
 ```
 
+## Elastic Net Regularization
+
 ```{r}
+library(calibrationHelper)
+
 rec <- recipe(flag_ADR_TP_ID ~ ., data = data_patient_screen) |>
+  step_rm(patient_sex) |> # check for model fairness, not used in the model
   step_dummy(all_nominal_predictors())
 
 model_elastic <- logistic_reg(penalty = tune(), mixture = tune()) |>
@@ -145,20 +149,21 @@ tune_params <- model_workflow |>
   grid_latin_hypercube(size = 1000)
 
 tic()
-plan(multisession, workers = max(min(parallel::detectCores() - 1, 12), 2))
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 15), 2))
 
 model_tune_results <- model_workflow |>
   tune_grid(
     resamples = cross_samples,
     grid = tune_params,
-    control = control_grid(save_pred = TRUE)
+    control = control_grid(save_pred = TRUE, pkgs = "calibrationHelper"),
+    metrics = metric_set(mcc, roc_auc, brier_class, cal_intercept, cal_slope)
   )
 
 plan(sequential)
-toc()
+toc() # 210s
 
 model_accepted_flow <- model_tune_results |>
-  select_by_one_std_err(desc(mixture), desc(penalty), metric = "roc_auc")
+  select_by_pct_loss(desc(penalty), metric = "cal_slope", limit = 5)
 
 model_glmnet <- model_workflow |>
   finalize_workflow(model_accepted_flow) |>
@@ -168,12 +173,28 @@ model_workflow |>
   finalize_workflow(model_accepted_flow) |>
   fit_resamples(
     resamples = cross_samples,
-    metrics = metric_set(roc_auc, brier_class, cal_intercept, cal_slope),
+    metrics = metric_set(mcc, roc_auc, brier_class, cal_intercept, cal_slope),
     control = control_resamples(save_pred = TRUE)
   ) |>
-  collect_metrics()
+  collect_metrics() |>
+  mutate(
+    mean = if_else(.metric == "cal_slope", mean + 1, mean) # workaround
+  )
 
 model_glmnet |> tidy()
+```
+
+```{r}
+# model_workflow |>
+#   finalize_workflow(model_accepted_flow) |>
+#   fit_resamples(
+#     resamples = cross_samples_grouped,
+#     control = control_resamples(save_pred = TRUE)
+#   ) |>
+#   collect_predictions() |>
+#   mutate(patient_age_group = data_patient_transformed$patient_age_group) |>
+#   group_by(patient_age_group) |>
+#   roc_auc(flag_ADR_TP_ID, .pred_TRUE, event_level = "second")
 ```
 
 ```{r}
@@ -196,6 +217,10 @@ model_glmnet |> tidy()
 #   tidy()
 ```
 
+```{r}
+save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
+```
+
 # Bayesian Methods
 
 ## Bayesian Model Selection
@@ -207,7 +232,7 @@ data_patient_screen_full <- data_patient_transformed |>
   )
 ```
 
-### Strategy 1-A: Screen "consensus" variables, continuous variables only (13 parameters)
+### Strategy 1-A: Screen "consensus" variables, continuous variables only (10 parameters)
 ```{r}
 # multi_model <- data_patient_complete |>
 #   select(all_of(predictor_list), flag_ADR_TP_ID) |>
@@ -237,15 +262,17 @@ multi_model_1_A <- data_patient_transformed |>
   )
 toc()
 
-# summary(multi_model_1_A)
-# image(multi_model_1_A, rotate = FALSE)
+summary(multi_model_1_A)
+image(multi_model_1_A, rotate = FALSE)
+
+top_index_1_A <- which(cumsum(multi_model_1_A$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 multi_predict_HPM_1_A <- variable.names(predict(multi_model_1_A, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_1_A <- variable.names(predict(multi_model_1_A, estimator = "BPM"))[-1] |>
+multi_predict_BPM_1_A <- variable.names(predict(multi_model_1_A, estimator = "BPM", top = top_index_1_A))[-1] |>
   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
-  unique() # best predictive model, this model is weird
+  unique() # best predictive model
 
 model_black_box <- multi_model_1_A
 
@@ -310,12 +337,14 @@ toc()
 # plot(multi_model_1_B)
 # image(multi_model_1_B, rotate = FALSE)
 
+top_index_1_B <- which(cumsum(multi_model_1_B$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "BPM"))[-1] |>
+multi_predict_BPM_1_B <- variable.names(predict(multi_model_1_B, estimator = "BPM", top = top_index_1_B))[-1] |>
   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
-  unique() # best predictive model, this model is weird
+  unique() # best predictive model
 ```
 
 ```{r}
@@ -355,12 +384,14 @@ toc()
 # plot(multi_model_1_C)
 # image(multi_model_1_C, rotate = FALSE)
 
+top_index_1_C <- which(cumsum(multi_model_1_C$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "BPM"))[-1] |>
+multi_predict_BPM_1_C <- variable.names(predict(multi_model_1_C, estimator = "BPM", top = top_index_1_C))[-1] |>
   str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
-  unique() # best predictive model, this model is weird
+  unique() # best predictive model
 ```
 
 ```{r}
@@ -400,12 +431,14 @@ toc()
 # plot(multi_model_1_D)
 # image(multi_model_1_D, rotate = FALSE)
 
+top_index_1_D <- which(cumsum(multi_model_1_D$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BPM"))[-1] |>
+multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BPM", top = top_index_1_D))[-1] |>
   str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
-  unique() # best predictive model, this model is weird
+  unique() # best predictive model
 ```
 
 ```{r}
@@ -433,7 +466,7 @@ multi_model_2_A <- data_patient_transformed |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = ~1,
-    n.models = 2^15,
+    n.models = 2^15, # 150s ~ 90%, 300s ~ 95%
     thin = length(variables_to_screen),
     force.heredity = TRUE,
     method = "MCMC+BAS",
@@ -441,16 +474,22 @@ multi_model_2_A <- data_patient_transformed |>
   )
 toc()
 
-# summary(multi_model_2_A)
-# plot(multi_model_2_A)
-# image(multi_model_2_A, rotate = FALSE)
+summary(multi_model_2_A)
+plot(multi_model_2_A)
+image(multi_model_2_A, rotate = FALSE)
+
+top_index_2_A <- which(cumsum(multi_model_2_A$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 multi_predict_HPM_2_A <- variable.names(predict(multi_model_2_A, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_2_A <- variable.names(predict(multi_model_2_A, estimator = "BPM"))[-1] |>
+multi_predict_BPM_2_A <- variable.names(predict(multi_model_2_A, estimator = "BPM", top = top_index_2_A))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
-  unique() # best predictive model, this model is weird
+  unique() # best predictive model
+
+model_black_box_large <- multi_model_2_A
+
+save(model_black_box_large, file = "data/model-performance/model-black-box-large.rda")
 ```
 
 ```{r}
@@ -490,10 +529,12 @@ toc()
 # plot(multi_model_2_B)
 # image(multi_model_2_B, rotate = FALSE)
 
+top_index_2_B <- which(cumsum(multi_model_2_B$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_2_B <- variable.names(predict(multi_model_2_B, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_2_B <- variable.names(predict(multi_model_2_B, estimator = "BPM"))[-1] |>
+multi_predict_BPM_2_B <- variable.names(predict(multi_model_2_B, estimator = "BPM", top = top_index_2_B))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -535,10 +576,12 @@ toc()
 # plot(multi_model_2_C)
 # image(multi_model_2_C, rotate = FALSE)
 
+top_index_2_C <- which(cumsum(multi_model_2_C$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_2_C <- variable.names(predict(multi_model_2_C, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_binary, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_2_C <- variable.names(predict(multi_model_2_C, estimator = "BPM"))[-1] |>
+multi_predict_BPM_2_C <- variable.names(predict(multi_model_2_C, estimator = "BPM", top = top_index_2_C))[-1] |>
   str_extract(paste(variables_to_screen_binary, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -580,10 +623,12 @@ toc()
 # plot(multi_model_2_D)
 # image(multi_model_2_D, rotate = FALSE)
 
+top_index_2_D <- which(cumsum(multi_model_2_D$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_2_D <- variable.names(predict(multi_model_2_D, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_2_D <- variable.names(predict(multi_model_2_D, estimator = "BPM"))[-1] |>
+multi_predict_BPM_2_D <- variable.names(predict(multi_model_2_D, estimator = "BPM", top = top_index_2_D))[-1] |>
   str_extract(paste(variables_to_screen, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -609,15 +654,15 @@ library(tictoc)
 
 tic()
 multi_model_3_A <- data_patient_transformed |>
-  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+  select(any_of(variables_to_screen_all), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = ~1,
-    n.models = 2^15, # runtime ~450s, not enough (60% cumulative probability)
+    n.models = 2^16, # 900s, 65%
     thin = length(variables_to_screen_all),
     force.heredity = TRUE,
     method = "MCMC+BAS",
-    update = 2^10
+    update = 2^11
   )
 toc()
 
@@ -625,10 +670,12 @@ toc()
 # plot(multi_model_3_A)
 # image(multi_model_3_A, rotate = FALSE)
 
+top_index_3_A <- which(cumsum(multi_model_3_A$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_3_A <- variable.names(predict(multi_model_3_A, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_3_A <- variable.names(predict(multi_model_3_A, estimator = "BPM"))[-1] |>
+multi_predict_BPM_3_A <- variable.names(predict(multi_model_3_A, estimator = "BPM", top = top_index_3_A))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -654,11 +701,11 @@ library(tictoc)
 
 tic()
 multi_model_3_B <- data_patient_transformed |>
-  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+  select(any_of(variables_to_screen_all), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = reformulate(variables_to_force),
-    n.models = 2^15, # runtime 300s, acceptable (85%)
+    n.models = 2^15, # 300s
     thin = length(variables_to_screen_all),
     force.heredity = TRUE,
     method = "MCMC+BAS",
@@ -670,10 +717,12 @@ toc()
 # plot(multi_model_3_B)
 # image(multi_model_3_B, rotate = FALSE)
 
+top_index_3_B <- which(cumsum(multi_model_3_B$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+
 multi_predict_HPM_3_B <- variable.names(predict(multi_model_3_B, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_3_B <- variable.names(predict(multi_model_3_B, estimator = "BPM"))[-1] |>
+multi_predict_BPM_3_B <- variable.names(predict(multi_model_3_B, estimator = "BPM", top = top_index_3_B))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -699,11 +748,11 @@ library(tictoc)
 
 tic()
 multi_model_3_C <- data_patient_transformed |>
-  select(all_of(variables_to_screen_all_binary), flag_ADR_TP_ID) |>
+  select(any_of(variables_to_screen_all_binary), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = reformulate(variables_to_force_binary),
-    n.models = 2^15, # runtime 350s, acceptable (85%)
+    n.models = 2^15, # 300s
     thin = length(variables_to_screen_all_binary),
     force.heredity = TRUE,
     method = "MCMC+BAS",
@@ -711,14 +760,16 @@ multi_model_3_C <- data_patient_transformed |>
   )
 toc()
 
-summary(multi_model_3_C)
-plot(multi_model_3_C)
-image(multi_model_3_C, rotate = FALSE)
+# summary(multi_model_3_C)
+# plot(multi_model_3_C)
+# image(multi_model_3_C, rotate = FALSE)
+
+top_index_3_C <- which(cumsum(multi_model_3_C$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 multi_predict_HPM_3_C <- variable.names(predict(multi_model_3_C, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all_binary, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_3_C <- variable.names(predict(multi_model_3_C, estimator = "BPM"))[-1] |>
+multi_predict_BPM_3_C <- variable.names(predict(multi_model_3_C, estimator = "BPM", top = top_index_3_C))[-1] |>
   str_extract(paste(variables_to_screen_all_binary, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -744,11 +795,11 @@ library(tictoc)
 
 tic()
 multi_model_3_D <- data_patient_transformed |>
-  select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+  select(any_of(variables_to_screen_all), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = reformulate(variables_to_force_top_3),
-    n.models = 2^15,
+    n.models = 2^15, # 350s
     thin = length(variables_to_screen_all),
     force.heredity = TRUE,
     method = "MCMC+BAS",
@@ -756,14 +807,16 @@ multi_model_3_D <- data_patient_transformed |>
   )
 toc()
 
-summary(multi_model_3_D)
-plot(multi_model_3_D)
-image(multi_model_3_D, rotate = FALSE)
+# summary(multi_model_3_D)
+# plot(multi_model_3_D)
+# image(multi_model_3_D, rotate = FALSE)
+
+top_index_3_D <- which(cumsum(multi_model_3_D$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 multi_predict_HPM_3_D <- variable.names(predict(multi_model_3_D, estimator = "HPM"))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # highest probability model
-multi_predict_BPM_3_D <- variable.names(predict(multi_model_3_D, estimator = "BPM"))[-1] |>
+multi_predict_BPM_3_D <- variable.names(predict(multi_model_3_D, estimator = "BPM", top = top_index_3_D))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # best predictive model, this model is weird
 ```
@@ -800,8 +853,12 @@ for (i in seq_along(model_file_list)) {
 ```{r}
 library(tidymodels)
 
+strategy_combos_vec <- paste0(
+  strategy_combos$numbers, "_", strategy_combos$chars
+)
+
 model_strategy_list <- paste0(
-  "model_full_BPM_", strategy_combos$numbers, "_", strategy_combos$chars
+  "model_full_BPM_", strategy_combos_vec
 ) |> mget()
 
 retrieve_terms <- function(model) {
@@ -819,11 +876,61 @@ max_length <- map(model_strategy_list, retrieve_terms) |>
 term_summary <- map(model_strategy_list, retrieve_terms) |>
   map(~ `length<-`(.x, max_length)) |>
   as_tibble()
+
+retrieve_estimates <- function(model, combo_vec) {
+  model |>
+    tidy() |>
+    select(term, estimate) |>
+    rename_with(
+      ~ paste0(
+        "", combo_vec,
+        recycle0 = TRUE
+      ),
+      .cols = estimate
+    ) |>
+    mutate(term = str_remove(term, "TRUE"))
+}
+
+model_summary_list <- map2(
+  model_strategy_list,
+  strategy_combos_vec,
+  retrieve_estimates
+)
+
+model_summary_template <- map(model_strategy_list, retrieve_terms) |>
+  unlist(use.names = FALSE) |>
+  unique() |>
+  as_tibble() |>
+  rename(term = value)
+
+bind_estimates <- function(model_summary, model_summary_template) {
+  model_summary |>
+    full_join(model_summary_template, by = "term")
+}
+
+model_summary <- model_summary_list |>
+  reduce(bind_estimates) |>
+  mutate(across(where(is.numeric), ~ case_match(
+    term,
+    "baseline_CLCR" ~ . * 30,
+    "baseline_PLT" ~ . * 25,
+    "patient_age" ~ . * 10,
+    .default = .
+  ))) |>
+  mutate(across(where(is.numeric), ~ exp(.) |> round(3))) |>
+  mutate(term = case_match(
+    term,
+    "baseline_CLCR" ~ "baseline_CLCR_per_30",
+    "baseline_PLT" ~ "baseline_PLT_per_25",
+    "patient_age" ~ "patient_age_per_10",
+    .default = term
+  ))
+
 ```
 
 :::{.scrolling}
 ```{r}
-term_summary |> knitr::kable()
+model_summary |> knitr::kable()
 ```
 
 :::
@@ -1076,5 +1183,4 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 
 ```{r}
 # save(model_full, file = "data/model-performance/model-full.rda")
-save(model_glmnet, file = "data/model-performance/model-glmnet.rda")
 ```
