@@ -125,6 +125,7 @@ variables_to_force_binary <- survey_summary |>
 ```{r}
 variables_to_screen_all <- survey_summary |>
   arrange(desc(prop), desc(mean)) |>
+  filter(!variable == "LZD_route_PO") |>
   pull(variable) |>
   str_replace_all("_\\d+", "") |>
   str_replace("LZD_duration", "LZD_duration_14") |>
@@ -136,6 +137,7 @@ variables_to_screen_all <- survey_summary |>
 ```{r}
 variables_to_screen_all_binary <- survey_summary |>
   arrange(desc(prop), desc(mean)) |>
+  filter(!variable == "LZD_route_PO") |>
   pull(variable) |>
   str_replace_all("_\\d+", "") |>
   str_replace("LZD_duration", "LZD_duration_14") |>
