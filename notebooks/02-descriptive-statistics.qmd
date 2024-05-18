@@ -5,9 +5,20 @@ title: Descriptive Statistics
 Initialize data to analyze.
 ```{r}
 source("notebooks/initialize-data-analysis.r")
+
+load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-screen-binary.rda")
+load("data/results/variables-to-screen-all.rda")
+load("data/results/variables-to-screen-all-binary.rda")
+
+load("data/results/variables-to-force.rda")
+load("data/results/variables-to-force-binary.rda")
+load("data/results/variables-to-force-top-3.rda")
 ```
 
-Summary statistics, by thrombocytopenia status.
+# Summary statistics, by thrombocytopenia status
 ```{r}
 library(gtsummary)
 
@@ -102,4 +113,150 @@ table_descriptive_site <- data_patient_transformed |>
 table_descriptive_site
 
 save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
+```
+
+# Correlation matrix
+
+```{r}
+library(ggstatsplot)
+
+data_patient_transformed |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
+  mutate(across(where(is.logical), as.numeric)) |>
+  ggcorrmat(
+    type = "parametric"
+  )
+
+data_patient_transformed |>
+  select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
+  mutate(across(where(is.logical), as.numeric)) |>
+  ggcorrmat(
+    type = "parametric"
+  )
+```
+
+```{r}
+# uni_model_list[[1]] |>
+#   extract_fit_engine() |>
+#   _$terms |>
+#   attr("term.labels")
+
+# data_patient_transformed |>
+#   select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+#   mutate(
+#     probabilities = predict(data_patient_transformed |>
+#       select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+#       glm(
+#         formula = reformulate(
+#           termlabels = variables_to_screen_all,
+#           response = "flag_ADR_TP_ID"
+#         ),
+#         family = binomial
+#       ), type = "response"),
+#     log_odds = log(probabilities / (1 - probabilities))
+#   ) |>
+#   select(all_of(variables_to_screen_short), log_odds, probabilities) |>
+#   select(where(is.numeric), log_odds, probabilities) |>
+#   gather(key = "predictors", value = "predictor_value", -log_odds, -probabilities) |>
+#   ggplot(aes(y = log_odds, x = predictor_value)) +
+#   geom_point(size = 0.5, alpha = 0.5) +
+#   geom_smooth(method = "loess", color = "red") +
+#   geom_smooth(method = "lm", linetype = "dashed", color = "blue", se = FALSE) +
+#   theme_bw() +
+#   facet_wrap(~predictors, scales = "free_x") +
+#   scale_y_continuous(limits = c(-5, 5)) +
+#   labs(title = "Best Predictive Model 1-A", x = "Predictor Value", y = "Log Odds")
+
+library(purrr)
+
+plot_odds_by_numeric_list <- pmap(
+  .l = list(
+    data = data_patient_transformed |>
+      select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+      mutate(
+        probabilities = predict(data_patient_transformed |>
+          select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+          glm(
+            formula = reformulate(
+              termlabels = variables_to_screen_all,
+              response = "flag_ADR_TP_ID"
+            ),
+            family = binomial
+          ), type = "response"),
+        log_odds = log(probabilities / (1 - probabilities))
+      ) |>
+      select(all_of(variables_to_screen_short), log_odds, probabilities) |>
+      select(where(is.numeric), log_odds, probabilities) |>
+      pivot_longer(c(-log_odds, -probabilities), names_to = "predictors", values_to = "predictor_value") |>
+      split(f = ~predictors, drop = TRUE),
+    x = "predictor_value",
+    y = "log_odds",
+    xlab = list("CLCR (mL/min)", "PLT (G/L)", "Age (years)"),
+    ylab = "Log Odds",
+    smooth.line.args = list(
+      list(linewidth = 1, color = "blue", method = "loess", formula = y ~ x)
+    ),
+    title = list("Baseline Creatinine Clearance", "Baseline Platelet Count", "Patient Age"),
+    type = "nonparametric"
+  ),
+  .f = ggscatterstats
+)
+
+complete_plot_odds_by_numeric <- function(plot) {
+  plot +
+    coord_cartesian(ylim = c(-6, 5)) +
+    geom_smooth(method = "lm", linetype = "dashed", color = "red", se = FALSE)
+}
+
+plot_odds_by_numeric <- map(plot_odds_by_numeric_list, complete_plot_odds_by_numeric) |>
+  combine_plots(plotgrid.args = list(nrow = 2, ncol = 2))
+
+plot_odds_by_numeric
+```
+
+```{r}
+library(purrr)
+
+plot_odds_by_binary_list <- pmap(
+  .l = list(
+    data = data_patient_transformed |>
+      select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+      mutate(
+        probabilities = predict(data_patient_transformed |>
+          select(all_of(variables_to_screen_all), flag_ADR_TP_ID) |>
+          glm(
+            formula = reformulate(
+              termlabels = variables_to_screen_all,
+              response = "flag_ADR_TP_ID"
+            ),
+            family = binomial
+          ), type = "response"),
+        log_odds = log(probabilities / (1 - probabilities))
+      ) |>
+      select(all_of(variables_to_screen_short), log_odds, probabilities) |>
+      select(where(is.logical), log_odds, probabilities) |>
+      pivot_longer(c(-log_odds, -probabilities), names_to = "predictors", values_to = "predictor_value") |>
+      split(f = ~predictors, drop = TRUE),
+    x = "predictor_value",
+    y = "log_odds",
+    xlab = list("Enoxaparin Use", "Heparin Use", "Cirrhosis", "ICU Admission", "Sepsis", "Continuous Renal Replacement Therapy", "Linezolid Use >= 14 Days"),
+    ylab = "Log Odds",
+    smooth.line.args = list(
+      list(linewidth = 1, color = "blue", method = "loess", formula = y ~ x)
+    ),
+    title = list("Enoxaparin Use", "Heparin Use", "Cirrhosis", "ICU Admission", "Sepsis", "Continuous Renal Replacement Therapy", "Linezolid Use >= 14 Days"),
+    type = "nonparametric"
+  ),
+  .f = ggbetweenstats
+)
+
+complete_plot_odds_by_binary <- function(plot) {
+  plot +
+    coord_cartesian(ylim = c(-6, 5))
+}
+
+plot_odds_by_binary <- map(plot_odds_by_binary_list, complete_plot_odds_by_binary) |>
+  combine_plots(plotgrid.args = list(nrow = 2, ncol = 4))
+
+plot_odds_by_binary
 ```

@@ -29,7 +29,13 @@ jobs:
         run: sudo apt-get install -y libcurl4-openssl-dev
 
       - name: Install textshaping
-        run: sudo apt install libharfbuzz-dev libfribidi-dev libtiff5-dev        
+        run: sudo apt install libharfbuzz-dev libfribidi-dev libtiff5-dev     
+      
+      - name: Install gmp
+        run: sudo apt install libgmp-dev
+
+      - name: Install mpfr
+        run: sudo apt-get install libmpfr-dev
 
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
