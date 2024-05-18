@@ -95,6 +95,7 @@ devtools::install_github("AnTangQuoc/calibrationHelper") # helper metrics for ca
 # coef(lasso_fit, s = cv_lasso_fit$lambda.min)@i |> length() - 1
 ```
 
+## Elastic Net Regularization
 ```{r}
 library(tidymodels)
 library(future)
@@ -122,8 +123,6 @@ cross_splits <- group_initial_split(data_patient_cross_prep_factor, group = "sit
 
 cross_samples <- group_vfold_cv(data_patient_cross_prep_factor, group = "site")
 ```
-
-## Elastic Net Regularization
 
 ```{r}
 library(calibrationHelper)
@@ -678,6 +677,33 @@ multi_predict_HPM_3_A <- variable.names(predict(multi_model_3_A, estimator = "HP
 multi_predict_BPM_3_A <- variable.names(predict(multi_model_3_A, estimator = "BPM", top = top_index_3_A))[-1] |>
   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
   unique() # best predictive model, this model is weird
+
+model_black_box_all <- multi_model_3_A
+
+save(model_black_box_all, file = "data/model-performance/model-black-box-all.rda")
+
+# all_summary <- model_black_box_all |>
+#   coef() |>
+#   confint(nsim = 2^22) |>
+#   structure(class = c("confint.bas", "matrix")) |>
+#   as_tibble() |>
+#   mutate(
+#     term = model_black_box_all$namesx |>
+#       str_extract(paste(c(variables_to_screen_all, "Intercept"), collapse = "|")) |>
+#       unique()
+#   ) |>
+#   relocate(c(term, beta)) |>
+#   rename(
+#     risk_factor = term,
+#     lower = `2.5%`,
+#     upper = `97.5%`
+#   ) |>
+#   mutate(across(c(lower, upper, beta), as.double)) |>
+#   mutate(across(c(lower, upper, beta), exp)) |>
+#   rename(
+#     odds_ratio = beta
+#   )
+
 ```
 
 ```{r}

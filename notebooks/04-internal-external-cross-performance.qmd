@@ -14,7 +14,7 @@ load("data/results/variables-to-force-binary.rda")
 load("data/results/variables-to-force-top-3.rda")
 ```
 
-# Logistic Model
+# Logistic Model 1_A
 
 ```{r}
 library(rsample) # for group_vfold_cv()
@@ -505,5 +505,792 @@ cross_performance_metrics_BMA <- bind_rows(cross_estimates_BMA, cross_meta_perfo
 ```
 
 ```{r}
-save(cross_performance_metrics_BPM, file = "data/model-performance/cross-performance-metrics-BPM.rda")
+save(cross_performance_metrics_BMA, file = "data/model-performance/cross-performance-metrics-BMA.rda")
+```
+
+# Logistic Model 2_A
+
+```{r}
+library(rsample) # for group_vfold_cv()
+library(furrr) # for future_map()
+library(tidymodels)
+library(CalibrationCurves)
+library(calibrationHelper)
+
+data_patient_cross_prep_2_A <- data_patient_transformed |>
+  select(all_of(variables_to_screen), flag_ADR_TP_ID, site, patient_ID)
+
+cross_samples_2_A <- group_vfold_cv(data_patient_cross_prep_2_A, group = "site")
+
+extract_variable_names_cross_2_A <- function(sample) {
+  data <- analysis(sample)
+  model <- data |>
+    run_bas_glm(
+      formula = reformulate(termlabels = variables_to_screen, response = "flag_ADR_TP_ID"),
+      include.always = ~1,
+      n.models = 2^15,
+      thin = length(variables_to_screen),
+      method = "MCMC+BAS",
+      update = 2^10
+    )
+  top_index <- which(cumsum(model$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+  # model_HPM <- variable.names(predict(model, estimator = "HPM"))[-1] |>
+  #   str_extract(paste(variables_to_screen, collapse = "|"))
+  model_BPM <- variable.names(predict(model, estimator = "BPM", top = top_index))[-1] |>
+    str_extract(paste(variables_to_screen, collapse = "|"))
+  site <- assessment(sample)$site[1]
+  return(list(model_BPM, site, model))
+}
+
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+
+cross_predict_2_A <- future_map(cross_samples_2_A$splits, extract_variable_names_cross_2_A, .options = furrr_options(seed = TRUE))
+
+plan(sequential)
+
+cross_predict_BPM_2_A <- map(cross_predict_2_A, 1)
+cross_predict_site_2_A <- map(cross_predict_2_A, 2)
+cross_black_box_2_A <- map(cross_predict_2_A, 3)
+
+run_workflow <- function(sample, variables) {
+  rec <- recipe(
+    formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID"),
+    data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+  )
+  trained <- workflow() |>
+    add_recipe(rec) |>
+    add_model(logistic_reg()) |>
+    fit(data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)))
+  validation <- predict(trained, assessment(sample), type = "prob") |>
+    mutate(
+      truth = assessment(sample)$flag_ADR_TP_ID |> as.factor(),
+      patient_ID = assessment(sample)$patient_ID,
+      site = assessment(sample)$site
+    )
+
+  auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
+  intercept <- cal_intercept(validation, truth, .pred_FALSE)
+  slope <- cal_slope(validation, truth, .pred_FALSE) |> mutate(.estimate = .estimate + 1) # workaround for issue with cal_slope()
+
+  performance <- bind_rows(auc, intercept, slope) |>
+    select(-.estimator) |>
+    pivot_wider(names_from = .metric, values_from = .estimate) |>
+    mutate(site = assessment(sample)$site[1])
+
+  list(predictions = validation, performance = performance)
+}
+
+workflow_results_2_A <- map2(cross_samples_2_A$splits, cross_predict_BPM_2_A, run_workflow)
+predictions_full_2_A <- map(workflow_results_2_A, "predictions") |> bind_rows()
+performance_full_2_A <- map(workflow_results_2_A, "performance") |> bind_rows()
+```
+
+```{r}
+# Function to modify sample data and fit model
+fit_model_to_sample <- function(sample, variables) {
+  data <- analysis(sample) |>
+    mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+
+  formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID")
+
+  logistic_reg() |>
+    set_engine("glm") |>
+    set_mode("classification") |>
+    fit(formula, data = data)
+}
+
+calc_cross_performance <- function(sample, model) {
+  data <- assessment(sample)
+  pHat <- predict(model$fit, data, type = "response")
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+  tibble(
+    site = data$site[1],
+    n = nrow(data),
+    cross_C_index = calperf$Cindex[[1]],
+    cross_C_index_lower = calperf$Cindex[[2]],
+    cross_C_index_upper = calperf$Cindex[[3]],
+    cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+    cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+    cross_calibration_slope = calperf$Calibration$Slope[[1]],
+    cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+    cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+  )
+}
+
+plot_calibration_curve <- function(sample, model) {
+  data <- assessment(sample)
+  pHat <- predict(model$fit, data, type = "response")
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = "blue", smooth = "none")
+  calperf$ggPlot + ggtitle(data$site[1])
+}
+
+# Fit model to each sample
+cross_full_BPM_2_A <- map2(cross_samples_2_A$splits, cross_predict_BPM_2_A, fit_model_to_sample)
+
+cross_estimates_BPM_2_A <- map2_dfr(cross_samples_2_A$splits, cross_full_BPM_2_A, calc_cross_performance)
+
+cross_plots_BPM_2_A <- map2(cross_samples_2_A$splits, cross_full_BPM_2_A, plot_calibration_curve)
+```
+
+```{r}
+cross_plots_BPM_2_A
+```
+
+```{r}
+library(meta)
+
+cross_C_index_meta_BPM_2_A <- metagen(
+  data = cross_estimates_BPM_2_A,
+  studlab = site,
+  TE = cross_C_index,
+  lower = cross_C_index_lower,
+  upper = cross_C_index_upper,
+  sm = "C_statistic",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+)
+
+forest_plot_C_index_BPM_2_A <- forest(
+  cross_C_index_meta_BPM_2_A,
+  sortvar = studlab,
+  ref = NA,
+  xlim = c(0.6, 0.9),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_calibration_intercept_meta_BPM_2_A <- metagen(
+  data = cross_estimates_BPM_2_A,
+  studlab = site,
+  TE = cross_calibration_intercept,
+  lower = cross_calibration_intercept_lower,
+  upper = cross_calibration_intercept_upper,
+  sm = "C_intercept",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 0
+)
+
+forest_plot_calibration_intercept_BPM_2_A <- forest(
+  cross_calibration_intercept_meta_BPM_2_A,
+  sortvar = studlab,
+  ref = 0,
+  xlim = c(-1, 1),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_calibration_slope_meta_BPM_2_A <- metagen(
+  data = cross_estimates_BPM_2_A,
+  studlab = site,
+  TE = cross_calibration_slope,
+  lower = cross_calibration_slope_lower,
+  upper = cross_calibration_slope_upper,
+  sm = "C_slope",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 1
+)
+
+forest_plot_calibration_slope_BPM_2_A <- forest(
+  cross_calibration_slope_meta_BPM_2_A,
+  sortvar = studlab,
+  ref = 1,
+  xlim = c(0, 2),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_meta_performance_BPM_2_A <- tibble(
+  site = "Total",
+  n = sum(cross_estimates_BPM_2_A$n),
+  cross_C_index = cross_C_index_meta_BPM_2_A$TE.random,
+  cross_C_index_lower = cross_C_index_meta_BPM_2_A$lower.random,
+  cross_C_index_upper = cross_C_index_meta_BPM_2_A$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta_BPM_2_A$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta_BPM_2_A$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta_BPM_2_A$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta_BPM_2_A$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta_BPM_2_A$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta_BPM_2_A$upper.random
+)
+
+cross_performance_metrics_BPM_2_A <- bind_rows(cross_estimates_BPM_2_A, cross_meta_performance_BPM_2_A)
+```
+
+```{r}
+# save(cross_performance_metrics_HPM, file = "data/model-performance/cross-performance-metrics-HPM.rda")
+save(cross_performance_metrics_BPM_2_A, file = "data/model-performance/cross-performance-metrics-BPM_2_A.rda")
+```
+
+# BMA Black Box (21 variables)
+
+```{r}
+run_workflow_black_box <- function(sample, model) {
+  validation <- predict(model, newdata = assessment(sample), type = "response") |>
+    _$fit |>
+    as_tibble() |>
+    rename(.pred_TRUE = value) |>
+    mutate(
+      .pred_FALSE = 1 - .pred_TRUE,
+      truth = assessment(sample)$flag_ADR_TP_ID |> as.factor()
+    ) |>
+    relocate(.pred_FALSE)
+
+  auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
+  intercept <- cal_intercept(validation, truth, .pred_FALSE)
+  slope <- cal_slope(validation, truth, .pred_FALSE)
+  bind_rows(auc, intercept, slope)
+}
+
+workflow_results_BMA_2_A <- map2(cross_samples_2_A$splits, cross_black_box_2_A, run_workflow_black_box) |>
+  set_names(cross_predict_site_2_A) |>
+  bind_rows(.id = "site") |>
+  select(-.estimator) |>
+  pivot_wider(names_from = .metric, values_from = .estimate)
+
+calc_cross_performance_black_box <- function(sample, model) {
+  data <- assessment(sample)
+  pHat <- predict(model, data, type = "response") |> _$fit
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+  tibble(
+    site = data$site[1],
+    n = nrow(data),
+    cross_C_index = calperf$Cindex[[1]],
+    cross_C_index_lower = calperf$Cindex[[2]],
+    cross_C_index_upper = calperf$Cindex[[3]],
+    cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+    cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+    cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+    cross_calibration_slope = calperf$Calibration$Slope[[1]],
+    cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+    cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+  )
+}
+
+cross_estimates_BMA_2_A <- map2_dfr(cross_samples_2_A$splits, cross_black_box_2_A, calc_cross_performance_black_box)
+
+plot_calibration_curve_black_box <- function(sample, model) {
+  data <- assessment(sample)
+  pHat <- predict(model, data, type = "response") |> _$fit
+  yTest <- data$flag_ADR_TP_ID
+  calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = "blue", smooth = "none")
+  calperf$ggPlot + ggtitle(data$site[1])
+}
+
+cross_plots_BMA_2_A <- map2(cross_samples_2_A$splits, cross_black_box_2_A, plot_calibration_curve_black_box)
+
+cross_plots_BMA_2_A
+```
+
+```{r}
+library(meta)
+
+cross_C_index_meta_BMA_2_A <- metagen(
+  data = cross_estimates_BMA_2_A,
+  studlab = site,
+  TE = cross_C_index,
+  lower = cross_C_index_lower,
+  upper = cross_C_index_upper,
+  sm = "C_statistic",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+)
+
+forest_plot_C_index_BMA_2_A <- forest(
+  cross_C_index_meta_BMA_2_A,
+  sortvar = studlab,
+  ref = NA,
+  xlim = c(0.6, 0.9),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_calibration_intercept_meta_BMA_2_A <- metagen(
+  data = cross_estimates_BMA_2_A,
+  studlab = site,
+  TE = cross_calibration_intercept,
+  lower = cross_calibration_intercept_lower,
+  upper = cross_calibration_intercept_upper,
+  sm = "C_intercept",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 0
+)
+
+forest_plot_calibration_intercept_BMA_2_A <- forest(
+  cross_calibration_intercept_meta_BMA_2_A,
+  sortvar = studlab,
+  ref = 0,
+  xlim = c(-1, 1),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_calibration_slope_meta_BMA_2_A <- metagen(
+  data = cross_estimates_BMA_2_A,
+  studlab = site,
+  TE = cross_calibration_slope,
+  lower = cross_calibration_slope_lower,
+  upper = cross_calibration_slope_upper,
+  sm = "C_slope",
+  common = FALSE,
+  random = TRUE,
+  method.tau = "REML",
+  method.random.ci = "HK",
+  adhoc.hakn.ci = "IQWiG6",
+  null.effect = 1
+)
+
+forest_plot_calibration_slope_BMA_2_A <- forest(
+  cross_calibration_slope_meta_BMA_2_A,
+  sortvar = studlab,
+  ref = 1,
+  xlim = c(0, 2),
+  leftcols = c("studlab", "n", "effect.ci"),
+  addrows.below.overall = 2,
+  layout = "RevMan5"
+)
+
+cross_meta_performance_BMA_2_A <- tibble(
+  site = "Total",
+  n = sum(cross_estimates_BMA_2_A$n),
+  cross_C_index = cross_C_index_meta_BMA_2_A$TE.random,
+  cross_C_index_lower = cross_C_index_meta_BMA_2_A$lower.random,
+  cross_C_index_upper = cross_C_index_meta_BMA_2_A$upper.random,
+  cross_calibration_intercept = cross_calibration_intercept_meta_BMA_2_A$TE.random,
+  cross_calibration_intercept_lower = cross_calibration_intercept_meta_BMA_2_A$lower.random,
+  cross_calibration_intercept_upper = cross_calibration_intercept_meta_BMA_2_A$upper.random,
+  cross_calibration_slope = cross_calibration_slope_meta_BMA_2_A$TE.random,
+  cross_calibration_slope_lower = cross_calibration_slope_meta_BMA_2_A$lower.random,
+  cross_calibration_slope_upper = cross_calibration_slope_meta_BMA_2_A$upper.random
+)
+
+cross_performance_metrics_BMA_2_A <- bind_rows(cross_estimates_BMA_2_A, cross_meta_performance_BMA_2_A)
+```
+
+```{r}
+save(cross_performance_metrics_BMA_2_A, file = "data/model-performance/cross-performance-metrics-BMA_2_A.rda")
+```
+
+# Logistic Model 3_A
+
+```{r}
+# library(rsample) # for group_vfold_cv()
+# library(furrr) # for future_map()
+# library(tidymodels)
+# library(CalibrationCurves)
+# library(calibrationHelper)
+
+# data_patient_cross_prep_3_A <- data_patient_transformed |>
+#   select(any_of(variables_to_screen_all), flag_ADR_TP_ID, site, patient_ID)
+
+# cross_samples_3_A <- group_vfold_cv(data_patient_cross_prep_3_A, group = "site")
+
+# extract_variable_names_cross_3_A <- function(sample) {
+#   data <- analysis(sample)
+#   model <- data |>
+#     run_bas_glm(
+#       formula = reformulate(termlabels = variables_to_screen_all, response = "flag_ADR_TP_ID"),
+#       include.always = ~1,
+#       n.models = 2^16,
+#       thin = length(variables_to_screen_all),
+#       method = "MCMC+BAS",
+#       update = 2^11
+#     )
+#   top_index <- which(cumsum(model$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+#   # model_HPM <- variable.names(predict(model, estimator = "HPM"))[-1] |>
+#   #   str_extract(paste(variables_to_screen, collapse = "|"))
+#   model_BPM <- variable.names(predict(model, estimator = "BPM", top = top_index))[-1] |>
+#     str_extract(paste(variables_to_screen_all, collapse = "|"))
+#   site <- assessment(sample)$site[1]
+#   return(list(model_BPM, site, model))
+# }
+
+# plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+
+# cross_predict_3_A <- future_map(cross_samples_3_A$splits, extract_variable_names_cross_3_A, .options = furrr_options(seed = TRUE))
+
+# plan(sequential)
+
+# cross_predict_BPM_3_A <- map(cross_predict_3_A, 1)
+# cross_predict_site_3_A <- map(cross_predict_3_A, 2)
+# cross_black_box_3_A <- map(cross_predict_3_A, 3)
+
+# temp_extract_terms <- function(model) {
+#   top_index <- which(cumsum(model$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
+#   variable.names(predict(model, estimator = "BPM", top = top_index))[-1] |>
+#     str_extract(paste(variables_to_screen_all, collapse = "|"))
+# }
+
+# run_workflow <- function(sample, variables) {
+#   rec <- recipe(
+#     formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID"),
+#     data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+#   )
+#   trained <- workflow() |>
+#     add_recipe(rec) |>
+#     add_model(logistic_reg()) |>
+#     fit(data = analysis(sample) |> mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)))
+#   validation <- predict(trained, assessment(sample), type = "prob") |>
+#     mutate(
+#       truth = assessment(sample)$flag_ADR_TP_ID |> as.factor(),
+#       patient_ID = assessment(sample)$patient_ID,
+#       site = assessment(sample)$site
+#     )
+
+#   auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
+#   intercept <- cal_intercept(validation, truth, .pred_FALSE)
+#   slope <- cal_slope(validation, truth, .pred_FALSE) |> mutate(.estimate = .estimate + 1) # workaround for issue with cal_slope()
+
+#   performance <- bind_rows(auc, intercept, slope) |>
+#     select(-.estimator) |>
+#     pivot_wider(names_from = .metric, values_from = .estimate) |>
+#     mutate(site = assessment(sample)$site[1])
+
+#   list(predictions = validation, performance = performance)
+# }
+
+# workflow_results_3_A <- map2(cross_samples_3_A$splits, cross_predict_BPM_3_A, run_workflow)
+# predictions_full_3_A <- map(workflow_results_3_A, "predictions") |> bind_rows()
+# performance_full_3_A <- map(workflow_results_3_A, "performance") |> bind_rows()
+```
+
+```{r}
+# # Function to modify sample data and fit model
+# fit_model_to_sample <- function(sample, variables) {
+#   data <- analysis(sample) |>
+#     mutate(flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID))
+
+#   formula <- reformulate(termlabels = variables, response = "flag_ADR_TP_ID")
+
+#   logistic_reg() |>
+#     set_engine("glm") |>
+#     set_mode("classification") |>
+#     fit(formula, data = data)
+# }
+
+# calc_cross_performance <- function(sample, model) {
+#   data <- assessment(sample)
+#   pHat <- predict(model$fit, data, type = "response")
+#   yTest <- data$flag_ADR_TP_ID
+#   calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+#   tibble(
+#     site = data$site[1],
+#     n = nrow(data),
+#     cross_C_index = calperf$Cindex[[1]],
+#     cross_C_index_lower = calperf$Cindex[[2]],
+#     cross_C_index_upper = calperf$Cindex[[3]],
+#     cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+#     cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+#     cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+#     cross_calibration_slope = calperf$Calibration$Slope[[1]],
+#     cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+#     cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+#   )
+# }
+
+# plot_calibration_curve <- function(sample, model) {
+#   data <- assessment(sample)
+#   pHat <- predict(model$fit, data, type = "response")
+#   yTest <- data$flag_ADR_TP_ID
+#   calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = "blue", smooth = "none")
+#   calperf$ggPlot + ggtitle(data$site[1])
+# }
+
+# # Fit model to each sample
+# cross_full_BPM_3_A <- map2(cross_samples_3_A$splits, cross_predict_BPM_3_A, fit_model_to_sample)
+
+# cross_estimates_BPM_3_A <- map2_dfr(cross_samples_3_A$splits, cross_full_BPM_3_A, calc_cross_performance)
+
+# cross_plots_BPM_3_A <- map2(cross_samples_3_A$splits, cross_full_BPM_3_A, plot_calibration_curve)
+```
+
+```{r}
+# cross_plots_BPM_3_A
+```
+
+```{r}
+# library(meta)
+
+# cross_C_index_meta_BPM_3_A <- metagen(
+#   data = cross_estimates_BPM_3_A,
+#   studlab = site,
+#   TE = cross_C_index,
+#   lower = cross_C_index_lower,
+#   upper = cross_C_index_upper,
+#   sm = "C_statistic",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+# )
+
+# forest_plot_C_index_BPM_3_A <- forest(
+#   cross_C_index_meta_BPM_3_A,
+#   sortvar = studlab,
+#   ref = NA,
+#   xlim = c(0.6, 0.9),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_calibration_intercept_meta_BPM_3_A <- metagen(
+#   data = cross_estimates_BPM_3_A,
+#   studlab = site,
+#   TE = cross_calibration_intercept,
+#   lower = cross_calibration_intercept_lower,
+#   upper = cross_calibration_intercept_upper,
+#   sm = "C_intercept",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 0
+# )
+
+# forest_plot_calibration_intercept_BPM_3_A <- forest(
+#   cross_calibration_intercept_meta_BPM_3_A,
+#   sortvar = studlab,
+#   ref = 0,
+#   xlim = c(-1, 1),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_calibration_slope_meta_BPM_3_A <- metagen(
+#   data = cross_estimates_BPM_3_A,
+#   studlab = site,
+#   TE = cross_calibration_slope,
+#   lower = cross_calibration_slope_lower,
+#   upper = cross_calibration_slope_upper,
+#   sm = "C_slope",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 1
+# )
+
+# forest_plot_calibration_slope_BPM_3_A <- forest(
+#   cross_calibration_slope_meta_BPM_3_A,
+#   sortvar = studlab,
+#   ref = 1,
+#   xlim = c(0, 2),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_meta_performance_BPM_3_A <- tibble(
+#   site = "Total",
+#   n = sum(cross_estimates_BPM_3_A$n),
+#   cross_C_index = cross_C_index_meta_BPM_3_A$TE.random,
+#   cross_C_index_lower = cross_C_index_meta_BPM_3_A$lower.random,
+#   cross_C_index_upper = cross_C_index_meta_BPM_3_A$upper.random,
+#   cross_calibration_intercept = cross_calibration_intercept_meta_BPM_3_A$TE.random,
+#   cross_calibration_intercept_lower = cross_calibration_intercept_meta_BPM_3_A$lower.random,
+#   cross_calibration_intercept_upper = cross_calibration_intercept_meta_BPM_3_A$upper.random,
+#   cross_calibration_slope = cross_calibration_slope_meta_BPM_3_A$TE.random,
+#   cross_calibration_slope_lower = cross_calibration_slope_meta_BPM_3_A$lower.random,
+#   cross_calibration_slope_upper = cross_calibration_slope_meta_BPM_3_A$upper.random
+# )
+
+# cross_performance_metrics_BPM_3_A <- bind_rows(cross_estimates_BPM_3_A, cross_meta_performance_BPM_3_A)
+```
+
+```{r}
+# save(cross_performance_metrics_BPM_3_A, file = "data/model-performance/cross-performance-metrics-BPM_3_A.rda")
+```
+
+# BMA Black Box (48 variables)
+
+```{r}
+# run_workflow_black_box <- function(sample, model) {
+#   validation <- predict(model, newdata = assessment(sample), type = "response") |>
+#     _$fit |>
+#     as_tibble() |>
+#     rename(.pred_TRUE = value) |>
+#     mutate(
+#       .pred_FALSE = 1 - .pred_TRUE,
+#       truth = assessment(sample)$flag_ADR_TP_ID |> as.factor()
+#     ) |>
+#     relocate(.pred_FALSE)
+
+#   auc <- roc_auc(validation, truth, .pred_TRUE, event_level = "second")
+#   intercept <- cal_intercept(validation, truth, .pred_FALSE)
+#   slope <- cal_slope(validation, truth, .pred_FALSE)
+#   bind_rows(auc, intercept, slope)
+# }
+
+# workflow_results_BMA_3_A <- map2(cross_samples_3_A$splits, cross_black_box_3_A, run_workflow_black_box) |>
+#   set_names(cross_predict_site_3_A) |>
+#   bind_rows(.id = "site") |>
+#   select(-.estimator) |>
+#   pivot_wider(names_from = .metric, values_from = .estimate)
+
+# calc_cross_performance_black_box <- function(sample, model) {
+#   data <- assessment(sample)
+#   pHat <- predict(model, data, type = "response") |> _$fit
+#   yTest <- data$flag_ADR_TP_ID
+#   calperf <- valProbggplot(pHat, yTest, smooth = "none")
+
+#   tibble(
+#     site = data$site[1],
+#     n = nrow(data),
+#     cross_C_index = calperf$Cindex[[1]],
+#     cross_C_index_lower = calperf$Cindex[[2]],
+#     cross_C_index_upper = calperf$Cindex[[3]],
+#     cross_calibration_intercept = calperf$Calibration$Intercept[[1]],
+#     cross_calibration_intercept_lower = calperf$Calibration$Intercept[[2]],
+#     cross_calibration_intercept_upper = calperf$Calibration$Intercept[[3]],
+#     cross_calibration_slope = calperf$Calibration$Slope[[1]],
+#     cross_calibration_slope_lower = calperf$Calibration$Slope[[2]],
+#     cross_calibration_slope_upper = calperf$Calibration$Slope[[3]]
+#   )
+# }
+
+# cross_estimates_BMA_3_A <- map2_dfr(cross_samples_3_A$splits, cross_black_box_3_A, calc_cross_performance_black_box)
+
+# plot_calibration_curve_black_box <- function(sample, model) {
+#   data <- assessment(sample)
+#   pHat <- predict(model, data, type = "response") |> _$fit
+#   yTest <- data$flag_ADR_TP_ID
+#   calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = "blue", smooth = "none")
+#   calperf$ggPlot + ggtitle(data$site[1])
+# }
+
+# cross_plots_BMA_3_A <- map2(cross_samples_3_A$splits, cross_black_box_3_A, plot_calibration_curve_black_box)
+
+# cross_plots_BMA_3_A
+```
+
+```{r}
+# library(meta)
+
+# cross_C_index_meta_BMA_3_A <- metagen(
+#   data = cross_estimates_BMA_3_A,
+#   studlab = site,
+#   TE = cross_C_index,
+#   lower = cross_C_index_lower,
+#   upper = cross_C_index_upper,
+#   sm = "C_statistic",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+# )
+
+# forest_plot_C_index_BMA_3_A <- forest(
+#   cross_C_index_meta_BMA_3_A,
+#   sortvar = studlab,
+#   ref = NA,
+#   xlim = c(0.6, 0.9),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_calibration_intercept_meta_BMA_3_A <- metagen(
+#   data = cross_estimates_BMA_3_A,
+#   studlab = site,
+#   TE = cross_calibration_intercept,
+#   lower = cross_calibration_intercept_lower,
+#   upper = cross_calibration_intercept_upper,
+#   sm = "C_intercept",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 0
+# )
+
+# forest_plot_calibration_intercept_BMA_3_A <- forest(
+#   cross_calibration_intercept_meta_BMA_3_A,
+#   sortvar = studlab,
+#   ref = 0,
+#   xlim = c(-1, 1),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_calibration_slope_meta_BMA_3_A <- metagen(
+#   data = cross_estimates_BMA_3_A,
+#   studlab = site,
+#   TE = cross_calibration_slope,
+#   lower = cross_calibration_slope_lower,
+#   upper = cross_calibration_slope_upper,
+#   sm = "C_slope",
+#   common = FALSE,
+#   random = TRUE,
+#   method.tau = "REML",
+#   method.random.ci = "HK",
+#   adhoc.hakn.ci = "IQWiG6",
+#   null.effect = 1
+# )
+
+# forest_plot_calibration_slope_BMA_3_A <- forest(
+#   cross_calibration_slope_meta_BMA_3_A,
+#   sortvar = studlab,
+#   ref = 1,
+#   xlim = c(0, 2),
+#   leftcols = c("studlab", "n", "effect.ci"),
+#   addrows.below.overall = 2,
+#   layout = "RevMan5"
+# )
+
+# cross_meta_performance_BMA_3_A <- tibble(
+#   site = "Total",
+#   n = sum(cross_estimates_BMA_3_A$n),
+#   cross_C_index = cross_C_index_meta_BMA_3_A$TE.random,
+#   cross_C_index_lower = cross_C_index_meta_BMA_3_A$lower.random,
+#   cross_C_index_upper = cross_C_index_meta_BMA_3_A$upper.random,
+#   cross_calibration_intercept = cross_calibration_intercept_meta_BMA_3_A$TE.random,
+#   cross_calibration_intercept_lower = cross_calibration_intercept_meta_BMA_3_A$lower.random,
+#   cross_calibration_intercept_upper = cross_calibration_intercept_meta_BMA_3_A$upper.random,
+#   cross_calibration_slope = cross_calibration_slope_meta_BMA_3_A$TE.random,
+#   cross_calibration_slope_lower = cross_calibration_slope_meta_BMA_3_A$lower.random,
+#   cross_calibration_slope_upper = cross_calibration_slope_meta_BMA_3_A$upper.random
+# )
+
+# cross_performance_metrics_BMA_3_A <- bind_rows(cross_estimates_BMA_3_A, cross_meta_performance_BMA_3_A)
+```
+
+```{r}
+# save(cross_performance_metrics_BMA_3_A, file = "data/model-performance/cross-performance-metrics-BMA_3_A.rda")
 ```
