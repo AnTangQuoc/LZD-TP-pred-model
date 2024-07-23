@@ -12,6 +12,9 @@ load("data/results/variables-to-screen-short-binary.rda")
 load("data/results/variables-to-force.rda")
 load("data/results/variables-to-force-binary.rda")
 load("data/results/variables-to-force-top-3.rda")
+
+library(gitcreds) # for authentication, just to keep package in lockfile
+devtools::install_github("AnTangQuoc/calibrationHelper") # helper metrics for calibration
 ```
 
 # Logistic Model 1_A
@@ -257,34 +260,34 @@ library(meta)
 ```
 
 ```{r}
-source("https://raw.githubusercontent.com/mhahsler/fit_dist/master/fit_dist.R")
+# source("https://raw.githubusercontent.com/mhahsler/fit_dist/master/fit_dist.R")
 
-library(fitdistrplus)
+# library(fitdistrplus)
 
-beta_dist <- fit_dist(
-  predictions_full$.pred_TRUE,
-  distribution = "beta",
-  plot = FALSE
-) |>
-  _$beta$estimate |>
-  as.numeric()
+# beta_dist <- fit_dist(
+#   predictions_full$.pred_TRUE,
+#   distribution = "beta",
+#   plot = FALSE
+# ) |>
+#   _$beta$estimate |>
+#   as.numeric()
 
-library(pmvalsampsize)
+# library(pmvalsampsize)
 
-pmvalsampsize(
-  type = "b",
-  oeciwidth = 0.25,
-  cslope = 1,
-  csciwidth = 0.5,
-  cstatistic = 0.775,
-  cstatciwidth = 0.1,
-  lpbeta = beta_dist,
-  graph = TRUE,
-  prevalence = 0.37,
-  threshold = 0.71
-)
+# pmvalsampsize(
+#   type = "b",
+#   oeciwidth = 0.25,
+#   cslope = 1,
+#   csciwidth = 0.5,
+#   cstatistic = 0.775,
+#   cstatciwidth = 0.1,
+#   lpbeta = beta_dist,
+#   graph = TRUE,
+#   prevalence = 0.37,
+#   threshold = 0.71
+# )
 
-detach("package:fitdistrplus", unload = TRUE, force = TRUE)
+# detach("package:fitdistrplus", unload = TRUE, force = TRUE)
 ```
 
 ```{r}
