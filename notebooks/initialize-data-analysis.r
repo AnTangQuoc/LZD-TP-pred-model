@@ -49,7 +49,26 @@ data_patient_transformed <- data_patient_complete |>
       patient_age >= 45 & patient_age <= 64 ~ "45-64",
       patient_age >= 65 ~ "> 65"
     )
+  ) |>
+  mutate(
+    baseline_CLCR_factor = case_when(
+      baseline_CLCR < 30 ~ "CLCR < 30",
+      baseline_CLCR >= 30 & baseline_CLCR < 60 ~ "30 <= CLCR < 60",
+      baseline_CLCR >= 60 & baseline_CLCR < 90 ~ "60 <= CLCR < 90",
+      baseline_CLCR >= 90 & baseline_CLCR < 130 ~ "90 <= CLCR < 130",
+      baseline_CLCR >= 130 ~ "CLCR >= 130"
+    ) |> as.factor(),
+    baseline_CLCR_factor = factor(
+      baseline_CLCR_factor,
+      levels = c(
+        "CLCR < 30",
+        "30 <= CLCR < 60",
+        "60 <= CLCR < 90",
+        "90 <= CLCR < 130",
+        "CLCR >= 130"
+    ))
   )
+
 
 predictor_transformed <- data_patient_transformed |>
   select(

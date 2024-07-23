@@ -1,0 +1,29 @@
+---
+title: Model Fairness Assessment
+---
+
+```{r}
+source("notebooks/initialize-data-analysis.r")
+source("notebooks/BMA-model-no-initial-var.r")
+load("data/model-performance/model-full-BPM-1-A.rda")
+load("data/model-performance/model-black-box.rda")
+
+load("data/results/variables-to-screen.rda")
+load("data/results/variables-to-screen-short.rda")
+load("data/results/variables-to-screen-short-binary.rda")
+load("data/results/variables-to-screen-binary.rda")
+load("data/results/variables-to-screen-all.rda")
+load("data/results/variables-to-screen-all-binary.rda")
+```
+
+```{r}
+library(tidymodels)
+library(dcurves)
+
+pHat_dca <- model_full_BPM_1_A |>
+  predict(data_patient_transformed |> mutate(across(where(is.logical), as.factor)), type = "prob") |>
+  pull(.pred_TRUE)
+
+dca(flag_ADR_TP_ID ~ pHat_dca, data = data_patient_transformed) |>
+  plot(smooth = TRUE)
+```
