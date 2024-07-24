@@ -1396,22 +1396,6 @@
       "Repository": "CRAN",
       "Hash": "aa5e1cd11c2d15497494c5292d7ffcc8"
     },
-    "fitdistrplus": {
-      "Package": "fitdistrplus",
-      "Version": "1.2-1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "MASS",
-        "R",
-        "grDevices",
-        "methods",
-        "rlang",
-        "stats",
-        "survival"
-      ],
-      "Hash": "78f15d68e31a6d9a378c546c783bac15"
-    },
     "fontawesome": {
       "Package": "fontawesome",
       "Version": "0.5.2",
@@ -2745,19 +2729,6 @@
       ],
       "Hash": "2bcca3848e4734eb3b16103bc9aa4b8e"
     },
-    "pROC": {
-      "Package": "pROC",
-      "Version": "1.18.5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "Rcpp",
-        "methods",
-        "plyr"
-      ],
-      "Hash": "82d32ebd548c6a4e7de73bab96411b3b"
-    },
     "paletteer": {
       "Package": "paletteer",
       "Version": "1.6.0",
@@ -2996,19 +2967,6 @@
         "Rcpp"
       ],
       "Hash": "6b8177fd19982f0020743fadbfdbd933"
-    },
-    "pmvalsampsize": {
-      "Package": "pmvalsampsize",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "graphics",
-        "pROC",
-        "utils"
-      ],
-      "Hash": "c956bdda79d5dd48a4db972eb965bd16"
     },
     "polspline": {
       "Package": "polspline",
