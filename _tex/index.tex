@@ -43,14 +43,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 
 \providecommand{\tightlist}{%
@@ -169,6 +183,7 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -185,18 +200,20 @@
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
+
 \title{Development and Validation of a Risk Prediction Model of
 linezolid-induced thrombocytopenia}
 \author{Nhi Nguyen Ha \and An Tang Quoc \and Ha Tran Ngan \and Hang
 Nguyen Thi Thu \and Hoa Vu Dinh \and Nhung TH Trinh \and Anh Nguyen
 Hoang}
-\date{Saturday, May 18, 2024}
+\date{Wednesday, July 24, 2024}
 
 \begin{document}
 \maketitle
 \begin{abstract}
 Write abstract here, note the indentation
 \end{abstract}
+
 
 \section{Checklist}\label{checklist}
 
@@ -1451,7 +1468,7 @@ to have met the outcome if their platelet count value meets the above
 criteria at any time during linezolid therapy or within 5 days after the
 end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, breakable, rightrule=.15mm, opacitybacktitle=0.6, opacityback=0, titlerule=0mm, toptitle=1mm, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, coltitle=black, colbacktitle=quarto-callout-warning-color!10!white, colback=white, bottomtitle=1mm, arc=.35mm, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, leftrule=.75mm, toptitle=1mm, breakable, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-warning-color-frame, arc=.35mm, colbacktitle=quarto-callout-warning-color!10!white, bottomrule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, coltitle=black, opacityback=0, left=2mm, colback=white]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -1599,7 +1616,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, breakable, rightrule=.15mm, opacitybacktitle=0.6, opacityback=0, titlerule=0mm, toptitle=1mm, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, coltitle=black, colbacktitle=quarto-callout-note-color!10!white, colback=white, bottomtitle=1mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, rightrule=.15mm, leftrule=.75mm, toptitle=1mm, breakable, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, arc=.35mm, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, coltitle=black, opacityback=0, left=2mm, colback=white]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
@@ -2070,6 +2087,7 @@ model. Frontiers in Pharmacology {[}Internet{]}. 2024 {[}cited 2024 Feb
 \url{https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2024.1292828}
 
 \end{CSLReferences}
+
 
 
 

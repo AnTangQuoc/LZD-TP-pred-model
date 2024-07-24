@@ -12,6 +12,9 @@ load("data/results/variables-to-screen-short-binary.rda")
 load("data/results/variables-to-force.rda")
 load("data/results/variables-to-force-binary.rda")
 load("data/results/variables-to-force-top-3.rda")
+
+library(gitcreds) # for authentication, just to keep package in lockfile
+devtools::install_github("AnTangQuoc/calibrationHelper") # helper metrics for calibration
 ```
 
 # Logistic Model 1_A
@@ -48,7 +51,7 @@ extract_variable_names_cross <- function(sample) {
   return(list(model_BPM, site, model))
 }
 
-plan(multisession, workers = max(min(parallel::detectCores() - 1, 6), 2))
+plan(multisession, workers = max(min(parallel::detectCores() - 1, 15), 2))
 
 cross_predict <- future_map(cross_samples$splits, extract_variable_names_cross, .options = furrr_options(seed = TRUE))
 
@@ -138,7 +141,7 @@ plot_calibration_curve <- function(sample, model) {
   data <- assessment(sample)
   pHat <- predict(model$fit, data, type = "response")
   yTest <- data$flag_ADR_TP_ID
-  calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 2, col.log = "blue", smooth = "none")
+  calperf <- valProbggplot(pHat, yTest, logistic.cal = TRUE, lty.log = 1, col.log = "blue", smooth = "none")
   calperf$ggPlot + ggtitle(data$site[1])
 }
 
@@ -250,6 +253,44 @@ library(meta)
 ```
 
 ```{r}
+# library(forestploter)
+```
+
+```{r}
+```
+
+```{r}
+# source("https://raw.githubusercontent.com/mhahsler/fit_dist/master/fit_dist.R")
+
+# library(fitdistrplus)
+
+# beta_dist <- fit_dist(
+#   predictions_full$.pred_TRUE,
+#   distribution = "beta",
+#   plot = FALSE
+# ) |>
+#   _$beta$estimate |>
+#   as.numeric()
+
+# library(pmvalsampsize)
+
+# pmvalsampsize(
+#   type = "b",
+#   oeciwidth = 0.25,
+#   cslope = 1,
+#   csciwidth = 0.5,
+#   cstatistic = 0.775,
+#   cstatciwidth = 0.1,
+#   lpbeta = beta_dist,
+#   graph = TRUE,
+#   prevalence = 0.37,
+#   threshold = 0.71
+# )
+
+# detach("package:fitdistrplus", unload = TRUE, force = TRUE)
+```
+
+```{r}
 library(meta)
 
 cross_C_index_meta_BPM <- metagen(
@@ -265,6 +306,8 @@ cross_C_index_meta_BPM <- metagen(
   method.random.ci = "HK",
   adhoc.hakn.ci = "IQWiG6",
 )
+
+cross_C_index_meta_BPM$tau2
 
 forest_plot_C_index_BPM <- forest(
   cross_C_index_meta_BPM,

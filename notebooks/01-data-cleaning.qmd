@@ -269,3 +269,20 @@ write_csv(data_patient_complete, "data/data-cleaned/data-patient-complete.csv")
 
 save(data_complete, data_patient_complete, file = "data/data-cleaned/data-cleaned.rda")
 ```
+
+# For ND site
+
+```{r}
+# data_patient_complete_ND <- data_patient_complete |>
+#   filter(baseline_PLT <= 400 & site %in% c("ND1", "ND2"))
+
+# data_complete_ND <- data_complete |>
+#   group_by(patient_ID) |>
+#   filter(patient_ID %in% data_patient_complete_ND$patient_ID) |>
+#   ungroup()
+
+# write_csv(data_complete_ND, "data/data-cleaned/data-complete-ND.csv")
+# write_csv(data_patient_complete_ND, "data/data-cleaned/data-patient-complete-ND.csv")
+
+# save(data_complete_ND, data_patient_complete_ND, file = "data/data-cleaned/data-cleaned-ND.rda")
+```

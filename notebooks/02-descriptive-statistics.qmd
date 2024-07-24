@@ -22,18 +22,46 @@ load("data/results/variables-to-force-top-3.rda")
 ```{r}
 library(gtsummary)
 
-table_stats <- data_patient_transformed |>
-  select(
-    all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID
-  ) |>
+# table_stats <- data_patient_transformed |>
+#   select(
+#     all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID
+#   ) |>
 
+#   tbl_summary(
+#     by = flag_ADR_TP_ID,
+#     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+#     missing = "no"
+#   ) |>
+#     add_overall() |>
+#     bold_labels()
+```
+
+```{r}
+predictor_list_descriptive <- data_patient_transformed |>
+  select(patient_age_per_10, patient_sex, patient_weight_per_10, dept_ICU_ER, dept_other, comorb_HTN, comorb_DM, comorb_HF, comorb_angina, comorb_cirr, comorb_COPD, comorb_CVA, comorb_MI, comorb_K, invasive_ETI, invasive_CVC, invasive_IHD, invasive_CRRT, baseline_WBC_per_10, baseline_HGB_per_10, baseline_PLT_per_10, baseline_CLCR_per_10, baseline_CLCR_factor, infect_HAP, infect_septicemia, infect_SSTI, infect_sepsis, infect_CAP, infect_CNS, infect_UTI, infect_IAI, infect_BJI, LZD_dose_per_weight, LZD_duration, LZD_route_IV, comed_carbapenem, comed_levofloxacin, comed_teicoplanin, comed_daptomycin, comed_ibuprofen, comed_tacrolimus, comed_valproic, comed_carbamazepin, comed_quetiapin, comed_enoxaparin, comed_heparin, comed_clopidogrel, comed_rifampin, comed_pyrazinamid) |>
+  colnames()
+
+table_stats_final <- data_patient_transformed |>
+  select(all_of(predictor_list_descriptive), flag_ADR_TP_ID) |>
+  mutate(
+    flag_ADR_TP_ID = factor(flag_ADR_TP_ID, levels = c(FALSE, TRUE), labels = c("No LAT event", "LAT event")),
+    baseline_CLCR_factor = factor(
+      baseline_CLCR_factor,
+      levels = c(
+        "CLCR < 30",
+        "30 <= CLCR < 60",
+        "60 <= CLCR < 90",
+        "90 <= CLCR < 130",
+        "CLCR >= 130"
+    ))) |>
   tbl_summary(
     by = flag_ADR_TP_ID,
     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+    digits = all_continuous() ~ partial(style_sigfig, digits = 2),
     missing = "no"
   ) |>
-    add_overall() |>
-    bold_labels()
+  add_overall() |>
+  bold_labels()
 ```
 
 Univariate logistic regression, by thrombocytopenia status.
@@ -43,8 +71,17 @@ library(furrr)
 
 data_patient_transformed_response_as_factor <- data_patient_transformed |>
   mutate(
-    flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID),
-    LZD_route = as.factor(LZD_route)
+    flag_ADR_TP_ID = factor(flag_ADR_TP_ID, levels = c(FALSE, TRUE), labels = c("No LAT event", "LAT event")),
+    LZD_route = as.factor(LZD_route),
+    baseline_CLCR_factor = factor(
+      baseline_CLCR_factor,
+      levels = c(
+        "90 <= CLCR < 130",
+        "CLCR < 30",
+        "30 <= CLCR < 60",
+        "60 <= CLCR < 90",
+        "CLCR >= 130"
+    ))
   )
 
 fit_univariate_regression <- function(predictor) {
@@ -64,55 +101,138 @@ arrange_univariate_regression <- function(model) {
   model |>
     tbl_regression(
       exponentiate = TRUE,
-      show_single_row = everything() & -any_of("LZD_route")
+      show_single_row = everything() & -any_of("baseline_CLCR_factor")
     ) |>
     bold_p()
 }
 
+# plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
+# uni_model_list <- future_map(predictor_transformed, fit_univariate_regression)
+# table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
+# plan(sequential)
+
+# table_uni <- tbl_stack(table_uni_list)
+```
+
+```{r}
 plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
-uni_model_list <- future_map(predictor_transformed, fit_univariate_regression)
-table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
+uni_model_list_final <- future_map(predictor_list_descriptive, fit_univariate_regression)
+table_uni_list_final <- future_map(uni_model_list_final, arrange_univariate_regression)
 plan(sequential)
 
-table_uni <- tbl_stack(table_uni_list)
+table_uni_final <- tbl_stack(table_uni_list_final)
 ```
 
 Print and save results.
 ```{r}
-table_descriptive <- tbl_merge(
-  list(table_stats, table_uni),
+# table_descriptive <- tbl_merge(
+#   list(table_stats, table_uni),
+#   tab_spanner = c(
+#     "**Thrombocytopenia Status**",
+#     "**Univariate Regression**"
+#   )
+# )
+
+# table_descriptive
+
+# save(table_descriptive, file = "data/results/table-descriptive.rda")
+```
+
+```{r}
+table_descriptive_final <- tbl_merge(
+  list(table_stats_final, table_uni_final),
   tab_spanner = c(
     "**Thrombocytopenia Status**",
     "**Univariate Regression**"
   )
-)
+) |>
+  modify_table_body(
+    ~ .x |>
+      mutate(label = case_match(
+        label,
+        "patient_age_per_10" ~ "Age (10 yrs)",
+        "patient_sex" ~ "Female Sex",
+        "patient_weight_per_10" ~ "Weight (10 kg)",
+        "dept_ICU_ER" ~ "ICU",
+        "dept_other" ~ "Other",
+        "comorb_HTN" ~ "Hypertension",
+        "comorb_DM" ~ "Diabetes",
+        "comorb_HF" ~ "Heart Failure",
+        "comorb_angina" ~ "Angina",
+        "comorb_cirr" ~ "Cirrhosis",
+        "comorb_COPD" ~ "COPD",
+        "comorb_CVA" ~ "Cerebral Vascular Accident",
+        "comorb_MI" ~ "Myocardial Infarction",
+        "comorb_K" ~ "Malignancies",
+        "invasive_ETI" ~ "Endotracheal Intubation",
+        "invasive_CVC" ~ "Central Venous Catheter",
+        "invasive_IHD" ~ "Intermittent Hemodialysis",
+        "invasive_CRRT" ~ "Continuous Renal Replacement Therapy",
+        "baseline_WBC_per_10" ~ "WBC (10 G/L)",
+        "baseline_HGB_per_10" ~ "HGB (10 G/L)",
+        "baseline_PLT_per_10" ~ "PLT (10 G/L)",
+        "baseline_CLCR_per_10" ~ "CLCR (10 mL/min)",
+        "baseline_CLCR_factor" ~ "Kidney Function",
+        "infect_HAP" ~ "Hospital-Acquired Pneumonia",
+        "infect_septicemia" ~ "Septicemia",
+        "infect_SSTI" ~ "Skin and Soft Tissue Infection",
+        "infect_sepsis" ~ "Sepsis",
+        "infect_CAP" ~ "Community-Acquired Pneumonia",
+        "infect_CNS" ~ "Central Nervous System Infection",
+        "infect_UTI" ~ "Urinary Tract Infection",
+        "infect_IAI" ~ "Intra-Abdominal Infection",
+        "infect_BJI" ~ "Bone and Joint Infection",
+        "LZD_dose_per_weight" ~ "Dose (mg/kg)",
+        "LZD_duration" ~ "Duration (days)",
+        "LZD_route_IV" ~ "IV Route",
+        "comed_carbapenem" ~ "Carbapenem",
+        "comed_levofloxacin" ~ "Levofloxacin",
+        "comed_teicoplanin" ~ "Teicoplanin",
+        "comed_daptomycin" ~ "Daptomycin",
+        "comed_ibuprofen" ~ "Ibuprofen",
+        "comed_tacrolimus" ~ "Tacrolimus",
+        "comed_valproic" ~ "Valproic Acid",
+        "comed_carbamazepin" ~ "Carbamazepine",
+        "comed_quetiapin" ~ "Quetiapine",
+        "comed_enoxaparin" ~ "Enoxaparin",
+        "comed_heparin" ~ "Heparin",
+        "comed_clopidogrel" ~ "Clopidogrel",
+        "comed_rifampin" ~ "Rifampin",
+        "comed_pyrazinamid" ~ "Pyrazinamide",
+        .default = label
+      ))
+  ) |>
+  tbl_split(variables = c(patient_weight_per_10, dept_other, comorb_K, invasive_CRRT, baseline_CLCR_factor, infect_BJI, LZD_route_IV)) |>
+  structure(class = c("tbl_stack", "list")) |>
+  tbl_stack(group_header = c("Demographics", "Clinical Department", "Comorbidities", "Invasive Procedures", "Laboratory Tests", "Existing Infections", "Linezolid Use", "Comedications")) |>
+  bstfun::bold_italicize_group_labels(bold = TRUE)
 
-table_descriptive
+table_descriptive_final
 
-save(table_descriptive, file = "data/results/table-descriptive.rda")
+save(table_descriptive_final, file = "data/results/table-descriptive-final.rda")
 ```
 
 Summary statistics, by site.
 ```{r}
-table_descriptive_site <- data_patient_transformed |>
-  select(
-    all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
-  ) |>
-  tbl_summary(
-    by = site,
-    statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
-    missing = "no"
-  ) |>
-  add_overall() |>
-  bold_labels() |>
-  add_p(
-    test.args = all_tests("fisher.test") ~ list(simulate.p.value = TRUE)
-  ) |>
-  bold_p()
+# table_descriptive_site <- data_patient_transformed |>
+#   select(
+#     all_of(predictor_transformed), starts_with("comed"), flag_ADR_TP_ID, site, ADR_CTCAE_max, ADR_onset_first, ADR_PLT_ratio
+#   ) |>
+#   tbl_summary(
+#     by = site,
+#     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+#     missing = "no"
+#   ) |>
+#   add_overall() |>
+#   bold_labels() |>
+#   add_p(
+#     test.args = all_tests("fisher.test") ~ list(simulate.p.value = TRUE)
+#   ) |>
+#   bold_p()
 
-table_descriptive_site
+# table_descriptive_site
 
-save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
+# save(table_descriptive_site, file = "data/results/table-descriptive-site.rda")
 ```
 
 # Correlation matrix
@@ -124,15 +244,29 @@ data_patient_transformed |>
   select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
   mutate(across(where(is.logical), as.numeric)) |>
   ggcorrmat(
-    type = "parametric"
+    cor.vars.names = c(
+      "LZD use >= 14 days",
+      "Heparin use",
+      "Enoxaparin use",
+      "Sepsis",
+      "Baseline CLCR",
+      "Cirrhosis",
+      "CRRT",
+      "ICU admission",
+      "Baseline PLT",
+      "Age",
+      "LAT event"
+    ), # watch out for the order
+    type = "parametric",
+    title = "Relationship between predictors and LAT event"
   )
 
-data_patient_transformed |>
-  select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
-  mutate(across(where(is.logical), as.numeric)) |>
-  ggcorrmat(
-    type = "parametric"
-  )
+# data_patient_transformed |>
+#   select(all_of(variables_to_screen), flag_ADR_TP_ID) |>
+#   mutate(across(where(is.logical), as.numeric)) |>
+#   ggcorrmat(
+#     type = "parametric"
+#   )
 ```
 
 ```{r}
@@ -259,4 +393,147 @@ plot_odds_by_binary <- map(plot_odds_by_binary_list, complete_plot_odds_by_binar
   combine_plots(plotgrid.args = list(nrow = 2, ncol = 4))
 
 plot_odds_by_binary
+```
+
+```{r}
+data_patient_complete |>
+  select(ADR_onset_first) |>
+  ggplot(aes(x = ADR_onset_first)) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous(breaks = seq(0, 30, 1)) +
+  theme_bw()
+
+data_patient_complete |>
+  select(ADR_onset_first) |>
+  ggplot(aes(x = ADR_onset_first)) +
+  geom_histogram(binwidth = 1) +
+  geom_density() +
+  scale_x_continuous(breaks = seq(0, 30, 1)) +
+  theme_bw()
+```
+
+# For ND site
+```{r}
+# load("data/data-cleaned/data-cleaned-ND.rda")
+# source("notebooks/initialize-data-analysis.r")
+# library(tidyverse)
+# library(tidymodels)
+# library(gtsummary)
+# library(furrr)
+
+# data_patient_transformed_ND <- data_patient_complete_ND |>
+#   mutate(
+#     baseline_HGB_per_10 = baseline_HGB / 10,
+#     baseline_WBC_per_10 = baseline_WBC / 10,
+#     baseline_PLT_per_10 = baseline_PLT / 10,
+#     baseline_CLCR_per_10 = baseline_CLCR / 10,
+#     patient_age_per_10 = patient_age / 10,
+#     patient_age_65 = patient_age >= 65,
+#     patient_age_60 = patient_age >= 60,
+#     patient_weight_per_10 = patient_weight / 10,
+#     patient_weight_50 = patient_weight < 50,
+#     baseline_CLCR_60 = baseline_CLCR < 60,
+#     baseline_CLCR_30 = baseline_CLCR < 30,
+#     baseline_PLT_200 = baseline_PLT < 200,
+#     baseline_PLT_150 = baseline_PLT < 150,
+#     LZD_duration_factor = case_when(
+#       LZD_duration < 10 ~ 1,
+#       LZD_duration >= 10 & LZD_duration < 14 ~ 2,
+#       LZD_duration >= 14 ~ 3
+#     ) |> as.factor(),
+#     LZD_duration_7 = LZD_duration >= 7,
+#     LZD_duration_10 = LZD_duration >= 10,
+#     LZD_duration_14 = LZD_duration >= 14,
+#     LZD_route_IV = LZD_route == "IV",
+#     baseline_CLCR_factor = case_when(
+#       baseline_CLCR < 30 ~ "CLCR < 30",
+#       baseline_CLCR >= 30 & baseline_CLCR < 60 ~ "30 <= CLCR < 60",
+#       baseline_CLCR >= 60 & baseline_CLCR < 90 ~ "60 <= CLCR < 90",
+#       baseline_CLCR >= 90 & baseline_CLCR < 130 ~ "90 <= CLCR < 130",
+#       baseline_CLCR >= 130 ~ "CLCR >= 130"
+#     ) |> as.factor(),
+#     baseline_CLCR_factor = factor(baseline_CLCR_factor, levels = c("90 <= CLCR < 130", "CLCR < 30", "30 <= CLCR < 60", "60 <= CLCR < 90", "CLCR >= 130")),
+#   ) |>
+#   mutate(
+#     patient_age_group = case_when(
+#       patient_age >= 18 & patient_age <= 44 ~ "18-44",
+#       patient_age >= 45 & patient_age <= 64 ~ "45-64",
+#       patient_age >= 65 ~ "> 65"
+#     )
+#   )
+
+# table_stats_ND <- data_patient_transformed_ND |>
+#   select(
+#     all_of(predictor_transformed), LZD_route_IV, starts_with("comed"), flag_ADR_TP_ID, -LZD_route, charlson, baseline_CLCR, baseline_CLCR_factor, LZD_dose_per_weight, ADR_onset_first, ADR_CTCAE_max, baseline_PLT
+#   ) |>
+#   tbl_summary(
+#     by = flag_ADR_TP_ID,
+#     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+#     missing = "no"
+#   ) |>
+#   add_overall() |>
+#   bold_labels()
+
+# data_patient_transformed_response_as_factor <- data_patient_transformed_ND |>
+#   mutate(
+#     flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
+#   )
+
+# fit_univariate_regression <- function(predictor) {
+#   model <- logistic_reg() |>
+#     set_engine("glm") |>
+#     set_mode("classification") |>
+#     fit(
+#       reformulate(
+#         termlabels = predictor,
+#         response = "flag_ADR_TP_ID"
+#       ),
+#       data = data_patient_transformed_response_as_factor
+#     )
+# }
+
+# arrange_univariate_regression <- function(model) {
+#   model |>
+#     tbl_regression(
+#       exponentiate = TRUE,
+#       show_single_row = everything() & -any_of("baseline_CLCR_factor")
+#     ) |>
+#     bold_p()
+# }
+
+# predictor_ND <- data_patient_transformed_ND |>
+#   select(
+#     patient_age_per_10, patient_age_60, patient_age_65,
+#     patient_sex, patient_weight_per_10, patient_weight_50,
+#     baseline_CLCR_per_10, baseline_CLCR, baseline_CLCR_factor, baseline_CLCR_60, baseline_CLCR_30,
+#     dept_ER, dept_ICU,
+#     baseline_HGB_per_10, baseline_WBC_per_10,
+#     baseline_PLT_per_10, baseline_PLT_200, baseline_PLT_150, baseline_PLT,
+#     LZD_duration, LZD_duration_7, LZD_duration_10, LZD_duration_14, LZD_route_IV, LZD_dose_per_weight,
+#     charlson, starts_with("invasive"), starts_with("comorb") & -c(comorb_hematological, comorb_SLE),
+#     starts_with("infect"),
+#     comed_carbapenem, comed_levofloxacin, comed_teicoplanin, comed_heparin, comed_enoxaparin, comed_valproic, comed_pyrazinamid, comed_rifampin
+#   ) |>
+#   colnames()
+
+# plan(multisession, workers = max(min(parallel::detectCores() - 1, 10), 2))
+# uni_model_list <- future_map(predictor_ND, fit_univariate_regression)
+# table_uni_list <- future_map(uni_model_list, arrange_univariate_regression)
+# plan(sequential)
+
+# table_uni_ND <- tbl_stack(table_uni_list)
+
+# table_descriptive_ND <- tbl_merge(
+#   list(table_stats_ND, table_uni_ND),
+#   tab_spanner = c(
+#     "**Thrombocytopenia Status**",
+#     "**Univariate Regression**"
+#   )
+# )
+
+# table_descriptive_ND
+
+# table_descriptive_ND |>
+#   as_flex_table() |>
+#   flextable::save_as_docx(path = "data/results/table-descriptive-ND.docx")
 ```
