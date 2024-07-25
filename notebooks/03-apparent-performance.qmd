@@ -414,12 +414,12 @@ library(tictoc)
 
 tic()
 multi_model_1_D <- data_patient_transformed |>
-  select(all_of(variables_to_screen_short_binary), flag_ADR_TP_ID) |>
+  select(all_of(variables_to_screen_short), flag_ADR_TP_ID) |>
   run_bas_glm(
     formula = flag_ADR_TP_ID ~ .,
     include.always = reformulate(variables_to_force_top_3),
     n.models = 2^15,
-    thin = length(variables_to_screen_short_binary),
+    thin = length(variables_to_screen_short),
     force.heredity = TRUE,
     method = "deterministic",
     update = 1
@@ -433,10 +433,10 @@ toc()
 top_index_1_D <- which(cumsum(multi_model_1_D$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 multi_predict_HPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "HPM"))[-1] |>
-  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
   unique() # highest probability model
 multi_predict_BPM_1_D <- variable.names(predict(multi_model_1_D, estimator = "BPM", top = top_index_1_D))[-1] |>
-  str_extract(paste(variables_to_screen_short_binary, collapse = "|")) |>
+  str_extract(paste(variables_to_screen_short, collapse = "|")) |>
   unique() # best predictive model
 ```
 
