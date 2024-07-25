@@ -272,22 +272,37 @@ library(meta)
 #   _$beta$estimate |>
 #   as.numeric()
 
+# detach("package:fitdistrplus", unload = TRUE, force = TRUE)
+
 # library(pmvalsampsize)
 
+# # recommended sample size
 # pmvalsampsize(
 #   type = "b",
-#   oeciwidth = 0.25,
+#   oeciwidth = 0.3,
 #   cslope = 1,
-#   csciwidth = 0.5,
-#   cstatistic = 0.775,
+#   csciwidth = 0.3,
+#   cstatistic = 0.78,
 #   cstatciwidth = 0.1,
 #   lpbeta = beta_dist,
 #   graph = TRUE,
 #   prevalence = 0.37,
-#   threshold = 0.71
+#   threshold = 0.318
 # )
 
-# detach("package:fitdistrplus", unload = TRUE, force = TRUE)
+# # practical sample size
+# pmvalsampsize(
+#   type = "b",
+#   oeciwidth = 0.3,
+#   cslope = 1,
+#   csciwidth = 0.5,
+#   cstatistic = 0.78,
+#   cstatciwidth = 0.1,
+#   lpbeta = beta_dist,
+#   graph = TRUE,
+#   prevalence = 0.37,
+#   threshold = 0.318
+# )
 ```
 
 ```{r}
