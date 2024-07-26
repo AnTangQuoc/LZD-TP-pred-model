@@ -51,6 +51,20 @@ variables_consensus <- survey_summary |>
 
 data_survey_factor |>
   select(any_of(variables_consensus)) |>
+  labelled::set_variable_labels(
+    LZD_duration_14 = "LZD duration ≥ 14 days",
+    comed_heparin = "Heparin use",
+    comed_enoxaparin = "Enoxaparin use",
+    infect_sepsis = "Sepsis",
+    baseline_CLCR_30 = "Baseline CLCR ≤ 30 mL/min",
+    comorb_cirr = "Cirrhosis",
+    invasive_CRRT = "CRRT",
+    dept_ICU = "ICU admission",
+    baseline_PLT_150 = "Baseline PLT ≤ 150 G/L",
+    baseline_CLCR = "Baseline CLCR",
+    patient_age_65 = "Age ≥ 65 years",
+    patient_age = "Age",
+  ) |>
   gglikert(sort = "descending", sort_method = "prop")
 ```
 
