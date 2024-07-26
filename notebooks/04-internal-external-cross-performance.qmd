@@ -257,9 +257,6 @@ library(meta)
 ```
 
 ```{r}
-```
-
-```{r}
 # source("https://raw.githubusercontent.com/mhahsler/fit_dist/master/fit_dist.R")
 
 # library(fitdistrplus)
@@ -273,6 +270,7 @@ library(meta)
 #   as.numeric()
 
 # detach("package:fitdistrplus", unload = TRUE, force = TRUE)
+# detach("package:MASS")
 
 # library(pmvalsampsize)
 
@@ -293,15 +291,14 @@ library(meta)
 # # practical sample size
 # pmvalsampsize(
 #   type = "b",
-#   oeciwidth = 0.3,
+#   oeciwidth = 0.4,
 #   cslope = 1,
-#   csciwidth = 0.5,
+#   csciwidth = 0.6,
 #   cstatistic = 0.78,
-#   cstatciwidth = 0.1,
+#   cstatciwidth = 0.12,
 #   lpbeta = beta_dist,
 #   graph = TRUE,
-#   prevalence = 0.37,
-#   threshold = 0.318
+#   prevalence = 0.37
 # )
 ```
 

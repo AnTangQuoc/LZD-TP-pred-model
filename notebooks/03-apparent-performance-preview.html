@@ -194,7 +194,7 @@
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">Thursday, July 25, 2024</p>
+              <p class="date">Friday, July 26, 2024</p>
             </div>
           </div>
           
@@ -390,7 +390,7 @@ Skipping install of 'calibrationHelper' from a github remote, the SHA1 (180c7c77
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span>
@@ -455,7 +455,7 @@ Skipping install of 'calibrationHelper' from a github remote, the SHA1 (180c7c77
 x[1] </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>x Resample4: internal:
+<pre><code>x Resample5: internal:
   Error in `metric_set()`:
   ! Failed to compute `cal_intercept()`.
   Caused by error:
@@ -464,7 +464,7 @@ x[1] </code></pre>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>() <span class="co"># 210s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>360.091 sec elapsed</code></pre>
+<pre><code>334.738 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model_accepted_flow <span class="ot">&lt;-</span> model_tune_results <span class="sc">|&gt;</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_pct_loss</span>(<span class="fu">desc</span>(penalty), <span class="at">metric =</span> <span class="st">"cal_slope"</span>, <span class="at">limit =</span> <span class="dv">5</span>)</span>
@@ -489,8 +489,8 @@ x[1] </code></pre>
   .metric       .estimator    mean     n std_err .config             
   &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
 1 brier_class   binary      0.174      6  0.0130 Preprocessor1_Model1
-2 cal_intercept binary     -0.0378     6  0.167  Preprocessor1_Model1
-3 cal_slope     binary      1.08       6  0.142  Preprocessor1_Model1
+2 cal_intercept binary     -0.0378     6  0.166  Preprocessor1_Model1
+3 cal_slope     binary      1.09       6  0.142  Preprocessor1_Model1
 4 mcc           binary      0.367      6  0.0477 Preprocessor1_Model1
 5 roc_auc       binary      0.785      6  0.0194 Preprocessor1_Model1</code></pre>
 </div>
@@ -499,17 +499,17 @@ x[1] </code></pre>
 <pre><code># A tibble: 11 × 3
    term                   estimate penalty
    &lt;chr&gt;                     &lt;dbl&gt;   &lt;dbl&gt;
- 1 (Intercept)            -0.711   0.00161
- 2 baseline_CLCR          -0.00575 0.00161
- 3 baseline_PLT           -0.00793 0.00161
- 4 patient_age             0.0163  0.00161
- 5 LZD_duration_14_TRUE.   0.962   0.00161
- 6 comed_heparin_TRUE.     0.822   0.00161
- 7 comed_enoxaparin_TRUE.  0.145   0.00161
- 8 infect_sepsis_TRUE.     0.575   0.00161
- 9 comorb_cirr_TRUE.       0.846   0.00161
-10 invasive_CRRT_TRUE.     0.394   0.00161
-11 dept_ICU_ER_TRUE.       0.0589  0.00161</code></pre>
+ 1 (Intercept)            -0.711   0.00171
+ 2 baseline_CLCR          -0.00574 0.00171
+ 3 baseline_PLT           -0.00792 0.00171
+ 4 patient_age             0.0163  0.00171
+ 5 LZD_duration_14_TRUE.   0.960   0.00171
+ 6 comed_heparin_TRUE.     0.822   0.00171
+ 7 comed_enoxaparin_TRUE.  0.145   0.00171
+ 8 infect_sepsis_TRUE.     0.575   0.00171
+ 9 comorb_cirr_TRUE.       0.845   0.00171
+10 invasive_CRRT_TRUE.     0.394   0.00171
+11 dept_ICU_ER_TRUE.       0.0590  0.00171</code></pre>
 </div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div class="cell">
@@ -589,7 +589,7 @@ x[1] </code></pre>
 <span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.385 sec elapsed</code></pre>
+<pre><code>0.353 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model_1_A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -703,7 +703,7 @@ logmarg              -4.184648e+02 -416.1931449</code></pre>
 <span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.026 sec elapsed</code></pre>
+<pre><code>0.032 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_1_B)</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_1_B)</span></span>
@@ -751,7 +751,7 @@ logmarg              -4.184648e+02 -416.1931449</code></pre>
 <span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.024 sec elapsed</code></pre>
+<pre><code>0.023 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_1_C)</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_1_C)</span></span>
@@ -799,7 +799,7 @@ logmarg              -4.184648e+02 -416.1931449</code></pre>
 <span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.069 sec elapsed</code></pre>
+<pre><code>0.065 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_1_D)</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_1_D)</span></span>
@@ -847,33 +847,33 @@ logmarg              -4.184648e+02 -416.1931449</code></pre>
 <span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>105.501 sec elapsed</code></pre>
+<pre><code>104.833 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi_model_2_A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                      P(B != 0 | Y)      model 1   model 2       model 3
 Intercept                1.00000000    1.0000000    1.0000    1.00000000
-LZD_duration_14TRUE      0.99984092    1.0000000    1.0000    1.00000000
-comed_heparinTRUE        0.99972177    1.0000000    1.0000    1.00000000
-comed_enoxaparinTRUE     0.05292446    0.0000000    0.0000    0.00000000
-infect_sepsisTRUE        0.72439102    1.0000000    1.0000    0.00000000
-baseline_CLCR            0.34307391    0.0000000    0.0000    0.00000000
-comorb_cirrTRUE          0.38911840    0.0000000    1.0000    0.00000000
-invasive_CRRTTRUE        0.20671344    0.0000000    0.0000    0.00000000
-dept_ICU_ERTRUE          0.06239966    0.0000000    0.0000    0.00000000
+LZD_duration_14TRUE      0.99984103    1.0000000    1.0000    1.00000000
+comed_heparinTRUE        0.99972955    1.0000000    1.0000    1.00000000
+comed_enoxaparinTRUE     0.05296162    0.0000000    0.0000    0.00000000
+infect_sepsisTRUE        0.72453172    1.0000000    1.0000    0.00000000
+baseline_CLCR            0.34309002    0.0000000    0.0000    0.00000000
+comorb_cirrTRUE          0.38933462    0.0000000    1.0000    0.00000000
+invasive_CRRTTRUE        0.20671425    0.0000000    0.0000    0.00000000
+dept_ICU_ERTRUE          0.06254304    0.0000000    0.0000    0.00000000
 baseline_PLT             1.00000000    1.0000000    1.0000    1.00000000
-patient_age              0.92841808    1.0000000    1.0000    1.00000000
-LZD_route_IVTRUE         0.04699176    0.0000000    0.0000    0.00000000
-infect_septicemiaTRUE    0.08885822    0.0000000    0.0000    0.00000000
-comorb_KTRUE             0.04665980    0.0000000    0.0000    0.00000000
-invasive_IHDTRUE         0.05053494    0.0000000    0.0000    0.00000000
-baseline_WBC             0.05765368    0.0000000    0.0000    0.00000000
-comed_carbapenemTRUE     0.04894494    0.0000000    0.0000    0.00000000
-comed_clopidogrelTRUE    0.08880398    0.0000000    0.0000    0.00000000
-baseline_HGB             0.25483794    0.0000000    0.0000    0.00000000
-comorb_DMTRUE            0.06542945    0.0000000    0.0000    0.00000000
-comed_ibuprofenTRUE      0.33024946    0.0000000    0.0000    0.00000000
-LZD_dose_per_weight      0.04767188    0.0000000    0.0000    0.00000000
+patient_age              0.92842755    1.0000000    1.0000    1.00000000
+LZD_route_IVTRUE         0.04694399    0.0000000    0.0000    0.00000000
+infect_septicemiaTRUE    0.08898736    0.0000000    0.0000    0.00000000
+comorb_KTRUE             0.04669551    0.0000000    0.0000    0.00000000
+invasive_IHDTRUE         0.05050435    0.0000000    0.0000    0.00000000
+baseline_WBC             0.05781387    0.0000000    0.0000    0.00000000
+comed_carbapenemTRUE     0.04907635    0.0000000    0.0000    0.00000000
+comed_clopidogrelTRUE    0.08879869    0.0000000    0.0000    0.00000000
+baseline_HGB             0.25490029    0.0000000    0.0000    0.00000000
+comorb_DMTRUE            0.06551545    0.0000000    0.0000    0.00000000
+comed_ibuprofenTRUE      0.33026867    0.0000000    0.0000    0.00000000
+LZD_dose_per_weight      0.04758699    0.0000000    0.0000    0.00000000
 BF                               NA    0.8636541    1.0000    0.09577586
 PostProbs                        NA    0.0937000    0.0407    0.03530000
 R2                               NA    0.1856000    0.1913    0.17550000
@@ -991,7 +991,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>88.156 sec elapsed</code></pre>
+<pre><code>87.984 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_2_B)</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_2_B)</span></span>
@@ -1039,7 +1039,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>84.365 sec elapsed</code></pre>
+<pre><code>81.709 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_2_C)</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_2_C)</span></span>
@@ -1087,7 +1087,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>88.209 sec elapsed</code></pre>
+<pre><code>87.249 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_2_D)</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_2_D)</span></span>
@@ -1135,7 +1135,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>554.479 sec elapsed</code></pre>
+<pre><code>545.045 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_3_A)</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_3_A)</span></span>
@@ -1209,7 +1209,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>174.17 sec elapsed</code></pre>
+<pre><code>174.365 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_3_B)</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_3_B)</span></span>
@@ -1257,7 +1257,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>213.844 sec elapsed</code></pre>
+<pre><code>211.588 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_3_C)</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_3_C)</span></span>
@@ -1305,7 +1305,7 @@ logmarg               -413.3607249 -413.4772979</code></pre>
 <span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>233.533 sec elapsed</code></pre>
+<pre><code>235.95 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(multi_model_3_D)</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(multi_model_3_D)</span></span>
@@ -2599,7 +2599,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
