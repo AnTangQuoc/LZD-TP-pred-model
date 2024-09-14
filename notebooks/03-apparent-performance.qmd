@@ -1254,10 +1254,10 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 # top_index_1_A_ND <- which(cumsum(multi_model_1_A_ND$postprobs |> sort(decreasing = TRUE)) >= 0.5)[1]
 
 # multi_predict_HPM_1_A_ND <- variable.names(predict(multi_model_1_A_ND, estimator = "HPM"))[-1] |>
-#   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+#   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
 #   unique() # highest probability model
 # multi_predict_BPM_1_A_ND <- variable.names(predict(multi_model_1_A_ND, estimator = "BPM", top = top_index_1_A_ND))[-1] |>
-#   str_extract(paste(variables_to_screen_short, collapse = "|")) |>
+#   str_extract(paste(variables_to_screen_all, collapse = "|")) |>
 #   unique() # best predictive model
 
 # model_black_box_ND <- multi_model_1_A_ND
@@ -1270,15 +1270,15 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 #   add_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_A_ND)) |>
 #   add_model(logistic_reg())
 
-# model_full_BPM_1_A_ND <- model_basic_flow_1_A_ND |>
-#   update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_BPM_1_A_ND)) |>
+# model_full_HPM_1_A_ND <- model_basic_flow_1_A_ND |>
+#   update_variables(outcomes = "flag_ADR_TP_ID", predictors = all_of(multi_predict_HPM_1_A_ND)) |>
 #   fit(data = data_patient_screen_full_ND)
 
-# model_beta_estimates_1_A_ND <- model_full_BPM_1_A_ND |>
+# model_beta_estimates_1_A_ND <- model_full_HPM_1_A_ND |>
 #   tidy() |>
 #   select(term, estimate, p.value)
 
-# model_odds_ratios_1_A_ND <- model_full_BPM_1_A_ND |>
+# model_odds_ratios_1_A_ND <- model_full_HPM_1_A_ND |>
 #   tidy(conf.int = TRUE, exponentiate = TRUE) |>
 #   select(term, estimate, conf.low, conf.high) |>
 #   filter(term != "(Intercept)") |>
@@ -1291,12 +1291,12 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 #   rename(risk_factor = term, beta = estimate, p_value = p.value) |>
 #   mutate(risk_factor = str_extract(risk_factor, paste(predictor_list_with_intercept_1_A_ND, collapse = "|")))
 
-# data_refit_1_A_ND <- model_full_BPM_1_A_ND |>
+# data_refit_1_A_ND <- model_full_HPM_1_A_ND |>
 #   extract_mold() |>
 #   _$predictors |>
 #   mutate(across(where(is.numeric), ~ . / 10)) |>
 #   rename_with(~ paste0(., "_per_10"), .cols = where(is.numeric)) |>
-#   bind_cols(model_full_BPM_1_A_ND |> extract_mold() |> _$outcomes)
+#   bind_cols(model_full_HPM_1_A_ND |> extract_mold() |> _$outcomes)
 
 # model_refit_1_A_ND <- workflow() |>
 #   add_variables(outcomes = "flag_ADR_TP_ID", predictors = everything()) |>
@@ -1310,5 +1310,7 @@ influence.measures(model_full_BPM_1_A |> extract_fit_engine())$is.inf |>
 #   rename(odds_ratio = estimate, OR_lower = conf.low, OR_upper = conf.high) |>
 #   mutate(term = str_replace_all(term, "TRUE", ""))
 
-# model_refit_odds_ratios_1_A_ND |> flextable::flextable() |> flextable::save_as_docx(path = "data/model-performance/model-refit-odds-ratios-1-A-ND.docx")
+# model_refit_odds_ratios_1_A_ND |>
+#   flextable::flextable() |>
+#   flextable::save_as_docx(path = "data/model-performance/model-refit-odds-ratios-1-A-ND.docx")
 ```
