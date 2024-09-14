@@ -1,12 +1,11 @@
 renv::settings$snapshot.type("implicit")
 renv::dependencies()
+library(gitcreds)
+renv::update(prompt = FALSE, lock = TRUE)
 renv::snapshot()
 
-# Load necessary package
-library(jsonlite)
-
 # Read the renv.lock file
-lockfile <- fromJSON("renv.lock")
+lockfile <- jsonlite::fromJSON("renv.lock")
 
 # Extract package names and versions
 packages <- lockfile$Packages

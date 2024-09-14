@@ -469,6 +469,10 @@ data_patient_complete |>
 #   tbl_summary(
 #     by = flag_ADR_TP_ID,
 #     statistic = list(all_continuous() ~ "{median} ({p25} - {p75})"),
+#     digits = list(
+#       all_continuous() ~ partial(style_sigfig, digits = 3),
+#       all_categorical() ~ partial(style_sigfig, digits = 3)
+#     ),
 #     missing = "no"
 #   ) |>
 #   add_overall() |>
@@ -478,7 +482,9 @@ data_patient_complete |>
 #   mutate(
 #     flag_ADR_TP_ID = as.factor(flag_ADR_TP_ID)
 #   )
+```
 
+```{r}
 # fit_univariate_regression <- function(predictor) {
 #   model <- logistic_reg() |>
 #     set_engine("glm") |>
@@ -512,7 +518,7 @@ data_patient_complete |>
 #     LZD_duration, LZD_duration_7, LZD_duration_10, LZD_duration_14, LZD_route_IV, LZD_dose_per_weight,
 #     charlson, starts_with("invasive"), starts_with("comorb") & -c(comorb_hematological, comorb_SLE),
 #     starts_with("infect"),
-#     comed_carbapenem, comed_levofloxacin, comed_teicoplanin, comed_heparin, comed_enoxaparin, comed_valproic, comed_pyrazinamid, comed_rifampin
+#     comed_carbapenem, comed_levofloxacin, comed_teicoplanin, comed_heparin, comed_enoxaparin, comed_valproic, comed_pyrazinamid, comed_rifampin, comed_aspirin
 #   ) |>
 #   colnames()
 

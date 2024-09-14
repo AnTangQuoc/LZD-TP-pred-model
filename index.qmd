@@ -5,19 +5,15 @@ authors:
   - name: Nhi Nguyen Ha
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
-    corresponding: false
   - name: An Tang Quoc
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
-    corresponding: false
   - name: Ha Tran Ngan
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
-    corresponding: false
   - name: Hang Nguyen Thi Thu
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
-    corresponding: false 
   - name: Hoa Vu Dinh
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
@@ -25,11 +21,9 @@ authors:
   - name: Nhung TH Trinh
     affiliation: Pharmacoepidemiology and Drug Safety Research Group, Department of Pharmacy, Faculty of Mathematics and Natural Sciences, University of Oslo, Oslo, Norway
     roles: writing
-    corresponding: false
   - name: Anh Nguyen Hoang
     affiliation: The National DI&ADR Centre, Hanoi University of Pharmacy
     roles: writing
-    corresponding: false
 # bibliography: references.bib
 
 css: styles.css

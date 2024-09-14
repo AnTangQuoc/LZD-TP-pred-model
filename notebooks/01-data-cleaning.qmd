@@ -274,7 +274,7 @@ save(data_complete, data_patient_complete, file = "data/data-cleaned/data-cleane
 
 ```{r}
 # data_patient_complete_ND <- data_patient_complete |>
-#   filter(baseline_PLT <= 400 & site %in% c("ND1", "ND2"))
+#   filter(baseline_PLT <= 450 & site %in% c("ND1", "ND2"))
 
 # data_complete_ND <- data_complete |>
 #   group_by(patient_ID) |>
