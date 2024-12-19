@@ -80,15 +80,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -184,9 +186,6 @@
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
 
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -206,7 +205,7 @@ linezolid-induced thrombocytopenia}
 \author{Nhi Nguyen Ha \and An Tang Quoc \and Ha Tran Ngan \and Hang
 Nguyen Thi Thu \and Hoa Vu Dinh \and Nhung TH Trinh \and Anh Nguyen
 Hoang}
-\date{Monday, October 21, 2024}
+\date{Wednesday, December 18, 2024}
 
 \begin{document}
 \maketitle
@@ -218,10 +217,10 @@ Write abstract here, note the indentation
 \section{Checklist}\label{checklist}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0928}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0176}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.8528}}
-  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0336}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0928}}
+  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0176}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.8528}}
+  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0336}}@{}}
 \caption{TRIPOD+AI guidance for reporting clinical prediction models
 that use regression or machine learning methods}\tabularnewline
 \toprule\noalign{}
@@ -1468,7 +1467,7 @@ to have met the outcome if their platelet count value meets the above
 criteria at any time during linezolid therapy or within 5 days after the
 end of therapy.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, opacityback=0, bottomtitle=1mm, left=2mm, rightrule=.15mm, colback=white, breakable, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, leftrule=.75mm, toptitle=1mm, bottomrule=.15mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, titlerule=0mm, opacitybacktitle=0.6, colbacktitle=quarto-callout-warning-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-warning-color!10!white, opacityback=0, bottomrule=.15mm, toptitle=1mm, colback=white, colframe=quarto-callout-warning-color-frame, bottomtitle=1mm, titlerule=0mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, arc=.35mm, breakable, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, left=2mm, coltitle=black]
 
 Thrombocytopenia may occur within a few days after stopping LZD, when
 the drug hasn't been completely eliminated. However, it is unknown
@@ -1616,7 +1615,7 @@ included in the final model.
 
 Assuming maximum total p to be 20.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, opacityback=0, bottomtitle=1mm, left=2mm, rightrule=.15mm, colback=white, breakable, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, toptitle=1mm, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, bottomrule=.15mm, toptitle=1mm, colback=white, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, titlerule=0mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, arc=.35mm, breakable, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, left=2mm, coltitle=black]
 
 The value of p is assumed to be no larger than 20 because univariate
 regression shows there are 20 variables that are significantly
